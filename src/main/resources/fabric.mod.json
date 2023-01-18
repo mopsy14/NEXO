@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "nucleartech",
+  "version": "${version}",
+
+  "name": "Nuclear Tech Mod",
+  "description": "A mod that adds nuclear technology",
+  "authors": [
+    "Mopsy"
+  ],
+  "contact": {
+    "homepage": "https://github.com/mopsy14/Nuclear-Tech-Mod",
+    "sources": "https://github.com/mopsy14/Nuclear-Tech-Mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/nucleartech/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "mopsy.productions.nucleartech.ExampleMod"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.3",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
