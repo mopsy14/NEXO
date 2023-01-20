@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech;
 
+import mopsy.productions.nucleartech.registry.Blocks;
 import mopsy.productions.nucleartech.registry.Items;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ public class Main implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Nuclear Tech starting");
 		Items.regItems();
+		Blocks.regBlocks();
 
 	}
 }
