@@ -14,7 +14,6 @@ public class UraniumOreBlock extends OreBlock {
                         .of(Material.STONE, MapColor.GRAY)
                         .strength(8.0F, 8.0F)
                         .sounds(BlockSoundGroup.STONE)
-                        .luminance(4)
                         .requiresTool(),
                 UniformIntProvider.create(0,10)
         );

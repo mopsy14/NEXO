@@ -1,4 +1,6 @@
 {
   "item.nucleartech.debug_item": "Debug Item",
+  "item.nucleartech.raw_uranium": "Raw Uranium",
+
   "block.nucleartech.uranium_ore": "Uranium Ore"
 }
