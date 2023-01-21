@@ -6,6 +6,8 @@ import net.minecraft.item.ItemGroup;
 
 public class UraniumIngotItem extends Item {
 
+    //TODO add radiation mechanics
+
     public UraniumIngotItem() {
         super(new FabricItemSettings().group(ItemGroup.SEARCH));
 
