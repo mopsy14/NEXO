@@ -1,6 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nucleartech:blocks/uranium_ore"
+		"all": "nucleartech:blocks/uranium_ore",
+		"particle": "nucleartech:blocks/uranium_ore"
 	}
 }

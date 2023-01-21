@@ -2,6 +2,7 @@ package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModItems.DebugItem;
 import mopsy.productions.nucleartech.ModItems.RawUraniumItem;
+import mopsy.productions.nucleartech.ModItems.UraniumIngotItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
@@ -19,7 +20,10 @@ public class Items {
         //Registries.ITEM in 1.19.3
         Registry.register(Registry.ITEM, new Identifier(modid, "debug_item"), new DebugItem());
         Registry.register(Registry.ITEM, new Identifier(modid, "raw_uranium"), new RawUraniumItem());
+        Registry.register(Registry.ITEM, new Identifier(modid, "uranium_ingot"), new UraniumIngotItem());
+
         Registry.register(Registry.ITEM, new Identifier(modid, "uranium_ore"), URANIUM_ORE);
+
 
     }
 }
