@@ -16,6 +16,7 @@ public class Items {
 
     //Block Items
     public static final BlockItem URANIUM_ORE = new BlockItem(Blocks.URANIUM_ORE, new FabricItemSettings().group(CREATIVE_TAB));
+    public static final BlockItem DEEPSLATE_URANIUM_ORE = new BlockItem(Blocks.DEEPSLATE_URANIUM_ORE, new FabricItemSettings().group(CREATIVE_TAB));
 
     //Items
     public static Item DEBUG_ITEM;
@@ -30,6 +31,7 @@ public class Items {
         URANIUM_INGOT = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_ingot"), new UraniumIngotItem());
 
         Registry.register(Registry.ITEM, new Identifier(modid, "uranium_ore"), URANIUM_ORE);
+        Registry.register(Registry.ITEM, new Identifier(modid, "deepslate_uranium_ore"), DEEPSLATE_URANIUM_ORE);
 
 
     }

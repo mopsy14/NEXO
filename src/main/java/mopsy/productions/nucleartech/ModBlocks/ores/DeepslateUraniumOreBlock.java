@@ -7,16 +7,14 @@ import net.minecraft.block.OreBlock;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
-
-public class UraniumOreBlock extends OreBlock {
-
+public class DeepslateUraniumOreBlock extends OreBlock {
     //TODO Ore generation
 
-    public UraniumOreBlock() {
+    public DeepslateUraniumOreBlock() {
         super(FabricBlockSettings
-                        .of(Material.STONE, MapColor.GRAY)
+                        .of(Material.STONE, MapColor.BLACK)
                         .strength(8.0F, 8.0F)
-                        .sounds(BlockSoundGroup.STONE)
+                        .sounds(BlockSoundGroup.DEEPSLATE)
                         .requiresTool(),
                 UniformIntProvider.create(0,10)
         );
