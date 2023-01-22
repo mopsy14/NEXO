@@ -32,7 +32,5 @@ public class Items {
 
         Registry.register(Registry.ITEM, new Identifier(modid, "uranium_ore"), URANIUM_ORE);
         Registry.register(Registry.ITEM, new Identifier(modid, "deepslate_uranium_ore"), DEEPSLATE_URANIUM_ORE);
-
-
     }
 }
