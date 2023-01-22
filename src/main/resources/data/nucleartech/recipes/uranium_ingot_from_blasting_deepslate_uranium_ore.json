@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "nucleartech:deepslate_uranium_ingot"
+  },
+  "result": "nucleartech:uranium_ingot",
+  "experience": 3
+}
