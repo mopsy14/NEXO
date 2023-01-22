@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.ModItems;
 
+import mopsy.productions.nucleartech.ModBlocks.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -12,7 +13,11 @@ import net.minecraft.world.World;
 
 import static mopsy.productions.nucleartech.Main.CREATIVE_TAB;
 
-public class DebugItem extends Item {
+public class DebugItem extends Item implements IModID {
+    @Override
+    public String getID() {
+        return "debug_item";
+    }
     public DebugItem() {
         super(new FabricItemSettings().group(CREATIVE_TAB).rarity(Rarity.EPIC));
         //ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> entries.add(DEBUG_ITEM));

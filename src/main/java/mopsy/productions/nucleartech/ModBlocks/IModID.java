@@ -1,5 +1,5 @@
 package mopsy.productions.nucleartech.ModBlocks;
 
-public interface IModBlock {
+public interface IModID {
     public String getID();
 }

@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModBlocks.IModBlock;
+import mopsy.productions.nucleartech.ModBlocks.IModID;
 import mopsy.productions.nucleartech.ModBlocks.compressed.UraniumBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.UraniumOreBlock;
@@ -28,13 +28,13 @@ public class Blocks {
     }
 
     private static void regBlock(Block block){
-        if(block instanceof IModBlock) {
-            String name = ((IModBlock)block).getID();
+        if(block instanceof IModID) {
+            String name = ((IModID)block).getID();
             Block b = Registry.register(Registry.BLOCK, new Identifier(modid, name), block);
             Blocks.put(name, b);
             BlockItem bi= Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
             BlockItems.put(name, bi);
         }else
-            LOGGER.error("Block doesn't implement IModBlock!");
+            LOGGER.error("Block doesn't implement IModID!");
     }
 }
