@@ -1,5 +1,6 @@
 {
-  "itemGroup.nucleartech.nucleartech": "Nuclear Tech Mod",
+  "itemGroup.nucleartech.nucleartech_items": "Nuclear Tech Items",
+  "itemGroup.nucleartech.nucleartech_blocks": "Nuclear Tech Block",
 
   "item.nucleartech.debug_item": "Debug Item",
   "item.nucleartech.raw_uranium": "Raw Uranium",

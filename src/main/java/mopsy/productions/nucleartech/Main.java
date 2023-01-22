@@ -10,13 +10,13 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static mopsy.productions.nucleartech.registry.Items.URANIUM_INGOT;
-
 public class Main implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("nucleartech");
 	public static final String modid = "nucleartech";
 	public static final ItemGroup CREATIVE_TAB = FabricItemGroupBuilder.build(
-		new Identifier(modid, "nucleartech"), () -> new ItemStack(URANIUM_INGOT));
+			new Identifier(modid, "nucleartech_items"), () -> new ItemStack(Items.Items.get("uranium_ingot")));
+	public static final ItemGroup CREATIVE_BLOCK_TAB = FabricItemGroupBuilder.build(
+			new Identifier(modid, "nucleartech_blocks"), () -> new ItemStack(Blocks.BlockItems.get("uranium_block")));
 
 	@Override
 	public void onInitialize() {

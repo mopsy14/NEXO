@@ -1,30 +1,40 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModBlocks.IModBlock;
 import mopsy.productions.nucleartech.ModBlocks.compressed.UraniumBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.UraniumOreBlock;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import static mopsy.productions.nucleartech.Main.modid;
+import java.util.HashMap;
+
+import static mopsy.productions.nucleartech.Main.*;
 
 public class Blocks {
-
-    public static final Block URANIUM_ORE = new UraniumOreBlock();
-    public static final Block DEEPSLATE_URANIUM_ORE = new DeepslateUraniumOreBlock();
-    public static final Block URANIUM_BLOCK = new UraniumBlock();
+    public static HashMap<String, BlockItem> BlockItems = new HashMap<>();
+    public static HashMap<String, Block> Blocks = new HashMap<>();
 
     public static void regBlocks(){
         //ores
-        regBlock("uranium_ore", URANIUM_ORE);
-        regBlock("deepslate_uranium_ore", DEEPSLATE_URANIUM_ORE);
+        regBlock(new UraniumBlock());
+        regBlock(new UraniumOreBlock());
         //compressed
-        regBlock("uranium_block", URANIUM_BLOCK);
+        regBlock(new DeepslateUraniumOreBlock());
         //machines
     }
 
-    private static void regBlock(String name, Block block){
-        Registry.register(Registry.BLOCK, new Identifier(modid, name), block);
+    private static void regBlock(Block block){
+        if(block instanceof IModBlock) {
+            String name = ((IModBlock)block).getID();
+            Block b = Registry.register(Registry.BLOCK, new Identifier(modid, name), block);
+            Blocks.put(name, b);
+            BlockItem bi= Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
+            BlockItems.put(name, bi);
+        }else
+            LOGGER.error("Block doesn't implement IModBlock!");
     }
 }
