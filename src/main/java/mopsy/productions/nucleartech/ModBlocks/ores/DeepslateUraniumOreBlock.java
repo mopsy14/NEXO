@@ -9,7 +9,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 public class DeepslateUraniumOreBlock extends OreBlock implements IModID {
-    //TODO Ore generation
     @Override
     public String getID(){return "deepslate_uranium_ore";}
     public DeepslateUraniumOreBlock() {

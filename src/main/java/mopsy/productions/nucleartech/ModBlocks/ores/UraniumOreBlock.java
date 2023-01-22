@@ -9,7 +9,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 public class UraniumOreBlock extends OreBlock implements IModID {
-    //TODO Ore generation
     @Override
     public String getID(){return "uranium_ore";}
     public UraniumOreBlock() {
