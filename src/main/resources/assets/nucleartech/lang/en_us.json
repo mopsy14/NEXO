@@ -4,7 +4,9 @@
   "item.nucleartech.debug_item": "Debug Item",
   "item.nucleartech.raw_uranium": "Raw Uranium",
   "item.nucleartech.uranium_ingot": "Uranium Ingot",
+  "item.nucleartech.uranium_nugget": "Uranium Nugget",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
-  "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore"
+  "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
+  "block.nucleartech.uranium_block": "Uranium Block"
 }
