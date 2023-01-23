@@ -7,6 +7,7 @@ import mopsy.productions.nucleartech.world.feature.ModConfiguredFeatures;
 import mopsy.productions.nucleartech.world.gen.ModOreGeneration;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -30,5 +31,6 @@ public class Main implements ModInitializer {
 		ModOreGeneration.generateOres();
 
 		Radiation.addEvents();
+		HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
 	}
 }
