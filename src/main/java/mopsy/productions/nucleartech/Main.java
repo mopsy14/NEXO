@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech;
 
+import mopsy.productions.nucleartech.mechanics.Radiation;
 import mopsy.productions.nucleartech.registry.Blocks;
 import mopsy.productions.nucleartech.registry.Items;
 import mopsy.productions.nucleartech.world.feature.ModConfiguredFeatures;
@@ -27,5 +28,7 @@ public class Main implements ModInitializer {
 		Blocks.regBlocks();
 		ModConfiguredFeatures.regConfiguredFeatures();
 		ModOreGeneration.generateOres();
+
+		Radiation.addEvents();
 	}
 }
