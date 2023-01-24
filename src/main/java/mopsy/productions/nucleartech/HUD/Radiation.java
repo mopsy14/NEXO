@@ -15,7 +15,7 @@ import static mopsy.productions.nucleartech.registry.Items.Items;
 public class Radiation implements HudRenderCallback {
     private static final Identifier RADIATION_BACKGROUND_TEXTURE = new Identifier(modid, "textures/hud/radiation/radiation_background.png");
     private static final Identifier RADIATION_BACKGROUND_TEXT_TEXTURE = new Identifier(modid, "textures/hud/radiation/radiation_background_text.png");
-
+    private static final Identifier RADIATION_BAR_PIECE = new Identifier(modid, "textures/hud/radiation/radiation_bar_piece.png");
     public static int Radiation = 0;
 
     @Override
@@ -29,7 +29,7 @@ public class Radiation implements HudRenderCallback {
                 int width = client.getWindow().getScaledWidth();
                 int heigth = client.getWindow().getScaledHeight();
 
-                texturewidth = width / 5;
+                texturewidth = 50;
                 x = 0;
                 y = heigth - 10;
 
@@ -43,20 +43,15 @@ public class Radiation implements HudRenderCallback {
                 x = 0;
                 y = heigth - 20;
                 RenderSystem.setShaderTexture(0, RADIATION_BACKGROUND_TEXT_TEXTURE);
-                DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, texturewidth, 10, texturewidth, 10);
+                DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, texturewidth, 10, 100, 10);
 
-
-                //1.02RAD/line
-                //0.99<1.0
-                //width_fillable_bar = width/5-(0.02*(width/5))
-                //width_bar_piece = width_fillable_bar/98
-                //
-
-
-
-                for(int I = 1; I < 99; I++){
-                    if(1.02*I>Radiation){
-                        //print bar piece
+                texturewidth = 1;
+                RenderSystem.setShaderTexture(0, RADIATION_BAR_PIECE);
+                for(int I = 0; I < 48; I++){
+                    if(I > Radiation*2){
+                        x = I;
+                        y = heigth - 9;
+                        DrawableHelper.drawTexture(matrixStack, x, y, 0.5F, 0, texturewidth, 8, texturewidth, 8);
                     }
                 }
             }

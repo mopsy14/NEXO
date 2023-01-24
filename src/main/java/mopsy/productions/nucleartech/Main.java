@@ -14,6 +14,9 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static mopsy.productions.nucleartech.networking.PacketManager.registerC2SPackets;
+import static mopsy.productions.nucleartech.networking.PacketManager.registerS2CPackets;
+
 public class Main implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("nucleartech");
 	public static final String modid = "nucleartech";
@@ -32,5 +35,7 @@ public class Main implements ModInitializer {
 
 		Radiation.addEvents();
 		HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
+		registerC2SPackets();
+		registerS2CPackets();
 	}
 }
