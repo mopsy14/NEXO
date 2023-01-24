@@ -1,10 +1,7 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModBlocks.IModID;
-import mopsy.productions.nucleartech.ModItems.DebugItem;
-import mopsy.productions.nucleartech.ModItems.RawUraniumItem;
-import mopsy.productions.nucleartech.ModItems.UraniumIngotItem;
-import mopsy.productions.nucleartech.ModItems.UraniumNuggetItem;
+import mopsy.productions.nucleartech.ModItems.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -24,6 +21,7 @@ public class Items {
         regItem(new RawUraniumItem());
         regItem(new UraniumIngotItem());
         regItem(new UraniumNuggetItem());
+        regItem(new GeigerCounterItem());
     }
 
     private static void regItem(Item item){

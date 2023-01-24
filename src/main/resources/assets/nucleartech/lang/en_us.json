@@ -6,6 +6,7 @@
   "item.nucleartech.raw_uranium": "Raw Uranium",
   "item.nucleartech.uranium_ingot": "Uranium Ingot",
   "item.nucleartech.uranium_nugget": "Uranium Nugget",
+  "item.nucleartech.geiger_counter": "Geiger Counter",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
