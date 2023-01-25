@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModItems;
 
-import mopsy.productions.nucleartech.ModBlocks.IModID;
+import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

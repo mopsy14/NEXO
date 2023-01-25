@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.ores;
 
-import mopsy.productions.nucleartech.ModBlocks.IModID;
+import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;

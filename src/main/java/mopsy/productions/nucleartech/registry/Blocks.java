@@ -1,9 +1,9 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModBlocks.IModID;
 import mopsy.productions.nucleartech.ModBlocks.compressed.UraniumBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.UraniumOreBlock;
+import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;

@@ -4,7 +4,6 @@ import mopsy.productions.nucleartech.interfaces.IEntityDataSaver;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -12,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityDataSaver implements IEntityDataSaver {
-
-    @Shadow public abstract void remove(Entity.RemovalReason reason);
 
     private NbtCompound persistentData;
 
@@ -27,7 +24,8 @@ public abstract class EntityDataSaver implements IEntityDataSaver {
 
     private NbtCompound createNbt(){
         NbtCompound result = new NbtCompound();
-        result.putInt("radiation",0);
+        result.putFloat("radiation",0);
+        result.putFloat("radiation/tick",0);
         return result;
     }
 

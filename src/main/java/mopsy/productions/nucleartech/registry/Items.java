@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModBlocks.IModID;
 import mopsy.productions.nucleartech.ModItems.*;
+import mopsy.productions.nucleartech.interfaces.IModID;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

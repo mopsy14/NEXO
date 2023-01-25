@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech;
 
-import mopsy.productions.nucleartech.mechanics.Radiation;
+import mopsy.productions.nucleartech.mechanics.radiation.RadiationEvents;
 import mopsy.productions.nucleartech.registry.Blocks;
 import mopsy.productions.nucleartech.registry.Items;
 import mopsy.productions.nucleartech.world.feature.ModConfiguredFeatures;
@@ -33,7 +33,7 @@ public class Main implements ModInitializer {
 		ModConfiguredFeatures.regConfiguredFeatures();
 		ModOreGeneration.generateOres();
 
-		Radiation.addEvents();
+		RadiationEvents.addEvents();
 		HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
 		registerC2SPackets();
 		registerS2CPackets();

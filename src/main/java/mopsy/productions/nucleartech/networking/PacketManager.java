@@ -8,12 +8,13 @@ import static mopsy.productions.nucleartech.Main.modid;
 
 public class PacketManager {
     public static final Identifier RADIATION_CHANGE_PACKAGE = new Identifier(modid, "radiation_change");
-
+    public static final Identifier RADIATION_PER_TICK_CHANGE_PACKAGE = new Identifier(modid, "radiation/tick_change");
     public static void registerC2SPackets(){
 
     }
     public static void registerS2CPackets(){
-        ClientPlayNetworking.registerGlobalReceiver(RADIATION_CHANGE_PACKAGE, S2CPackets::recieveRadiationChange);
+        ClientPlayNetworking.registerGlobalReceiver(RADIATION_CHANGE_PACKAGE, S2CPackets::receiveRadiationChange);
+        ClientPlayNetworking.registerGlobalReceiver(RADIATION_PER_TICK_CHANGE_PACKAGE, S2CPackets::receiveRadiationPerTickChange);
     }
 
 }
