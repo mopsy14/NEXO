@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.registry;
 import mopsy.productions.nucleartech.ModBlocks.compressed.UraniumBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.ores.UraniumOreBlock;
+import mopsy.productions.nucleartech.ModItems.UraniumBlockItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
@@ -32,7 +33,10 @@ public class Blocks {
             String name = ((IModID)block).getID();
             Block b = Registry.register(Registry.BLOCK, new Identifier(modid, name), block);
             Blocks.put(name, b);
-            BlockItem bi= Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
+            BlockItem bi = switch (name) {
+                default -> Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
+                case "uranium_block" -> Registry.register(Registry.ITEM, new Identifier(modid, name), new UraniumBlockItem(block));
+            };
             BlockItems.put(name, bi);
         }else
             LOGGER.error("Block doesn't implement IModID!");

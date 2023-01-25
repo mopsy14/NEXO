@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.ModItems;
 
+import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 
 import static mopsy.productions.nucleartech.Main.CREATIVE_TAB;
 
-public class DebugItem extends Item implements IModID {
+public class DebugItem extends Item implements IModID, IItemRadiation {
     @Override
     public String getID() {
         return "debug_item";
@@ -35,5 +36,10 @@ public class DebugItem extends Item implements IModID {
         }
 
         return super.use(world, user, hand);
+    }
+
+    @Override
+    public float getRadiation() {
+        return -10;
     }
 }

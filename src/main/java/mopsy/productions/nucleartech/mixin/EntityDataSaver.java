@@ -25,7 +25,7 @@ public abstract class EntityDataSaver implements IEntityDataSaver {
     private NbtCompound createNbt(){
         NbtCompound result = new NbtCompound();
         result.putFloat("radiation",0);
-        result.putFloat("radiation/tick",0);
+        result.putFloat("radiation/s",0);
         return result;
     }
 
@@ -33,7 +33,6 @@ public abstract class EntityDataSaver implements IEntityDataSaver {
     protected void injectWriteMethod(NbtCompound nbt, CallbackInfoReturnable info){
         if(persistentData != null){
             nbt.put("nucleartech.entitydata", persistentData);
-            System.out.println(persistentData);
         }
     }
 

@@ -6,6 +6,4 @@ public interface IItemRadiation {
      * @Returns the amount of RAD per Second per Item
      **/
     public float getRadiation();
-    public float setRadiation();
-    float Radiation = 0;
 }
