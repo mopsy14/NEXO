@@ -72,7 +72,7 @@ public class RadiationHelper {
         for(int I =0; I < inventory.size(); I++){
             ItemStack itemStack = inventory.getStack(I);
             if(itemStack.getItem() instanceof IItemRadiation){
-                res = res+((IItemRadiation) itemStack.getItem()).getRadiation();
+                res = res+(((IItemRadiation) itemStack.getItem()).getRadiation() * itemStack.getCount());
             }
         }
         return res;

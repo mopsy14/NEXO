@@ -22,6 +22,8 @@ public class Items {
         regItem(new UraniumIngotItem());
         regItem(new UraniumNuggetItem());
         regItem(new GeigerCounterItem());
+
+        
     }
 
     private static void regItem(Item item){
