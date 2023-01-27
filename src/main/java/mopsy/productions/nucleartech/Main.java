@@ -37,6 +37,7 @@ public class Main implements ModInitializer {
 		RadiationEvents.addEvents();
 		HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
 		ItemTooltipCallback.EVENT.register(new mopsy.productions.nucleartech.registry.ItemCode.TooltipCallbackClass());
+
 		registerC2SPackets();
 		registerS2CPackets();
 	}
