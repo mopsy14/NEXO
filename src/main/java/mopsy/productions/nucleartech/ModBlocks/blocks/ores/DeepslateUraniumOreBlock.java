@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.ModBlocks.ores;
+package mopsy.productions.nucleartech.ModBlocks.blocks.ores;
 
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
