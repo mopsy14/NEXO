@@ -25,8 +25,8 @@ public class CrusherScreenHandler extends ScreenHandler {
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
 
-        this.addSlot(new Slot(inventory, 0,40,31));
-        this.addSlot(new Slot(inventory, 1,112,31));
+        this.addSlot(new Slot(inventory, 0,48,35));
+        this.addSlot(new Slot(inventory, 1,116,35));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);

@@ -20,6 +20,7 @@ public class CrusherScreen extends HandledScreen<CrusherScreenHandler> {
     @Override
     protected void init() {
         super.init();
+        titleX = (backgroundWidth-textRenderer.getWidth(title))/2;
     }
 
     @Override

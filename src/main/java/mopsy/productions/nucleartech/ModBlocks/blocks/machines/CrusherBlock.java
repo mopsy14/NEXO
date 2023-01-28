@@ -26,7 +26,7 @@ public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntity
     public CrusherBlock() {
         super(FabricBlockSettings
                 .of(Material.METAL, MapColor.BLACK)
-                .strength(8.0F, 8.0F)
+                .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
         );
@@ -35,18 +35,6 @@ public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntity
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if(state.getBlock()!= newState.getBlock()){
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if(blockEntity instanceof CrusherEntity){
-                ItemScatterer.spawn(world, pos, (CrusherEntity)blockEntity);
-                world.updateComparators(pos, this);
-            }
-        }
-        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override
@@ -70,5 +58,17 @@ public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntity
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return checkType(type, ModdedBlockEntities.CRUSHER, CrusherEntity::tick);
+    }
+
+    @Override
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if(!player.isCreative()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof CrusherEntity) {
+                ItemScatterer.spawn(world, pos, (CrusherEntity) blockEntity);
+                world.updateComparators(pos, this);
+            }
+        }
+        super.onBreak(world, pos, state, player);
     }
 }
