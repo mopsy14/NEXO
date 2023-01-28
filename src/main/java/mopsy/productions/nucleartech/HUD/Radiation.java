@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nucleartech.Main.modid;
-import static mopsy.productions.nucleartech.registry.Items.Items;
+import static mopsy.productions.nucleartech.registry.ModdedItems.Items;
 
 public class Radiation implements HudRenderCallback {
     private static final Identifier RADIATION_BACKGROUND_TEXTURE = new Identifier(modid, "textures/hud/radiation/radiation_background.png");

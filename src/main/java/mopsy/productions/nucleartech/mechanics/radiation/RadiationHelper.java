@@ -14,7 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import static mopsy.productions.nucleartech.mechanics.radiation.Radiation.getRadiation;
 import static mopsy.productions.nucleartech.mechanics.radiation.Radiation.setRadiation;
-import static mopsy.productions.nucleartech.registry.Items.Items;
+import static mopsy.productions.nucleartech.registry.ModdedItems.Items;
 
 public class RadiationHelper {
     public static void changePlayerRadiation(ServerPlayerEntity player, float radiation){

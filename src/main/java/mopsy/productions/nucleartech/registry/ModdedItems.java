@@ -11,7 +11,7 @@ import java.util.HashMap;
 import static mopsy.productions.nucleartech.Main.LOGGER;
 import static mopsy.productions.nucleartech.Main.modid;
 
-public class Items {
+public class ModdedItems {
     public static HashMap<String, Item> Items = new HashMap<>();
 
 
@@ -22,6 +22,7 @@ public class Items {
         regItem(new UraniumIngotItem());
         regItem(new UraniumNuggetItem());
         regItem(new GeigerCounterItem());
+        regItem(new CoalDustItem());
 
         
     }

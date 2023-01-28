@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 
 import static mopsy.productions.nucleartech.mechanics.radiation.RadiationHelper.sendRadiationPerSecondUpdatePackage;
 import static mopsy.productions.nucleartech.mechanics.radiation.RadiationHelper.sendRadiationUpdatePackage;
-import static mopsy.productions.nucleartech.registry.Items.Items;
+import static mopsy.productions.nucleartech.registry.ModdedItems.Items;
 
 public class RadiationEvents {
     private static int taskCounter = 0;

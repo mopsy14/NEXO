@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 import static mopsy.productions.nucleartech.Main.*;
 
-public class Blocks {
+public class ModdedBlocks {
     public static HashMap<String, BlockItem> BlockItems = new HashMap<>();
     public static HashMap<String, Block> Blocks = new HashMap<>();
 
