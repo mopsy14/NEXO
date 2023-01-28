@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.registry.ModdedItems;
+import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +28,7 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
-    private int maxProgress;
+    private int maxProgress = 200;
 
 
     public CrusherEntity(BlockPos pos, BlockState state) {
@@ -65,7 +66,7 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return
+        return new CrusherScreenHandler(syncId, inv, this, this.propertyDelegate);
     }
 
     @Override
@@ -95,6 +96,7 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
             markDirty(world, blockPos, blockState);
             if(crusherEntity.progress >= crusherEntity.maxProgress){
                 craft(crusherEntity);
+                markDirty(world, blockPos, blockState);
             }
         }else{
             crusherEntity.progress = 0;
@@ -110,7 +112,8 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
 
         if(hasRecipe(entity)){
             entity.removeStack(0, 1);
-            entity.setStack(2, new ItemStack(ModdedItems.Items.get("coal_dust"), entity.getStack(1).getCount()+1));
+            entity.setStack(1, new ItemStack(ModdedItems.Items.get("coal_dust"), entity.getStack(1).getCount()+1));
+            entity.progress = 0;
         }
     }
 

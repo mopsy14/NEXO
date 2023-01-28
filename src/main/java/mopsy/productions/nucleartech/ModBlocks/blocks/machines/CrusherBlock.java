@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     @Override
-    public String getID(){return "Crusher";}
+    public String getID(){return "crusher";}
 
     public CrusherBlock() {
         super(FabricBlockSettings
@@ -51,7 +51,7 @@ public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntity
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(world.isClient){
+        if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);

@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "mopsy.productions.nucleartech.Main"
+    ],
+    "client": [
+      "mopsy.productions.nucleartech.ClientMain"
     ]
   },
   "mixins": [

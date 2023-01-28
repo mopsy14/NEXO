@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.screen.crusher;
 
+import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -18,17 +19,31 @@ public class CrusherScreenHandler extends ScreenHandler {
         this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2));
     }
     public CrusherScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
-        super(type, syncId);
+        super(ScreenHandlers.CRUSHER, syncId);
         checkSize(inventory, 2);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
 
-        //add gui slots
+        this.addSlot(new Slot(inventory, 0,40,31));
+        this.addSlot(new Slot(inventory, 1,112,31));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
 
+        addProperties(delegate);
+    }
+
+    public boolean isCrafting(){
+        return delegate.get(0)>0;
+    }
+
+    public int getScaledProgress(){
+        int progress = this.delegate.get(0);
+        int max = this.delegate.get(1);
+        int barSize = 26;
+
+        return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
 
     @Override
@@ -65,13 +80,13 @@ public class CrusherScreenHandler extends ScreenHandler {
     private void addPlayerInventory(PlayerInventory playerInventory){
         for (int i = 0; i<3; i++){
             for(int i2 = 0; i2<9; i2++){
-                this.addSlot(new Slot(playerInventory, i2+i*9+9, 8+i2*18,86+i*18));
+                this.addSlot(new Slot(playerInventory, i2+i*9+9, 8+i2*18,84+i*18));
             }
         }
     }
     private void addHotbar(PlayerInventory playerInventory){
         for(int i = 0; i<9; i++){
-            this.addSlot(new Slot(playerInventory, i, 8+i*18, 144));
+            this.addSlot(new Slot(playerInventory, i, 8+i*18, 142));
         }
     }
 }

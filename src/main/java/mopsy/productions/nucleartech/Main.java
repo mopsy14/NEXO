@@ -4,6 +4,7 @@ import mopsy.productions.nucleartech.mechanics.radiation.RadiationEvents;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.registry.ModdedBlocks;
 import mopsy.productions.nucleartech.registry.ModdedItems;
+import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import mopsy.productions.nucleartech.world.feature.ModConfiguredFeatures;
 import mopsy.productions.nucleartech.world.gen.ModOreGeneration;
 import net.fabricmc.api.ModInitializer;
@@ -29,6 +30,7 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
 		LOGGER.info("Nuclear Tech starting");
 		ModdedItems.regItems();
 		ModdedBlocks.regBlocks();
@@ -41,6 +43,8 @@ public class Main implements ModInitializer {
 
 		registerC2SPackets();
 		registerS2CPackets();
+
+		ScreenHandlers.regScreenHandlers();
 
 		ModdedBlockEntities.regBlockEntities();
 	}

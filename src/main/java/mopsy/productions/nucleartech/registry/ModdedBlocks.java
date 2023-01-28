@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.compressed.UraniumBlock;
+import mopsy.productions.nucleartech.ModBlocks.blocks.machines.CrusherBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.UraniumOreBlock;
 import mopsy.productions.nucleartech.ModItems.UraniumBlockItem;
@@ -26,6 +27,7 @@ public class ModdedBlocks {
         //compressed
         regBlock(new DeepslateUraniumOreBlock());
         //machines
+        regBlock(new CrusherBlock());
     }
 
     private static void regBlock(Block block){
