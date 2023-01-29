@@ -1,0 +1,11 @@
+{
+  "type": "nucleartech:crushing",
+  "input": [
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "output":{
+    "item": "nucleartech:coal_dust"
+  }
+}

@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech;
 
 import mopsy.productions.nucleartech.mechanics.radiation.RadiationEvents;
+import mopsy.productions.nucleartech.recipes.ModdedRecipes;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.registry.ModdedBlocks;
 import mopsy.productions.nucleartech.registry.ModdedItems;
@@ -45,6 +46,7 @@ public class Main implements ModInitializer {
 		registerS2CPackets();
 
 		ScreenHandlers.regScreenHandlers();
+		ModdedRecipes.regRecipes();
 
 		ModdedBlockEntities.regBlockEntities();
 	}

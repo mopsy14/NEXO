@@ -1,8 +1,8 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
+import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.registry.ModdedItems;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,7 +12,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
@@ -22,6 +21,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
 
@@ -110,9 +111,14 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
             inventory.setStack(i, entity.getStack(i));
         }
 
+        Optional<CrusherRecipe> recipe = entity.getWorld().getRecipeManager().getFirstMatch(
+                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
+
         if(hasRecipe(entity)){
             entity.removeStack(0, 1);
-            entity.setStack(1, new ItemStack(ModdedItems.Items.get("coal_dust"), entity.getStack(1).getCount()+1));
+            ItemStack output = recipe.get().getOutput();
+            output.setCount(output.getCount() + entity.getStack(1).getCount());
+            entity.setStack(1, output);
             entity.progress = 0;
         }
     }
@@ -123,9 +129,10 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
             inventory.setStack(i, entity.getStack(i));
         }
 
-        boolean hasInput = entity.getStack(0).getItem() == Items.COAL;
+        Optional<CrusherRecipe> match = entity.getWorld().getRecipeManager().getFirstMatch(
+                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
 
-        return hasInput&&canOutput(inventory, ModdedItems.Items.get("coal_dust"),1);
+        return match.isPresent()&&canOutput(inventory, match.get().getOutput().getItem(), match.get().getOutput().getCount());
     }
 
     private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
