@@ -15,4 +15,7 @@ public class S2CPackets {
         Radiation.radiationPerTick = buf.readFloat();
         System.out.println("Client received radiation/s: "+Radiation.radiationPerTick);
     }
+    public static void receiveEnergyChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
+
+    }
 }

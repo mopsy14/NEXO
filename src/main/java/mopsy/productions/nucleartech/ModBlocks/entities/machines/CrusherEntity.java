@@ -21,6 +21,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
@@ -30,6 +31,13 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
     protected final PropertyDelegate propertyDelegate;
     private int progress;
     private int maxProgress = 200;
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(1000, 10, 0) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+        }
+    };
+    public long previousPower = 0;
 
 
     public CrusherEntity(BlockPos pos, BlockState state) {
@@ -80,6 +88,7 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("crusher.progress", progress);
+        nbt.putLong("crusher.power", energyStorage.amount);
     }
 
     @Override
@@ -87,21 +96,25 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
         progress = nbt.getInt("crusher.progress");
+        energyStorage.amount = nbt.getLong("crusher.power");
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CrusherEntity crusherEntity) {
         if(world.isClient)return;
+        System.out.println("current power: "+crusherEntity.energyStorage.amount);
 
-        if(hasRecipe(crusherEntity)){
+        if(hasRecipe(crusherEntity)&& crusherEntity.energyStorage.amount >= 5){
             crusherEntity.progress++;
-            markDirty(world, blockPos, blockState);
+            crusherEntity.energyStorage.amount -= 5;
             if(crusherEntity.progress >= crusherEntity.maxProgress){
                 craft(crusherEntity);
-                markDirty(world, blockPos, blockState);
             }
         }else{
             crusherEntity.progress = 0;
-            markDirty(world,blockPos,blockState);
+        }
+        markDirty(world,blockPos,blockState);
+        if(crusherEntity.energyStorage.amount!=crusherEntity.previousPower){
+
         }
     }
 

@@ -26,7 +26,12 @@ public class CrusherScreenHandler extends ScreenHandler {
         this.delegate = delegate;
 
         this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new Slot(inventory, 1,116,35));
+        this.addSlot(new Slot(inventory, 1,116,35){
+            @Override
+            public boolean canInsert(ItemStack itemStack){
+                return false;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
