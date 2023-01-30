@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/crusher"}
+    "facing=east": {
+      "model": "nucleartech:block/crusher",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nucleartech:block/crusher"
+    },
+    "facing=south": {
+      "model": "nucleartech:block/crusher",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nucleartech:block/crusher",
+      "y": 270
+    }
   }
 }
