@@ -1,6 +1,10 @@
 package mopsy.productions.nucleartech.screen.crusher;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
+import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -33,11 +37,17 @@ public class CrusherScreen extends HandledScreen<CrusherScreenHandler> {
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderProgress(matrices, x, y);
+        renderPower(matrices, x, y);
     }
 
     private void renderProgress(MatrixStack matrices, int x, int y){
         if(handler.isCrafting()){
             drawTexture(matrices, x+76, y+24, 176, 0, handler.getScaledProgress(), 37);
+        }
+    }
+    private void renderPower(MatrixStack matrices, int x, int y){
+        if(getPower()!=0){
+            drawTexture(matrices, x+144, y+16, 203, getScaledPower(), 16, 64);
         }
     }
 
@@ -46,5 +56,20 @@ public class CrusherScreen extends HandledScreen<CrusherScreenHandler> {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
+    }
+
+    public int getScaledPower(){
+        long progress = getPower();
+        long max = CrusherEntity.CAPACITY;
+        int barSize = 64;
+        return Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
+    }
+
+    private long getPower(){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IEnergyStorage) {
+            return ((IEnergyStorage) blockEntity).getPower();
+        }
+        return 0;
     }
 }

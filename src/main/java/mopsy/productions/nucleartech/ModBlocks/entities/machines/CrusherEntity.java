@@ -1,9 +1,13 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,9 +17,10 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -25,20 +30,24 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.Optional;
 
-public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
+
+public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
     private int maxProgress = 200;
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(1000, 10, 0) {
+    public long previousPower = 0;
+    public static final long CAPACITY = 1000;
+    public static final long MAX_INSERT = 10;
+    public static final long MAX_EXTRACT = 0;
+    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(CAPACITY, MAX_INSERT, MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();
         }
     };
-    public long previousPower = 0;
-
 
     public CrusherEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.CRUSHER, pos, state);
@@ -75,7 +84,16 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new CrusherScreenHandler(syncId, inv, this, this.propertyDelegate);
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeBlockPos(this.pos);
+        buf.writeLong(getPower());
+        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        return new CrusherScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(this.pos);
     }
 
     @Override
@@ -101,7 +119,6 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CrusherEntity crusherEntity) {
         if(world.isClient)return;
-        System.out.println("current power: "+crusherEntity.energyStorage.amount);
 
         if(hasRecipe(crusherEntity)&& crusherEntity.energyStorage.amount >= 5){
             crusherEntity.progress++;
@@ -112,9 +129,17 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
         }else{
             crusherEntity.progress = 0;
         }
-        markDirty(world,blockPos,blockState);
-        if(crusherEntity.energyStorage.amount!=crusherEntity.previousPower){
 
+        markDirty(world,blockPos,blockState);
+
+        if(crusherEntity.energyStorage.amount!=crusherEntity.previousPower){
+            crusherEntity.previousPower = crusherEntity.energyStorage.amount;
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(blockPos);
+            buf.writeLong(crusherEntity.getPower());
+            for (PlayerEntity player : world.getPlayers()) {
+                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+            }
         }
     }
 
@@ -154,4 +179,13 @@ public class CrusherEntity extends BlockEntity implements NamedScreenHandlerFact
     }
 
 
+    @Override
+    public long getPower() {
+        return energyStorage.amount;
+    }
+
+    @Override
+    public void setPower(long power) {
+        energyStorage.amount = power;
+    }
 }

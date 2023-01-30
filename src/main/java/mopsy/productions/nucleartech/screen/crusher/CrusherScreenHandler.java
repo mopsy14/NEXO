@@ -6,24 +6,28 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.math.BlockPos;
 
 public class CrusherScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate delegate;
+    private final BlockPos blockPos;
 
-    public CrusherScreenHandler(int syncId, PlayerInventory playerInventory){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2));
+    public CrusherScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
+        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2), buf.readBlockPos());
     }
-    public CrusherScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
+    public CrusherScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.CRUSHER, syncId);
         checkSize(inventory, 2);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
+        this.blockPos = blockPos;
 
         this.addSlot(new Slot(inventory, 0,48,35));
         this.addSlot(new Slot(inventory, 1,116,35){
@@ -49,6 +53,9 @@ public class CrusherScreenHandler extends ScreenHandler {
         int barSize = 26;
 
         return max!=0 && progress!=0 ? progress*barSize/max : 0;
+    }
+    public BlockPos getBlockPos(){
+        return blockPos;
     }
 
     @Override

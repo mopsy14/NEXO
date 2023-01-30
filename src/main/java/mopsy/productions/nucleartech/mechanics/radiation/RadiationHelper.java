@@ -33,7 +33,7 @@ public class RadiationHelper {
     public static void sendRadiationUpdatePackage(ServerPlayerEntity player){
         PacketByteBuf buffer = PacketByteBufs.create();
         buffer.writeFloat(getRadiation((IEntityDataSaver) player));
-        ServerPlayNetworking.send(player, PacketManager.RADIATION_CHANGE_PACKAGE, buffer);
+        ServerPlayNetworking.send(player, PacketManager.RADIATION_CHANGE_PACKET, buffer);
     }
     public static void changePlayerRadiationPerSecond(ServerPlayerEntity player, float radiation){
         if(radiation !=getRadiationPerSecond((IEntityDataSaver) player)) {
@@ -46,7 +46,7 @@ public class RadiationHelper {
     public static void sendRadiationPerSecondUpdatePackage(ServerPlayerEntity player) {
         PacketByteBuf buffer = PacketByteBufs.create();
         buffer.writeFloat(getRadiationPerSecond((IEntityDataSaver) player));
-        ServerPlayNetworking.send(player, PacketManager.RADIATION_PER_SECOND_CHANGE_PACKAGE, buffer);
+        ServerPlayNetworking.send(player, PacketManager.RADIATION_PER_SECOND_CHANGE_PACKET, buffer);
     }
 
     private static float getRadiationPerSecond(IEntityDataSaver player){

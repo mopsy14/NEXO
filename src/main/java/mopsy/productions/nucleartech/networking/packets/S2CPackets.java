@@ -1,10 +1,14 @@
 package mopsy.productions.nucleartech.networking.packets;
 
 import mopsy.productions.nucleartech.HUD.Radiation;
+import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
+
+import static mopsy.productions.nucleartech.Main.LOGGER;
 
 public class S2CPackets {
     public static void receiveRadiationChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
@@ -16,6 +20,11 @@ public class S2CPackets {
         System.out.println("Client received radiation/s: "+Radiation.radiationPerTick);
     }
     public static void receiveEnergyChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
-
+        BlockPos blockPos = buf.readBlockPos();
+        if (client.world.getBlockEntity(blockPos) instanceof IEnergyStorage){
+            ((IEnergyStorage) client.world.getBlockEntity(blockPos)).setPower(buf.readLong());
+        }else{
+            LOGGER.error("Block at: "+blockPos+" doesn't contain IEnergyStorage");
+        }
     }
 }
