@@ -1,8 +1,8 @@
 {
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "crusher",
-		"particle": "crusher"
+		"0": "nucleartech:blocks/crusher",
+		"particle": "nucleartech:blocks/crusher"
 	},
 	"elements": [
 		{
