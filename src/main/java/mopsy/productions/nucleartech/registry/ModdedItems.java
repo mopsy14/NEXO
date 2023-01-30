@@ -23,6 +23,7 @@ public class ModdedItems {
         regItem(new UraniumNuggetItem());
         regItem(new GeigerCounterItem());
         regItem(new CoalDustItem());
+        regItem(new QuartzDustItem());
 
         
     }
