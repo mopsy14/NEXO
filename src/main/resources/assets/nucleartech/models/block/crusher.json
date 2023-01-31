@@ -1,8 +1,16 @@
 {
+	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "nucleartech:blocks/crusher",
 		"particle": "nucleartech:blocks/crusher"
+	},
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [ 0, 135, 0 ],
+			"translation": [ 0, 0, 0 ],
+			"scale": [ 0.40, 0.40, 0.40 ]
+		}
 	},
 	"elements": [
 		{
