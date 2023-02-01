@@ -1,6 +1,12 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModItems.*;
+import mopsy.productions.nucleartech.ModItems.dusts.CoalDustItem;
+import mopsy.productions.nucleartech.ModItems.ingots.UraniumIngotItem;
+import mopsy.productions.nucleartech.ModItems.nuggets.UraniumNuggetItem;
+import mopsy.productions.nucleartech.ModItems.raws.RawUraniumItem;
+import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
+import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nucleartech.ModItems.tools.QuartzDustItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;

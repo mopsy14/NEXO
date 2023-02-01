@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.ModItems;
+package mopsy.productions.nucleartech.ModItems.blocks;
 
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.interfaces.IModID;

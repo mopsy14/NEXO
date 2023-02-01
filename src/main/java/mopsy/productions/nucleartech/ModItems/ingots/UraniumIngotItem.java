@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.ModItems;
+package mopsy.productions.nucleartech.ModItems.ingots;
 
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.interfaces.IModID;
@@ -7,12 +7,17 @@ import net.minecraft.item.Item;
 
 import static mopsy.productions.nucleartech.Main.CREATIVE_TAB;
 
-public class UraniumNuggetItem extends Item implements IModID, IItemRadiation {
+public class UraniumIngotItem extends Item implements IModID, IItemRadiation {
+
     @Override public String getID() {
-        return "uranium_nugget";
+        return "uranium_ingot";
     }
-    @Override public float getRadiation() {return 0.2F;}
-    public UraniumNuggetItem() {
+    @Override public float getRadiation() {return 1;}
+
+    public UraniumIngotItem() {
         super(new FabricItemSettings().group(CREATIVE_TAB));
+
     }
+
+
 }

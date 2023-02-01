@@ -4,7 +4,7 @@ import mopsy.productions.nucleartech.ModBlocks.blocks.compressed.UraniumBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.machines.CrusherBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.UraniumOreBlock;
-import mopsy.productions.nucleartech.ModItems.UraniumBlockItem;
+import mopsy.productions.nucleartech.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
