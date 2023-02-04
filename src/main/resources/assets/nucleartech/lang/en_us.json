@@ -13,5 +13,6 @@
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
   "block.nucleartech.uranium_block": "Uranium Block",
-  "block.nucleartech.crusher": "Crusher"
+  "block.nucleartech.crusher": "Crusher",
+  "block.nucleartech.crusher": "Tank"
 }

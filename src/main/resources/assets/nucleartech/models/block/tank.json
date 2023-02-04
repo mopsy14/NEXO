@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "gas_tank",
-		"particle": "gas_tank"
+		"0": "tank",
+		"particle": "tank"
 	},
 	"elements": [
 		{
