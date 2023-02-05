@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.blocks.machines;
 
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -58,7 +58,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            NamedScreenHandlerFactory screenHandlerFactory = (CrusherEntity)world.getBlockEntity(pos);
+            NamedScreenHandlerFactory screenHandlerFactory = (TankEntity_MK1)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
             }
@@ -69,21 +69,21 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new CrusherEntity(pos, state);
+        return new TankEntity_MK1(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.CRUSHER, CrusherEntity::tick);
+        return checkType(type, ModdedBlockEntities.TANK_MK1, TankEntity_MK1::tick);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.isCreative()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof CrusherEntity) {
-                ItemScatterer.spawn(world, pos, (CrusherEntity) blockEntity);
+            if (blockEntity instanceof TankEntity_MK1) {
+                ItemScatterer.spawn(world, pos, (TankEntity_MK1) blockEntity);
                 world.updateComparators(pos, this);
             }
         }

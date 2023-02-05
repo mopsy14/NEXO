@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.screen;
 
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
-import mopsy.productions.nucleartech.screen.crusher.TankScreenHandler_MK1;
+import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;

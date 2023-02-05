@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.screen.crusher;
+package mopsy.productions.nucleartech.screen.tank;
 
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,14 +19,14 @@ public class TankScreenHandler_MK1 extends ScreenHandler {
         this(syncId, playerInventory, new SimpleInventory(2), buf.readBlockPos());
     }
     public TankScreenHandler_MK1(int syncId, PlayerInventory playerInventory, Inventory inventory, BlockPos blockPos) {
-        super(ScreenHandlers.CRUSHER, syncId);
+        super(ScreenHandlers.Tank_MK1, syncId);
         checkSize(inventory, 2);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.blockPos = blockPos;
 
-        this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new Slot(inventory, 1,116,35){
+        this.addSlot(new Slot(inventory, 0,128,11));
+        this.addSlot(new Slot(inventory, 1,128,58){
             @Override
             public boolean canInsert(ItemStack itemStack){
                 return false;

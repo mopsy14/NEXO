@@ -3,15 +3,17 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.crusher.TankScreenHandler_MK1;
+import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -21,24 +23,46 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
+import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    public long fluidAmount;
-    public long previousAmount;
-    public Fluid fluidType;
-    public Fluid previousFluidType;
+    public static final long MAX_CAPACITY = 8000;
+    public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
+        @Override
+        protected FluidVariant getBlankVariant() {
+            return FluidVariant.blank();
+        }
+
+        @Override
+        protected long getCapacity(FluidVariant variant) {
+            // Here, you can pick your capacity depending on the fluid variant.
+            // For example, if we want to store 8 buckets of any fluid:
+            return (MAX_CAPACITY * FluidConstants.BUCKET) / 81; // This will convert it to mB amount to be consistent;
+        }
+
+        @Override
+        protected void onFinalCommit() {
+            // Called after a successful insertion or extraction, markDirty to ensure the new amount and variant will be saved properly.
+            markDirty();
+            if (!world.isClient) {
+                var buf = PacketByteBufs.create();
+                buf.writeLong(fluidStorage.amount);
+                fluidStorage.variant.toPacket(buf);
+                world.getPlayers().forEach(player-> {
+                    ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+                });
+            }
+        }
+    };
 
     public TankEntity_MK1(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.TANK_MK1, pos, state);
@@ -54,10 +78,9 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeBlockPos(this.pos);
-        buf.writeLong(fluidAmount);
-        buf.writeString(fluidType.toString());
-        System.out.println(fluidType.toString());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        buf.writeLong(fluidStorage.amount);
+        fluidStorage.variant.toPacket(buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
         return new TankScreenHandler_MK1(syncId, inv, this, pos);
     }
 
@@ -73,39 +96,25 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
     @Override
     public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
-        nbt.putLong("tank.fluid_amount", fluidAmount);
-        nbt.putString("tank.fluid_type", fluidType.toString());
-        System.out.println(fluidType.toString());
+        nbt.putLong("fluid_amount", fluidStorage.amount);
+        nbt.put("fluid_variant", fluidStorage.variant.toNbt());
+        super.writeNbt(nbt);
     }
 
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
-        fluidAmount = nbt.getLong("tank.fluid_amount");
-        fluidType = Registry.FLUID.get(Identifier.tryParse(nbt.getString("tank.fluid_type")));
+        fluidStorage.amount = nbt.getLong("fluid_amount");
+        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
-        if(world.isClient)return;
-
-        markDirty(world,blockPos,blockState);
-
-        if(tankEntity.fluidAmount!=tankEntity.previousAmount||tankEntity.fluidType!=tankEntity.previousFluidType){
-            tankEntity.fluidAmount = tankEntity.previousAmount;
-            tankEntity.fluidType = tankEntity.previousFluidType;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(tankEntity.fluidAmount);
-            buf.writeString(tankEntity.fluidType.toString());
-            System.out.println(tankEntity.fluidType.toString());
-
-            for (PlayerEntity player : world.getPlayers()) {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-            }
+        if(world.isClient) {
         }
+
+        //markDirty(world,blockPos,blockState);
     }
 
     private static boolean hasRecipe(TankEntity_MK1 entity) {

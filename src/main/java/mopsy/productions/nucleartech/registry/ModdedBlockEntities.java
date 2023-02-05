@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.registry;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -26,5 +27,7 @@ public class ModdedBlockEntities {
 
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
+        //Fluids
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
     }
 }
