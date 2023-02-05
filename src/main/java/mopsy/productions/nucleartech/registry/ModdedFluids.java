@@ -30,7 +30,7 @@ public class ModdedFluids {
     public static void regFluids(){
         NITROGEN = regFluid(new Nitrogen.Still());
         NITROGEN_BLOCK = regBlock(NITROGEN);
-        NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen"),
+        NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
                     public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {

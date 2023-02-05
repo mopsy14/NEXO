@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;
@@ -12,11 +13,14 @@ import static mopsy.productions.nucleartech.Main.modid;
 public class ModdedBlockEntities {
 
     public static BlockEntityType<CrusherEntity> CRUSHER;
+    public static BlockEntityType<TankEntity_MK1> TANK_MK1;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
                 FabricBlockEntityTypeBuilder.create(CrusherEntity::new, ModdedBlocks.Blocks.get("crusher")).build(null));
 
+        TANK_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "tank_mk1"),
+                FabricBlockEntityTypeBuilder.create(TankEntity_MK1::new, ModdedBlocks.Blocks.get("tank_mk1")).build(null));
 
 
 
