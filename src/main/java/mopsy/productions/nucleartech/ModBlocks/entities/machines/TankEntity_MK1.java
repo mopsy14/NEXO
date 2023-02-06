@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
-import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -28,11 +28,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
-public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
+public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IFluidStorage{
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     public static final long MAX_CAPACITY = 8000;
@@ -44,8 +42,6 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
         @Override
         protected long getCapacity(FluidVariant variant) {
-            // Here, you can pick your capacity depending on the fluid variant.
-            // For example, if we want to store 8 buckets of any fluid:
             return (MAX_CAPACITY * FluidConstants.BUCKET) / 81; // This will convert it to mB amount to be consistent;
         }
 
@@ -55,6 +51,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
             markDirty();
             if (!world.isClient) {
                 var buf = PacketByteBufs.create();
+                buf.writeBlockPos(getPos());
                 buf.writeLong(fluidStorage.amount);
                 fluidStorage.variant.toPacket(buf);
                 world.getPlayers().forEach(player-> {
@@ -87,6 +84,8 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(this.pos);
+        buf.writeLong(fluidStorage.amount);
+        fluidStorage.variant.toPacket(buf);
     }
 
     @Override
@@ -117,20 +116,28 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         //markDirty(world,blockPos,blockState);
     }
 
-    private static boolean hasRecipe(TankEntity_MK1 entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
-
-        Optional<CrusherRecipe> match = entity.getWorld().getRecipeManager().getFirstMatch(
-                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
-
-        return match.isPresent()&&canOutput(inventory, match.get().getOutput().getItem(), match.get().getOutput().getCount());
-    }
-
     private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
         return (inventory.getStack(1).getItem()==outputType || inventory.getStack(1).isEmpty())
                 &&inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount() + count;
+    }
+
+    @Override
+    public FluidVariant getFluidType() {
+        return fluidStorage.variant;
+    }
+
+    @Override
+    public void setFluidType(FluidVariant fluidType) {
+        fluidStorage.variant = fluidType;
+    }
+
+    @Override
+    public long getFluidAmount() {
+        return fluidStorage.amount;
+    }
+
+    @Override
+    public void setFluidAmount(long amount) {
+        fluidStorage.amount = amount;
     }
 }

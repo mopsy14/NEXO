@@ -4,12 +4,11 @@ import mopsy.productions.nucleartech.HUD.Radiation;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 
 import static mopsy.productions.nucleartech.Main.LOGGER;
 
@@ -33,7 +32,7 @@ public class S2CPackets {
     public static void receiveFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         BlockPos blockPos = buf.readBlockPos();
         if (client.world.getBlockEntity(blockPos) instanceof IFluidStorage){
-            ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidType(Registry.FLUID.get(Identifier.tryParse(buf.readString())));
+            ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidType(FluidVariant.fromPacket(buf));
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidAmount(buf.readLong());
         }else{
             LOGGER.error("Block at: "+blockPos+" doesn't contain IFluidStorage");

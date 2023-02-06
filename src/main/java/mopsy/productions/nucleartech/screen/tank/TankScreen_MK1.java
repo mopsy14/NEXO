@@ -3,15 +3,17 @@ package mopsy.productions.nucleartech.screen.tank;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -42,8 +44,6 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
 
         renderFluid(matrices, x, y);
         renderLines(matrices,x,y);
-
-        drawSprite(matrices, x+25, y+11, 2, 51, 63,FluidRenderHandlerRegistry.INSTANCE.get(Fluids.WATER).getFluidSprites(null, null, Fluids.WATER.getStill().getDefaultState())[0]);
     }
 
     @Override
@@ -59,8 +59,13 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
     }
     private void renderFluid(MatrixStack matrices, int x, int y){
         if(getFluidAmount()>0){
-            RenderSystem.setShaderTexture(0, FluidRenderHandlerRegistry.INSTANCE.get(getFluid()).getFluidSprites(null, null, getFluid().getDefaultState())[0].getId());
-            drawTexture(matrices, x+25, y+11+getScaledFluid(), 203, getScaledFluid(), 51, 63-getScaledFluid());
+            RenderSystem.setShaderTexture(0, PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
+            Sprite fluidSprite = FluidVariantRendering.getSprite(getFluid());
+
+            int fluidColor = FluidVariantRendering.getColor(getFluid());
+            RenderSystem.setShaderColor((fluidColor >> 16 & 255) / 255.0F, (float) (fluidColor >> 8 & 255) / 255.0F, (float) (fluidColor & 255) / 255.0F, 1F);
+
+            DrawableHelper.drawSprite(matrices, x+25, y +11+getScaledFluid(), 0, 51, 63-getScaledFluid(), fluidSprite);
         }
     }
 
@@ -80,7 +85,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
         return res;
     }
 
-    private Fluid getFluid(){
+    private FluidVariant getFluid(){
         BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
         if(blockEntity instanceof IFluidStorage) {
             return ((IFluidStorage) blockEntity).getFluidType();

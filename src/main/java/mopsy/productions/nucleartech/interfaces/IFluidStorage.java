@@ -1,10 +1,10 @@
 package mopsy.productions.nucleartech.interfaces;
 
-import net.minecraft.fluid.Fluid;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 
 public interface IFluidStorage {
-    Fluid getFluidType();
-    void setFluidType(Fluid fluidType);
+    FluidVariant getFluidType();
+    void setFluidType(FluidVariant fluidType);
 
     long getFluidAmount();
     void setFluidAmount(long amount);
