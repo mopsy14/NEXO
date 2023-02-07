@@ -51,8 +51,8 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
         super.drawMouseoverTooltip(matrices, x, y);
         int relativeX = (width - backgroundWidth)/2;
         int relativeY = (height - backgroundHeight)/2;
-        if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
-            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getFluidAmount()+"mB/"+ TankEntity_MK1.MAX_CAPACITY+"mB"),x,y);
+        if(x>relativeX+24 && x<relativeX+76 && y>relativeY+10 && y<relativeY+ 74)
+            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getFluidAmountmb()+"mB/"+ getCapacitymb()+"mB"),x,y);
     }
     private void renderLines(MatrixStack matrices, int x, int y){
         drawTexture(matrices, x+25, y+11, 195, 8, 20, 63);
@@ -78,7 +78,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
 
     public int getScaledFluid(){
         long progress = getFluidAmount();
-        long max = ((TankEntity_MK1)client.world.getBlockEntity(handler.getBlockPos())).fluidStorage.getCapacity();
+        long max = getCapacity();
         int barSize = 63;
         int res = Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
         res = 63-res;
@@ -99,5 +99,18 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
         }
         return 0;
     }
+    private long getFluidAmountmb(){
+        return getFluidAmount()/81;
+    }
+    private long getCapacity(){
+        TankEntity_MK1 entity = (TankEntity_MK1) client.world.getBlockEntity(handler.getBlockPos());
+        if(entity!= null){
+            return entity.fluidStorage.getCapacity();
+        }
+        return 0;
+    }
 
+    private long getCapacitymb(){
+        return getCapacity()/81;
+    }
 }

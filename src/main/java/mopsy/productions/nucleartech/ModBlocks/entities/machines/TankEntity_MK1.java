@@ -42,7 +42,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
         @Override
         protected long getCapacity(FluidVariant variant) {
-            return (MAX_CAPACITY * FluidConstants.BUCKET) / 81; // This will convert it to mB amount to be consistent;
+            return MAX_CAPACITY * FluidConstants.BUCKET;
         }
 
         @Override
