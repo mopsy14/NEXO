@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.REI;
+package REI;
 
 import dev.architectury.event.CompoundEventResult;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;

@@ -78,7 +78,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
 
     public int getScaledFluid(){
         long progress = getFluidAmount();
-        long max = TankEntity_MK1.MAX_CAPACITY;
+        long max = ((TankEntity_MK1)client.world.getBlockEntity(handler.getBlockPos())).fluidStorage.getCapacity();
         int barSize = 63;
         int res = Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
         res = 63-res;

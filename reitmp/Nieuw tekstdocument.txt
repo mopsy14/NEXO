@@ -1,0 +1,3 @@
+    "rei_client": [
+      "mopsy.productions.nucleartech.REI.REIPluginServer"
+    ]

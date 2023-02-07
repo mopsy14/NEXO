@@ -33,7 +33,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANG
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IFluidStorage{
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    public static final long MAX_CAPACITY = 8000;
+    public static final long MAX_CAPACITY = 8;
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
         @Override
         protected FluidVariant getBlankVariant() {
@@ -52,8 +52,8 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
             if (!world.isClient) {
                 var buf = PacketByteBufs.create();
                 buf.writeBlockPos(getPos());
-                buf.writeLong(fluidStorage.amount);
-                fluidStorage.variant.toPacket(buf);
+                this.variant.toPacket(buf);
+                buf.writeLong(this.amount);
                 world.getPlayers().forEach(player-> {
                     ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
                 });
@@ -75,8 +75,8 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeBlockPos(this.pos);
-        buf.writeLong(fluidStorage.amount);
         fluidStorage.variant.toPacket(buf);
+        buf.writeLong(fluidStorage.amount);
         ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
         return new TankScreenHandler_MK1(syncId, inv, this, pos);
     }
@@ -84,8 +84,6 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         buf.writeBlockPos(this.pos);
-        buf.writeLong(fluidStorage.amount);
-        fluidStorage.variant.toPacket(buf);
     }
 
     @Override
