@@ -4,19 +4,21 @@ import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
+import mopsy.productions.nucleartech.util.FluidUtils;
+import mopsy.productions.nucleartech.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -108,14 +110,21 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
-        if(world.isClient) return;
+        if (world.isClient) return;
 
-        //markDirty(world,blockPos,blockState);
-    }
-
-    private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
-        return (inventory.getStack(1).getItem()==outputType || inventory.getStack(1).isEmpty())
-                &&inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount() + count;
+        try (Transaction transaction = Transaction.openOuter()) {
+            if (StorageUtil.move(
+                    FluidUtils.getItemFluidStorage(InvUtils.InvOf(tankEntity.inventory), 0, 1),
+                    tankEntity.fluidStorage,
+                    predicate -> true,
+                    Long.MAX_VALUE,
+                    transaction
+            ) > 0) {
+                System.out.println("move==1B");
+                transaction.commit();
+                markDirty(world, blockPos, blockState);
+            }
+        }
     }
 
     @Override
