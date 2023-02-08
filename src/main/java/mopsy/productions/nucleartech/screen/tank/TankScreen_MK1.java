@@ -55,6 +55,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
             renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getFluidAmountmb()+"mB/"+ getCapacitymb()+"mB"),x,y);
     }
     private void renderLines(MatrixStack matrices, int x, int y){
+        RenderSystem.setShaderTexture(0, TEXTURE);
         drawTexture(matrices, x+25, y+11, 195, 8, 20, 63);
     }
     private void renderFluid(MatrixStack matrices, int x, int y){
@@ -66,6 +67,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
             RenderSystem.setShaderColor((fluidColor >> 16 & 255) / 255.0F, (float) (fluidColor >> 8 & 255) / 255.0F, (float) (fluidColor & 255) / 255.0F, 1F);
 
             DrawableHelper.drawSprite(matrices, x+25, y +11+getScaledFluid(), 0, 51, 63-getScaledFluid(), fluidSprite);
+            RenderSystem.setShaderColor(1F,1F,1F,1F);
         }
     }
 

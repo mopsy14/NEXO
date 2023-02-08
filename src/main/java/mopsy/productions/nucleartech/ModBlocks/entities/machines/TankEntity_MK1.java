@@ -108,8 +108,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
-        if(world.isClient) {
-        }
+        if(world.isClient) return;
 
         //markDirty(world,blockPos,blockState);
     }

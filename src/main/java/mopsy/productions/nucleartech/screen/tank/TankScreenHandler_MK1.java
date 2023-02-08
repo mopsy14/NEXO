@@ -1,7 +1,8 @@
 package mopsy.productions.nucleartech.screen.tank;
 
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import mopsy.productions.nucleartech.util.slots.FluidSlot;
+import mopsy.productions.nucleartech.util.slots.ReturnSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -26,10 +27,8 @@ public class TankScreenHandler_MK1 extends ScreenHandler {
         inventory.onOpen(playerInventory.player);
         this.blockPos = blockPos;
 
-        this.addSlot(new Slot(inventory, 0,128,11){@Override public boolean canInsert(ItemStack itemStack) {
-            return FluidStorage.ITEM.find(itemStack, null).supportsExtraction()||FluidStorage.ITEM.find(itemStack, null).supportsInsertion();
-        }});
-        this.addSlot(new Slot(inventory, 1,128,58){ @Override public boolean canInsert(ItemStack itemStack){return false;}});
+        this.addSlot(new FluidSlot(inventory, 0,128,11, this, playerInventory.player));
+        this.addSlot(new ReturnSlot(inventory, 1,128,58));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
