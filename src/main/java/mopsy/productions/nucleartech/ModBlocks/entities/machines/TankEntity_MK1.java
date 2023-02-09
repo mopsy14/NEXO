@@ -119,12 +119,13 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                     predicate -> true,
                     Long.MAX_VALUE,
                     transaction
-            ) > 0) {
+               ) > 0) {
                 System.out.println("move==1B");
                 transaction.commit();
                 markDirty(world, blockPos, blockState);
             }
         }
+        //StorageUtil.move(itemStorage, tank, fv -> true, Long.MAX_VALUE, null) > 0
     }
 
     @Override

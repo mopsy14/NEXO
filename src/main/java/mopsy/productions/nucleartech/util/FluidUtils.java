@@ -18,6 +18,8 @@ public class FluidUtils{
 
     public static Storage<FluidVariant> getItemFluidStorage(Inventory inv, int inputIndex, int outputIndex){
         InventoryStorage inventoryStorage = InventoryStorage.of(inv,null);
+        SingleSlotStorage<ItemVariant> inputSlot = inventoryStorage.getSlot(inputIndex);
+        SingleSlotStorage<ItemVariant> outputSlot = inventoryStorage.getSlot(outputIndex);
         ContainerItemContext containerItemContext = new ContainerItemContext() {
             @Override
             public SingleSlotStorage<ItemVariant> getMainSlot() {
@@ -25,7 +27,7 @@ public class FluidUtils{
             }
             @Override
             public long insertOverflow(ItemVariant itemVariant, long maxAmount, TransactionContext transactionContext) {
-                return inventoryStorage.getSlot(outputIndex).insert(itemVariant, maxAmount, transactionContext);
+                return outputSlot.insert(itemVariant, maxAmount, transactionContext);
             }
             @Override
             public long insert(ItemVariant itemVariant, long maxAmount, TransactionContext transaction) {
@@ -34,7 +36,7 @@ public class FluidUtils{
 
             @Override
             public List<SingleSlotStorage<ItemVariant>> getAdditionalSlots() {
-                return List.of(inventoryStorage.getSlot(outputIndex));
+                return List.of();
             }
         };
         return containerItemContext.find(FluidStorage.ITEM);
