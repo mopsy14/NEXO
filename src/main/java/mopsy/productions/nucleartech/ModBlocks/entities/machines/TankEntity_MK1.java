@@ -35,7 +35,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANG
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IFluidStorage{
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
-    public static final long MAX_CAPACITY = 8;
+    public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
         @Override
         protected FluidVariant getBlankVariant() {
@@ -44,7 +44,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
         @Override
         protected long getCapacity(FluidVariant variant) {
-            return MAX_CAPACITY * FluidConstants.BUCKET;
+            return MAX_CAPACITY;
         }
 
         @Override
@@ -112,21 +112,30 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
         if (world.isClient) return;
 
-        try (Transaction transaction = Transaction.openOuter()) {
-            if (StorageUtil.move(
-                    FluidUtils.getItemFluidStorage(InvUtils.InvOf(tankEntity.inventory), 0, 1),
-                    tankEntity.fluidStorage,
-                    predicate -> true,
-                    Long.MAX_VALUE,
-                    transaction
-               ) > 0) {
-                System.out.println("move==1B");
-                transaction.commit();
-                markDirty(world, blockPos, blockState);
+        if(tankEntity.canTransfer()) {
+            try (Transaction transaction = Transaction.openOuter()) {
+                long moved = StorageUtil.move(
+                        FluidUtils.getItemFluidStorage(InvUtils.InvOf(tankEntity.inventory), 0, 1),
+                        tankEntity.fluidStorage,
+                        predicate -> true,
+                        Long.MAX_VALUE,
+                        transaction
+                );
+                if (moved > 0) {
+                    transaction.commit();
+                    markDirty(world, blockPos, blockState);
+                }
             }
         }
         //StorageUtil.move(itemStorage, tank, fv -> true, Long.MAX_VALUE, null) > 0
     }
+
+    private boolean canTransfer(){
+        if(inventory.get(0).isEmpty())
+            return false;
+        return inventory.get(1).getCount() < inventory.get(1).getMaxCount();
+    }
+
 
     @Override
     public FluidVariant getFluidType() {

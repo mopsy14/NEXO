@@ -23,7 +23,7 @@ public class FluidUtils{
         ContainerItemContext containerItemContext = new ContainerItemContext() {
             @Override
             public SingleSlotStorage<ItemVariant> getMainSlot() {
-                return inventoryStorage.getSlot(inputIndex);
+                return inputSlot;
             }
             @Override
             public long insertOverflow(ItemVariant itemVariant, long maxAmount, TransactionContext transactionContext) {
