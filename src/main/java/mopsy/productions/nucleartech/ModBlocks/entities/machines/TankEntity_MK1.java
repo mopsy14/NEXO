@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -110,16 +111,19 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
         if (world.isClient) return;
 
-        if(tankEntity.canTransfer()) {
-            long moved = StorageUtil.move(
-                    FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
-                    tankEntity.fluidStorage,
-                    predicate -> true,
-                    Long.MAX_VALUE,
-                    null
-            );
-            if (moved > 0) {
-                markDirty(world, blockPos, blockState);
+        try(Transaction transaction = Transaction.openOuter()) {
+            if (tankEntity.canTransfer()) {
+                long moved = StorageUtil.move(
+                        FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
+                        tankEntity.fluidStorage,
+                        predicate -> true,
+                        Long.MAX_VALUE,
+                        transaction
+                );
+                if (moved > 0) {
+                    transaction.commit();
+                    markDirty(world, blockPos, blockState);
+                }
             }
         }
         //StorageUtil.move(itemStorage, tank, fv -> true, Long.MAX_VALUE, null) > 0
