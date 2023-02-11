@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.inventory.Inventory;
@@ -27,6 +28,7 @@ public class FluidUtils{
             }
             @Override
             public long insertOverflow(ItemVariant itemVariant, long maxAmount, TransactionContext transactionContext) {
+                return tryInsert(inv, outputIndex);
                 return outputSlot.insert(itemVariant, maxAmount, transactionContext);
             }
             @Override
@@ -40,6 +42,18 @@ public class FluidUtils{
             }
         };
         return containerItemContext.find(FluidStorage.ITEM);
+    }
+    private static long tryInsert(Inventory inv, int slotIndex, long maxAmount, ItemVariant itemVariant, TransactionContext transactionContext){
+        StoragePreconditions.notBlankNotNegative(itemVariant, maxAmount);
+        if(ItemVariant.of(inv.getStack(slotIndex)).equals(itemVariant)||inv.getStack(slotIndex).isEmpty()){
+            int insertAmount = (int) Math.min(maxAmount,getSpace(inv,slotIndex));
+            if(insertAmount>0){
+
+            }
+        }
+    }
+    private static int getSpace(Inventory inv, int index){
+        return inv.getStack(index).getMaxCount()-inv.getStack(index).getCount();
     }
     public static boolean containsItemStackFluidStorage(ItemStack itemStack){
         return ContainerItemContext.withConstant(itemStack).find(FluidStorage.ITEM)!=null;
