@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModItems.dusts.CoalDustItem;
+import mopsy.productions.nucleartech.ModItems.dusts.DiamondDustItem;
 import mopsy.productions.nucleartech.ModItems.ingots.UraniumIngotItem;
 import mopsy.productions.nucleartech.ModItems.nuggets.UraniumNuggetItem;
 import mopsy.productions.nucleartech.ModItems.raws.RawUraniumItem;
@@ -30,6 +31,7 @@ public class ModdedItems {
         regItem(new GeigerCounterItem());
         regItem(new CoalDustItem());
         regItem(new QuartzDustItem());
+        regItem(new DiamondDustItem());
 
         
     }
