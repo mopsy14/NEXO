@@ -10,7 +10,7 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 public class DeepslateUraniumOreBlock extends OreBlock implements IModID {
     @Override
-    public String getID(){return "deepslate_uranium_ore";}
+    public String getID(){return "deepslate_uranium_ore.json";}
     public DeepslateUraniumOreBlock() {
         super(FabricBlockSettings
                         .of(Material.STONE, MapColor.BLACK)

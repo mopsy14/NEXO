@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:uranium_ore"
+          "name": "nucleartech:deepslate_uranium_ore"
         }
       ],
       "conditions": [

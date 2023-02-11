@@ -9,7 +9,7 @@ import java.util.List;
 public class ModConfiguredFeatures {
     public static final List<OreFeatureConfig.Target> OVERWORLD_URANIUM_ORES = List.of(
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("uranium_ore").getDefaultState()),
-            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_uranium_ore").getDefaultState())
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_uranium_ore.json").getDefaultState())
     );
 
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_ORES_REG_ENTRY =
