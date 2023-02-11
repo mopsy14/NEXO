@@ -83,7 +83,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
         if(!player.isCreative()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TankEntity_MK1) {
-                ItemScatterer.spawn(world, pos, (TankEntity_MK1) blockEntity);
+                ItemScatterer.spawn(world, pos, ((TankEntity_MK1) blockEntity).inventory);
                 world.updateComparators(pos, this);
             }
         }

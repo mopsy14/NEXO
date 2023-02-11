@@ -1,7 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
-import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.util.FluidUtils;
@@ -17,23 +16,24 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
-public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IFluidStorage{
+public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage{
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    public final Inventory inventory = new SimpleInventory(2);
     public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
     public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
         @Override
@@ -79,7 +79,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         fluidStorage.variant.toPacket(buf);
         buf.writeLong(fluidStorage.amount);
         ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
-        return new TankScreenHandler_MK1(syncId, inv, this, pos);
+        return new TankScreenHandler_MK1(syncId, inv, this.inventory, pos);
     }
 
     @Override
@@ -87,14 +87,35 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         buf.writeBlockPos(this.pos);
     }
 
-    @Override
-    public DefaultedList<ItemStack> getItems() {
-        return this.inventory;
-    }
+    private void writeInv(NbtCompound nbt){
+        NbtList nbtList = new NbtList();
 
+        for(int i = 0; i < inventory.size(); ++i) {
+            ItemStack itemStack = inventory.getStack(i);
+            if (!itemStack.isEmpty()) {
+                NbtCompound nbtCompound = new NbtCompound();
+                nbtCompound.putByte("Slot", (byte)i);
+                itemStack.writeNbt(nbtCompound);
+                nbtList.add(nbtCompound);
+            }
+        }
+
+        nbt.put("Items", nbtList);
+    }
+    private void readInv(NbtCompound nbt){
+        NbtList nbtList = nbt.getList("Items", 10);
+
+        for(int i = 0; i < nbtList.size(); ++i) {
+            NbtCompound nbtCompound = nbtList.getCompound(i);
+            int j = nbtCompound.getByte("Slot") & 255;
+            if (j >= 0 && j < inventory.size()) {
+                inventory.setStack(j, ItemStack.fromNbt(nbtCompound));
+            }
+        }
+    }
     @Override
     public void writeNbt(NbtCompound nbt){
-        Inventories.writeNbt(nbt, inventory);
+        writeInv(nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
         nbt.put("fluid_variant", fluidStorage.variant.toNbt());
         super.writeNbt(nbt);
@@ -103,7 +124,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        Inventories.readNbt(nbt, inventory);
+        readInv(nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }
@@ -114,7 +135,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         try(Transaction transaction = Transaction.openOuter()) {
             if (tankEntity.canTransfer()) {
                 long moved = StorageUtil.move(
-                        FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
+                        FluidUtils.getItemFluidStorage((Inventory) tankEntity.inventory, 0, 1),
                         tankEntity.fluidStorage,
                         predicate -> true,
                         Long.MAX_VALUE,
@@ -130,9 +151,9 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     }
 
     private boolean canTransfer(){
-        if(inventory.get(0).isEmpty())
+        if(inventory.getStack(0).isEmpty())
             return false;
-        return inventory.get(1).getCount() < inventory.get(1).getMaxCount();
+        return inventory.getStack(1).getCount() < inventory.getStack(1).getMaxCount();
     }
 
 
