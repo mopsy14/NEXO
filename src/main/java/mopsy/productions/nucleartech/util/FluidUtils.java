@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StoragePreconditions;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
@@ -46,13 +47,19 @@ public class FluidUtils{
         if(ItemVariant.of(inv.get(slotIndex)).equals(itemVariant)||inv.get(slotIndex).isEmpty()){
             int insertAmount = (int) Math.min(maxAmount,getSpace(inv,slotIndex));
             if(insertAmount>0){
+                try (Transaction nested = transactionContext.openNested()) {
+                    nested.addCloseCallback((tr, res) -> {
+                        System.out.println(res);
+                    });
+                    nested.addOuterCloseCallback((res)-> System.out.println("outer"+res));
+                    if (inv.get(slotIndex).isEmpty()) {
+                        inv.set(slotIndex, new ItemStack(itemVariant.getItem(), insertAmount));
+                    } else {
 
-                if(inv.get(slotIndex).isEmpty()){
-                    inv.set(slotIndex, new ItemStack(itemVariant.getItem(), insertAmount));
-                }else{
-                    inv.set(slotIndex, new ItemStack(inv.get(slotIndex).getItem(), inv.get(slotIndex).getCount()+insertAmount));
+                        inv.set(slotIndex, new ItemStack(inv.get(slotIndex).getItem(), inv.get(slotIndex).getCount() + insertAmount));
+                    }
+                    return insertAmount;
                 }
-                return insertAmount;
             }
         }
         return 0;
