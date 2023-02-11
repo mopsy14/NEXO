@@ -5,7 +5,6 @@ import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.util.FluidUtils;
-import mopsy.productions.nucleartech.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -113,7 +112,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
         if(tankEntity.canTransfer()) {
             long moved = StorageUtil.move(
-                    FluidUtils.getItemFluidStorage(InvUtils.InvOf(tankEntity.inventory), 0, 1),
+                    FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
                     tankEntity.fluidStorage,
                     predicate -> true,
                     Long.MAX_VALUE,
