@@ -102,7 +102,9 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
             }
         }
 
-        nbt.put("Items", nbtList);
+        if (!nbtList.isEmpty()) {
+            nbt.put("Items", nbtList);
+        }
     }
     private void readInv(NbtCompound nbt){
         NbtList nbtList = nbt.getList("Items", 10);
@@ -180,14 +182,14 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                 if (tankEntity.fluidStorage.amount < tankEntity.fluidStorage.getCapacity() && inputStack.hasNbt() && FluidDataUtils.getFluidAmount(inputStack.getNbt())>0) {
                     if(tankEntity.fluidStorage.variant.isBlank()){
                         tankEntity.fluidStorage.variant = FluidDataUtils.getFluidType(inputStack.getNbt());
-                        long insertAmount = Math.min(tankEntity.fluidStorage.getCapacity()-tankEntity.fluidStorage.amount, FluidDataUtils.getFluidAmount(inputStack.getNbt()));
+                        long insertAmount = Math.min(tankEntity.fluidStorage.getCapacity(), FluidDataUtils.getFluidAmount(inputStack.getNbt()));
                         FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt()) - insertAmount);
                         tankEntity.fluidStorage.amount += insertAmount;
                         moveIToO(tankEntity);
                         return true;
                     }
                     if(tankEntity.fluidStorage.variant.equals(FluidDataUtils.getFluidType(inputStack.getNbt()))){
-                        long insertAmount = Math.min(tankEntity.fluidStorage.getCapacity(), FluidDataUtils.getFluidAmount(inputStack.getNbt()));
+                        long insertAmount = Math.min(tankEntity.fluidStorage.getCapacity()-tankEntity.fluidStorage.amount, FluidDataUtils.getFluidAmount(inputStack.getNbt()));
                         FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt()) - insertAmount);
                         tankEntity.fluidStorage.amount += insertAmount;
                         moveIToO(tankEntity);
@@ -197,11 +199,11 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                 if (tankEntity.fluidStorage.amount>0 && inputStack.hasNbt()){
                     if(FluidDataUtils.getFluidType(inputStack.getNbt()).isBlank()){
                         FluidDataUtils.setFluidType(inputStack.getNbt(), tankEntity.fluidStorage.variant);
-                        long insertAmount = Math.min((((IItemFluidData)inputStack.getItem()).getMaxCapacity()-FluidDataUtils.getFluidAmount(inputStack.getNbt())), tankEntity.fluidStorage.amount);
+                        long insertAmount = Math.min((((IItemFluidData)inputStack.getItem()).getMaxCapacity()), tankEntity.fluidStorage.amount);
                         tankEntity.fluidStorage.amount -= insertAmount;
                         if(tankEntity.fluidStorage.amount == 0)
                             tankEntity.fluidStorage.variant = FluidVariant.blank();
-                        FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt())+insertAmount);
+                        FluidDataUtils.setFluidAmount(inputStack.getNbt(), insertAmount);
                         moveIToO(tankEntity);
                         return true;
                     }
