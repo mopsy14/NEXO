@@ -19,6 +19,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -28,12 +29,13 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
-public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage{
+public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory {
 
     public final Inventory inventory = new SimpleInventory(2);
     public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
@@ -252,5 +254,66 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     @Override
     public void setFluidAmount(long amount) {
         fluidStorage.amount = amount;
+    }
+
+    //Inventory code:
+    @Override
+    public int size() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return inventory.removeStack(slot,amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setStack(slot, stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        int[] res = new int[inventory.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = i;
+        }
+
+        return res;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return slot==0;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return slot==1;
     }
 }
