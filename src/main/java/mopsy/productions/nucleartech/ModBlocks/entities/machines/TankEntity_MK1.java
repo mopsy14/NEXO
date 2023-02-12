@@ -135,12 +135,21 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         try(Transaction transaction = Transaction.openOuter()) {
             if (tankEntity.canTransfer()) {
                 long moved = StorageUtil.move(
-                        FluidUtils.getItemFluidStorage((Inventory) tankEntity.inventory, 0, 1),
+                        FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
                         tankEntity.fluidStorage,
                         predicate -> true,
                         Long.MAX_VALUE,
                         transaction
                 );
+                if(moved == 0){
+                    moved = StorageUtil.move(
+                            tankEntity.fluidStorage,
+                            FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
+                            fv -> true,
+                            Long.MAX_VALUE,
+                            transaction
+                    );
+                }
                 if (moved > 0) {
                     transaction.commit();
                     markDirty(world, blockPos, blockState);
