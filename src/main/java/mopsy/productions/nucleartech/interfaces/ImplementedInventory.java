@@ -73,7 +73,7 @@ public interface ImplementedInventory extends SidedInventory {
      */
     @Override
     default boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
-        return true;
+        return slot==0;
     }
 
     /**
@@ -88,7 +88,7 @@ public interface ImplementedInventory extends SidedInventory {
      */
     @Override
     default boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return true;
+        return slot==1;
     }
 
     // Inventory
