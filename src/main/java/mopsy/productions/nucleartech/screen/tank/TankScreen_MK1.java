@@ -63,7 +63,6 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
                 renderTooltip(matrices, text, x, y);
             } else {
                 List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(Fluids.EMPTY.getDefaultState().getBlockState().getBlock().getTranslationKey()));
                 text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymb() + "mB"));
                 renderTooltip(matrices, text, x, y);
             }

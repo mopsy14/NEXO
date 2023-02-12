@@ -160,7 +160,14 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         }
         if(tryExchangeFluid(tankEntity)){
             markDirty(world,blockPos,blockState);
-            tankEntity.inventory.markDirty();
+
+            var buf = PacketByteBufs.create();
+            buf.writeBlockPos(blockPos);
+            tankEntity.fluidStorage.variant.toPacket(buf);
+            buf.writeLong(tankEntity.fluidStorage.amount);
+            world.getPlayers().forEach(player-> {
+                ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+            });
         }
     }
 
@@ -192,6 +199,8 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                         FluidDataUtils.setFluidType(inputStack.getNbt(), tankEntity.fluidStorage.variant);
                         long insertAmount = Math.min((((IItemFluidData)inputStack.getItem()).getMaxCapacity()-FluidDataUtils.getFluidAmount(inputStack.getNbt())), tankEntity.fluidStorage.amount);
                         tankEntity.fluidStorage.amount -= insertAmount;
+                        if(tankEntity.fluidStorage.amount == 0)
+                            tankEntity.fluidStorage.variant = FluidVariant.blank();
                         FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt())+insertAmount);
                         moveIToO(tankEntity);
                         return true;
@@ -199,6 +208,8 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                     if(FluidDataUtils.getFluidType(inputStack.getNbt()).equals(tankEntity.fluidStorage.variant)){
                         long insertAmount = Math.min((((IItemFluidData)inputStack.getItem()).getMaxCapacity()-FluidDataUtils.getFluidAmount(inputStack.getNbt())), tankEntity.fluidStorage.amount);
                         tankEntity.fluidStorage.amount -= insertAmount;
+                        if(tankEntity.fluidStorage.amount == 0)
+                            tankEntity.fluidStorage.variant = FluidVariant.blank();
                         FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt())+insertAmount);
                         moveIToO(tankEntity);
                         return true;
@@ -208,9 +219,10 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         }
         return false;
     }
+    //Move Input to Output
     private static void moveIToO(TankEntity_MK1 tankEntity){
-        tankEntity.inventory.setStack(1, tankEntity.inventory.getStack(0));
-        //tankEntity.inventory.getStack(0).setCount(0);
+        tankEntity.inventory.setStack(1, tankEntity.inventory.getStack(0).copy());
+        tankEntity.inventory.getStack(0).setCount(0);
     }
 
     private boolean canTransfer(){
