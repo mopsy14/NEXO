@@ -5,6 +5,9 @@ import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.networking.PacketManager;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -88,5 +91,35 @@ public class RadiationHelper {
         float radPerSec = getRadiationPerSecond((IData) player);
         if(!(radPerSec<0.01&&radPerSec> -0.01))
             changePlayerRadiation(player, getRadiation((IData) player)+(radPerSec/2));
+    }
+    public static void updateRadiationEffects(MinecraftServer server){
+        for(ServerPlayerEntity serverPlayer: server.getPlayerManager().getPlayerList()){
+            updateRadiationEffects(serverPlayer);
+        }
+    }
+    private static void updateRadiationEffects(ServerPlayerEntity player){
+        if(!player.isCreative()){
+            float rads = getRadiation((IData) player);
+            if(rads>149) {
+                player.damage(DamageSource.GENERIC, 20);
+            }else if(rads>125) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 3, true, false, false));
+            }else if(rads>100) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 2, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 2, true, false, false));
+            }else if(rads>75) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 1, true, false, false));
+            }else if(rads>50){
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 1, true, false, false));
+            } else if(rads>30){
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
+            }
+        }
     }
 }

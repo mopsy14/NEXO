@@ -26,6 +26,9 @@ public class RadiationEvents {
         }else
             taskCounter++;
 
+        if(taskCounter%600==0){
+            RadiationHelper.updateRadiationEffects(server);
+        }
         if(taskCounter%40==0){
             RadiationHelper.updateRadiationPerSecond(server);
         }
