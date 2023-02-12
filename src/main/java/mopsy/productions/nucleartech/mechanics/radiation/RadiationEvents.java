@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.mechanics.radiation;
 
 import mopsy.productions.nucleartech.Main;
-import mopsy.productions.nucleartech.interfaces.IEntityDataSaver;
+import mopsy.productions.nucleartech.interfaces.IData;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ public class RadiationEvents {
     private static int taskCounter = 0;
     public static void addEvents(){
     ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-        Main.LOGGER.info(String.valueOf(Radiation.getRadiation((IEntityDataSaver) handler.player)));
+        Main.LOGGER.info(String.valueOf(Radiation.getRadiation((IData) handler.player)));
         if (handler.getPlayer().getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
             sendRadiationUpdatePackage(handler.getPlayer());
             sendRadiationPerSecondUpdatePackage(handler.getPlayer());

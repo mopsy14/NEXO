@@ -5,6 +5,7 @@ import mopsy.productions.nucleartech.ModBlocks.blocks.machines.CrusherBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.machines.Tank_MK1;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.UraniumOreBlock;
+import mopsy.productions.nucleartech.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nucleartech.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -40,6 +41,7 @@ public class ModdedBlocks {
             BlockItem bi = switch (name) {
                 default -> Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
                 case "uranium_block" -> Registry.register(Registry.ITEM, new Identifier(modid, name), new UraniumBlockItem(block));
+                case "tank_mk1" -> Registry.register(Registry.ITEM, new Identifier(modid, name), new Tank_MK1Item(block));
             };
             BlockItems.put(name, bi);
         }else

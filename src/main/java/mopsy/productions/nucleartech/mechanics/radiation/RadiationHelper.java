@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.mechanics.radiation;
 
-import mopsy.productions.nucleartech.interfaces.IEntityDataSaver;
+import mopsy.productions.nucleartech.interfaces.IData;
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.networking.PacketManager;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -18,13 +18,13 @@ import static mopsy.productions.nucleartech.registry.ModdedItems.Items;
 
 public class RadiationHelper {
     public static void changePlayerRadiation(ServerPlayerEntity player, float radiation){
-        if(radiation != getRadiation((IEntityDataSaver) player)) {
+        if(radiation != getRadiation((IData) player)) {
             if (radiation < 0)
-                setRadiation((IEntityDataSaver) player, 0);
+                setRadiation((IData) player, 0);
             else if (radiation > 150)
-                setRadiation((IEntityDataSaver) player, 150);
+                setRadiation((IData) player, 150);
             else
-                setRadiation((IEntityDataSaver) player, radiation);
+                setRadiation((IData) player, radiation);
             if (player.getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
                 sendRadiationUpdatePackage(player);
             }
@@ -32,12 +32,12 @@ public class RadiationHelper {
     }
     public static void sendRadiationUpdatePackage(ServerPlayerEntity player){
         PacketByteBuf buffer = PacketByteBufs.create();
-        buffer.writeFloat(getRadiation((IEntityDataSaver) player));
+        buffer.writeFloat(getRadiation((IData) player));
         ServerPlayNetworking.send(player, PacketManager.RADIATION_CHANGE_PACKET, buffer);
     }
     public static void changePlayerRadiationPerSecond(ServerPlayerEntity player, float radiation){
-        if(radiation !=getRadiationPerSecond((IEntityDataSaver) player)) {
-            setRadiationPerSecond((IEntityDataSaver) player, radiation);
+        if(radiation !=getRadiationPerSecond((IData) player)) {
+            setRadiationPerSecond((IData) player, radiation);
             if (player.getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
                 sendRadiationPerSecondUpdatePackage(player);
             }
@@ -45,15 +45,15 @@ public class RadiationHelper {
     }
     public static void sendRadiationPerSecondUpdatePackage(ServerPlayerEntity player) {
         PacketByteBuf buffer = PacketByteBufs.create();
-        buffer.writeFloat(getRadiationPerSecond((IEntityDataSaver) player));
+        buffer.writeFloat(getRadiationPerSecond((IData) player));
         ServerPlayNetworking.send(player, PacketManager.RADIATION_PER_SECOND_CHANGE_PACKET, buffer);
     }
 
-    private static float getRadiationPerSecond(IEntityDataSaver player){
+    private static float getRadiationPerSecond(IData player){
         NbtCompound nbt = player.getPersistentData();
         return nbt.getFloat("radiation/s");
     }
-    private static void setRadiationPerSecond(IEntityDataSaver player, float radiation) {
+    private static void setRadiationPerSecond(IData player, float radiation) {
         NbtCompound nbt = player.getPersistentData();
         nbt.putFloat("radiation/s", radiation);
     }
@@ -83,8 +83,8 @@ public class RadiationHelper {
         }
     }
     private static void updatePlayerRadiation(ServerPlayerEntity player){
-        float radPerSec = getRadiationPerSecond((IEntityDataSaver) player);
+        float radPerSec = getRadiationPerSecond((IData) player);
         if(!(radPerSec<0.01&&radPerSec> -0.01))
-            changePlayerRadiation(player, getRadiation((IEntityDataSaver) player)+(radPerSec/2));
+            changePlayerRadiation(player, getRadiation((IData) player)+(radPerSec/2));
     }
 }

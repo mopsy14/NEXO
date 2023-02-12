@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.mixin;
 
-import mopsy.productions.nucleartech.interfaces.IEntityDataSaver;
+import mopsy.productions.nucleartech.interfaces.IData;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityDataSaver implements IEntityDataSaver {
+public abstract class Data implements IData {
 
     private NbtCompound persistentData;
 

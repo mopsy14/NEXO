@@ -3,6 +3,8 @@ package mopsy.productions.nucleartech.ModBlocks.blocks.machines;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
+import mopsy.productions.nucleartech.registry.ModdedBlocks;
+import mopsy.productions.nucleartech.util.FluidDataUtils;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,6 +12,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -80,15 +83,27 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
+        if(player.isCreative()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TankEntity_MK1) {
+                ItemScatterer.spawn(world, pos, ((TankEntity_MK1) blockEntity).inventory);
+                world.updateComparators(pos, this);
+            }
+        }else{
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof TankEntity_MK1) {
+                ItemStack tankItem = new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1"));
+                FluidDataUtils.creNbtIfNeeded(tankItem.getOrCreateNbt());
+                FluidDataUtils.setFluidType(tankItem.getNbt(), ((TankEntity_MK1) blockEntity).fluidStorage.variant);
+                FluidDataUtils.setFluidAmount(tankItem.getNbt(), ((TankEntity_MK1) blockEntity).fluidStorage.amount);
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), tankItem);
                 ItemScatterer.spawn(world, pos, ((TankEntity_MK1) blockEntity).inventory);
                 world.updateComparators(pos, this);
             }
         }
         super.onBreak(world, pos, state, player);
     }
+
 
     static {
         FACING = HorizontalFacingBlock.FACING;

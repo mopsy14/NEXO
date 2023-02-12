@@ -9,9 +9,14 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.List;
+
+import static mopsy.productions.nucleartech.Main.modid;
 
 
 public class FluidUtils{
@@ -68,6 +73,14 @@ public class FluidUtils{
         return inv.get(index).getMaxCount()-inv.get(index).getCount();
     }*/
     public static boolean containsItemStackFluidStorage(ItemStack itemStack){
-        return ContainerItemContext.withConstant(itemStack).find(FluidStorage.ITEM)!=null;
+        return (ContainerItemContext.withConstant(itemStack).find(FluidStorage.ITEM)!=null)||isTank(itemStack.getItem());
+    }
+    public static boolean isTank(Item item){
+        String[] tankNames = {"tank_mk1","tank_mk2","tank_mk3","tank_mk4"};
+        for(String name: tankNames){
+            if(Registry.ITEM.getId(item).equals(new Identifier(modid,name)))
+                return true;
+        }
+        return false;
     }
 }

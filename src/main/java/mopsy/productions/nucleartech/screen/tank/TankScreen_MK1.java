@@ -53,13 +53,18 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
     @Override
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
-        if(getFluid().getFluid() != Fluids.EMPTY) {
-            int relativeX = (width - backgroundWidth) / 2;
-            int relativeY = (height - backgroundHeight) / 2;
-            if (x > relativeX + 24 && x < relativeX + 76 && y > relativeY + 10 && y < relativeY + 74) {
+        int relativeX = (width - backgroundWidth) / 2;
+        int relativeY = (height - backgroundHeight) / 2;
+        if (x > relativeX + 24 && x < relativeX + 76 && y > relativeY + 10 && y < relativeY + 74) {
+            if (getFluid().getFluid() != Fluids.EMPTY) {
                 List<Text> text = new ArrayList<>();
                 text.add(Text.translatable(getFluid().getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
                 text.add(Text.of(Formatting.GOLD.toString() + getFluidAmountmb() + "mB/" + getCapacitymb() + "mB"));
+                renderTooltip(matrices, text, x, y);
+            } else {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.translatable(Fluids.EMPTY.getDefaultState().getBlockState().getBlock().getTranslationKey()));
+                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymb() + "mB"));
                 renderTooltip(matrices, text, x, y);
             }
         }
