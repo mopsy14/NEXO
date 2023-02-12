@@ -15,7 +15,7 @@ public class RadiationEvents {
     public static void addEvents(){
     ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
         Main.LOGGER.info(String.valueOf(Radiation.getRadiation((IData) handler.player)));
-        if (handler.getPlayer().getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
+        if (handler.getPlayer().getInventory().contains(new ItemStack(Items.get("geiger_counter")))||handler.getPlayer().isCreative()) {
             sendRadiationUpdatePackage(handler.getPlayer());
             sendRadiationPerSecondUpdatePackage(handler.getPlayer());
         }

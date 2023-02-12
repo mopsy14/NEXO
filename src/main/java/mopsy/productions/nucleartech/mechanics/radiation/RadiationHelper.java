@@ -79,7 +79,9 @@ public class RadiationHelper {
     }
     public static void updateRadiation(MinecraftServer server){
         for(ServerPlayerEntity player : server.getPlayerManager().getPlayerList()){
-            updatePlayerRadiation(player);
+            if(!player.isCreative()) {
+                updatePlayerRadiation(player);
+            }
         }
     }
     private static void updatePlayerRadiation(ServerPlayerEntity player){

@@ -15,11 +15,9 @@ import static mopsy.productions.nucleartech.Main.LOGGER;
 public class S2CPackets {
     public static void receiveRadiationChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         Radiation.radiation = buf.readFloat();
-        System.out.println("Client received radiation: "+Radiation.radiation);
     }
     public static void receiveRadiationPerSecondChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         Radiation.radiationPerTick = buf.readFloat();
-        System.out.println("Client received radiation/s: "+Radiation.radiationPerTick);
     }
     public static void receiveEnergyChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         BlockPos blockPos = buf.readBlockPos();
