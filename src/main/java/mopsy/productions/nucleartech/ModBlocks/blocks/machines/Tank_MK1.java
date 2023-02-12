@@ -35,6 +35,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
                 .strength(5.0F, 5.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .nonOpaque()
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
