@@ -11,6 +11,10 @@
   "item.nucleartech.quartz_dust": "Quartz Dust",
   "item.nucleartech.diamond_dust": "Diamond Dust",
   "item.nucleartech.nitrogen_bucket": "Nitrogen Bucket",
+  "item.nucleartech.electric_motor": "Electric Motor",
+  "item.nucleartech.piezoelectric_element": "Piezoelectric Element",
+  "item.nucleartech.crushing_wheel": "Crushing Wheel",
+  "item.nucleartech.copper_wire_item":"Copper Wire",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",

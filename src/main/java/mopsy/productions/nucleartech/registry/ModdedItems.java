@@ -1,5 +1,9 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
+import mopsy.productions.nucleartech.ModItems.components.CrushingWheelItem;
+import mopsy.productions.nucleartech.ModItems.components.ElectricMotorItem;
+import mopsy.productions.nucleartech.ModItems.components.PiezoelectricElementItem;
 import mopsy.productions.nucleartech.ModItems.dusts.CoalDustItem;
 import mopsy.productions.nucleartech.ModItems.dusts.DiamondDustItem;
 import mopsy.productions.nucleartech.ModItems.ingots.UraniumIngotItem;
@@ -32,6 +36,10 @@ public class ModdedItems {
         regItem(new CoalDustItem());
         regItem(new QuartzDustItem());
         regItem(new DiamondDustItem());
+        regItem(new CopperWireItem());
+        regItem(new PiezoelectricElementItem());
+        regItem(new CrushingWheelItem());
+        regItem(new ElectricMotorItem());
 
         
     }
