@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.ModItems.components;
 
 import mopsy.productions.nucleartech.interfaces.IModID;
+import mopsy.productions.nucleartech.registry.ModdedItems;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,8 +24,7 @@ public class CopperWireItem extends Item implements IModID {
             res = stack.copy();
             res.setDamage(res.getDamage()+1);
         }else{
-            //Empty Cable Casing
-            res = ItemStack.EMPTY;
+            res = new ItemStack(ModdedItems.Items.get("wire_casing"));
         }
 
 
