@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "QQQ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "nucleartech:gold_plate"
+    },
+    "Q": {
+      "item": "nucleartech:quartz_dust"
+    }
+  },
+  "result": {
+    "item": "nucleartech:piezoeletric_element",
+    "count": 1
+  }
+}
