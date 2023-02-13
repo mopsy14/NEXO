@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CAC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "A": {
+      "item": "nucleartech:wire_casing"
+    }
+  },
+  "result": {
+    "item": "nucleartech:copper_wire",
+    "count": 1
+  }
+}
