@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier;
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class AirSeparatorMultiBlock extends MultiBlock implements IMultiBlock {
-    AirSeparatorMultiBlock INSTANCE = new AirSeparatorMultiBlock();
+    public static AirSeparatorMultiBlock INSTANCE = new AirSeparatorMultiBlock();
     public static MultiBlockRequirement[] requirements = {
             new MultiBlockRequirement(new Identifier(modid, "cooler"),1),
             new MultiBlockRequirement(new Identifier(modid, "air_pump"),1)
@@ -15,8 +15,7 @@ public class AirSeparatorMultiBlock extends MultiBlock implements IMultiBlock {
 
     @Override
     public boolean hasCompleteMB(BlockEntity controller) {
-
-        return false;
+        return MBUtils.hasCompleteMultiBlock(controller, INSTANCE);
     }
 
     @Override

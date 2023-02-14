@@ -1,9 +1,12 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.compressed.UraniumBlock;
+import mopsy.productions.nucleartech.ModBlocks.blocks.machines.AirSeparatorBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.machines.CrusherBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.machines.PressBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.machines.Tank_MK1;
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.airSeparator.AirPumpBlock;
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.airSeparator.CoolerBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.DeepslateUraniumOreBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.ores.UraniumOreBlock;
 import mopsy.productions.nucleartech.ModItems.blocks.Tank_MK1Item;
@@ -33,6 +36,10 @@ public class ModdedBlocks {
         regBlock(new CrusherBlock());
         regBlock(new Tank_MK1());
         regBlock(new PressBlock());
+        regBlock(new AirSeparatorBlock());
+        //multi block
+        regBlock(new AirPumpBlock());
+        regBlock(new CoolerBlock());
     }
 
     private static void regBlock(Block block){

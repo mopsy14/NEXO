@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.PressEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
@@ -17,6 +18,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<CrusherEntity> CRUSHER;
     public static BlockEntityType<TankEntity_MK1> TANK_MK1;
     public static BlockEntityType<PressEntity> PRESS;
+    public static BlockEntityType<AirSeparatorEntity> AIR_SEPARATOR;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -28,10 +30,13 @@ public class ModdedBlockEntities {
         PRESS = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "press"),
                 FabricBlockEntityTypeBuilder.create(PressEntity::new, ModdedBlocks.Blocks.get("press")).build(null));
 
+        AIR_SEPARATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "air_separator"),
+                FabricBlockEntityTypeBuilder.create(AirSeparatorEntity::new, ModdedBlocks.Blocks.get("air_separator")).build(null));
 
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AIR_SEPARATOR);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
     }

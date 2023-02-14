@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.multiblock;
 
+import mopsy.productions.nucleartech.interfaces.IMBBlock;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.interfaces.IMultiBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -16,29 +17,37 @@ public class MBUtils {
         if(multiBlock instanceof IMultiBlock) {
             MultiBlockRequirement[] requirements = ((IMultiBlock)multiBlock).getRequirements();
             for (MultiBlockRequirement requirement : requirements){
-
+                if(getMBBlockAmount(requirement.blockID.getPath(), blockEntity.getPos(), blockEntity.getWorld())<requirement.amount)
+                    return false;
             }
+            return true;
         }
         return false;
     }
 
-    private static int getBlockAmount(String ID, BlockPos blockPos, World world){
+    public static int getMBBlockAmount(String ID, BlockPos blockPos, World world){
         List<BlockPos> checkedBlocks = new ArrayList<>();
         List<BlockPos> blocks = new ArrayList<>();
+        List<BlockPos> toCheck = new ArrayList<>();
+        getSurroundingBlocks(blockPos, world, checkedBlocks, blocks, toCheck);
         int i = 0;
         for (; i < maxMBSize; i++) {
-            getSurroundingBlocks(blockPos, world, checkedBlocks, blocks);
+            if(toCheck.size()>0) {
+                getSurroundingBlocks(toCheck.get(0), world, checkedBlocks, blocks, toCheck);
+                toCheck.remove(0);
+            }else
+                break;
         }
-
-        return i<=maxMBSize ? (int) blocks.stream().filter((tmpPos)-> world.getBlockState(tmpPos).getBlock() instanceof IModID && ((IModID) world.getBlockState(tmpPos).getBlock()).getID().equals(ID)).count():0;
+        return i<=maxMBSize && toCheck.size()==0 ? (int) blocks.stream().filter((tmpPos)-> world.getBlockState(tmpPos).getBlock() instanceof IModID && ((IModID) world.getBlockState(tmpPos).getBlock()).getID().equals(ID)).count():0;
     }
-    private static List<BlockPos> getSurroundingBlocks(BlockPos blockPos, World world, List<BlockPos> checkedBlocks, List<BlockPos> blocks){
+    private static List<BlockPos> getSurroundingBlocks(BlockPos blockPos, World world, List<BlockPos> checkedBlocks, List<BlockPos> blocks, List<BlockPos> toCheck){
         List<BlockPos> res = new ArrayList<>();
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 7; i++) {
             BlockPos tmpPos = getBlockAtSide(blockPos,i);
             if(!checkedBlocks.contains(tmpPos)) {
-                if (world.getBlockState(tmpPos).getBlock() instanceof IMultiBlock) {
+                if (world.getBlockState(tmpPos).getBlock() instanceof IMBBlock) {
                     blocks.add(tmpPos);
+                    toCheck.add(tmpPos);
                 }
                 checkedBlocks.add(tmpPos);
             }

@@ -2,9 +2,8 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
-import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -13,8 +12,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -27,8 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
-
-import java.util.Optional;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
@@ -50,7 +45,7 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     };
 
     public AirSeparatorEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.CRUSHER, pos, state);
+        super(ModdedBlockEntities.AIR_SEPARATOR, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -78,7 +73,7 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Crusher");
+        return Text.literal("Air Separator");
     }
 
     @Nullable
@@ -88,7 +83,7 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        return new CrusherScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+        return new AirSeparatorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
     @Override
@@ -105,79 +100,47 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
-        nbt.putInt("crusher.progress", progress);
-        nbt.putLong("crusher.power", energyStorage.amount);
+        nbt.putInt("air_separator.progress", progress);
+        nbt.putLong("air_separator.power", energyStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         Inventories.readNbt(nbt, inventory);
-        progress = nbt.getInt("crusher.progress");
-        energyStorage.amount = nbt.getLong("crusher.power");
+        progress = nbt.getInt("air_separator.progress");
+        energyStorage.amount = nbt.getLong("air_separator.power");
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity crusherEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity airSeparatorEntity) {
         if(world.isClient)return;
 
-        if(hasRecipe(crusherEntity)&& crusherEntity.energyStorage.amount >= 5){
-            crusherEntity.progress++;
-            crusherEntity.energyStorage.amount -= 5;
-            if(crusherEntity.progress >= crusherEntity.maxProgress){
-                craft(crusherEntity);
+        if(airSeparatorEntity.energyStorage.amount >= 5){
+            airSeparatorEntity.progress++;
+            airSeparatorEntity.energyStorage.amount -= 5;
+            if(airSeparatorEntity.progress >= airSeparatorEntity.maxProgress){
+                produce(airSeparatorEntity);
             }
         }else{
-            crusherEntity.progress = 0;
+            airSeparatorEntity.progress = 0;
         }
 
         markDirty(world,blockPos,blockState);
 
-        if(crusherEntity.energyStorage.amount!=crusherEntity.previousPower){
-            crusherEntity.previousPower = crusherEntity.energyStorage.amount;
+        if(airSeparatorEntity.energyStorage.amount!=airSeparatorEntity.previousPower){
+            airSeparatorEntity.previousPower = airSeparatorEntity.energyStorage.amount;
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
-            buf.writeLong(crusherEntity.getPower());
+            buf.writeLong(airSeparatorEntity.getPower());
             for (PlayerEntity player : world.getPlayers()) {
                 ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
             }
         }
     }
 
-    private static void craft(AirSeparatorEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
+    private static void produce(AirSeparatorEntity airSeparatorEntity) {
 
-        Optional<CrusherRecipe> recipe = entity.getWorld().getRecipeManager().getFirstMatch(
-                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
-
-        if(hasRecipe(entity)){
-            entity.removeStack(0, 1);
-            ItemStack output = recipe.get().getOutput();
-            output.setCount(output.getCount() + entity.getStack(1).getCount());
-            entity.setStack(1, output);
-            entity.progress = 0;
-        }
     }
-
-    private static boolean hasRecipe(AirSeparatorEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
-
-        Optional<CrusherRecipe> match = entity.getWorld().getRecipeManager().getFirstMatch(
-                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
-
-        return match.isPresent()&&canOutput(inventory, match.get().getOutput().getItem(), match.get().getOutput().getCount());
-    }
-
-    private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
-        return (inventory.getStack(1).getItem()==outputType || inventory.getStack(1).isEmpty())
-                &&inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount() + count;
-    }
-
 
     @Override
     public long getPower() {
