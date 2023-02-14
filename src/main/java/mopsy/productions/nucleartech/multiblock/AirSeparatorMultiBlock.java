@@ -12,7 +12,12 @@ public class AirSeparatorMultiBlock extends MultiBlock implements IMultiBlock {
             new MultiBlockRequirement(new Identifier(modid, "cooler"),1),
             new MultiBlockRequirement(new Identifier(modid, "air_pump"),1)
     };
-
+    public int getCoolerAmount(BlockEntity controller){
+        return MBUtils.getMBBlockAmount("cooler", controller.getPos(), controller.getWorld());
+    }
+    public int getAirPumpAmount(BlockEntity controller){
+        return MBUtils.getMBBlockAmount("air_pump", controller.getPos(), controller.getWorld());
+    }
     @Override
     public boolean hasCompleteMB(BlockEntity controller) {
         return MBUtils.hasCompleteMultiBlock(controller, INSTANCE);

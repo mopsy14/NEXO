@@ -1,7 +1,9 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
+import mopsy.productions.nucleartech.multiblock.AirSeparatorMultiBlock;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -27,11 +29,13 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
-public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage {
+public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage, IMultiBlockController {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
+    public int pumpAmount = 0;
+    public int coolerAmount = 0;
     private int maxProgress = 200;
     public long previousPower = 0;
     public static final long CAPACITY = 1000;
@@ -102,6 +106,8 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("air_separator.progress", progress);
         nbt.putLong("air_separator.power", energyStorage.amount);
+        nbt.putInt("air_separator.air_pumps", pumpAmount);
+        nbt.putInt("air_separator.coolers", coolerAmount);
     }
 
     @Override
@@ -110,6 +116,8 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         Inventories.readNbt(nbt, inventory);
         progress = nbt.getInt("air_separator.progress");
         energyStorage.amount = nbt.getLong("air_separator.power");
+        pumpAmount = nbt.getInt("air_separator.air_pumps");
+        coolerAmount = nbt.getInt("air_separator.coolers");
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity airSeparatorEntity) {
@@ -150,5 +158,11 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public void setPower(long power) {
         energyStorage.amount = power;
+    }
+
+    @Override
+    public void updateMultiBlock() {
+        pumpAmount = AirSeparatorMultiBlock.INSTANCE.getAirPumpAmount(this);
+        coolerAmount = AirSeparatorMultiBlock.INSTANCE.getCoolerAmount(this);
     }
 }

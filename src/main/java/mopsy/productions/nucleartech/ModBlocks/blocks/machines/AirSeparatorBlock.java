@@ -2,7 +2,6 @@ package mopsy.productions.nucleartech.ModBlocks.blocks.machines;
 
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nucleartech.interfaces.IModID;
-import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import mopsy.productions.nucleartech.multiblock.AirSeparatorMultiBlock;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -10,8 +9,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -23,7 +24,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockEntityProvider, IMultiBlockController{
+public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockEntityProvider{
     public static final DirectionProperty FACING;
     @Override
     public String getID(){return "air_separator";}
@@ -60,7 +61,7 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            player.sendMessage(Text.of(String.valueOf(AirSeparatorMultiBlock.INSTANCE.hasCompleteMB(world.getBlockEntity(pos)))));
+            player.sendMessage(Text.of("Coolers: "+((AirSeparatorEntity)world.getBlockEntity(pos)).coolerAmount+" Air Pump Amount: "+((AirSeparatorEntity)world.getBlockEntity(pos)).pumpAmount));
             /*NamedScreenHandlerFactory screenHandlerFactory = (AirSeparatorEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
@@ -98,4 +99,10 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
         FACING = HorizontalFacingBlock.FACING;
     }
 
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        ((AirSeparatorEntity) world.getBlockEntity(pos)).pumpAmount = AirSeparatorMultiBlock.INSTANCE.getAirPumpAmount(world.getBlockEntity(pos));
+        ((AirSeparatorEntity) world.getBlockEntity(pos)).coolerAmount = AirSeparatorMultiBlock.INSTANCE.getCoolerAmount(world.getBlockEntity(pos));
+    }
 }

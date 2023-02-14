@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.multiblock;
 import mopsy.productions.nucleartech.interfaces.IMBBlock;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.interfaces.IMultiBlock;
+import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -65,5 +66,33 @@ public class MBUtils {
             case 6 -> blockPos.add(0,0,-1);
             default ->  new BlockPos(0,0,0);
         };
+    }
+    public static void updateMultiBlock(BlockPos blockPos, World world){
+        List<BlockPos> checkedBlocks = new ArrayList<>();
+        List<BlockPos> toCheck = new ArrayList<>();
+        getSurroundingBlocksForUpdate(blockPos, world, checkedBlocks, toCheck);
+        int i = 0;
+        for (; i < maxMBSize; i++) {
+            if(toCheck.size()>0) {
+                getSurroundingBlocksForUpdate(toCheck.get(0), world, checkedBlocks, toCheck);
+                toCheck.remove(0);
+            }else
+                break;
+        }
+    }
+
+    private static void getSurroundingBlocksForUpdate(BlockPos blockPos, World world, List<BlockPos> checkedBlocks, List<BlockPos> toCheck){
+        for (int i = 1; i < 7; i++) {
+            BlockPos tmpPos = getBlockAtSide(blockPos,i);
+            if(!checkedBlocks.contains(tmpPos)) {
+                if (world.getBlockState(tmpPos).getBlock() instanceof IMBBlock) {
+                    toCheck.add(tmpPos);
+                }
+                checkedBlocks.add(tmpPos);
+                if (world.getBlockEntity(tmpPos) instanceof IMultiBlockController){
+                    ((IMultiBlockController)world.getBlockEntity(tmpPos)).updateMultiBlock();
+                }
+            }
+        }
     }
 }
