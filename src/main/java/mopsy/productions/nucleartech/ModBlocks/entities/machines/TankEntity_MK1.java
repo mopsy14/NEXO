@@ -23,7 +23,6 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -34,6 +33,8 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
+import static mopsy.productions.nucleartech.util.InvUtils.readInv;
+import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory {
 
@@ -91,46 +92,17 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         buf.writeBlockPos(this.pos);
     }
 
-    private void writeInv(NbtCompound nbt){
-        NbtList nbtList = new NbtList();
-
-        for(int i = 0; i < inventory.size(); ++i) {
-            ItemStack itemStack = inventory.getStack(i);
-            if (!itemStack.isEmpty()) {
-                NbtCompound nbtCompound = new NbtCompound();
-                nbtCompound.putByte("Slot", (byte)i);
-                itemStack.writeNbt(nbtCompound);
-                nbtList.add(nbtCompound);
-            }
-        }
-
-        if (!nbtList.isEmpty()) {
-            nbt.put("Items", nbtList);
-        }
-    }
-    private void readInv(NbtCompound nbt){
-        NbtList nbtList = nbt.getList("Items", 10);
-
-        for(int i = 0; i < nbtList.size(); ++i) {
-            NbtCompound nbtCompound = nbtList.getCompound(i);
-            int j = nbtCompound.getByte("Slot") & 255;
-            if (j >= 0 && j < inventory.size()) {
-                inventory.setStack(j, ItemStack.fromNbt(nbtCompound));
-            }
-        }
-    }
     @Override
     public void writeNbt(NbtCompound nbt){
-        writeInv(nbt);
+        writeInv(inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
         nbt.put("fluid_variant", fluidStorage.variant.toNbt());
         super.writeNbt(nbt);
     }
-
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        readInv(nbt);
+        readInv(inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }

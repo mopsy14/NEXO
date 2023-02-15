@@ -1,9 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.CrusherEntity;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.PressEntity;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.TankEntity_MK1;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
@@ -18,6 +15,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<CrusherEntity> CRUSHER;
     public static BlockEntityType<TankEntity_MK1> TANK_MK1;
     public static BlockEntityType<PressEntity> PRESS;
+    public static BlockEntityType<ElectrolyzerEntity> ELECTROLYZER;
     public static BlockEntityType<AirSeparatorEntity> AIR_SEPARATOR;
 
     public static void regBlockEntities() {
@@ -30,6 +28,9 @@ public class ModdedBlockEntities {
         PRESS = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "press"),
                 FabricBlockEntityTypeBuilder.create(PressEntity::new, ModdedBlocks.Blocks.get("press")).build(null));
 
+        ELECTROLYZER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electrolyzer"),
+                FabricBlockEntityTypeBuilder.create(ElectrolyzerEntity::new, ModdedBlocks.Blocks.get("electrolyzer")).build(null));
+
         AIR_SEPARATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "air_separator"),
                 FabricBlockEntityTypeBuilder.create(AirSeparatorEntity::new, ModdedBlocks.Blocks.get("air_separator")).build(null));
 
@@ -37,7 +38,11 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AIR_SEPARATOR);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTROLYZER);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.inputFluidStorage), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.output1FluidStorage), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.output2fluidStorage), ELECTROLYZER);
     }
 }
