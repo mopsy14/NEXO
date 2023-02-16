@@ -47,7 +47,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         int relativeX = (width - backgroundWidth)/2;
         int relativeY = (height - backgroundHeight)/2;
         if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
-            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+ AirSeparatorEntity.CAPACITY+"E"),x,y);
+            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+ AirSeparatorEntity.POWER_CAPACITY+"E"),x,y);
     }
 
     private void renderProgress(MatrixStack matrices, int x, int y){
@@ -70,7 +70,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
 
     public int getScaledPower(){
         long progress = getPower();
-        long max = AirSeparatorEntity.CAPACITY;
+        long max = AirSeparatorEntity.POWER_CAPACITY;
         int barSize = 62;
         int res=  Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
         res = 62-res;

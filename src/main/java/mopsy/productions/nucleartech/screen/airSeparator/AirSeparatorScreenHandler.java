@@ -19,7 +19,7 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
     private final BlockPos blockPos;
 
     public AirSeparatorScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(4), buf.readBlockPos());
     }
     public AirSeparatorScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.AIR_SEPARATOR, syncId);

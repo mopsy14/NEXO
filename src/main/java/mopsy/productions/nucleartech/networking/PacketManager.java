@@ -11,6 +11,7 @@ public class PacketManager {
     public static final Identifier RADIATION_PER_SECOND_CHANGE_PACKET = new Identifier(modid, "radiation/s_change");
     public static final Identifier ENERGY_CHANGE_PACKET = new Identifier(modid, "energy_change");
     public static final Identifier FLUID_CHANGE_PACKET = new Identifier(modid, "fluid_change");
+    public static final Identifier ADVANCED_FLUID_CHANGE_PACKET = new Identifier(modid, "adv_fluid_change");
     public static void registerC2SPackets(){
 
     }
@@ -19,6 +20,7 @@ public class PacketManager {
         ClientPlayNetworking.registerGlobalReceiver(RADIATION_PER_SECOND_CHANGE_PACKET, S2CPackets::receiveRadiationPerSecondChange);
         ClientPlayNetworking.registerGlobalReceiver(ENERGY_CHANGE_PACKET, S2CPackets::receiveEnergyChange);
         ClientPlayNetworking.registerGlobalReceiver(FLUID_CHANGE_PACKET, S2CPackets::receiveFluidChange);
+        ClientPlayNetworking.registerGlobalReceiver(ADVANCED_FLUID_CHANGE_PACKET, S2CPackets::receiveAdvancedFluidChange);
     }
 
 }

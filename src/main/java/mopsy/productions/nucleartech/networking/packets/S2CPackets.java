@@ -36,4 +36,14 @@ public class S2CPackets {
             LOGGER.error("Block at: "+blockPos+" doesn't contain IFluidStorage");
         }
     }
+    public static void receiveAdvancedFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
+        BlockPos blockPos = buf.readBlockPos();
+        if (client.world.getBlockEntity(blockPos) instanceof IFluidStorage){
+            int storageIndex = buf.readInt();
+            ((IFluidStorage) client.world.getBlockEntity(blockPos)).getFluidStorages().get(storageIndex).variant = FluidVariant.fromPacket(buf);
+            ((IFluidStorage) client.world.getBlockEntity(blockPos)).getFluidStorages().get(storageIndex).amount = buf.readLong();
+        }else{
+            LOGGER.error("Block at: "+blockPos+" doesn't contain IFluidStorage");
+        }
+    }
 }
