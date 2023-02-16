@@ -57,9 +57,9 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
 
     public ElectrolyzerEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.ELECTROLYZER, pos, state);
-        fluidStorages.add(new NCFluidStorage(8*FluidConstants.BUCKET,this, true));
-        fluidStorages.add(new NCFluidStorage(8*FluidConstants.BUCKET,this, false));
-        fluidStorages.add(new NCFluidStorage(8*FluidConstants.BUCKET,this, false));
+        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, true , 0));
+        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
+        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 2));
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -109,20 +109,23 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         writeInv(inventory, nbt);
-        nbt.putInt("crusher.progress", progress);
-        nbt.putLong("crusher.power", energyStorage.amount);
+        nbt.putInt("electrolyzer.progress", progress);
+        nbt.putLong("electrolyzer.power", energyStorage.amount);
     }
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         readInv(inventory, nbt);
-        progress = nbt.getInt("crusher.progress");
-        energyStorage.amount = nbt.getLong("crusher.power");
+        progress = nbt.getInt("electrolyzer.progress");
+        energyStorage.amount = nbt.getLong("electrolyzer.power");
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectrolyzerEntity entity) {
         if(world.isClient)return;
 
+        if(tryFabricTransactions(entity)){
+            markDirty(world,blockPos,blockState);
+        }
 
         if(tryTransactions(entity)){
             markDirty(world,blockPos,blockState);
@@ -151,11 +154,21 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
 
+    private static boolean tryFabricTransactions(ElectrolyzerEntity entity) {
+        boolean didSomething = FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
+            didSomething = true;
+
+        return didSomething;
+    }
+
     //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output, 4=FluidOutput2Input, 5=FluidOutput2Output,
     private static boolean tryTransactions(ElectrolyzerEntity entity){
-        boolean didSomething = false;
-        if(FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
-            didSomething = true;
+        boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
             didSomething = true;
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))

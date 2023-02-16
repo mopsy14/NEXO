@@ -7,16 +7,26 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
 public class NCFluidStorage extends SingleVariantStorage<FluidVariant> {
     long MAX_CAPACITY;
     BlockEntity blockEntity;
     boolean canInsert;
+    boolean isAdvanced = false;
+    int index;
     public NCFluidStorage (long capacity, BlockEntity blockEntity, boolean canInsert){
-        MAX_CAPACITY = capacity;
+        this.MAX_CAPACITY = capacity;
         this.blockEntity = blockEntity;
         this.canInsert = canInsert;
+    }
+    public NCFluidStorage (long capacity, BlockEntity blockEntity, boolean canInsert, int index){
+        this.MAX_CAPACITY = capacity;
+        this.blockEntity = blockEntity;
+        this.canInsert = canInsert;
+        this.isAdvanced = true;
+        this.index = index;
     }
     @Override
     protected FluidVariant getBlankVariant() {
@@ -44,8 +54,13 @@ public class NCFluidStorage extends SingleVariantStorage<FluidVariant> {
 
     @Override
     protected void onFinalCommit() {
-        // Called after a successful insertion or extraction, markDirty to ensure the new amount and variant will be saved properly.
         blockEntity.markDirty();
+        if(isAdvanced)
+            advancedFinalCommit();
+        else
+            simpleFinalCommit();
+    }
+    private void simpleFinalCommit(){
         if (!blockEntity.getWorld().isClient) {
             var buf = PacketByteBufs.create();
             buf.writeBlockPos(blockEntity.getPos());
@@ -53,6 +68,18 @@ public class NCFluidStorage extends SingleVariantStorage<FluidVariant> {
             buf.writeLong(this.amount);
             blockEntity.getWorld().getPlayers().forEach(player-> {
                 ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+            });
+        }
+    }
+    private void advancedFinalCommit(){
+        if (!blockEntity.getWorld().isClient) {
+            var buf = PacketByteBufs.create();
+            buf.writeBlockPos(blockEntity.getPos());
+            buf.writeInt(index);
+            this.variant.toPacket(buf);
+            buf.writeLong(this.amount);
+            blockEntity.getWorld().getPlayers().forEach(player-> {
+                ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
             });
         }
     }

@@ -41,8 +41,8 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTROLYZER);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
-        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.inputFluidStorage), ELECTROLYZER);
-        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.output1FluidStorage), ELECTROLYZER);
-        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.output2fluidStorage), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(0)), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(1)), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(2)), ELECTROLYZER);
     }
 }
