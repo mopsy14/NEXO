@@ -3,7 +3,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NCFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -97,7 +97,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        return new CrusherScreenHandler(syncId, inv, this.inventory, this.propertyDelegate, pos);
+        return new ElectrolyzerScreenHandler(syncId, inv, this.inventory, this.propertyDelegate, pos);
     }
 
     @Override
