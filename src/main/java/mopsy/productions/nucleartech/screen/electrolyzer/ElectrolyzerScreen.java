@@ -40,9 +40,9 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         int y = (height - backgroundHeight)/2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+5, y+5, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+25, y+5, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+45, y+5, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
         renderPower(matrices, x, y);
     }
 

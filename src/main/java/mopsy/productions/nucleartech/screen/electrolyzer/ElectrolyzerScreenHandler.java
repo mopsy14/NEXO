@@ -31,14 +31,14 @@ public class ElectrolyzerScreenHandler extends ScreenHandler {
         this.blockPos = blockPos;
 
         //FluidInput
-        this.addSlot(new Slot(inventory, 0,15,10));
-        this.addSlot(new ReturnSlot(inventory, 1,15,40));
+        this.addSlot(new Slot(inventory, 0,33,19));
+        this.addSlot(new ReturnSlot(inventory, 1,33,50));
         //FluidOutput1
-        this.addSlot(new Slot(inventory, 2,35,10));
-        this.addSlot(new ReturnSlot(inventory, 3,35,40));
+        this.addSlot(new Slot(inventory, 2,83,19));
+        this.addSlot(new ReturnSlot(inventory, 3,83,50));
         //FluidOutput2
-        this.addSlot(new Slot(inventory, 4,55,10));
-        this.addSlot(new ReturnSlot(inventory, 5,55,40));
+        this.addSlot(new Slot(inventory, 4,133,19));
+        this.addSlot(new ReturnSlot(inventory, 5,133,50));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
