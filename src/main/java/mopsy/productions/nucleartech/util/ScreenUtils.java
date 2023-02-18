@@ -54,8 +54,12 @@ public class ScreenUtils {
         RenderSystem.setShaderTexture(0, TEXTURE);
         handledScreen.drawTexture(matrices, x, y, 0, 0, 20, 63);
     }
-    public static void renderEnergyStorage(HandledScreen handledScreen, MatrixStack matrices, int x, int y){
-
+    public static void renderEnergyStorage(HandledScreen handledScreen, MatrixStack matrices, int x, int y, long power, long maxPower){
+        if(power>0){
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            int scaledPower = getScaledAmount(power, maxPower, 62);
+            handledScreen.drawTexture(matrices, x, y+scaledPower, 0, 113+scaledPower, 16, 62-scaledPower);
+        }
     }
     private static int getScaledAmount(long amount, long max, int barSize){
         int res = Math.toIntExact(max != 0 && amount != 0 ? amount * barSize / max : 0);

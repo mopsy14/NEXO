@@ -2,6 +2,7 @@ package mopsy.productions.nucleartech.screen.electrolyzer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.ScreenUtils;
@@ -43,7 +44,7 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
         ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
-        renderPower(matrices, x, y);
+        ScreenUtils.renderEnergyStorage(this, matrices, x, y, getPower(), ElectrolyzerEntity.POWER_CAPACITY);
     }
 
     @Override
@@ -54,26 +55,12 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
             renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+ AirSeparatorEntity.POWER_CAPACITY+"E"),x,y);
     }
-    private void renderPower(MatrixStack matrices, int x, int y){
-        if(getPower()!=0){
-            drawTexture(matrices, x+147, y+11+getScaledPower(), 203, getScaledPower(), 16, 62-getScaledPower());
-        }
-    }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
-    }
-
-    public int getScaledPower(){
-        long progress = getPower();
-        long max = AirSeparatorEntity.POWER_CAPACITY;
-        int barSize = 62;
-        int res=  Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
-        res = 62-res;
-        return res;
     }
 
     private long getPower(){
