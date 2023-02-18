@@ -35,6 +35,7 @@ public class FluidTransactionUtils {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
         if (fluidStorage.amount > 0 && inputStack.hasNbt()) {
+            //TODO Check if inputStack is a tank
             if (FluidDataUtils.getFluidType(inputStack.getNbt()).isBlank()) {
                 FluidDataUtils.setFluidType(inputStack.getNbt(), fluidStorage.variant);
                 long insertAmount = Math.min((((IItemFluidData) inputStack.getItem()).getMaxCapacity()), fluidStorage.amount);

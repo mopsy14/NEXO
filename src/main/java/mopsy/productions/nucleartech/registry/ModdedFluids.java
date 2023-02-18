@@ -41,7 +41,7 @@ public class ModdedFluids {
         HYDROGEN = regFluid(new Hydrogen.Still());
         NITROGEN_BLOCK = regBlock(NITROGEN);
         OXYGEN_BLOCK = regBlock(OXYGEN);
-        HYDROGEN_BLOCK = regBlock(NITROGEN);
+        HYDROGEN_BLOCK = regBlock(HYDROGEN);
         NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override

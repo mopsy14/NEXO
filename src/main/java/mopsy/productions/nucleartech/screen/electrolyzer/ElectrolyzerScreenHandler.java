@@ -23,39 +23,27 @@ public class ElectrolyzerScreenHandler extends ScreenHandler {
         this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(2), buf.readBlockPos());
     }
     public ElectrolyzerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
-        super(ScreenHandlers.AIR_SEPARATOR, syncId);
-        checkSize(inventory, 2);
+        super(ScreenHandlers.ELECTROLYZER, syncId);
+        checkSize(inventory, 6);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
         this.blockPos = blockPos;
 
         //FluidInput
-        this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new ReturnSlot(inventory, 1,116,35));
+        this.addSlot(new Slot(inventory, 0,15,10));
+        this.addSlot(new ReturnSlot(inventory, 1,15,40));
         //FluidOutput1
-        this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new ReturnSlot(inventory, 1,116,35));
+        this.addSlot(new Slot(inventory, 2,35,10));
+        this.addSlot(new ReturnSlot(inventory, 3,35,40));
         //FluidOutput2
-        this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new ReturnSlot(inventory, 1,116,35));
+        this.addSlot(new Slot(inventory, 4,55,10));
+        this.addSlot(new ReturnSlot(inventory, 5,55,40));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
 
         addProperties(delegate);
-    }
-
-    public boolean isCrafting(){
-        return delegate.get(0)>0;
-    }
-
-    public int getScaledProgress(){
-        int progress = this.delegate.get(0);
-        int max = this.delegate.get(1);
-        int barSize = 26;
-
-        return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
     public BlockPos getBlockPos(){
         return blockPos;

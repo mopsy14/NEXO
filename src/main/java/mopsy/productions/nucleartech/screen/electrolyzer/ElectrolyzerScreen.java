@@ -3,6 +3,9 @@ package mopsy.productions.nucleartech.screen.electrolyzer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
+import mopsy.productions.nucleartech.util.ScreenUtils;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -37,7 +40,9 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         int y = (height - backgroundHeight)/2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        renderProgress(matrices, x, y);
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+5, y+5, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+25, y+5, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        ScreenUtils.renderSmallFluidStorage(this, matrices, x+45, y+5, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
         renderPower(matrices, x, y);
     }
 
@@ -48,12 +53,6 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         int relativeY = (height - backgroundHeight)/2;
         if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
             renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+ AirSeparatorEntity.POWER_CAPACITY+"E"),x,y);
-    }
-
-    private void renderProgress(MatrixStack matrices, int x, int y){
-        if(handler.isCrafting()){
-            drawTexture(matrices, x+76, y+24, 176, 0, handler.getScaledProgress(), 37);
-        }
     }
     private void renderPower(MatrixStack matrices, int x, int y){
         if(getPower()!=0){
@@ -81,6 +80,27 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
         if(blockEntity instanceof IEnergyStorage) {
             return ((IEnergyStorage) blockEntity).getPower();
+        }
+        return 0;
+    }
+    private FluidVariant getFluidType(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).variant;
+        }
+        return FluidVariant.blank();
+    }
+    private long getFluidAmount(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).amount;
+        }
+        return 0;
+    }
+    private long getMaxFluidAmount(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).getCapacity();
         }
         return 0;
     }
