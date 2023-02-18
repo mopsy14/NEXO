@@ -15,7 +15,11 @@ public class ClientMain implements ClientModInitializer {
         ScreenHandlers.regClientScreens();
 
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.NITROGEN, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.OXYGEN, SimpleFluidRenderHandler.coloredWater( 0xA1DCF2FF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.HYDROGEN, SimpleFluidRenderHandler.coloredWater( 0xA1E0F4FF));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.NITROGEN);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.OXYGEN);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.HYDROGEN);
     }
 }

@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
+import mopsy.productions.nucleartech.registry.ModdedFluids;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NCFluidStorage;
@@ -16,6 +17,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.nbt.NbtCompound;
@@ -53,6 +55,9 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         protected void onFinalCommit() {
             markDirty();
         }
+    };
+    public static ElectrolyzerRecipe[] recipes = {
+            new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, FluidVariant.of(ModdedFluids.OXYGEN), 2025)
     };
 
     public ElectrolyzerEntity(BlockPos pos, BlockState state) {
@@ -123,6 +128,8 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectrolyzerEntity entity) {
         if(world.isClient)return;
 
+        tryProduce(entity);
+
         if(tryFabricTransactions(entity)){
             markDirty(world,blockPos,blockState);
         }
@@ -179,6 +186,38 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         return didSomething;
     }
 
+    private static boolean tryProduce(ElectrolyzerEntity entity){
+        ElectrolyzerRecipe recipe = canProduce(entity);
+        if(recipe!=null){
+            entity.fluidStorages.get(0).amount -= recipe.inputAmount;
+            entity.fluidStorages.get(1).variant = recipe.output1;
+            entity.fluidStorages.get(1).amount += recipe.output1Amount;
+            entity.fluidStorages.get(2).variant = recipe.output2;
+            entity.fluidStorages.get(2).amount += recipe.output2Amount;
+            return true;
+        }
+        return false;
+    }
+
+    private static ElectrolyzerRecipe canProduce(ElectrolyzerEntity entity){
+        for (ElectrolyzerRecipe recipe: recipes) {
+            if(entity.fluidStorages.get(0).variant.isBlank() || entity.fluidStorages.get(0).variant.equals(recipe.input)){
+                if(entity.fluidStorages.get(0).amount >= recipe.inputAmount){
+                    if(entity.fluidStorages.get(1).variant.isBlank()||entity.fluidStorages.get(1).variant.equals(recipe.output1)){
+                        if(entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount <= recipe.output1Amount){
+                            if(entity.fluidStorages.get(2).variant.isBlank()||entity.fluidStorages.get(2).variant.equals(recipe.output2)){
+                                if(entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount <= recipe.output2Amount){
+                                    return recipe;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public long getPower() {
         return energyStorage.amount;
@@ -210,5 +249,23 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public List<SingleVariantStorage<FluidVariant>> getFluidStorages() {
         return fluidStorages;
+    }
+
+    private static class ElectrolyzerRecipe{
+        public FluidVariant input;
+        public long inputAmount;
+        public FluidVariant output1;
+        public long output1Amount;
+        public FluidVariant output2;
+        public long output2Amount;
+
+        public ElectrolyzerRecipe(FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount){
+            this.input = input;
+            this.inputAmount = inputAmount;
+            this.output1 = output1;
+            this.output1Amount = output1Amount;
+            this.output2 = output2;
+            this.output2Amount = output2Amount;
+        }
     }
 }
