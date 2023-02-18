@@ -128,7 +128,20 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectrolyzerEntity entity) {
         if(world.isClient)return;
 
-        tryProduce(entity);
+        if(tryProduce(entity)){
+            markDirty(world,blockPos,blockState);
+
+            for (int i = 0; i < entity.fluidStorages.size(); i++){
+                var buf = PacketByteBufs.create();
+                buf.writeBlockPos(blockPos);
+                buf.writeInt(i);
+                entity.fluidStorages.get(i).variant.toPacket(buf);
+                buf.writeLong(entity.fluidStorages.get(i).amount);
+                world.getPlayers().forEach(player -> {
+                    ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+                });
+            }
+        }
 
         if(tryFabricTransactions(entity)){
             markDirty(world,blockPos,blockState);
@@ -201,12 +214,12 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
 
     private static ElectrolyzerRecipe canProduce(ElectrolyzerEntity entity){
         for (ElectrolyzerRecipe recipe: recipes) {
-            if(entity.fluidStorages.get(0).variant.isBlank() || entity.fluidStorages.get(0).variant.equals(recipe.input)){
+            if(entity.fluidStorages.get(0).variant.equals(recipe.input)){
                 if(entity.fluidStorages.get(0).amount >= recipe.inputAmount){
                     if(entity.fluidStorages.get(1).variant.isBlank()||entity.fluidStorages.get(1).variant.equals(recipe.output1)){
-                        if(entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount <= recipe.output1Amount){
+                        if(entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount >= recipe.output1Amount){
                             if(entity.fluidStorages.get(2).variant.isBlank()||entity.fluidStorages.get(2).variant.equals(recipe.output2)){
-                                if(entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount <= recipe.output2Amount){
+                                if(entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount >= recipe.output2Amount){
                                     return recipe;
                                 }
                             }

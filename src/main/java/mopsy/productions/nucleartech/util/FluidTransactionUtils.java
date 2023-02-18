@@ -12,7 +12,7 @@ public class FluidTransactionUtils {
     public static boolean tryImportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
-        if (fluidStorage.amount < fluidStorage.getCapacity() && inputStack.hasNbt() && FluidDataUtils.getFluidAmount(inputStack.getNbt()) > 0) {
+        if (fluidStorage.amount < fluidStorage.getCapacity() && inputStack.hasNbt() && FluidDataUtils.getFluidAmount(inputStack.getNbt()) > 0 && inputStack.getItem() instanceof IItemFluidData) {
             if (fluidStorage.variant.isBlank()) {
                 fluidStorage.variant = FluidDataUtils.getFluidType(inputStack.getNbt());
                 long insertAmount = Math.min(fluidStorage.getCapacity(), FluidDataUtils.getFluidAmount(inputStack.getNbt()));
@@ -34,8 +34,7 @@ public class FluidTransactionUtils {
     public static boolean tryExportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
-        if (fluidStorage.amount > 0 && inputStack.hasNbt()) {
-            //TODO Check if inputStack is a tank
+        if (fluidStorage.amount > 0 && inputStack.hasNbt() && inputStack.getItem() instanceof IItemFluidData) {
             if (FluidDataUtils.getFluidType(inputStack.getNbt()).isBlank()) {
                 FluidDataUtils.setFluidType(inputStack.getNbt(), fluidStorage.variant);
                 long insertAmount = Math.min((((IItemFluidData) inputStack.getItem()).getMaxCapacity()), fluidStorage.amount);
@@ -99,8 +98,8 @@ public class FluidTransactionUtils {
         return false;
     }
     private static boolean canTransfer(Inventory inv, int inputIndex, int outputIndex){
-        if(inv.getStack(0).isEmpty())
+        if(inv.getStack(inputIndex).isEmpty())
             return false;
-        return inv.getStack(1).getCount() < inv.getStack(1).getMaxCount();
+        return inv.getStack(outputIndex).getCount() < inv.getStack(outputIndex).getMaxCount();
     }
 }

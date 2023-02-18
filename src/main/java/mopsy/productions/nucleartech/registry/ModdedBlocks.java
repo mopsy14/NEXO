@@ -34,7 +34,7 @@ public class ModdedBlocks {
         regBlock(new CrusherBlock());
         regBlock(new Tank_MK1());
         regBlock(new PressBlock());
-        regBlock(new ElectorlyzerBlock());
+        regBlock(new ElectrolyzerBlock());
         //multi block controllers
         regBlock(new AirSeparatorBlock());
         //multi block blocks

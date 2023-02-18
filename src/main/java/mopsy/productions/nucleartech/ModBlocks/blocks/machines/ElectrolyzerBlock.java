@@ -21,12 +21,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ElectorlyzerBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
+public class ElectrolyzerBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
     @Override
     public String getID(){return "electrolyzer";}
 
-    public ElectorlyzerBlock() {
+    public ElectrolyzerBlock() {
         super(FabricBlockSettings
                 .of(Material.METAL, MapColor.BLACK)
                 .strength(4.0F, 8.0F)
