@@ -36,6 +36,8 @@ public class ModdedItems {
         regItem(new CrushingWheelItem());
         regItem(new ElectricMotorItem());
         regItem(new WireCasingItem());
+        regItem(new YellowCakeItem());
+
 
         //raw's
         regItem(new RawUraniumItem());
