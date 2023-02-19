@@ -35,6 +35,7 @@ public class ModdedBlocks {
         regBlock(new Tank_MK1());
         regBlock(new PressBlock());
         regBlock(new ElectrolyzerBlock());
+        regBlock(new CentrifugeBlock());
         //multi block controllers
         regBlock(new AirSeparatorBlock());
         //multi block blocks

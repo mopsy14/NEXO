@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.screen.electrolyzer;
+package mopsy.productions.nucleartech.screen.centrifuge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
@@ -26,14 +26,14 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
-public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler> {
+public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/electrolyzer.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate3;
 
-    public ElectrolyzerScreen(ElectrolyzerScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CentrifugeScreen(CentrifugeScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
@@ -61,9 +61,10 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
     @Override
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
-        if (renderEnergyTooltipPredicate.test(new IntCords2D(x, y)))
+        IntCords2D mouse = new IntCords2D(x,y);
+        if (renderEnergyTooltipPredicate.test(mouse))
             renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY)), x, y);
-        if (renderFluidStorageTooltipPredicate1.test(new IntCords2D(x, y))) {
+        if (renderFluidStorageTooltipPredicate1.test(mouse)) {
             if (getFluidType(0).getFluid() != Fluids.EMPTY && getFluidAmount(0)>0) {
                 List<Text> text = new ArrayList<>();
                 text.add(Text.translatable(getFluidType(0).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
@@ -75,7 +76,7 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
                 renderTooltip(matrices, text, x, y);
             }
         }
-        if (renderFluidStorageTooltipPredicate2.test(new IntCords2D(x, y))) {
+        if (renderFluidStorageTooltipPredicate2.test(mouse)) {
             if (getFluidType(1).getFluid() != Fluids.EMPTY && getFluidAmount(1)>0) {
                 List<Text> text = new ArrayList<>();
                 text.add(Text.translatable(getFluidType(1).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
@@ -87,7 +88,7 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
                 renderTooltip(matrices, text, x, y);
             }
         }
-        if (renderFluidStorageTooltipPredicate3.test(new IntCords2D(x, y))) {
+        if (renderFluidStorageTooltipPredicate3.test(mouse)) {
             if (getFluidType(2).getFluid() != Fluids.EMPTY && getFluidAmount(2)>0) {
                 List<Text> text = new ArrayList<>();
                 text.add(Text.translatable(getFluidType(2).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));

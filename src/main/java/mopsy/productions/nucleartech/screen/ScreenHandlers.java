@@ -2,6 +2,8 @@ package mopsy.productions.nucleartech.screen;
 
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreen;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
+import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreen;
+import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreen;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreen;
@@ -23,6 +25,7 @@ public class ScreenHandlers {
     public static ExtendedScreenHandlerType<TankScreenHandler_MK1> Tank_MK1 = new ExtendedScreenHandlerType<>(TankScreenHandler_MK1::new);
     public static ExtendedScreenHandlerType<AirSeparatorScreenHandler> AIR_SEPARATOR = new ExtendedScreenHandlerType<>(AirSeparatorScreenHandler::new);
     public static ExtendedScreenHandlerType<ElectrolyzerScreenHandler> ELECTROLYZER = new ExtendedScreenHandlerType<>(ElectrolyzerScreenHandler::new);
+    public static ExtendedScreenHandlerType<CentrifugeScreenHandler> CENTRIFUGE = new ExtendedScreenHandlerType<>(CentrifugeScreenHandler::new);
 
     public static void regScreenHandlers(){
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
@@ -30,6 +33,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "tank_mk1"), Tank_MK1);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "air_separator"), AIR_SEPARATOR);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electrolyzer"), ELECTROLYZER);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "centrifuge"), CENTRIFUGE);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -37,5 +41,6 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.Tank_MK1, TankScreen_MK1::new);
         HandledScreens.register(ScreenHandlers.AIR_SEPARATOR, AirSeparatorScreen::new);
         HandledScreens.register(ScreenHandlers.ELECTROLYZER, ElectrolyzerScreen::new);
+        HandledScreens.register(ScreenHandlers.CENTRIFUGE, CentrifugeScreen::new);
     }
 }
