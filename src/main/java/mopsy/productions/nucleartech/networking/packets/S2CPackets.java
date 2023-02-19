@@ -10,8 +10,6 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 
-import static mopsy.productions.nucleartech.Main.LOGGER;
-
 public class S2CPackets {
     public static void receiveRadiationChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         Radiation.radiation = buf.readFloat();
@@ -24,8 +22,6 @@ public class S2CPackets {
         if(client.world==null)return;
         if (client.world.getBlockEntity(blockPos) instanceof IEnergyStorage){
             ((IEnergyStorage) client.world.getBlockEntity(blockPos)).setPower(buf.readLong());
-        }else{
-            LOGGER.error("Block at: "+blockPos+" doesn't contain IEnergyStorage");
         }
     }
     public static void receiveFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
@@ -34,8 +30,6 @@ public class S2CPackets {
         if (client.world.getBlockEntity(blockPos) instanceof IFluidStorage){
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidType(FluidVariant.fromPacket(buf));
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidAmount(buf.readLong());
-        }else{
-            LOGGER.error("Block at: "+blockPos+" doesn't contain IFluidStorage");
         }
     }
     public static void receiveAdvancedFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
@@ -45,8 +39,6 @@ public class S2CPackets {
             int storageIndex = buf.readInt();
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).getFluidStorages().get(storageIndex).variant = FluidVariant.fromPacket(buf);
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).getFluidStorages().get(storageIndex).amount = buf.readLong();
-        }else{
-            LOGGER.error("Block at: "+blockPos+" doesn't contain IFluidStorage");
         }
     }
 }
