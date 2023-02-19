@@ -1,10 +1,11 @@
 package mopsy.productions.nucleartech.screen.electrolyzer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
+import mopsy.productions.nucleartech.util.FluidUtils;
+import mopsy.productions.nucleartech.util.IntCords2D;
 import mopsy.productions.nucleartech.util.ScreenUtils;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,14 +14,23 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/electrolyzer.png");
+    public Predicate<IntCords2D> renderEnergyTooltipPredicate;
+    public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
+    public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
+    public Predicate<IntCords2D> renderFluidStorageTooltipPredicate3;
 
     public ElectrolyzerScreen(ElectrolyzerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -41,19 +51,54 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
         int y = (height - backgroundHeight)/2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
-        ScreenUtils.renderEnergyStorage(this, matrices, x, y, getPower(), ElectrolyzerEntity.POWER_CAPACITY);
+        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), ElectrolyzerEntity.POWER_CAPACITY);
     }
 
     @Override
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
-        int relativeX = (width - backgroundWidth)/2;
-        int relativeY = (height - backgroundHeight)/2;
-        if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
-            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+ AirSeparatorEntity.POWER_CAPACITY+"E"),x,y);
+        if (renderEnergyTooltipPredicate.test(new IntCords2D(x, y)))
+            renderTooltip(matrices, Text.of(Formatting.GOLD.toString() + getPower() + "E/" + ElectrolyzerEntity.POWER_CAPACITY + "E"), x, y);
+        if (renderFluidStorageTooltipPredicate1.test(new IntCords2D(x, y))) {
+            if (getFluidType(0).getFluid() != Fluids.EMPTY && getFluidAmount(0)>0) {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.translatable(getFluidType(0).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
+                text.add(Text.of(Formatting.GOLD.toString() + getFluidAmountmB(0) + "mB/" + getCapacitymB(0) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            } else {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(0) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            }
+        }
+        if (renderFluidStorageTooltipPredicate2.test(new IntCords2D(x, y))) {
+            if (getFluidType(1).getFluid() != Fluids.EMPTY && getFluidAmount(1)>0) {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.translatable(getFluidType(1).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
+                text.add(Text.of(Formatting.GOLD.toString() + getFluidAmountmB(1) + "mB/" + getCapacitymB(1) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            } else {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(1) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            }
+        }
+        if (renderFluidStorageTooltipPredicate3.test(new IntCords2D(x, y))) {
+            if (getFluidType(2).getFluid() != Fluids.EMPTY && getFluidAmount(2)>0) {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.translatable(getFluidType(2).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
+                text.add(Text.of(Formatting.GOLD.toString() + getFluidAmountmB(2) + "mB/" + getCapacitymB(2) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            } else {
+                List<Text> text = new ArrayList<>();
+                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(2) + "mB"));
+                renderTooltip(matrices, text, x, y);
+            }
+        }
+
     }
 
     @Override
@@ -90,5 +135,11 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
             return ((IFluidStorage) blockEntity).getFluidStorages().get(index).getCapacity();
         }
         return 0;
+    }
+    private long getFluidAmountmB(int index){
+        return FluidUtils.dropletsTomB(getFluidAmount(index));
+    }
+    private long getCapacitymB(int index){
+        return FluidUtils.dropletsTomB(getMaxFluidAmount(index));
     }
 }

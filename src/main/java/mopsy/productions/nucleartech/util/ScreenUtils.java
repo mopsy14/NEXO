@@ -11,12 +11,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Predicate;
+
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class ScreenUtils {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/gui_components.png");
 
-    public static void renderSmallFluidStorage(Screen screen, MatrixStack matrices, int x, int y, long fluidAmount, long maxFluidAmount, FluidVariant fluid){
+    public static Predicate<IntCords2D> renderSmallFluidStorage(Screen screen, MatrixStack matrices, int x, int y, long fluidAmount, long maxFluidAmount, FluidVariant fluid){
         if(fluidAmount>0){
             int scaledAmount = getScaledAmount(fluidAmount, maxFluidAmount, 47);
             RenderSystem.setShaderTexture(0, PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
@@ -30,12 +32,16 @@ public class ScreenUtils {
         }
 
         drawSmallFluidLines(screen, matrices, x, y);
+        return ic2d -> (
+                ic2d.x>x && ic2d.x<x+16 &&
+                ic2d.y>y && ic2d.y<y+47
+        );
     }
     private static void drawSmallFluidLines(Screen screen, MatrixStack matrices, int x, int y){
         RenderSystem.setShaderTexture(0, TEXTURE);
         screen.drawTexture(matrices, x, y, 0, 64, 11, 47);
     }
-    public static void renderBigFluidStorage(Screen screen, MatrixStack matrices, int x, int y, long fluidAmount, long maxFluidAmount, FluidVariant fluid){
+    public static Predicate<IntCords2D> renderBigFluidStorage(Screen screen, MatrixStack matrices, int x, int y, long fluidAmount, long maxFluidAmount, FluidVariant fluid){
         if(fluidAmount>0){
             int scaledAmount = getScaledAmount(fluidAmount, maxFluidAmount, 63);
             RenderSystem.setShaderTexture(0, PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
@@ -49,17 +55,25 @@ public class ScreenUtils {
         }
 
         drawBigFluidLines(screen, matrices, x, y);
+        return ic2d -> (
+                ic2d.x>x && ic2d.x<x+51 &&
+                ic2d.y>y && ic2d.y<y+63
+        );
     }
     private static void drawBigFluidLines(Screen handledScreen, MatrixStack matrices, int x, int y){
         RenderSystem.setShaderTexture(0, TEXTURE);
         handledScreen.drawTexture(matrices, x, y, 0, 0, 20, 63);
     }
-    public static void renderEnergyStorage(HandledScreen handledScreen, MatrixStack matrices, int x, int y, long power, long maxPower){
+    public static Predicate<IntCords2D> renderEnergyStorage(HandledScreen handledScreen, MatrixStack matrices, int x, int y, long power, long maxPower){
         if(power>0){
             RenderSystem.setShaderTexture(0, TEXTURE);
             int scaledPower = getScaledAmount(power, maxPower, 62);
             handledScreen.drawTexture(matrices, x, y+scaledPower, 0, 113+scaledPower, 16, 62-scaledPower);
         }
+        return ic2d -> (
+                ic2d.x>x && ic2d.x<x+16 &&
+                ic2d.y>y && ic2d.y<y+62
+        );
     }
     private static int getScaledAmount(long amount, long max, int barSize){
         int res = Math.toIntExact(max != 0 && amount != 0 ? amount * barSize / max : 0);

@@ -47,31 +47,6 @@ public class FluidUtils{
         return containerItemContext.find(FluidStorage.ITEM);
     }
 
-    /*private static long tryInsert(Inventory inv, int slotIndex, long maxAmount, ItemVariant itemVariant, TransactionContext transactionContext){
-        StoragePreconditions.notBlankNotNegative(itemVariant, maxAmount);
-        if(ItemVariant.of(inv.get(slotIndex)).equals(itemVariant)||inv.get(slotIndex).isEmpty()){
-            int insertAmount = (int) Math.min(maxAmount,getSpace(inv,slotIndex));
-            if(insertAmount>0){
-                try (Transaction nested = transactionContext.openNested()) {
-                    nested.addCloseCallback((tr, res) -> {
-                        System.out.println(res);
-                    });
-                    nested.addOuterCloseCallback((res)-> System.out.println("outer"+res));
-                    if (inv.get(slotIndex).isEmpty()) {
-                        inv.set(slotIndex, new ItemStack(itemVariant.getItem(), insertAmount));
-                    } else {
-
-                        inv.set(slotIndex, new ItemStack(inv.get(slotIndex).getItem(), inv.get(slotIndex).getCount() + insertAmount));
-                    }
-                    return insertAmount;
-                }
-            }
-        }
-        return 0;
-    }
-    private static int getSpace(DefaultedList<ItemStack> inv, int index){
-        return inv.get(index).getMaxCount()-inv.get(index).getCount();
-    }*/
     public static boolean containsItemStackFluidStorage(ItemStack itemStack){
         return (ContainerItemContext.withConstant(itemStack).find(FluidStorage.ITEM)!=null)||isTank(itemStack.getItem());
     }
@@ -83,4 +58,7 @@ public class FluidUtils{
         }
         return false;
     }
+
+    public static long dropletsTomB(long droplets){return droplets/81;}
+    public static long mBtoDroplets(long mB){return mB*81;}
 }

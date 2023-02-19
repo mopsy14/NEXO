@@ -8,26 +8,22 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ArrayPropertyDelegate;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
 public class ElectrolyzerScreenHandler extends ScreenHandler {
     private final Inventory inventory;
-    private final PropertyDelegate delegate;
     private final BlockPos blockPos;
 
     public ElectrolyzerScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(2), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(6), buf.readBlockPos());
     }
-    public ElectrolyzerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
+    public ElectrolyzerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, BlockPos blockPos) {
         super(ScreenHandlers.ELECTROLYZER, syncId);
         checkSize(inventory, 6);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
-        this.delegate = delegate;
         this.blockPos = blockPos;
 
         //FluidInput
@@ -42,8 +38,6 @@ public class ElectrolyzerScreenHandler extends ScreenHandler {
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
-
-        addProperties(delegate);
     }
     public BlockPos getBlockPos(){
         return blockPos;

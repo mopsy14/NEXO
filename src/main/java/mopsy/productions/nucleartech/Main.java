@@ -32,8 +32,8 @@ public class Main implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
 		LOGGER.info("Nuclear Tech starting");
+
 		ModdedItems.regItems();
 		ModdedBlocks.regBlocks();
 		ModConfiguredFeatures.regConfiguredFeatures();

@@ -21,6 +21,7 @@ public class S2CPackets {
     }
     public static void receiveEnergyChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         BlockPos blockPos = buf.readBlockPos();
+        if(client.world==null)return;
         if (client.world.getBlockEntity(blockPos) instanceof IEnergyStorage){
             ((IEnergyStorage) client.world.getBlockEntity(blockPos)).setPower(buf.readLong());
         }else{
@@ -29,6 +30,7 @@ public class S2CPackets {
     }
     public static void receiveFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         BlockPos blockPos = buf.readBlockPos();
+        if(client.world==null)return;
         if (client.world.getBlockEntity(blockPos) instanceof IFluidStorage){
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidType(FluidVariant.fromPacket(buf));
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).setFluidAmount(buf.readLong());
@@ -38,6 +40,7 @@ public class S2CPackets {
     }
     public static void receiveAdvancedFluidChange(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
         BlockPos blockPos = buf.readBlockPos();
+        if(client.world==null)return;
         if (client.world.getBlockEntity(blockPos) instanceof IFluidStorage){
             int storageIndex = buf.readInt();
             ((IFluidStorage) client.world.getBlockEntity(blockPos)).getFluidStorages().get(storageIndex).variant = FluidVariant.fromPacket(buf);

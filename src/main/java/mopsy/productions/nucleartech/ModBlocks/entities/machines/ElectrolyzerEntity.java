@@ -22,7 +22,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -42,13 +41,10 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage {
 
     public final Inventory inventory = new SimpleInventory(6);
-    protected final PropertyDelegate propertyDelegate;
-    private int progress;
-    private int maxProgress = 200;
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     public long previousPower = 0;
-    public static final long POWER_CAPACITY = 1000;
-    public static final long POWER_MAX_INSERT = 10;
+    public static final long POWER_CAPACITY = 10000;
+    public static final long POWER_MAX_INSERT = 50;
     public static final long POWER_MAX_EXTRACT = 0;
     public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
@@ -57,7 +53,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         }
     };
     public static ElectrolyzerRecipe[] recipes = {
-            new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, FluidVariant.of(ModdedFluids.OXYGEN), 2025)
+            new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, FluidVariant.of(ModdedFluids.OXYGEN), 2025, 25)
     };
 
     public ElectrolyzerEntity(BlockPos pos, BlockState state) {
@@ -65,29 +61,6 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, true , 0));
         fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
         fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 2));
-        this.propertyDelegate = new PropertyDelegate() {
-            @Override
-            public int get(int index) {
-                switch (index){
-                    case 0: return ElectrolyzerEntity.this.progress;
-                    case 1: return ElectrolyzerEntity.this.maxProgress;
-                    default: return 0;
-                }
-            }
-
-            @Override
-            public void set(int index, int value) {
-                switch (index){
-                    case 0: ElectrolyzerEntity.this.progress = value; break;
-                    case 1: ElectrolyzerEntity.this.maxProgress = value; break;
-                }
-            }
-
-            @Override
-            public int size() {
-                return 2;
-            }
-        };
     }
 
     @Override
@@ -102,7 +75,15 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        return new ElectrolyzerScreenHandler(syncId, inv, this.inventory, this.propertyDelegate, pos);
+        for (int i = 0; i < fluidStorages.size(); i++){
+            buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeInt(i);
+            fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(fluidStorages.get(i).amount);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+        }
+        return new ElectrolyzerScreenHandler(syncId, inv, this.inventory, pos);
     }
 
     @Override
@@ -114,15 +95,21 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         writeInv(inventory, nbt);
-        nbt.putInt("electrolyzer.progress", progress);
         nbt.putLong("electrolyzer.power", energyStorage.amount);
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
+            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+        }
     }
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         readInv(inventory, nbt);
-        progress = nbt.getInt("electrolyzer.progress");
         energyStorage.amount = nbt.getLong("electrolyzer.power");
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
+            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+        }
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectrolyzerEntity entity) {
@@ -202,6 +189,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     private static boolean tryProduce(ElectrolyzerEntity entity){
         ElectrolyzerRecipe recipe = canProduce(entity);
         if(recipe!=null){
+            entity.energyStorage.amount -= recipe.requiredPower;
             entity.fluidStorages.get(0).amount -= recipe.inputAmount;
             entity.fluidStorages.get(1).variant = recipe.output1;
             entity.fluidStorages.get(1).amount += recipe.output1Amount;
@@ -214,13 +202,15 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
 
     private static ElectrolyzerRecipe canProduce(ElectrolyzerEntity entity){
         for (ElectrolyzerRecipe recipe: recipes) {
-            if(entity.fluidStorages.get(0).variant.equals(recipe.input)){
-                if(entity.fluidStorages.get(0).amount >= recipe.inputAmount){
-                    if(entity.fluidStorages.get(1).variant.isBlank()||entity.fluidStorages.get(1).variant.equals(recipe.output1)){
-                        if(entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount >= recipe.output1Amount){
-                            if(entity.fluidStorages.get(2).variant.isBlank()||entity.fluidStorages.get(2).variant.equals(recipe.output2)){
-                                if(entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount >= recipe.output2Amount){
-                                    return recipe;
+            if(entity.energyStorage.amount >= recipe.requiredPower) {
+                if (entity.fluidStorages.get(0).variant.equals(recipe.input)) {
+                    if (entity.fluidStorages.get(0).amount >= recipe.inputAmount) {
+                        if (entity.fluidStorages.get(1).variant.isBlank() || entity.fluidStorages.get(1).variant.equals(recipe.output1)) {
+                            if (entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount >= recipe.output1Amount) {
+                                if (entity.fluidStorages.get(2).variant.isBlank() || entity.fluidStorages.get(2).variant.equals(recipe.output2)) {
+                                    if (entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount >= recipe.output2Amount) {
+                                        return recipe;
+                                    }
                                 }
                             }
                         }
@@ -271,14 +261,16 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         public long output1Amount;
         public FluidVariant output2;
         public long output2Amount;
+        public long requiredPower;
 
-        public ElectrolyzerRecipe(FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount){
+        public ElectrolyzerRecipe(FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount, long requiredPower){
             this.input = input;
             this.inputAmount = inputAmount;
             this.output1 = output1;
             this.output1Amount = output1Amount;
             this.output2 = output2;
             this.output2Amount = output2Amount;
+            this.requiredPower = requiredPower;
         }
     }
 }
