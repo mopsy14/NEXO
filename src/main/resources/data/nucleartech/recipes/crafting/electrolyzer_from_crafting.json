@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "W W",
+    "WBW"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:test_tube"
+    },
+    "W": {
+      "item": "nucleartech:copper_wire"
+    },
+    "B": {
+      "item": "nucleartech:battery"
+    }
+  },
+  "result": {
+    "item": "nucleartech:electrolyzer"
+  }
+}
