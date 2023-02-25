@@ -11,6 +11,7 @@ public class ModdedRecipes {
     public static void regRecipes(){
         regRecipe(CrusherRecipe.Type.ID, CrusherRecipe.Serializer.INSTANCE, CrusherRecipe.Type.INSTANCE);
         regRecipe(PressRecipe.Type.ID, PressRecipe.Serializer.INSTANCE, PressRecipe.Type.INSTANCE);
+        regRecipe(CentrifugeRecipe.Type.ID, CentrifugeRecipe.Serializer.INSTANCE, CrusherRecipe.Type.INSTANCE);
 
     }
     private static void regRecipe(String ID, RecipeSerializer<?> recipeSerializer, RecipeType<?> recipeType){
