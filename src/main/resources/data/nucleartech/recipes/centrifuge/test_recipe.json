@@ -1,0 +1,15 @@
+{
+  "type": "nucleartech:centrifuge",
+  "input": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "output_1": {
+    "type": "nucleartech:nitrogen",
+    "amount": 500
+  },
+  "output_2": {
+    "type": "nucleartech:oxygen",
+    "amount": 500
+  }
+}

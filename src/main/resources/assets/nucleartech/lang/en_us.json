@@ -33,5 +33,6 @@
   "block.nucleartech.tank_mk1": "Tank MK1",
   "block.nucleartech.nitrogen": "Nitrogen",
   "block.nucleartech.oxygen": "Oxygen",
-  "block.nucleartech.hydrogen": "Hydrogen"
+  "block.nucleartech.hydrogen": "Hydrogen",
+  "block.nucleartech.centrifuge": "Centrifuge"
 }

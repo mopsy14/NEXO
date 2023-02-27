@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.screen.centrifuge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.CentrifugeEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.DisplayUtils;
@@ -27,7 +27,7 @@ import java.util.function.Predicate;
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/electrolyzer.png");
+    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/centrifuge.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
@@ -55,7 +55,7 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
         renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), ElectrolyzerEntity.POWER_CAPACITY);
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), CentrifugeEntity.POWER_CAPACITY);
     }
 
     @Override
@@ -63,44 +63,29 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         super.drawMouseoverTooltip(matrices, x, y);
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
-            renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY)), x, y);
+            renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), CentrifugeEntity.POWER_CAPACITY)), x, y);
         if (renderFluidStorageTooltipPredicate1.test(mouse)) {
-            if (getFluidType(0).getFluid() != Fluids.EMPTY && getFluidAmount(0)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(0).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(0), getCapacitymB(0))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(0) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
+            renderFluidTooltip(0, matrices, mouse);
         }
         if (renderFluidStorageTooltipPredicate2.test(mouse)) {
-            if (getFluidType(1).getFluid() != Fluids.EMPTY && getFluidAmount(1)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(1).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(1), getCapacitymB(1))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(1) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
+            renderFluidTooltip(1, matrices, mouse);
         }
         if (renderFluidStorageTooltipPredicate3.test(mouse)) {
-            if (getFluidType(2).getFluid() != Fluids.EMPTY && getFluidAmount(2)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(2).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(2), getCapacitymB(2))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(2) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
+            renderFluidTooltip(2, matrices, mouse);
         }
 
+    }
+
+    private void renderFluidTooltip(int fluidIndex, MatrixStack matrices, IntCords2D mouseCords){
+        if (getFluidType(fluidIndex).getFluid() != Fluids.EMPTY && getFluidAmount(fluidIndex)>0) {
+            List<Text> text = new ArrayList<>();
+            text.add(Text.translatable(getFluidType(fluidIndex).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
+            text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(fluidIndex), getCapacitymB(fluidIndex))));
+            renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
+        } else {
+            Text text = Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(fluidIndex) + "mB");
+            renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
+        }
     }
 
     @Override

@@ -1,9 +1,11 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
+import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NCFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -39,18 +41,18 @@ import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHAN
 import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
-public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage {
+public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
 
-    private final Inventory inventory = new SimpleInventory(4);
+    private final Inventory inventory = new SimpleInventory(6);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     private int progress;
-    private int maxProgress = 200;
+    private int maxProgress = 500;
     public long previousPower = 0;
-    public static final long CAPACITY = 100000;
-    public static final long MAX_INSERT = 100;
-    public static final long MAX_EXTRACT = 0;
-    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(CAPACITY, MAX_INSERT, MAX_EXTRACT) {
+    public static final long POWER_CAPACITY = 100000;
+    public static final long POWER_MAX_INSERT = 100;
+    public static final long POWER_MAX_EXTRACT = 0;
+    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();
@@ -142,17 +144,17 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CentrifugeEntity centrifugeEntity) {
         if(world.isClient)return;
 
-        if(hasRecipe(centrifugeEntity)&& centrifugeEntity.energyStorage.amount >= 5){
+        if(hasRecipe(centrifugeEntity)&& centrifugeEntity.energyStorage.amount >= 50){
             centrifugeEntity.progress++;
-            centrifugeEntity.energyStorage.amount -= 5;
+            centrifugeEntity.energyStorage.amount -= 50;
             if(centrifugeEntity.progress >= centrifugeEntity.maxProgress){
                 craft(centrifugeEntity);
             }
+            markDirty(world,blockPos,blockState);
         }else{
             centrifugeEntity.progress = 0;
         }
 
-        markDirty(world,blockPos,blockState);
 
         if(centrifugeEntity.energyStorage.amount!=centrifugeEntity.previousPower){
             centrifugeEntity.previousPower = centrifugeEntity.energyStorage.amount;
@@ -163,14 +165,42 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
                 ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
             }
         }
+
+        if(tryFabricTransactions(centrifugeEntity)){
+            markDirty(world,blockPos,blockState);
+        }
+        if(tryTransactions(centrifugeEntity)){
+            markDirty(world,blockPos,blockState);
+            sendFluidUpdate(centrifugeEntity);
+        }
+    }
+
+    private static boolean tryFabricTransactions(CentrifugeEntity entity) {
+        boolean didSomething = FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
+            didSomething = true;
+
+        return didSomething;
+    }
+
+    //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output, 4=FluidOutput2Input, 5=FluidOutput2Output,
+    private static boolean tryTransactions(CentrifugeEntity entity){
+        boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
+            didSomething = true;
+
+        return didSomething;
     }
 
     private static void craft(CentrifugeEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
-
         CentrifugeRecipe match = getFirstRecipeMatch(entity);
 
         if(match!=null){
@@ -195,6 +225,19 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
             }
         }
         return null;
+    }
+
+    private static void sendFluidUpdate(CentrifugeEntity entity){
+        for (PlayerEntity player : entity.world.getPlayers()) {
+            for (int i = 0; i < entity.fluidStorages.size(); i++) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBlockPos(entity.pos);
+                buf.writeInt(i);
+                entity.fluidStorages.get(i).variant.toPacket(buf);
+                buf.writeLong(entity.fluidStorages.get(i).amount);
+                ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            }
+        }
     }
 
 
@@ -267,5 +310,31 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
         return slot==1;
+    }
+
+    //IFluidStorage Code:
+    @Override
+    public FluidVariant getFluidType() {
+        return FluidVariant.blank();
+    }
+
+    @Override
+    public void setFluidType(FluidVariant fluidType) {
+
+    }
+
+    @Override
+    public long getFluidAmount() {
+        return 0;
+    }
+
+    @Override
+    public void setFluidAmount(long amount) {
+
+    }
+
+    @Override
+    public List<SingleVariantStorage<FluidVariant>> getFluidStorages() {
+        return fluidStorages;
     }
 }

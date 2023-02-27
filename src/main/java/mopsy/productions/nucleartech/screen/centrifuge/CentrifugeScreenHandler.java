@@ -23,7 +23,7 @@ public class CentrifugeScreenHandler extends ScreenHandler {
         this(syncId, playerInventory, new SimpleInventory(6), new ArrayPropertyDelegate(2), buf.readBlockPos());
     }
     public CentrifugeScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
-        super(ScreenHandlers.ELECTROLYZER, syncId);
+        super(ScreenHandlers.CENTRIFUGE, syncId);
         checkSize(inventory, 6);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);

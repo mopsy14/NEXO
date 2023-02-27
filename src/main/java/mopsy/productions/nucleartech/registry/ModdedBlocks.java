@@ -26,10 +26,10 @@ public class ModdedBlocks {
 
     public static void regBlocks(){
         //ores
-        regBlock(new UraniumBlock());
         regBlock(new UraniumOreBlock());
-        //compressed
         regBlock(new DeepslateUraniumOreBlock());
+        //compressed
+        regBlock(new UraniumBlock());
         //machines
         regBlock(new CrusherBlock());
         regBlock(new Tank_MK1());
