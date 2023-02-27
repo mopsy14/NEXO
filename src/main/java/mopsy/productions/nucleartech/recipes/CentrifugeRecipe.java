@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.recipes;
 
 import com.google.gson.JsonObject;
+import mopsy.productions.nucleartech.util.FluidUtils;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.inventory.SimpleInventory;
@@ -101,17 +102,17 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
             JsonObject jsonInput = JsonHelper.getObject(json, "input");
             String inputStrType = jsonInput.get("type").getAsString();
             FluidVariant inputType = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(inputStrType)));
-            long inputAmount = jsonInput.get("amount").getAsLong();
+            long inputAmount = FluidUtils.mBtoDroplets(jsonInput.get("amount").getAsLong());
 
             JsonObject jsonOutput1 = JsonHelper.getObject(json, "output_1");
             String output1StrType = jsonOutput1.get("type").getAsString();
             FluidVariant output1Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(output1StrType)));
-            long output1Amount = jsonOutput1.get("amount").getAsLong();
+            long output1Amount = FluidUtils.mBtoDroplets(jsonOutput1.get("amount").getAsLong());
 
             JsonObject jsonOutput2 = JsonHelper.getObject(json, "output_2");
             String output2StrType = jsonOutput2.get("type").getAsString();
             FluidVariant output2Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(output2StrType)));
-            long output2Amount = jsonOutput2.get("amount").getAsLong();
+            long output2Amount = FluidUtils.mBtoDroplets(jsonOutput2.get("amount").getAsLong());
 
 
             return new CentrifugeRecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount);

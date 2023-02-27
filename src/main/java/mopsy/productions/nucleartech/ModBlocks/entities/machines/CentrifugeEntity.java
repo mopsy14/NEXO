@@ -149,6 +149,7 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
             centrifugeEntity.energyStorage.amount -= 50;
             if(centrifugeEntity.progress >= centrifugeEntity.maxProgress){
                 craft(centrifugeEntity);
+                sendFluidUpdate(centrifugeEntity);
             }
             markDirty(world,blockPos,blockState);
         }else{
