@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nucleartech:block/electrolyzer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nucleartech:block/electrolyzer"
+    },
+    "facing=south": {
+      "model": "nucleartech:block/electrolyzer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nucleartech:block/electrolyzer",
+      "y": 270
+    }
+  }
+}
