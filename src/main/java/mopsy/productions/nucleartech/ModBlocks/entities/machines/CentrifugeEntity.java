@@ -43,7 +43,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
 
-    private final Inventory inventory = new SimpleInventory(6);
+    private final Inventory inventory = new SimpleInventory(7);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     private int progress;

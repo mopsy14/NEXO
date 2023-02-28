@@ -24,7 +24,7 @@ public class CentrifugeScreenHandler extends ScreenHandler {
     }
     public CentrifugeScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.CENTRIFUGE, syncId);
-        checkSize(inventory, 6);
+        checkSize(inventory, 7);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
@@ -39,6 +39,8 @@ public class CentrifugeScreenHandler extends ScreenHandler {
         //FluidOutput2
         this.addSlot(new Slot(inventory, 4,133,19));
         this.addSlot(new ReturnSlot(inventory, 5,133,50));
+        //Test Tube Slot
+        this.addSlot(new Slot(inventory, 0,33,19));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
