@@ -32,6 +32,7 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .nonOpaque()
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
