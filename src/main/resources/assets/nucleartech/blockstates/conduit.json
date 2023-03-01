@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "nucleartech:block/crusher",
+      "model": "nucleartech:block/conduit",
       "y": 90
     },
     "facing=north": {
-      "model": "nucleartech:block/crusher"
+      "model": "nucleartech:block/conduit"
     },
     "facing=south": {
-      "model": "nucleartech:block/crusher",
+      "model": "nucleartech:block/conduit",
       "y": 180
     },
     "facing=west": {
-      "model": "nucleartech:block/crusher",
+      "model": "nucleartech:block/conduit",
       "y": 270
     }
   }
