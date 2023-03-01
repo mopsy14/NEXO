@@ -3,6 +3,7 @@ package mopsy.productions.nucleartech.screen.press;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.PressEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.util.DisplayUtils;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -10,7 +11,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nucleartech.Main.modid;
@@ -47,7 +47,7 @@ public class PressScreen extends HandledScreen<PressScreenHandler> {
         int relativeX = (width - backgroundWidth)/2;
         int relativeY = (height - backgroundHeight)/2;
         if(x>relativeX+147 && x<relativeX+163 && y>relativeY+10 && y<relativeY+ 75)
-            renderTooltip(matrices, Text.of(Formatting.GOLD.toString()+getPower()+"E/"+PressEntity.CAPACITY+"E"),x,y);
+            renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), PressEntity.POWER_CAPACITY)),x,y);
     }
 
     private void renderProgress(MatrixStack matrices, int x, int y){
@@ -70,7 +70,7 @@ public class PressScreen extends HandledScreen<PressScreenHandler> {
 
     public int getScaledPower(){
         long progress = getPower();
-        long max = PressEntity.CAPACITY;
+        long max = PressEntity.POWER_CAPACITY;
         int barSize = 62;
         int res=  Math.toIntExact(max != 0 && progress != 0 ? progress * barSize / max : 0);
         res = 62-res;

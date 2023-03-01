@@ -13,17 +13,25 @@ public class DisplayUtils {
     }
     private static String getStringFromLong(long input){
         //10G+
-        if(input>10000000000L){
-            return Math.floor(input/1000000000F)+"G";
+        if(input>9999999999L){
+            return Math.floor(input/100000000F)/10F+"G";
         }
         //10M+
-        if(input>10000000L){
-            return Math.floor(input/1000000F)+"M";
+        if(input>9999999L){
+            return Math.floor(input/100000F)/10F+"M";
         }
         //10k+
-        if(input>10000L){
-            return Math.floor(input/1000F)+"K";
+        if(input>9999L){
+            return Math.floor(input/100F)/10F+"K";
         }
         return String.valueOf(input);
+    }
+    private static String getExactStringFromLong(long input){
+        StringBuilder res = new StringBuilder(String.valueOf(input));
+
+        for(int I = Math.toIntExact(Math.round(Math.floor(res.length()/3F)));I>0;I--) {
+            res.insert(I*3, ',');
+        }
+        return res.toString();
     }
 }

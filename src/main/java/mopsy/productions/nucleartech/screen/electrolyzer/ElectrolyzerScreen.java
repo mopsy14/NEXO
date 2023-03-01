@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
-public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler> {
+public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>{
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/electrolyzer.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
@@ -62,6 +62,7 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
         if (renderEnergyTooltipPredicate.test(new IntCords2D(x, y)))
+
             renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY)), x, y);
         if (renderFluidStorageTooltipPredicate1.test(new IntCords2D(x, y))) {
             if (getFluidType(0).getFluid() != Fluids.EMPTY && getFluidAmount(0)>0) {
@@ -143,4 +144,5 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
     private long getCapacitymB(int index){
         return FluidUtils.dropletsTomB(getMaxFluidAmount(index));
     }
+
 }
