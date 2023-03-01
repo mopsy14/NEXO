@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nucleartech:block/air_pump",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nucleartech:block/air_pump"
+    },
+    "facing=south": {
+      "model": "nucleartech:block/air_pump",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nucleartech:block/air_pump",
+      "y": 270
+    }
+  }
+}
