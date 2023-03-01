@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nucleartech:block/press",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nucleartech:block/press"
+    },
+    "facing=south": {
+      "model": "nucleartech:block/press",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nucleartech:block/press",
+      "y": 270
+    }
+  }
+}
