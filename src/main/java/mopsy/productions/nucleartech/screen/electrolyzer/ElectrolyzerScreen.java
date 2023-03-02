@@ -15,9 +15,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -61,46 +59,29 @@ public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>
     @Override
     protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
         super.drawMouseoverTooltip(matrices, x, y);
-        if (renderEnergyTooltipPredicate.test(new IntCords2D(x, y)))
+        IntCords2D mouse = new IntCords2D(x,y);
+        if (renderEnergyTooltipPredicate.test(mouse))
+            renderEnergyTooltip(hasShiftDown(), matrices, mouse);
+        if (renderFluidStorageTooltipPredicate1.test(mouse)) {
+            renderFluidTooltip(0, hasShiftDown(), matrices, mouse);
+        }
+        if (renderFluidStorageTooltipPredicate2.test(mouse)) {
+            renderFluidTooltip(1, hasShiftDown(), matrices, mouse);
+        }
+        if (renderFluidStorageTooltipPredicate3.test(mouse)) {
+            renderFluidTooltip(2, hasShiftDown(), matrices, mouse);
+        }
+    }
 
-            renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY)), x, y);
-        if (renderFluidStorageTooltipPredicate1.test(new IntCords2D(x, y))) {
-            if (getFluidType(0).getFluid() != Fluids.EMPTY && getFluidAmount(0)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(0).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(0), getCapacitymB(0))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(0) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
-        }
-        if (renderFluidStorageTooltipPredicate2.test(new IntCords2D(x, y))) {
-            if (getFluidType(1).getFluid() != Fluids.EMPTY && getFluidAmount(1)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(1).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(1), getCapacitymB(1))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(1) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
-        }
-        if (renderFluidStorageTooltipPredicate3.test(new IntCords2D(x, y))) {
-            if (getFluidType(2).getFluid() != Fluids.EMPTY && getFluidAmount(2)>0) {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatable(getFluidType(2).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-                text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(2), getCapacitymB(2))));
-                renderTooltip(matrices, text, x, y);
-            } else {
-                List<Text> text = new ArrayList<>();
-                text.add(Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(2) + "mB"));
-                renderTooltip(matrices, text, x, y);
-            }
-        }
-
+    private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
+    }
+    private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+        List<Text> text = new ArrayList<>();
+        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY, hasShiftDown())));
+        if(!exact)
+            text.add(Text.of("Hold shift for advanced view"));
+        renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
     }
 
     @Override

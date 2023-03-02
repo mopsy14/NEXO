@@ -15,9 +15,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -63,29 +61,26 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         super.drawMouseoverTooltip(matrices, x, y);
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
-            renderTooltip(matrices, Text.of(DisplayUtils.getEnergyBarText(getPower(), CentrifugeEntity.POWER_CAPACITY)), x, y);
+            renderEnergyTooltip(hasShiftDown(), matrices, mouse);
         if (renderFluidStorageTooltipPredicate1.test(mouse)) {
-            renderFluidTooltip(0, matrices, mouse);
+            renderFluidTooltip(0, hasShiftDown(), matrices, mouse);
         }
         if (renderFluidStorageTooltipPredicate2.test(mouse)) {
-            renderFluidTooltip(1, matrices, mouse);
+            renderFluidTooltip(1, hasShiftDown(), matrices, mouse);
         }
         if (renderFluidStorageTooltipPredicate3.test(mouse)) {
-            renderFluidTooltip(2, matrices, mouse);
+            renderFluidTooltip(2, hasShiftDown(), matrices, mouse);
         }
-
     }
-
-    private void renderFluidTooltip(int fluidIndex, MatrixStack matrices, IntCords2D mouseCords){
-        if (getFluidType(fluidIndex).getFluid() != Fluids.EMPTY && getFluidAmount(fluidIndex)>0) {
-            List<Text> text = new ArrayList<>();
-            text.add(Text.translatable(getFluidType(fluidIndex).getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey()));
-            text.add(Text.of(DisplayUtils.getFluidBarText(getFluidAmountmB(fluidIndex), getCapacitymB(fluidIndex))));
-            renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
-        } else {
-            Text text = Text.of(Formatting.GOLD + "0mB/" + getCapacitymB(fluidIndex) + "mB");
-            renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
-        }
+    private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
+    }
+    private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+        List<Text> text = new ArrayList<>();
+        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), CentrifugeEntity.POWER_CAPACITY, hasShiftDown())));
+        if(!exact)
+            text.add(Text.of("Hold shift for advanced view"));
+        renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
     }
 
     @Override

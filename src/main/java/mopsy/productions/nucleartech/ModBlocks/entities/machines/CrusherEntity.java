@@ -39,10 +39,10 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     private int progress;
     private int maxProgress = 200;
     public long previousPower = 0;
-    public static final long CAPACITY = 1000;
-    public static final long MAX_INSERT = 10;
-    public static final long MAX_EXTRACT = 0;
-    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(CAPACITY, MAX_INSERT, MAX_EXTRACT) {
+    public static final long POWER_CAPACITY = 1000;
+    public static final long POWER_MAX_INSERT = 10;
+    public static final long POWER_MAX_EXTRACT = 0;
+    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();
