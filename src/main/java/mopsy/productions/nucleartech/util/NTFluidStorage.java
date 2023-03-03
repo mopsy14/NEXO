@@ -10,18 +10,18 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
-public class NCFluidStorage extends SingleVariantStorage<FluidVariant> {
+public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
     long MAX_CAPACITY;
     BlockEntity blockEntity;
     boolean canInsert;
     boolean isAdvanced = false;
     int index;
-    public NCFluidStorage (long capacity, BlockEntity blockEntity, boolean canInsert){
+    public NTFluidStorage(long capacity, BlockEntity blockEntity, boolean canInsert){
         this.MAX_CAPACITY = capacity;
         this.blockEntity = blockEntity;
         this.canInsert = canInsert;
     }
-    public NCFluidStorage (long capacity, BlockEntity blockEntity, boolean canInsert, int index){
+    public NTFluidStorage(long capacity, BlockEntity blockEntity, boolean canInsert, int index){
         this.MAX_CAPACITY = capacity;
         this.blockEntity = blockEntity;
         this.canInsert = canInsert;

@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModItems.NTItem;
 import mopsy.productions.nucleartech.ModItems.components.*;
 import mopsy.productions.nucleartech.ModItems.dusts.CoalDustItem;
 import mopsy.productions.nucleartech.ModItems.dusts.DiamondDustItem;
@@ -10,6 +11,7 @@ import mopsy.productions.nucleartech.ModItems.raws.RawUraniumItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
+import mopsy.productions.nucleartech.util.ItemInfo;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -21,11 +23,17 @@ import static mopsy.productions.nucleartech.Main.modid;
 
 public class ModdedItems {
     public static HashMap<String, Item> Items = new HashMap<>();
+    private static ItemInfo[] defaultItems = {
+            //plates
+            new ItemInfo("gold_plate"),
+
+            //components
+            new ItemInfo("test_tube"),
+
+    };
 
 
     public static void regItems(){
-        //Registries.ITEM in 1.19.3
-
         //tools
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
@@ -53,6 +61,10 @@ public class ModdedItems {
         regItem(new QuartzDustItem());
         regItem(new DiamondDustItem());
 
+        for(ItemInfo info : defaultItems){
+            if(info.radiation < 0.0001F)
+                regItem(new NTItem(info.settings, info.ID));
+        }
     }
 
     private static void regItem(Item item){

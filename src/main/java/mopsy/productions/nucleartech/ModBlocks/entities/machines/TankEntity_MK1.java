@@ -5,7 +5,7 @@ import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.FluidUtils;
-import mopsy.productions.nucleartech.util.NCFluidStorage;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -42,7 +42,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
 
     public final Inventory inventory = new SimpleInventory(2);
     public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
-    public final SingleVariantStorage<FluidVariant> fluidStorage = new NCFluidStorage(MAX_CAPACITY, this, true);
+    public final SingleVariantStorage<FluidVariant> fluidStorage = new NTFluidStorage(MAX_CAPACITY, this, true);
 
     public TankEntity_MK1(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.TANK_MK1, pos, state);

@@ -6,7 +6,7 @@ import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
-import mopsy.productions.nucleartech.util.NCFluidStorage;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -61,9 +61,9 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
 
     public CentrifugeEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.CENTRIFUGE, pos, state);
-        fluidStorages.add(new NCFluidStorage(8* FluidConstants.BUCKET ,this, true , 0));
-        fluidStorages.add(new NCFluidStorage(8* FluidConstants.BUCKET ,this, false, 1));
-        fluidStorages.add(new NCFluidStorage(8* FluidConstants.BUCKET ,this, false, 2));
+        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, true , 0));
+        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, false, 1));
+        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, false, 2));
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {

@@ -6,7 +6,7 @@ import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.registry.ModdedFluids;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
-import mopsy.productions.nucleartech.util.NCFluidStorage;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -58,9 +58,9 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
 
     public ElectrolyzerEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.ELECTROLYZER, pos, state);
-        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, true , 0));
-        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
-        fluidStorages.add(new NCFluidStorage(16*FluidConstants.BUCKET,this, false, 2));
+        fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, true , 0));
+        fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
+        fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, false, 2));
     }
 
     @Override

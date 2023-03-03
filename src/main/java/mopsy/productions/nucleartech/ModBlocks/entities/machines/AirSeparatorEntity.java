@@ -6,7 +6,7 @@ import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import mopsy.productions.nucleartech.multiblock.AirSeparatorMultiBlock;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
-import mopsy.productions.nucleartech.util.NCFluidStorage;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -48,7 +48,7 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     public int coolerAmount = 0;
     private int maxProgress = 200;
     public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
-    public final SingleVariantStorage<FluidVariant> fluidStorage = new NCFluidStorage(MAX_CAPACITY, this, false);
+    public final SingleVariantStorage<FluidVariant> fluidStorage = new NTFluidStorage(MAX_CAPACITY, this, false);
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 1000;
     public static final long POWER_MAX_INSERT = 10;
