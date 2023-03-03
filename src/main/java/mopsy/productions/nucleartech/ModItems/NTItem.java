@@ -8,7 +8,7 @@ import static mopsy.productions.nucleartech.Main.CREATIVE_TAB;
 
 public class NTItem extends Item implements IModID {
 
-    String ID = "";
+    String ID;
 
     public NTItem(Settings settings, String ID) {
         super(settings);
