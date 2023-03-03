@@ -22,8 +22,8 @@ import static mopsy.productions.nucleartech.Main.LOGGER;
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class ModdedItems {
-    public static HashMap<String, Item> Items = new HashMap<>();
-    private static ItemInfo[] defaultItems = {
+    public static final HashMap<String, Item> Items = new HashMap<>();
+    private static final ItemInfo[] defaultItems = {
             //plates
             new ItemInfo("gold_plate"),
 

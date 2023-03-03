@@ -20,6 +20,7 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
+@SuppressWarnings("UnstableApiUsage")
 public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/tank.png");
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate;

@@ -41,6 +41,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHAN
 import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
+@SuppressWarnings("UnstableApiUsage")
 public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
 
     private final Inventory inventory = new SimpleInventory(7);
@@ -52,7 +53,7 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     public static final long POWER_CAPACITY = 100000;
     public static final long POWER_MAX_INSERT = 100;
     public static final long POWER_MAX_EXTRACT = 0;
-    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();

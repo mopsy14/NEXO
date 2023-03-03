@@ -24,6 +24,7 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ElectrolyzerScreen extends HandledScreen<ElectrolyzerScreenHandler>{
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/electrolyzer.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;

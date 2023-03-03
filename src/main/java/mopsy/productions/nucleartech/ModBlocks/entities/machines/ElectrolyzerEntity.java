@@ -38,6 +38,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHAN
 import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage {
 
     public final Inventory inventory = new SimpleInventory(6);
@@ -46,13 +47,13 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public static final long POWER_CAPACITY = 10000;
     public static final long POWER_MAX_INSERT = 50;
     public static final long POWER_MAX_EXTRACT = 0;
-    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();
         }
     };
-    public static ElectrolyzerRecipe[] recipes = {
+    public static final ElectrolyzerRecipe[] recipes = {
             new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, FluidVariant.of(ModdedFluids.OXYGEN), 2025, 25)
     };
 
@@ -254,14 +255,15 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         return fluidStorages;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     private static class ElectrolyzerRecipe{
-        public FluidVariant input;
-        public long inputAmount;
-        public FluidVariant output1;
-        public long output1Amount;
-        public FluidVariant output2;
-        public long output2Amount;
-        public long requiredPower;
+        public final FluidVariant input;
+        public final long inputAmount;
+        public final FluidVariant output1;
+        public final long output1Amount;
+        public final FluidVariant output2;
+        public final long output2Amount;
+        public final long requiredPower;
 
         public ElectrolyzerRecipe(FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount, long requiredPower){
             this.input = input;

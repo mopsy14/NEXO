@@ -26,6 +26,7 @@ import java.util.List;
 
 import static mopsy.productions.nucleartech.Main.CREATIVE_BLOCK_TAB;
 
+@SuppressWarnings("UnstableApiUsage")
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     @Override public String getID() {return "Tank_MK1";}
     public Tank_MK1Item(Block block) {
@@ -56,9 +57,9 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
             long amount = FluidDataUtils.getFluidAmount(stack.getNbt());
             FluidVariant variant = FluidDataUtils.getFluidType(stack.getNbt());
             if (amount == 0) {
-                tooltip.add(Text.of(Formatting.AQUA.toString() + "Tank is empty"));
+                tooltip.add(Text.of(Formatting.AQUA + "Tank is empty"));
             } else {
-                tooltip.add(Text.of(Formatting.AQUA.toString() + getFluidName(variant).getString() + " " + amount / 81 + "mB/" + Tank_MK1Item.MAX_CAPACITY / 81 + "mB"));
+                tooltip.add(Text.of(Formatting.AQUA + getFluidName(variant).getString() + " " + amount / 81 + "mB/" + Tank_MK1Item.MAX_CAPACITY / 81 + "mB"));
             }
         }
         super.appendTooltip(stack, world, tooltip, context);

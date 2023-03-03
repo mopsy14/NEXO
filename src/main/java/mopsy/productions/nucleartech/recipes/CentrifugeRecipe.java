@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 public class CentrifugeRecipe implements Recipe<SimpleInventory> {
     private final Identifier id;
     public final FluidVariant input;
@@ -93,6 +94,7 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
         public static final Type INSTANCE = new Type();
         public static final String ID = "centrifuge";
     }
+    @SuppressWarnings("UnstableApiUsage")
     public static class Serializer implements RecipeSerializer<CentrifugeRecipe>{
         public static final Serializer INSTANCE = new Serializer();
         public static final String ID = "centrifuge";

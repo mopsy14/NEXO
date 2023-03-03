@@ -7,8 +7,8 @@ import net.minecraft.util.Identifier;
 import static mopsy.productions.nucleartech.Main.modid;
 
 public class AirSeparatorMultiBlock extends MultiBlock implements IMultiBlock {
-    public static AirSeparatorMultiBlock INSTANCE = new AirSeparatorMultiBlock();
-    public static MultiBlockRequirement[] requirements = {
+    public static final AirSeparatorMultiBlock INSTANCE = new AirSeparatorMultiBlock();
+    public static final MultiBlockRequirement[] requirements = {
             new MultiBlockRequirement(new Identifier(modid, "cooler"),1),
             new MultiBlockRequirement(new Identifier(modid, "air_pump"),1)
     };

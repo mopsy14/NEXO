@@ -38,6 +38,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANG
 import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
+@SuppressWarnings("UnstableApiUsage")
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory {
 
     public final Inventory inventory = new SimpleInventory(2);

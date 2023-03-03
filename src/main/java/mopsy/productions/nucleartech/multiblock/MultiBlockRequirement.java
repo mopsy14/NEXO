@@ -5,8 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.util.Identifier;
 
 public class MultiBlockRequirement {
-    Identifier blockID;
-    int amount;
+    final Identifier blockID;
+    final int amount;
 
     public MultiBlockRequirement(Identifier blockID, int amount){
         this.blockID = blockID;

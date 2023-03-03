@@ -19,6 +19,7 @@ import java.util.List;
 import static mopsy.productions.nucleartech.Main.modid;
 
 
+@SuppressWarnings("UnstableApiUsage")
 public class FluidUtils{
 
     public static Storage<FluidVariant> getItemFluidStorage(Inventory inv, int inputIndex, int outputIndex){

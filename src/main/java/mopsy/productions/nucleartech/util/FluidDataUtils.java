@@ -2,11 +2,12 @@ package mopsy.productions.nucleartech.util;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.nbt.NbtCompound;
-
+@SuppressWarnings("UnstableApiUsage")
 public class FluidDataUtils {
     public static long getFluidAmount(NbtCompound nbt){
         return nbt.getLong("fluid_amount");
     }
+
     public static FluidVariant getFluidType(NbtCompound nbt){
         return FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }

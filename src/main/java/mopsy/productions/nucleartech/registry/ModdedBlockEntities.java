@@ -10,6 +10,7 @@ import team.reborn.energy.api.EnergyStorage;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ModdedBlockEntities {
 
     public static BlockEntityType<CrusherEntity> CRUSHER;

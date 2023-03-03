@@ -15,6 +15,7 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ScreenUtils {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/gui_components.png");
 

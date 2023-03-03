@@ -10,17 +10,20 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
+@SuppressWarnings("UnstableApiUsage")
 public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
-    long MAX_CAPACITY;
-    BlockEntity blockEntity;
-    boolean canInsert;
+    final long MAX_CAPACITY;
+    final BlockEntity blockEntity;
+    final boolean canInsert;
     boolean isAdvanced = false;
     int index;
+    @SuppressWarnings("UnstableApiUsage")
     public NTFluidStorage(long capacity, BlockEntity blockEntity, boolean canInsert){
         this.MAX_CAPACITY = capacity;
         this.blockEntity = blockEntity;
         this.canInsert = canInsert;
     }
+    @SuppressWarnings("UnstableApiUsage")
     public NTFluidStorage(long capacity, BlockEntity blockEntity, boolean canInsert, int index){
         this.MAX_CAPACITY = capacity;
         this.blockEntity = blockEntity;
@@ -28,16 +31,19 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
         this.isAdvanced = true;
         this.index = index;
     }
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     protected FluidVariant getBlankVariant() {
         return FluidVariant.blank();
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     protected long getCapacity(FluidVariant variant) {
         return MAX_CAPACITY;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     protected boolean canInsert(FluidVariant variant) {
         if(!canInsert)
@@ -45,6 +51,7 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
         return super.canInsert(variant);
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public boolean supportsInsertion() {
         if(!canInsert)
@@ -52,6 +59,7 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
         return super.supportsInsertion();
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     protected void onFinalCommit() {
         blockEntity.markDirty();
@@ -60,6 +68,7 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
         else
             simpleFinalCommit();
     }
+    @SuppressWarnings("UnstableApiUsage")
     private void simpleFinalCommit(){
         if (!blockEntity.getWorld().isClient) {
             var buf = PacketByteBufs.create();
@@ -71,6 +80,7 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
             });
         }
     }
+    @SuppressWarnings("UnstableApiUsage")
     private void advancedFinalCommit(){
         if (!blockEntity.getWorld().isClient) {
             var buf = PacketByteBufs.create();

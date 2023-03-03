@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
+@SuppressWarnings("UnstableApiUsage")
 public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
@@ -42,7 +43,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     public static final long POWER_CAPACITY = 1000;
     public static final long POWER_MAX_INSERT = 10;
     public static final long POWER_MAX_EXTRACT = 0;
-    public SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
             markDirty();

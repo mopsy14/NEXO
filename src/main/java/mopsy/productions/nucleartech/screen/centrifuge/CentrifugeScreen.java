@@ -24,6 +24,7 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
+@SuppressWarnings("UnstableApiUsage")
 public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/centrifuge.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;

@@ -24,6 +24,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("UnstableApiUsage")
 public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProvider{
     public static final DirectionProperty FACING;
     @Override

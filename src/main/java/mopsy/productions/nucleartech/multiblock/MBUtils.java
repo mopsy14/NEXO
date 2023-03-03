@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MBUtils {
-    public static int maxMBSize = 50;
+    public static final int maxMBSize = 50;
 
     public static boolean hasCompleteMultiBlock(BlockEntity blockEntity, MultiBlock multiBlock){
         if(multiBlock instanceof IMultiBlock) {
@@ -41,7 +41,7 @@ public class MBUtils {
         }
         return i<=maxMBSize && toCheck.size()==0 ? (int) blocks.stream().filter((tmpPos)-> world.getBlockState(tmpPos).getBlock() instanceof IModID && ((IModID) world.getBlockState(tmpPos).getBlock()).getID().equals(ID)).count():0;
     }
-    private static List<BlockPos> getSurroundingBlocks(BlockPos blockPos, World world, List<BlockPos> checkedBlocks, List<BlockPos> blocks, List<BlockPos> toCheck){
+    private static void getSurroundingBlocks(BlockPos blockPos, World world, List<BlockPos> checkedBlocks, List<BlockPos> blocks, List<BlockPos> toCheck){
         List<BlockPos> res = new ArrayList<>();
         for (int i = 1; i < 7; i++) {
             BlockPos tmpPos = getBlockAtSide(blockPos,i);
@@ -54,7 +54,6 @@ public class MBUtils {
             }
         }
 
-        return res;
     }
     private static BlockPos getBlockAtSide(BlockPos blockPos, int side){
         return switch (side){
