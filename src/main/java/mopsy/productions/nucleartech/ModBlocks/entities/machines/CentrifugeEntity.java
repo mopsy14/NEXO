@@ -152,11 +152,11 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
                 craft(centrifugeEntity);
                 sendFluidUpdate(centrifugeEntity);
             }
-            markDirty(world,blockPos,blockState);
         }else{
             centrifugeEntity.progress = 0;
         }
 
+        markDirty(world,blockPos,blockState);
 
         if(centrifugeEntity.energyStorage.amount!=centrifugeEntity.previousPower){
             centrifugeEntity.previousPower = centrifugeEntity.energyStorage.amount;
@@ -169,10 +169,9 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
         }
 
         if(tryFabricTransactions(centrifugeEntity)){
-            markDirty(world,blockPos,blockState);
+
         }
         if(tryTransactions(centrifugeEntity)){
-            markDirty(world,blockPos,blockState);
             sendFluidUpdate(centrifugeEntity);
         }
     }

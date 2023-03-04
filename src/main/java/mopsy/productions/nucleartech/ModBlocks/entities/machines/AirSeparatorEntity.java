@@ -6,6 +6,7 @@ import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import mopsy.productions.nucleartech.multiblock.AirSeparatorMultiBlock;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
+import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -34,22 +35,23 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
-import static mopsy.productions.nucleartech.networking.PacketManager.FLUID_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
 public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory, IEnergyStorage, IMultiBlockController {
 
-    private final Inventory inventory = new SimpleInventory(2);
+    private final Inventory inventory = new SimpleInventory(4);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
     public int pumpAmount = 0;
     public int coolerAmount = 0;
     private int maxProgress = 200;
     public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
-    public final SingleVariantStorage<FluidVariant> fluidStorage = new NTFluidStorage(MAX_CAPACITY, this, false);
+    public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 1000;
     public static final long POWER_MAX_INSERT = 10;
@@ -63,6 +65,8 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
 
     public AirSeparatorEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.AIR_SEPARATOR, pos, state);
+        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, false , 0));
+        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, false, 1));
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -104,11 +108,14 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        fluidStorage.variant.toPacket(buf);
-        buf.writeLong(fluidStorage.amount);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+        for (int i = 0; i < fluidStorages.size(); i++){
+            buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeInt(i);
+            fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(fluidStorages.get(i).amount);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+        }
         return new AirSeparatorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
@@ -153,6 +160,10 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         nbt.putLong("air_separator.power", energyStorage.amount);
         nbt.putInt("air_separator.air_pumps", pumpAmount);
         nbt.putInt("air_separator.coolers", coolerAmount);
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
+            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+        }
     }
     @Override
     public void readNbt(NbtCompound nbt){
@@ -162,6 +173,10 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         energyStorage.amount = nbt.getLong("air_separator.power");
         pumpAmount = nbt.getInt("air_separator.air_pumps");
         coolerAmount = nbt.getInt("air_separator.coolers");
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
+            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+        }
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity airSeparatorEntity) {
@@ -171,13 +186,13 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
             airSeparatorEntity.progress++;
             airSeparatorEntity.energyStorage.amount -= 5;
             if(airSeparatorEntity.progress >= airSeparatorEntity.maxProgress){
-                produce(airSeparatorEntity);
+                if (produce(airSeparatorEntity)>0) {
+                    sendFluidUpdate(airSeparatorEntity);
+                }
             }
         }else{
             airSeparatorEntity.progress = 0;
         }
-
-        markDirty(world,blockPos,blockState);
 
         if(airSeparatorEntity.energyStorage.amount!=airSeparatorEntity.previousPower){
             airSeparatorEntity.previousPower = airSeparatorEntity.energyStorage.amount;
@@ -188,10 +203,82 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
                 ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
             }
         }
+
+        if(tryFabricTransactions(airSeparatorEntity)){
+
+        }
+        if(tryTransactions(airSeparatorEntity)){
+            sendFluidUpdate(airSeparatorEntity);
+        }
+
+        markDirty(world,blockPos,blockState);
     }
 
-    private static void produce(AirSeparatorEntity airSeparatorEntity) {
+    private static long produce(AirSeparatorEntity entity) {
+        long produceAmount = getProduceAmount(entity);
+        long totalProduced = 0;
 
+        if(entity.fluidStorages.get(0).getCapacity()-entity.fluidStorages.get(0).amount <= produceAmount) {
+            totalProduced += produceAmount;
+            entity.fluidStorages.get(0).amount += produceAmount;
+        }else{
+            totalProduced += entity.fluidStorages.get(0).getCapacity() - entity.fluidStorages.get(0).amount;
+            entity.fluidStorages.get(0).amount = entity.fluidStorages.get(0).getCapacity();
+        }
+
+        if(entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount <= produceAmount) {
+            totalProduced += produceAmount;
+            entity.fluidStorages.get(1).amount += produceAmount;
+        }else{
+            totalProduced += entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount;
+            entity.fluidStorages.get(1).amount = entity.fluidStorages.get(1).getCapacity();
+        }
+
+        return totalProduced;
+    }
+    private static long getProduceAmount(AirSeparatorEntity entity){
+        if(entity.fluidStorages.get(0).amount<entity.fluidStorages.get(0).getCapacity() || entity.fluidStorages.get(1).amount<entity.fluidStorages.get(1).getCapacity()){
+            int level = Math.min(entity.coolerAmount, entity.pumpAmount);
+            if(entity.fluidStorages.get(0).amount>entity.fluidStorages.get(1).amount){
+                return Math.min(level*100L, entity.fluidStorages.get(0).getCapacity() - entity.fluidStorages.get(0).amount);
+            }else{
+                return Math.min(level*100L, entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount);
+            }
+        }
+        return 0;
+    }
+
+    private static boolean tryFabricTransactions(AirSeparatorEntity entity) {
+        boolean didSomething = FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+
+        return didSomething;
+    }
+    //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output
+    private static boolean tryTransactions(AirSeparatorEntity entity){
+        boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+
+        return didSomething;
+    }
+
+    private static void sendFluidUpdate(AirSeparatorEntity entity){
+        for (PlayerEntity player : entity.world.getPlayers()) {
+            for (int i = 0; i < entity.fluidStorages.size(); i++) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBlockPos(entity.pos);
+                buf.writeInt(i);
+                entity.fluidStorages.get(i).variant.toPacket(buf);
+                buf.writeLong(entity.fluidStorages.get(i).amount);
+                ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            }
+        }
     }
 
     @Override
@@ -213,27 +300,27 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
 
     @Override
     public FluidVariant getFluidType() {
-        return fluidStorage.variant;
+        return FluidVariant.blank();
     }
 
     @Override
     public void setFluidType(FluidVariant fluidType) {
-        fluidStorage.variant = fluidType;
+
     }
 
     @Override
     public long getFluidAmount() {
-        return fluidStorage.amount;
+        return 0;
     }
 
     @Override
     public void setFluidAmount(long amount) {
-        fluidStorage.amount = amount;
+
     }
 
     @Override
     public List<SingleVariantStorage<FluidVariant>> getFluidStorages() {
-        return null;
+        return fluidStorages;
     }
 
     //Sided Inventory code:
