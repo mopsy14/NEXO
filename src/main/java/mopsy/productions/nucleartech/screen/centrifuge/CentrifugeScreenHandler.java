@@ -40,23 +40,12 @@ public class CentrifugeScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 4,133,19));
         this.addSlot(new ReturnSlot(inventory, 5,133,50));
         //Test Tube Slot
-        this.addSlot(new Slot(inventory, 0,33,19));
+        this.addSlot(new Slot(inventory, 5,0,0));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
 
         addProperties(delegate);
-    }
-
-    public boolean isCrafting(){
-        return delegate.get(0)>0;
-    }
-    public int getScaledProgress(){
-        int progress = this.delegate.get(0);
-        int max = this.delegate.get(1);
-        int barSize = 26;
-
-        return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
 
     public BlockPos getBlockPos(){

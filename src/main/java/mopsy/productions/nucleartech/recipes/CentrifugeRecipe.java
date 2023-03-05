@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.recipes;
 
 import com.google.gson.JsonObject;
+import mopsy.productions.nucleartech.registry.ModdedItems;
 import mopsy.productions.nucleartech.util.FluidUtils;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
@@ -26,8 +27,9 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
     public final long output1Amount;
     public final FluidVariant output2;
     public final long output2Amount;
+    public final boolean needsHeatResistantTubes;
 
-    public CentrifugeRecipe(Identifier id, FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount){
+    public CentrifugeRecipe(Identifier id, FluidVariant input, long inputAmount, FluidVariant output1, long output1Amount, FluidVariant output2, long output2Amount, boolean needsHeatResistantTubes){
         this.id=id;
         this.input = input;
         this.inputAmount=inputAmount;
@@ -35,13 +37,14 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
         this.output1Amount=output1Amount;
         this.output2=output2;
         this.output2Amount=output1Amount;
+        this.needsHeatResistantTubes=needsHeatResistantTubes;
     }
 
 
-    public boolean canProduce(List<SingleVariantStorage<FluidVariant>> fluidStorages, World world) {
+    public boolean canProduce(List<SingleVariantStorage<FluidVariant>> fluidStorages, ItemStack stack, World world) {
         if(world.isClient) return false;
 
-        return  fluidStorages.get(0).variant.equals(input) && fluidStorages.get(0).amount >= inputAmount && canOutput(fluidStorages);
+        return  fluidStorages.get(0).variant.equals(input) && fluidStorages.get(0).amount >= inputAmount && canOutput(fluidStorages) && ((stack.getItem()==ModdedItems.Items.get("test_tube") && stack.getCount()==4)||(stack.getItem()==ModdedItems.Items.get("heat_resistant_test_tube") && stack.getCount()==4));
     }
 
     private boolean canOutput(List<SingleVariantStorage<FluidVariant>> fluidStorages){
@@ -116,8 +119,9 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
             FluidVariant output2Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(output2StrType)));
             long output2Amount = FluidUtils.mBtoDroplets(jsonOutput2.get("amount").getAsLong());
 
+            boolean outputHRT = JsonHelper.getBoolean(json, "needs_heat_resistant_tubes");
 
-            return new CentrifugeRecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount);
+            return new CentrifugeRecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount, outputHRT);
         }
 
         @Override
@@ -132,7 +136,9 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
             FluidVariant output2Type = FluidVariant.fromPacket(buf);
             long output2Amount = buf.readLong();
 
-            return new CentrifugeRecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount);
+            boolean outputHRT = buf.readBoolean();
+
+            return new CentrifugeRecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount, outputHRT);
         }
 
         @Override
@@ -146,6 +152,8 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
 
             recipe.output2.toPacket(buf);
             buf.writeLong(recipe.output2Amount);
+
+            buf.writeBoolean(recipe.needsHeatResistantTubes);
 
         }
     }

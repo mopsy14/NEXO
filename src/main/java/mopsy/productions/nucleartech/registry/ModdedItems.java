@@ -29,6 +29,7 @@ public class ModdedItems {
 
             //components
             new ItemInfo("test_tube"),
+            new ItemInfo("heat_resistant_test_tube")
 
     };
 

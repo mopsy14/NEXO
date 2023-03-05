@@ -51,7 +51,6 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     public int pumpAmount = 0;
     public int coolerAmount = 0;
     private int maxProgress = 200;
-    public static final long MAX_CAPACITY = 8 * FluidConstants.BUCKET;
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 1000;

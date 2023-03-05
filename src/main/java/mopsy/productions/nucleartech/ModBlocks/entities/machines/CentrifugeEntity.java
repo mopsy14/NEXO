@@ -220,7 +220,7 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
 
     private static CentrifugeRecipe getFirstRecipeMatch(CentrifugeEntity entity){
         for(CentrifugeRecipe centrifugeRecipe : entity.getWorld().getRecipeManager().listAllOfType(CentrifugeRecipe.Type.INSTANCE)){
-            if(centrifugeRecipe.canProduce(entity.fluidStorages, entity.getWorld())) {
+            if(centrifugeRecipe.canProduce(entity.fluidStorages, entity.inventory.getStack(6), entity.getWorld())) {
                 return centrifugeRecipe;
             }
         }
