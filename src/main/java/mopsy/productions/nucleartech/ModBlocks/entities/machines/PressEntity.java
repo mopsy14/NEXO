@@ -6,6 +6,7 @@ import mopsy.productions.nucleartech.recipes.PressRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -138,9 +139,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
             buf.writeLong(pressEntity.getPower());
-            for (PlayerEntity player : world.getPlayers()) {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-            }
+            PlayerLookup.tracking(pressEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
     }
 

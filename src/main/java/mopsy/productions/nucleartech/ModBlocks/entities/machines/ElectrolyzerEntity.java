@@ -8,6 +8,7 @@ import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandl
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -125,9 +126,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
                 buf.writeInt(i);
                 entity.fluidStorages.get(i).variant.toPacket(buf);
                 buf.writeLong(entity.fluidStorages.get(i).amount);
-                world.getPlayers().forEach(player -> {
-                    ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
-                });
+                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
             }
         }
 
@@ -144,9 +143,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
                 buf.writeInt(i);
                 entity.fluidStorages.get(i).variant.toPacket(buf);
                 buf.writeLong(entity.fluidStorages.get(i).amount);
-                world.getPlayers().forEach(player -> {
-                    ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
-                });
+                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
             }
         }
 
@@ -156,9 +153,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
             buf.writeLong(entity.getPower());
-            for (PlayerEntity player : world.getPlayers()) {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-            }
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
     }
 

@@ -9,6 +9,7 @@ import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandl
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -199,9 +200,7 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
             buf.writeLong(airSeparatorEntity.getPower());
-            for (PlayerEntity player : world.getPlayers()) {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-            }
+            PlayerLookup.tracking(airSeparatorEntity).forEach( player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
 
         if(tryFabricTransactions(airSeparatorEntity)){
@@ -269,15 +268,13 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     private static void sendFluidUpdate(AirSeparatorEntity entity){
-        for (PlayerEntity player : entity.world.getPlayers()) {
-            for (int i = 0; i < entity.fluidStorages.size(); i++) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeBlockPos(entity.pos);
-                buf.writeInt(i);
-                entity.fluidStorages.get(i).variant.toPacket(buf);
-                buf.writeLong(entity.fluidStorages.get(i).amount);
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
-            }
+        for (int i = 0; i < entity.fluidStorages.size(); i++) {
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(entity.pos);
+            buf.writeInt(i);
+            entity.fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(entity.fluidStorages.get(i).amount);
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
         }
     }
 

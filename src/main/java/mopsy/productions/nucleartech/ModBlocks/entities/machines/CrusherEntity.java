@@ -6,6 +6,7 @@ import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -138,9 +139,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
             buf.writeLong(crusherEntity.getPower());
-            for (PlayerEntity player : world.getPlayers()) {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-            }
+            PlayerLookup.tracking(crusherEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
     }
 
