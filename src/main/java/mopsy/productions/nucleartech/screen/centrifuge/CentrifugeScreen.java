@@ -52,9 +52,11 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+108, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+73, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+113, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
         renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), CentrifugeEntity.POWER_CAPACITY);
+
+        renderProgress(matrices, x, y);
     }
 
     @Override
@@ -82,6 +84,13 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         if(!exact)
             text.add(Text.of("Hold shift for advanced view"));
         renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
+    }
+
+    private void renderProgress(MatrixStack matrices, int x, int y){
+        if(handler.isCrafting()){
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            drawTexture(matrices, x+48, y+24, 176, 0, handler.getScaledProgress(), 12);
+        }
     }
 
     @Override

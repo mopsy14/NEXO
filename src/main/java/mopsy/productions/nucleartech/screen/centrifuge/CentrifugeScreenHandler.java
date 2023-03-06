@@ -31,21 +31,38 @@ public class CentrifugeScreenHandler extends ScreenHandler {
         this.blockPos = blockPos;
 
         //FluidInput
-        this.addSlot(new Slot(inventory, 0,33,19));
-        this.addSlot(new ReturnSlot(inventory, 1,33,50));
+        this.addSlot(new Slot(inventory, 0,28,19));
+        this.addSlot(new ReturnSlot(inventory, 1,28,50));
         //FluidOutput1
-        this.addSlot(new Slot(inventory, 2,83,19));
-        this.addSlot(new ReturnSlot(inventory, 3,83,50));
+        this.addSlot(new Slot(inventory, 2,93,19));
+        this.addSlot(new ReturnSlot(inventory, 3,93,50));
         //FluidOutput2
         this.addSlot(new Slot(inventory, 4,133,19));
         this.addSlot(new ReturnSlot(inventory, 5,133,50));
         //Test Tube Slot
-        this.addSlot(new Slot(inventory, 5,0,0));
+        this.addSlot(new Slot(inventory, 6,51,41){
+            @Override
+            public int getMaxItemCount() {
+                return 4;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
 
         addProperties(delegate);
+    }
+
+    public boolean isCrafting(){
+        return delegate.get(0)>0;
+    }
+
+    public int getScaledProgress(){
+        int progress = this.delegate.get(0);
+        int max = this.delegate.get(1);
+        int barSize = 21;
+
+        return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
 
     public BlockPos getBlockPos(){

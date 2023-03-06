@@ -11,5 +11,6 @@
   "output_2": {
     "type": "nucleartech:oxygen",
     "amount": 500
-  }
+  },
+  "needs_heat_resistant_tubes": true
 }

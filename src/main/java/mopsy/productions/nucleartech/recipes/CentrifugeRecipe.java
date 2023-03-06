@@ -44,7 +44,7 @@ public class CentrifugeRecipe implements Recipe<SimpleInventory> {
     public boolean canProduce(List<SingleVariantStorage<FluidVariant>> fluidStorages, ItemStack stack, World world) {
         if(world.isClient) return false;
 
-        return  fluidStorages.get(0).variant.equals(input) && fluidStorages.get(0).amount >= inputAmount && canOutput(fluidStorages) && ((stack.getItem()==ModdedItems.Items.get("test_tube") && stack.getCount()==4)||(stack.getItem()==ModdedItems.Items.get("heat_resistant_test_tube") && stack.getCount()==4));
+        return  fluidStorages.get(0).variant.equals(input) && fluidStorages.get(0).amount >= inputAmount && canOutput(fluidStorages) && ((stack.getItem()==ModdedItems.Items.get("test_tube") && stack.getCount()==4 && !needsHeatResistantTubes)||(stack.getItem()==ModdedItems.Items.get("heat_resistant_test_tube") && stack.getCount()==4 && needsHeatResistantTubes));
     }
 
     private boolean canOutput(List<SingleVariantStorage<FluidVariant>> fluidStorages){
