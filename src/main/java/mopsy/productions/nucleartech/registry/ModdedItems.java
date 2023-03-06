@@ -33,17 +33,23 @@ public class ModdedItems {
 
             //raw's
             new ItemInfo("raw_uranium", 1),
+            new ItemInfo("sulfur"),
+            new ItemInfo("fluoride"),
+            new ItemInfo("raw_titanium"),
 
             //ingots
             new ItemInfo("uranium_ingot", 1),
+            new ItemInfo("titanium_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
+            new ItemInfo("titanium_nugget"),
 
             //dusts
             new ItemInfo("coal_dust"),
             new ItemInfo("quartz_dust"),
             new ItemInfo("diamond_dust"),
+            new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
 
     };
