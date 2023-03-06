@@ -11,6 +11,9 @@ public class ItemInfo {
     public ItemInfo(String ID){
         this(new FabricItemSettings().group(CREATIVE_TAB),ID,0);
     }
+    public ItemInfo(String ID, float radiation){
+        this(new FabricItemSettings().group(CREATIVE_TAB),ID,radiation);
+    }
     public ItemInfo(FabricItemSettings settings, String ID, float radiation){
         this.settings = settings;
         this.ID = ID;

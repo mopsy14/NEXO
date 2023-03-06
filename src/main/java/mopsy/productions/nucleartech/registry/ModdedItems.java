@@ -1,13 +1,8 @@
 package mopsy.productions.nucleartech.registry;
 
 import mopsy.productions.nucleartech.ModItems.NTItem;
-import mopsy.productions.nucleartech.ModItems.components.*;
-import mopsy.productions.nucleartech.ModItems.dusts.CoalDustItem;
-import mopsy.productions.nucleartech.ModItems.dusts.DiamondDustItem;
-import mopsy.productions.nucleartech.ModItems.dusts.QuartzDustItem;
-import mopsy.productions.nucleartech.ModItems.ingots.UraniumIngotItem;
-import mopsy.productions.nucleartech.ModItems.nuggets.UraniumNuggetItem;
-import mopsy.productions.nucleartech.ModItems.raws.RawUraniumItem;
+import mopsy.productions.nucleartech.ModItems.NTRadiatingItem;
+import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
@@ -24,12 +19,32 @@ import static mopsy.productions.nucleartech.Main.modid;
 public class ModdedItems {
     public static final HashMap<String, Item> Items = new HashMap<>();
     private static final ItemInfo[] defaultItems = {
-            //plates
-            new ItemInfo("gold_plate"),
+            //tools
 
             //components
             new ItemInfo("test_tube"),
-            new ItemInfo("heat_resistant_test_tube")
+            new ItemInfo("heat_resistant_test_tube"),
+            new ItemInfo("piezoelectric_element"),
+            new ItemInfo("crushing_wheel"),
+            new ItemInfo("electric_motor"),
+
+            //plates
+            new ItemInfo("gold_plate"),
+
+            //raw's
+            new ItemInfo("raw_uranium", 1),
+
+            //ingots
+            new ItemInfo("uranium_ingot", 1),
+
+            //nuggets
+            new ItemInfo("uranium_nugget", 0.2F),
+
+            //dusts
+            new ItemInfo("coal_dust"),
+            new ItemInfo("quartz_dust"),
+            new ItemInfo("diamond_dust"),
+            new ItemInfo("uranium_dust", 2),
 
     };
 
@@ -41,30 +56,21 @@ public class ModdedItems {
 
         //components
         regItem(new CopperWireItem());
-        regItem(new PiezoelectricElementItem());
-        regItem(new CrushingWheelItem());
-        regItem(new ElectricMotorItem());
-        regItem(new WireCasingItem());
-        regItem(new YellowCakeItem());
-
 
         //raw's
-        regItem(new RawUraniumItem());
 
         //ingots
-        regItem(new UraniumIngotItem());
 
         //nuggets
-        regItem(new UraniumNuggetItem());
 
         //dusts
-        regItem(new CoalDustItem());
-        regItem(new QuartzDustItem());
-        regItem(new DiamondDustItem());
+
 
         for(ItemInfo info : defaultItems){
             if(info.radiation < 0.0001F)
                 regItem(new NTItem(info.settings, info.ID));
+            else
+                regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation));
         }
     }
 
