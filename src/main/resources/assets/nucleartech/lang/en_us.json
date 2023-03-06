@@ -19,6 +19,15 @@
   "item.nucleartech.oxygen_bucket": "Oxygen Bucket",
   "item.nucleartech.hydrogen_bucket": "Hydrogen Bucket",
   "item.nucleartech.yellow_cake": "Yellowcake",
+  "item.nucleartech.test_tube": "Test Tube",
+  "item.nucleartech.heat_resistant_test_tube": "Heat Resistant Test Tube",
+  "item.nucleartech.gold_plate": "Gold Plate",
+  "item.nucleartech.fluoride": "Fluoride",
+  "item.nucleartech.sulfur": "Sulfur",
+  "item.nucleartech.titanium_ingot": "Titanium Ingot",
+  "item.nucleartech.raw_titanium": "Raw Titanium",
+  "item.nucleartech.titanium_dust": "Titanium Dust",
+  "item.nucleartech.titanium_nugget": "Titanium Nugget",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -34,5 +43,7 @@
   "block.nucleartech.nitrogen": "Nitrogen",
   "block.nucleartech.oxygen": "Oxygen",
   "block.nucleartech.hydrogen": "Hydrogen",
-  "block.nucleartech.centrifuge": "Centrifuge"
+  "block.nucleartech.centrifuge": "Centrifuge",
+  "block.nucleartech.titanium_ore": "Titanium Ore",
+  "block.nucleartech.deepslate_titanium_ore": "Deepslate Uranium Ore"
 }
