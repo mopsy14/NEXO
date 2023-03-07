@@ -18,12 +18,12 @@ public class ModPlacedFeatures {
     public static final RegistryEntry<PlacedFeature> FLUORITE_ORE_PLACED = PlacedFeatures.register(
             "fluorite_ore_placed",
             ModConfiguredFeatures.OVERWORLD_FLUORITE_ORES_REG_ENTRY,
-            modifiersWithCount(10, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
+            modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
     );
     public static final RegistryEntry<PlacedFeature> TITANIUM_ORE_PLACED = PlacedFeatures.register(
-            "fluorite_ore_placed",
+            "titanium_ore_placed",
             ModConfiguredFeatures.OVERWORLD_TITANIUM_ORES_REG_ENTRY,
-            modifiersWithCount(10, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
+            modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
     );
 
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier) {

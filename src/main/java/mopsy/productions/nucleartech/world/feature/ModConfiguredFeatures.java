@@ -23,9 +23,9 @@ public class ModConfiguredFeatures {
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_URANIUM_ORES_REG_ENTRY =
             ConfiguredFeatures.register("uranium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_URANIUM_ORES, 4));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_FLUORITE_ORES_REG_ENTRY =
-            ConfiguredFeatures.register("fluorite_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_FLUORITE_ORES, 6));
+            ConfiguredFeatures.register("fluorite_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_FLUORITE_ORES, 5));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_TITANIUM_ORES_REG_ENTRY =
-            ConfiguredFeatures.register("titanium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_TITANIUM_ORES, 6));
+            ConfiguredFeatures.register("titanium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_TITANIUM_ORES, 5));
 
     public static void regConfiguredFeatures(){
 
