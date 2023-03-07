@@ -5,10 +5,7 @@ import mopsy.productions.nucleartech.ModBlocks.blocks.machines.*;
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.ConduitBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.airSeparator.AirPumpBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.airSeparator.CoolerBlock;
-import mopsy.productions.nucleartech.ModBlocks.blocks.ores.DeepslateUraniumOreBlock;
-import mopsy.productions.nucleartech.ModBlocks.blocks.ores.FluoriteOreBlock;
-import mopsy.productions.nucleartech.ModBlocks.blocks.ores.TitaniumOreBlock;
-import mopsy.productions.nucleartech.ModBlocks.blocks.ores.UraniumOreBlock;
+import mopsy.productions.nucleartech.ModBlocks.blocks.ores.*;
 import mopsy.productions.nucleartech.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nucleartech.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
@@ -32,6 +29,7 @@ public class ModdedBlocks {
         regBlock(new DeepslateUraniumOreBlock());
         regBlock(new FluoriteOreBlock());
         regBlock(new TitaniumOreBlock());
+        regBlock(new DeepslateTitaniumOreBlock());
         //compressed
         regBlock(new UraniumBlock());
         //machines
