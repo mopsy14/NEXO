@@ -52,8 +52,8 @@ public class ModdedItems {
             new ItemInfo("diamond_dust"),
             new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
-            new ItemInfo("gold_dust")
-            new ItemInfo("titanium_dust")
+            new ItemInfo("gold_dust"),
+            new ItemInfo("titanium_dust"),
             new ItemInfo("iron_dust")
 
     };
