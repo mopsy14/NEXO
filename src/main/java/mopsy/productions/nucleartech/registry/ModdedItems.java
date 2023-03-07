@@ -53,7 +53,6 @@ public class ModdedItems {
             new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
             new ItemInfo("gold_dust"),
-            new ItemInfo("titanium_dust"),
             new ItemInfo("iron_dust")
 
     };
