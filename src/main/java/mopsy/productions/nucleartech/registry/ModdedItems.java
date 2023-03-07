@@ -34,7 +34,7 @@ public class ModdedItems {
             //raw's
             new ItemInfo("raw_uranium", 1),
             new ItemInfo("sulfur"),
-            new ItemInfo("fluoride"),
+            new ItemInfo("fluorite"),
             new ItemInfo("raw_titanium"),
 
             //ingots
