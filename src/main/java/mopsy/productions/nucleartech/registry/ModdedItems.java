@@ -5,6 +5,7 @@ import mopsy.productions.nucleartech.ModItems.NTRadiatingItem;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nucleartech.interfaces.IData;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -51,6 +52,9 @@ public class ModdedItems {
             new ItemInfo("diamond_dust"),
             new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
+            new ItemInfo("gold_dust")
+            new ItemInfo("titanium_dust")
+            new ItemInfo("iron_dust")
 
     };
 
