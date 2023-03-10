@@ -38,6 +38,8 @@ public class ModdedBlocks {
         regBlock(new PressBlock());
         regBlock(new ElectrolyzerBlock());
         regBlock(new CentrifugeBlock());
+        //generators
+        regBlock(new FurnaceGeneratorBlock());
         //multi block controllers
         regBlock(new AirSeparatorBlock());
         //multi block blocks

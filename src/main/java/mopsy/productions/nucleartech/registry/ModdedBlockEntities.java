@@ -19,6 +19,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<ElectrolyzerEntity> ELECTROLYZER;
     public static BlockEntityType<CentrifugeEntity> CENTRIFUGE;
     public static BlockEntityType<AirSeparatorEntity> AIR_SEPARATOR;
+    public static BlockEntityType<FurnaceGeneratorEntity> FURNACE_GENERATOR;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -39,12 +40,16 @@ public class ModdedBlockEntities {
         AIR_SEPARATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "air_separator"),
                 FabricBlockEntityTypeBuilder.create(AirSeparatorEntity::new, ModdedBlocks.Blocks.get("air_separator")).build(null));
 
+        FURNACE_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "furnace_generator"),
+                FabricBlockEntityTypeBuilder.create(FurnaceGeneratorEntity::new, ModdedBlocks.Blocks.get("furnace_generator")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AIR_SEPARATOR);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTROLYZER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CENTRIFUGE);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, FURNACE_GENERATOR);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(0)), ELECTROLYZER);

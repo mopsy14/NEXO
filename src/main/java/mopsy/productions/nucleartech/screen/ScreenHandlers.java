@@ -8,6 +8,8 @@ import mopsy.productions.nucleartech.screen.crusher.CrusherScreen;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreen;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
+import mopsy.productions.nucleartech.screen.furnaceGenerator.FurnaceGeneratorScreen;
+import mopsy.productions.nucleartech.screen.furnaceGenerator.FurnaceGeneratorScreenHandler;
 import mopsy.productions.nucleartech.screen.press.PressScreen;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
@@ -26,6 +28,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<AirSeparatorScreenHandler> AIR_SEPARATOR = new ExtendedScreenHandlerType<>(AirSeparatorScreenHandler::new);
     public static final ExtendedScreenHandlerType<ElectrolyzerScreenHandler> ELECTROLYZER = new ExtendedScreenHandlerType<>(ElectrolyzerScreenHandler::new);
     public static final ExtendedScreenHandlerType<CentrifugeScreenHandler> CENTRIFUGE = new ExtendedScreenHandlerType<>(CentrifugeScreenHandler::new);
+    public static final ExtendedScreenHandlerType<FurnaceGeneratorScreenHandler> FURNACE_GENERATOR = new ExtendedScreenHandlerType<>(FurnaceGeneratorScreenHandler::new);
 
     public static void regScreenHandlers(){
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
@@ -34,6 +37,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "air_separator"), AIR_SEPARATOR);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electrolyzer"), ELECTROLYZER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "centrifuge"), CENTRIFUGE);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "furnace_generator"), FURNACE_GENERATOR);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -42,5 +46,6 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.AIR_SEPARATOR, AirSeparatorScreen::new);
         HandledScreens.register(ScreenHandlers.ELECTROLYZER, ElectrolyzerScreen::new);
         HandledScreens.register(ScreenHandlers.CENTRIFUGE, CentrifugeScreen::new);
+        HandledScreens.register(ScreenHandlers.FURNACE_GENERATOR, FurnaceGeneratorScreen::new);
     }
 }
