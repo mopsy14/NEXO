@@ -5,7 +5,6 @@ import mopsy.productions.nucleartech.ModItems.NTRadiatingItem;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
-import mopsy.productions.nucleartech.interfaces.IData;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -28,6 +27,11 @@ public class ModdedItems {
             new ItemInfo("piezoelectric_element"),
             new ItemInfo("crushing_wheel"),
             new ItemInfo("electric_motor"),
+            new ItemInfo("reactor_control_rods"),
+            new ItemInfo("control_rod"),
+            new ItemInfo("reaction_chamber"),
+            new ItemInfo("rod_holder"),
+            new ItemInfo("reactor_boiler"),
 
             //plates
             new ItemInfo("gold_plate"),
@@ -41,6 +45,7 @@ public class ModdedItems {
             //ingots
             new ItemInfo("uranium_ingot", 1),
             new ItemInfo("titanium_ingot"),
+            new ItemInfo("graphite_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
