@@ -120,7 +120,8 @@ public class FurnaceGeneratorEntity extends BlockEntity implements ExtendedScree
 
         if(entity.burnTimeLeft ==0&&entity.energyStorage.capacity-entity.energyStorage.amount!=0){
              Integer burnTime = FuelRegistry.INSTANCE.get(entity.inventory.getStack(0).getItem());
-             if(burnTime!=null && burnTime>0){
+             if(burnTime!=null && burnTime>1){
+                 burnTime = Math.round(burnTime/2.0f);
                  entity.burnTime = burnTime;
                  entity.burnTimeLeft = burnTime;
                  Inventory inv = entity.inventory;
@@ -134,7 +135,7 @@ public class FurnaceGeneratorEntity extends BlockEntity implements ExtendedScree
 
         if(entity.burnTimeLeft >0 && entity.energyStorage.amount < entity.energyStorage.capacity){
             entity.burnTimeLeft--;
-            entity.energyStorage.amount += Math.min(2, entity.energyStorage.capacity-entity.energyStorage.amount);
+            entity.energyStorage.amount += Math.min(5, entity.energyStorage.capacity-entity.energyStorage.amount);
         }
 
         markDirty(world,blockPos,blockState);
