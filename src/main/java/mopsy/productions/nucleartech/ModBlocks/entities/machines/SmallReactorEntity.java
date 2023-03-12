@@ -1,8 +1,9 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
+import mopsy.productions.nucleartech.screen.smallReactor.SmallReactorScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -41,12 +42,13 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 @SuppressWarnings("UnstableApiUsage")
 public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IFluidStorage {
 
-    private final Inventory inventory = new SimpleInventory(7);
+    private final Inventory inventory = new SimpleInventory(8);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     private int coreHeat;
     private int steamProduction = 500;
-    private int active;
+    public int active;
+    private final int prevActive = 0;
 
     public SmallReactorEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.CENTRIFUGE, pos, state);
@@ -87,9 +89,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        return new CentrifugeScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+        return new SmallReactorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
     @Override
@@ -123,15 +123,23 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, SmallReactorEntity centrifugeEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, SmallReactorEntity entity) {
         if(world.isClient)return;
+
+        if(entity.active!= entity.prevActive){
+            world.setBlockState(blockPos.up(2),
+                    world.getBlockState(blockPos.up(2)).with(ControlRodsBlock.ACTIVE, entity.active != 0));
+        }
+        System.out.println("entity:"+entity.active);
+        System.out.println(world.getBlockState(blockPos.up(2)));
+
 
         markDirty(world,blockPos,blockState);
 
-        tryFabricTransactions(centrifugeEntity);
+        tryFabricTransactions(entity);
 
-        if(tryTransactions(centrifugeEntity)){
-            sendFluidUpdate(centrifugeEntity);
+        if(tryTransactions(entity)){
+            sendFluidUpdate(entity);
         }
     }
 

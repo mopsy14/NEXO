@@ -45,7 +45,7 @@ public class ModdedBlockEntities {
                 FabricBlockEntityTypeBuilder.create(FurnaceGeneratorEntity::new, ModdedBlocks.Blocks.get("furnace_generator")).build(null));
 
         SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "small_reactor"),
-                FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor")).build(null));
+                FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor_hatches")).build(null));
 
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
@@ -59,5 +59,7 @@ public class ModdedBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(0)), ELECTROLYZER);
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(1)), ELECTROLYZER);
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(2)), ELECTROLYZER);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(0)), SMALL_REACTOR);
+        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorages.get(1)), SMALL_REACTOR);
     }
 }

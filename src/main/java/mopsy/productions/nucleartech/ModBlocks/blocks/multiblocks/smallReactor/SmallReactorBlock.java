@@ -1,23 +1,24 @@
 package mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor;
 
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.CentrifugeEntity;
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
+import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class SmallReactorHatchesBlock extends Block implements IModID{
+public class SmallReactorBlock extends Block implements IModID {
     @Override
-    public String getID(){return "small_reactor_hatches";}
+    public String getID(){return "small_reactor";}
 
-    public SmallReactorHatchesBlock() {
+    public SmallReactorBlock() {
         super(FabricBlockSettings
                 .of(Material.METAL, MapColor.BLACK)
                 .strength(10.0F, 10.0F)
@@ -35,9 +36,11 @@ public class SmallReactorHatchesBlock extends Block implements IModID{
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            NamedScreenHandlerFactory screenHandlerFactory = (CentrifugeEntity)world.getBlockEntity(pos);
-            if(screenHandlerFactory != null){
-                player.openHandledScreen(screenHandlerFactory);
+            Block controller = world.getBlockState(pos.down()).getBlock();
+            if(controller instanceof SmallReactorHatchesBlock reactor) {
+                return reactor.onUse(world.getBlockState(pos.down()), world, pos.down(), player, hand, hit);
+            }else{
+                player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"));
             }
         }
         return ActionResult.SUCCESS;
