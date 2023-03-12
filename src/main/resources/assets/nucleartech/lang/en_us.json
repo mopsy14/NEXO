@@ -22,12 +22,20 @@
   "item.nucleartech.test_tube": "Test Tube",
   "item.nucleartech.heat_resistant_test_tube": "Heat Resistant Test Tube",
   "item.nucleartech.gold_plate": "Gold Plate",
-  "item.nucleartech.fluoride": "Fluorite",
+  "item.nucleartech.fluorite": "Fluorite",
   "item.nucleartech.sulfur": "Sulfur",
   "item.nucleartech.titanium_ingot": "Titanium Ingot",
   "item.nucleartech.raw_titanium": "Raw Titanium",
   "item.nucleartech.titanium_dust": "Titanium Dust",
   "item.nucleartech.titanium_nugget": "Titanium Nugget",
+  "item.nucleartech.gold_dust": "Gold Dust",
+  "item.nucleartech.Iron_dust": "Iron Dust",
+  "item.nucleartech.control_rod": "Control Rod",
+  "item.nucleartech.rod_holder": "Rod Holder",
+  "item.nucleartech.graphite_ingot": "Graphite",
+  "item.nucleartech.uranium_dust": "Uranium Dust",
+
+
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -46,9 +54,10 @@
   "block.nucleartech.centrifuge": "Centrifuge",
   "block.nucleartech.titanium_ore": "Titanium Ore",
   "block.nucleartech.deepslate_titanium_ore": "Deepslate Titanium Ore",
-  "block.nucleartech.deepslate_fluorite_ore": "Deepslate Fluorite Ore",
-  "block.nucleartech.fluorite_ore": "Fluorite Ore",
-  "block.nucleartech.gold_dust": "Gold Dust",
-  "block.nucleartech.titanium_dust": "Titanium Dust",
-  "block.nucleartech.Iron_dust": "Iron Dust"
+  "block.nucleartech.sulfur_ore": "Sulfur Ore",
+  "block.nucleartech.furnace_generator": "Furnace Generator",
+  "block.nucleartech.control_rods": "Control Rods",
+  "block.nucleartech.reaction_chamber": "Reaction Chamber",
+  "block.nucleartech.reactor_boiler": "Reactor Boiler",
+  "item.nucleartech.fluorite_ore": "Fluorite Ore"
 }
