@@ -34,6 +34,8 @@
   "item.nucleartech.rod_holder": "Rod Holder",
   "item.nucleartech.graphite_ingot": "Graphite",
   "item.nucleartech.uranium_dust": "Uranium Dust",
+  "item.nucleartech.reaction_chamber": "Reaction Chamber",
+  "item.nucleartech.reactor_boiler": "Reactor Boiler",
 
 
 
@@ -57,7 +59,5 @@
   "block.nucleartech.sulfur_ore": "Sulfur Ore",
   "block.nucleartech.furnace_generator": "Furnace Generator",
   "block.nucleartech.control_rods": "Control Rods",
-  "block.nucleartech.reaction_chamber": "Reaction Chamber",
-  "block.nucleartech.reactor_boiler": "Reactor Boiler",
-  "item.nucleartech.fluorite_ore": "Fluorite Ore"
+  "block.nucleartech.fluorite_ore": "Fluorite Ore"
 }
