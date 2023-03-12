@@ -27,7 +27,6 @@ public class ModdedItems {
             new ItemInfo("piezoelectric_element"),
             new ItemInfo("crushing_wheel"),
             new ItemInfo("electric_motor"),
-            new ItemInfo("reactor_control_rods"),
             new ItemInfo("control_rod"),
             new ItemInfo("reaction_chamber"),
             new ItemInfo("rod_holder"),

@@ -20,6 +20,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<CentrifugeEntity> CENTRIFUGE;
     public static BlockEntityType<AirSeparatorEntity> AIR_SEPARATOR;
     public static BlockEntityType<FurnaceGeneratorEntity> FURNACE_GENERATOR;
+    public static BlockEntityType<SmallReactorEntity> SMALL_REACTOR;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -42,6 +43,9 @@ public class ModdedBlockEntities {
 
         FURNACE_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "furnace_generator"),
                 FabricBlockEntityTypeBuilder.create(FurnaceGeneratorEntity::new, ModdedBlocks.Blocks.get("furnace_generator")).build(null));
+
+        SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "small_reactor"),
+                FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor")).build(null));
 
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
