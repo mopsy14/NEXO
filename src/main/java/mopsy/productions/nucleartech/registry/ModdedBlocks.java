@@ -30,6 +30,7 @@ public class ModdedBlocks {
         regBlock(new FluoriteOreBlock());
         regBlock(new TitaniumOreBlock());
         regBlock(new DeepslateTitaniumOreBlock());
+        regBlock(new SulfurOreBlock());
         //compressed
         regBlock(new UraniumBlock());
         //machines

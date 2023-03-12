@@ -7,13 +7,13 @@ import net.minecraft.block.Material;
 import net.minecraft.block.OreBlock;
 import net.minecraft.sound.BlockSoundGroup;
 
-public class TitaniumOreBlock extends OreBlock implements IModID {
+public class SulfurOreBlock extends OreBlock implements IModID {
     @Override
-    public String getID(){return "titanium_ore";}
-    public TitaniumOreBlock() {
+    public String getID(){return "sulfur_ore";}
+    public SulfurOreBlock() {
         super(FabricBlockSettings
                         .of(Material.STONE, MapColor.GRAY)
-                        .strength(5.0F, 5.0F)
+                        .strength(3.0F, 3.0F)
                         .sounds(BlockSoundGroup.STONE)
                         .requiresTool()
         );

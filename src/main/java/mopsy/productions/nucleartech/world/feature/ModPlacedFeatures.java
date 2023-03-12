@@ -25,6 +25,11 @@ public class ModPlacedFeatures {
             ModConfiguredFeatures.OVERWORLD_TITANIUM_ORES_REG_ENTRY,
             modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
     );
+    public static final RegistryEntry<PlacedFeature> SULFUR_ORE_PLACED = PlacedFeatures.register(
+            "sulfur_ore_placed",
+            ModConfiguredFeatures.OVERWORLD_SULFUR_ORES_REG_ENTRY,
+            modifiersWithCount(20, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
+    );
 
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier) {
         return List.of(countModifier, SquarePlacementModifier.of(), heightModifier, BiomePlacementModifier.of());
