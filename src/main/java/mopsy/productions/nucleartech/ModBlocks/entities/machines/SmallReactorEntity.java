@@ -48,10 +48,10 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     private int coreHeat;
     private int steamProduction = 500;
     public int active;
-    private final int prevActive = 0;
+    private int prevActive = 0;
 
     public SmallReactorEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.CENTRIFUGE, pos, state);
+        super(ModdedBlockEntities.SMALL_REACTOR, pos, state);
         fluidStorages.add(new NTFluidStorage(32* FluidConstants.BUCKET ,this, true , 0));
         fluidStorages.add(new NTFluidStorage(32* FluidConstants.BUCKET ,this, false, 1));
         this.propertyDelegate = new PropertyDelegate() {
@@ -129,9 +129,8 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         if(entity.active!= entity.prevActive){
             world.setBlockState(blockPos.up(2),
                     world.getBlockState(blockPos.up(2)).with(ControlRodsBlock.ACTIVE, entity.active != 0));
+            entity.prevActive = entity.active;
         }
-        System.out.println("entity:"+entity.active);
-        System.out.println(world.getBlockState(blockPos.up(2)));
 
 
         markDirty(world,blockPos,blockState);
