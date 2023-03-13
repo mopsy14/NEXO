@@ -2,6 +2,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
+import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.smallReactor.SmallReactorScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
@@ -133,6 +134,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         }
 
 
+
         markDirty(world,blockPos,blockState);
 
         tryFabricTransactions(entity);
@@ -140,6 +142,16 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         if(tryTransactions(entity)){
             sendFluidUpdate(entity);
         }
+    }
+    public static float getHeat(Inventory inv){
+        float total = 0;
+        for (int i = 4; i < 8; i++) {
+            if(inv.getStack(i).getItem() instanceof IItemRadiation item){
+                if(item.hasHeat())
+                    total+=item.getHeat();
+            }
+        }
+        return total;
     }
 
     private static boolean tryFabricTransactions(SmallReactorEntity entity) {
