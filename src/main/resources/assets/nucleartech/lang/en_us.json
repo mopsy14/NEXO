@@ -59,5 +59,7 @@
   "block.nucleartech.sulfur_ore": "Sulfur Ore",
   "block.nucleartech.furnace_generator": "Furnace Generator",
   "block.nucleartech.control_rods": "Control Rods",
-  "block.nucleartech.fluorite_ore": "Fluorite Ore"
+  "block.nucleartech.fluorite_ore": "Fluorite Ore",
+  "block.nucleartech.small_reactor": "Small Reactor",
+  "block.nucleartech.small_reactor_hatches": "Small Reactor Hatches"
 }
