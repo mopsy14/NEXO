@@ -70,7 +70,6 @@ public class ModdedItems {
             new ItemInfo("copper_dust"),
             new ItemInfo("lead_dust"),
             new ItemInfo("graphite_dust"),
-            new ItemInfo("iron_dust"),
 
             //nuclear fuels
             new ItemInfo("empty_fuel_rod"),
