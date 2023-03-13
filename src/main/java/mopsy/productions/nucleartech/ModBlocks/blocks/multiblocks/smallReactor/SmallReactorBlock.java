@@ -6,18 +6,24 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class SmallReactorBlock extends Block implements IModID {
     @Override
     public String getID(){return "small_reactor";}
-
+    public static final DirectionProperty FACING;
     public SmallReactorBlock() {
         super(FabricBlockSettings
                 .of(Material.METAL, MapColor.BLACK)
@@ -26,6 +32,19 @@ public class SmallReactorBlock extends Block implements IModID {
                 .requiresTool()
                 .nonOpaque()
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+    }
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    }
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.rotate(mirror.getRotation(state.get(FACING)));
+    }
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 
     @Override
@@ -44,5 +63,9 @@ public class SmallReactorBlock extends Block implements IModID {
             }
         }
         return ActionResult.SUCCESS;
+    }
+
+    static {
+        FACING = HorizontalFacingBlock.FACING;
     }
 }

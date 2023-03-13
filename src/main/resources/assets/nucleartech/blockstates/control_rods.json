@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=true": {
+      "model": "nucleartech:block/control_rods_active"
+    },
+    "active=false": {
+      "model": "nucleartech:block/control_rods_inactive"
+    }
+  }
+}
