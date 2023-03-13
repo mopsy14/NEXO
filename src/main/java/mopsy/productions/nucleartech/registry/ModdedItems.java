@@ -34,21 +34,30 @@ public class ModdedItems {
 
             //plates
             new ItemInfo("gold_plate"),
+            new ItemInfo("iron_plate"),
+            new ItemInfo("copper_plate"),
+            new ItemInfo("titanium_plate"),
+            new ItemInfo("diamond_plate"),
+            new ItemInfo("lead_plate"),
+
 
             //raw's
             new ItemInfo("raw_uranium", 1),
             new ItemInfo("sulfur"),
             new ItemInfo("fluorite"),
             new ItemInfo("raw_titanium"),
+            new ItemInfo("raw_lead"),
 
             //ingots
             new ItemInfo("uranium_ingot", 1),
             new ItemInfo("titanium_ingot"),
             new ItemInfo("graphite_ingot"),
+            new ItemInfo("lead_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
             new ItemInfo("titanium_nugget"),
+            new ItemInfo("lead_nugget"),
 
             //dusts
             new ItemInfo("coal_dust"),
@@ -57,6 +66,10 @@ public class ModdedItems {
             new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
             new ItemInfo("gold_dust"),
+            new ItemInfo("iron_dust"),
+            new ItemInfo("copper_dust"),
+            new ItemInfo("lead_dust"),
+            new ItemInfo("graphite_dust"),
             new ItemInfo("iron_dust"),
 
             //nuclear fuels

@@ -36,6 +36,17 @@
   "item.nucleartech.uranium_dust": "Uranium Dust",
   "item.nucleartech.reaction_chamber": "Reaction Chamber",
   "item.nucleartech.reactor_boiler": "Reactor Boiler",
+  "item.nucleartech.iron_plate": "Iron Plate",
+  "item.nucleartech.copper_plate": "Copper Plate",
+  "item.nucleartech.diamond_plate": "Diamond Plate",
+  "item.nucleartech.titanium_plate": "Titanium Plate",
+  "item.nucleartech.lead_plate": "Lead Plate",
+  "item.nucleartech.raw_lead": "Raw Lead",
+  "item.nucleartech.lead_ingot": "Lead Ingot",
+  "item.nucleartech.lead_nugget": "Lead nugget",
+  "item.nucleartech.copper_dust": "Copper Dust",
+  "item.nucleartech.lead_dust": "Lead Dust",
+  "item.nucleartech.graphite_dust": "Graphite Dust",
 
 
 
