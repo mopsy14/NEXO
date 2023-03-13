@@ -88,10 +88,15 @@ public class ModdedItems {
 
 
         for(ItemInfo info : defaultItems){
+
             if(info.radiation < 0.0001F)
-                regItem(new NTItem(info.settings, info.ID));
-            else
-                regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation));
+                    regItem(new NTItem(info.settings, info.ID));
+            else{
+                if(info.heat<0.0001F)
+                    regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation));
+                else
+                    regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation, info.heat));
+            }
         }
     }
 
