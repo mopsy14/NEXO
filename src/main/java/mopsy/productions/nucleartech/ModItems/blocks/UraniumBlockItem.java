@@ -12,6 +12,16 @@ public class UraniumBlockItem extends BlockItem implements IModID, IItemRadiatio
 
     @Override public float getRadiation() {return 9;}
 
+    @Override
+    public float getHeat() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasHeat() {
+        return false;
+    }
+
     @Override public String getID() {return "uranium_block";}
 
     public UraniumBlockItem(Block block) {

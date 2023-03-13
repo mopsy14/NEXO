@@ -42,4 +42,14 @@ public class DebugItem extends Item implements IModID, IItemRadiation {
     public float getRadiation() {
         return -10;
     }
+
+    @Override
+    public float getHeat() {
+        return 0;
+    }
+
+    @Override
+    public boolean hasHeat() {
+        return false;
+    }
 }

@@ -6,4 +6,7 @@ public interface IItemRadiation {
      * @return the amount of RAD per Second per Item
      **/
     float getRadiation();
+
+    float getHeat();
+    boolean hasHeat();
 }

@@ -57,7 +57,15 @@ public class ModdedItems {
             new ItemInfo("titanium_dust"),
             new ItemInfo("uranium_dust", 2),
             new ItemInfo("gold_dust"),
-            new ItemInfo("iron_dust")
+            new ItemInfo("iron_dust"),
+
+            //nuclear fuels
+            new ItemInfo("empty_fuel_rod"),
+            new ItemInfo("empty_dual_fuel_rod"),
+            new ItemInfo("empty_quad_fuel_rod"),
+            new ItemInfo("uranium_fuel_rod", 0, 1),
+            new ItemInfo("uranium_double_fuel_rod", 0, 2.5f),
+            new ItemInfo("uranium_quad_fuel_rod", 0, 6f),
 
     };
 
