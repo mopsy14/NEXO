@@ -6,6 +6,21 @@
     "nucleartech:crusher",
     "nucleartech:press",
     "nucleartech:tank_mk1",
-    "nucleartech:uranium_block"
+    "nucleartech:uranium_block",
+    "nucleartech:fluorite_ore",
+    "nucleartech:titanium_ore",
+    "nucleartech:deepslate_titanium_ore",
+    "nucleartech:sulfur_ore",
+    "nucleartech:electrolyzer",
+    "nucleartech:centrifuge",
+    "nucleartech:furnace_generator",
+    "nucleartech:air_seperator",
+    "nucleartech:small_reactor",
+    "nucleartech:conduit",
+    "nucleartech:cooler",
+    "nucleartech:air_pump",
+    "nucleartech:small_reactor_hatches",
+    "nucleartech:control_rods"
+
   ]
 }
