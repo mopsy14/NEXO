@@ -44,6 +44,7 @@ public class ModdedBlocks {
         regBlock(new CentrifugeBlock());
         //generators
         regBlock(new FurnaceGeneratorBlock());
+        regBlock(new SteamTurbineBlock());
         //multi block controllers
         regBlock(new AirSeparatorBlock());
         regBlock(new SmallReactorBlock());
