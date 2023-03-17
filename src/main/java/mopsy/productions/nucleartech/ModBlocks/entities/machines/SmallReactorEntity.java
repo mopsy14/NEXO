@@ -4,6 +4,7 @@ import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor.C
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
+import mopsy.productions.nucleartech.registry.ModdedFluids;
 import mopsy.productions.nucleartech.screen.smallReactor.SmallReactorScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,20 +49,20 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     private int coreHeat;
-    private int steamProduction = 500;
+    private int waterHeat;
     public int active;
     private int prevActive = 0;
 
     public SmallReactorEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.SMALL_REACTOR, pos, state);
         fluidStorages.add(new NTFluidStorage(32* FluidConstants.BUCKET ,this, true , 0));
-        fluidStorages.add(new NTFluidStorage(32* FluidConstants.BUCKET ,this, false, 1));
+        fluidStorages.add(new NTFluidStorage(32* FluidConstants.BUCKET ,this, true, 1));
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
                 switch (index){
                     case 0: return SmallReactorEntity.this.coreHeat;
-                    case 1: return SmallReactorEntity.this.steamProduction;
+                    case 1: return SmallReactorEntity.this.waterHeat;
                     case 2: return SmallReactorEntity.this.active;
                     default: return 0;
                 }
@@ -70,7 +72,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             public void set(int index, int value) {
                 switch (index){
                     case 0: SmallReactorEntity.this.coreHeat = value; break;
-                    case 1: SmallReactorEntity.this.steamProduction = value; break;
+                    case 1: SmallReactorEntity.this.waterHeat = value; break;
                     case 2: SmallReactorEntity.this.active = value; break;
                 }
             }
@@ -103,7 +105,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         super.writeNbt(nbt);
         writeInv(inventory, nbt);
         nbt.putInt("centrifuge.core_heat", coreHeat);
-        nbt.putInt("centrifuge.steam_production", steamProduction);
+        nbt.putInt("centrifuge.water_heat", waterHeat);
         nbt.putInt("centrifuge.active", active);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
@@ -116,7 +118,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         super.readNbt(nbt);
         readInv(inventory, nbt);
         coreHeat = nbt.getInt("centrifuge.core_heat");
-        steamProduction = nbt.getInt("centrifuge.steamProduction");
+        waterHeat = nbt.getInt("centrifuge.water_heat");
         active = nbt.getInt("centrifuge.active");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
@@ -133,7 +135,25 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             entity.prevActive = entity.active;
         }
 
+        entity.waterHeat = Math.max(entity.waterHeat-1, 0);
 
+        entity.coreHeat += Math.round(getHeat(entity.inventory));
+        int change = Math.max(0, Math.min(15, Math.max(0, entity.coreHeat - 100)));
+        if(entity.coreHeat>entity.waterHeat){
+            entity.waterHeat += change;
+            entity.coreHeat -= change;
+        }
+        if(entity.waterHeat>100){
+            try (Transaction transaction = Transaction.openOuter()) {
+                long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), 81L*(entity.waterHeat-100), transaction);
+                if(inputAmount>0){
+                    transaction.commit();
+                    entity.waterHeat -= inputAmount/81;
+                }
+            }
+        }
+        if(getHeat(entity.inventory)<0.01)
+            entity.coreHeat = Math.max(entity.coreHeat-5, 0);
 
         markDirty(world,blockPos,blockState);
 
@@ -148,7 +168,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         for (int i = 4; i < 8; i++) {
             if(inv.getStack(i).getItem() instanceof IItemRadiation item){
                 if(item.hasHeat())
-                    total+=item.getHeat();
+                    total += item.getHeat();
             }
         }
         return total;

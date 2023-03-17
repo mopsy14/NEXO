@@ -32,13 +32,13 @@ public class SmallReactorScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 0,33,19));
         this.addSlot(new ReturnSlot(inventory, 1,33,50));
         //FluidOutput
-        this.addSlot(new Slot(inventory, 2,133,19));
-        this.addSlot(new ReturnSlot(inventory, 3,133,50));
+        this.addSlot(new Slot(inventory, 2,152,19));
+        this.addSlot(new ReturnSlot(inventory, 3,152,50));
         //rods
-        this.addSlot(new Slot(inventory, 4,133,19));
-        this.addSlot(new Slot(inventory, 5,133,19));
-        this.addSlot(new Slot(inventory, 6,133,19));
-        this.addSlot(new Slot(inventory, 7,133,19));
+        this.addSlot(new Slot(inventory, 4,82,19));
+        this.addSlot(new Slot(inventory, 5,102,19));
+        this.addSlot(new Slot(inventory, 6,82,39));
+        this.addSlot(new Slot(inventory, 7,102,39));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);

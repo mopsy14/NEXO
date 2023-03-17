@@ -36,11 +36,11 @@ public class NTRadiatingItem extends NTItem implements IItemRadiation {
 
     @Override
     public float getHeat() {
-        return 0;
+        return heat;
     }
 
     @Override
     public boolean hasHeat() {
-        return false;
+        return hasHeat;
     }
 }
