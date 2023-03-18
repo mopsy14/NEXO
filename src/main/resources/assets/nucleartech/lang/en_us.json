@@ -47,8 +47,16 @@
   "item.nucleartech.copper_dust": "Copper Dust",
   "item.nucleartech.lead_dust": "Lead Dust",
   "item.nucleartech.graphite_dust": "Graphite Dust",
-
-
+  "item.nucleartech.iron_dust": "Iron Dust",
+  "item.nucleartech.empty_fuel_rod": "Empty Fuel Rod",
+  "item.nucleartech.empty_dual_fuel_rod": "Empty Dual Fuel Rod",
+  "item.nucleartech.empty_quad_fuel_rod": "Empty Quad Fuel Rod",
+  "item.nucleartech.uranium_fuel_rod": "Uranium Fuel Rod",
+  "item.nucleartech.uranium_dual_fuel_rod": "Uranium Dual Fuel Rod",
+  "item.nucleartech.uranium_quad_fuel_rod": "Uranium Quad Fuel Rod",
+  "item.nucleartech.steam_bucket": "Steam Bucket",
+  "item.nucleartech.dense_steam_bucket": "Dense Steam Bucket",
+  "item.nucleartech.super_dense_steam_bucket": "Super Dense Steam Bucket",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -72,5 +80,6 @@
   "block.nucleartech.control_rods": "Control Rods",
   "block.nucleartech.fluorite_ore": "Fluorite Ore",
   "block.nucleartech.small_reactor": "Small Reactor",
-  "block.nucleartech.small_reactor_hatches": "Small Reactor Hatches"
+  "block.nucleartech.small_reactor_hatches": "Small Reactor Hatches",
+  "block.nucleartech.steam_turbine": "Steam Turbine"
 }

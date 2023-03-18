@@ -76,7 +76,7 @@ public class ModdedItems {
             new ItemInfo("empty_dual_fuel_rod"),
             new ItemInfo("empty_quad_fuel_rod"),
             new ItemInfo("uranium_fuel_rod", 5, 1),
-            new ItemInfo("uranium_double_fuel_rod", 10, 2.5f),
+            new ItemInfo("uranium_dual_fuel_rod", 10, 2.5f),
             new ItemInfo("uranium_quad_fuel_rod", 15, 6f),
 
     };
