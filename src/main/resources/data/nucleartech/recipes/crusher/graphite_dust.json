@@ -1,0 +1,11 @@
+{
+  "type": "nucleartech:crushing",
+  "input": [
+    {
+      "item": "minecraft:graphite_ingot"
+    }
+  ],
+  "output":{
+    "item": "nucleartech:graphite_dust"
+  }
+}

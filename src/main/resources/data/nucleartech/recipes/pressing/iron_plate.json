@@ -1,0 +1,11 @@
+{
+  "type": "nucleartech:pressing",
+  "input": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "output":{
+    "item": "nucleartech:iron_plate"
+  }
+}

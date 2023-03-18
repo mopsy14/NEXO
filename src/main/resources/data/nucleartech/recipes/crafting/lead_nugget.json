@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:uranium_block"
+      "item": "nucleartech:lead_ingot"
     }
   ],
   "result": {
-    "item": "nucleartech:uranium_ingot",
+    "item": "nucleartech:lead_nugget",
     "count": 9
   }
 }

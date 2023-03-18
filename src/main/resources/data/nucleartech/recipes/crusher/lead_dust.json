@@ -1,0 +1,11 @@
+{
+  "type": "nucleartech:crushing",
+  "input": [
+    {
+      "item": "minecraft:lead_ingot"
+    }
+  ],
+  "output":{
+    "item": "nucleartech:lead_dust"
+  }
+}
