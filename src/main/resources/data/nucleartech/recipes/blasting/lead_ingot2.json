@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "nucleartech:lead_ore"
+  },
+  "result": "nucleartech:lead_ingot",
+  "experience": 3
+}
