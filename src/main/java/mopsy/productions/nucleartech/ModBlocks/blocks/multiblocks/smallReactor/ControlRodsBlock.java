@@ -1,7 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.SmallReactorEntity;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -47,9 +46,6 @@ public class ControlRodsBlock extends Block implements IModID{
         if(!world.isClient){
             Block controller = world.getBlockState(pos.down(2)).getBlock();
             if(controller instanceof SmallReactorHatchesBlock reactor) {
-                SmallReactorEntity entity = ((SmallReactorEntity)world.getBlockEntity(pos.down(2)));
-                entity.active = entity.active == 0?1:0;
-                System.out.println(entity.active);
                 return reactor.onUse(world.getBlockState(pos.down(2)), world, pos.down(2), player, hand, hit);
             }else{
                 player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"));
