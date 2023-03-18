@@ -76,6 +76,18 @@ public class ScreenUtils {
                 ic2d.y>y && ic2d.y<y+62
         );
     }
+
+    public static Predicate<IntCords2D> renderButton(HandledScreen handledScreen, MatrixStack matrices, int x, int y, boolean isActive){
+        if(isActive){
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            handledScreen.drawTexture(matrices, x, y, 33, 0, 18, 18);
+        }
+        return ic2d -> (
+                ic2d.x>x && ic2d.x<x+18 &&
+                        ic2d.y>y && ic2d.y<y+18
+        );
+    }
+
     private static int getScaledAmount(long amount, long max, int barSize){
         int res = Math.toIntExact(max != 0 && amount != 0 ? amount * barSize / max : 0);
         res = barSize-res;

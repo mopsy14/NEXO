@@ -6,6 +6,8 @@ import mopsy.productions.nucleartech.util.DisplayUtils;
 import mopsy.productions.nucleartech.util.FluidUtils;
 import mopsy.productions.nucleartech.util.IntCords2D;
 import mopsy.productions.nucleartech.util.ScreenUtils;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -13,18 +15,21 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
+import static mopsy.productions.nucleartech.networking.PacketManager.SWITCH_REACTOR_POWER_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SmallReactorScreen extends HandledScreen<SmallReactorScreenHandler>{
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/small_reactor.png");
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
+    public Predicate<IntCords2D> buttonCordPredicate;
 
     public SmallReactorScreen(SmallReactorScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -46,7 +51,21 @@ public class SmallReactorScreen extends HandledScreen<SmallReactorScreenHandler>
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+58, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+127, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        buttonCordPredicate = ScreenUtils.renderButton(this, matrices, x+57, y+18, handler.isActive());
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if(button==0) {
+            IntCords2D mouse = new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY)));
+            if(buttonCordPredicate.test(mouse)){
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBlockPos(handler.getBlockPos());
+                ClientPlayNetworking.send(SWITCH_REACTOR_POWER_PACKET, buf);
+            }
+        }
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override

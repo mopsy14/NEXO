@@ -137,24 +137,26 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
 
         entity.waterHeat = Math.max(entity.waterHeat-1, 0);
 
-        entity.coreHeat += Math.round(getHeat(entity.inventory));
-        int change = Math.max(0, Math.min(15, Math.max(0, entity.coreHeat - 100)));
-        if(entity.coreHeat>entity.waterHeat){
-            entity.waterHeat += change;
-            entity.coreHeat -= change;
-        }
-        if(entity.waterHeat>100){
-            try (Transaction transaction = Transaction.openOuter()) {
-                long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), 81L*(entity.waterHeat-100), transaction);
-                if(inputAmount>0){
-                    transaction.commit();
-                    entity.waterHeat -= inputAmount/81;
+        if(entity.active!=0) {
+            entity.coreHeat += Math.round(getHeat(entity.inventory));
+            int change = Math.max(0, Math.min(15, Math.max(0, entity.coreHeat - 100)));
+            if (entity.coreHeat > entity.waterHeat) {
+                entity.waterHeat += change;
+                entity.coreHeat -= change;
+            }
+            if (entity.waterHeat > 100) {
+                try (Transaction transaction = Transaction.openOuter()) {
+                    long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), 81L * (entity.waterHeat - 100), transaction);
+                    if (inputAmount > 0) {
+                        transaction.commit();
+                        entity.waterHeat -= inputAmount / 81;
+                    }
                 }
             }
-        }
-        if(getHeat(entity.inventory)<0.01)
-            entity.coreHeat = Math.max(entity.coreHeat-5, 0);
-
+            if (getHeat(entity.inventory) < 0.01)
+                entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
+        }else
+            entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
         markDirty(world,blockPos,blockState);
 
         tryFabricTransactions(entity);

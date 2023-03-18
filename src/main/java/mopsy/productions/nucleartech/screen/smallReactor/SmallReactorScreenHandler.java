@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 public class SmallReactorScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final BlockPos blockPos;
+    public final PropertyDelegate delegate;
 
     public SmallReactorScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
         this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(3), buf.readBlockPos());
@@ -26,6 +27,7 @@ public class SmallReactorScreenHandler extends ScreenHandler {
         checkSize(inventory, 8);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
+        this.delegate = delegate;
         this.blockPos = blockPos;
 
         //FluidInput
@@ -46,6 +48,9 @@ public class SmallReactorScreenHandler extends ScreenHandler {
     }
     public BlockPos getBlockPos(){
         return blockPos;
+    }
+    public boolean isActive(){
+        return delegate.get(2)>0;
     }
 
     @Override

@@ -1,7 +1,9 @@
 package mopsy.productions.nucleartech.networking;
 
+import mopsy.productions.nucleartech.networking.packets.C2SPackets;
 import mopsy.productions.nucleartech.networking.packets.S2CPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nucleartech.Main.modid;
@@ -12,8 +14,9 @@ public class PacketManager {
     public static final Identifier ENERGY_CHANGE_PACKET = new Identifier(modid, "energy_change");
     public static final Identifier FLUID_CHANGE_PACKET = new Identifier(modid, "fluid_change");
     public static final Identifier ADVANCED_FLUID_CHANGE_PACKET = new Identifier(modid, "adv_fluid_change");
+    public static final Identifier SWITCH_REACTOR_POWER_PACKET = new Identifier(modid, "switch_reactor_power");
     public static void registerC2SPackets(){
-
+        ServerPlayNetworking.registerGlobalReceiver(SWITCH_REACTOR_POWER_PACKET, C2SPackets::receiveSwitchReactorPower);
     }
     public static void registerS2CPackets(){
         ClientPlayNetworking.registerGlobalReceiver(RADIATION_CHANGE_PACKET, S2CPackets::receiveRadiationChange);
