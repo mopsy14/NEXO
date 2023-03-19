@@ -97,12 +97,10 @@ public class ScreenUtils {
     public static Predicate<IntCords2D> renderCoreHeatBar(Screen screen, MatrixStack matrices, int x, int y, int coreHeat, Identifier texture){
         if(coreHeat>100){
             RenderSystem.setShaderTexture(0, texture);
-            System.out.println(getScaledAmount(coreHeat-100, 900, 20));
             int scaledPower = getScaledAmount(coreHeat-100, 900, 20);
             screen.drawTexture(matrices, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower);
         } else if (coreHeat>0) {
             RenderSystem.setShaderTexture(0, texture);
-            System.out.println(getScaledAmount(coreHeat, 200, 40));
             int scaledPower = getScaledAmount(coreHeat, 200, 40);
             screen.drawTexture(matrices, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower);
         }

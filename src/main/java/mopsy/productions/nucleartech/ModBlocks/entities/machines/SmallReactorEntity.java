@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
@@ -237,6 +238,23 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             buf.writeLong(entity.fluidStorages.get(i).amount);
             PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
         }
+    }
+
+    public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
+        if(direction==Direction.DOWN||direction==Direction.UP) return null;
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite()){
+            return null;
+        }
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite().rotateYClockwise()){
+            return fluidStorages.get(0);
+        }
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction){
+            return null;
+        }
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.rotateYClockwise()){
+            return fluidStorages.get(1);
+        }
+        return null;
     }
 
     //Inventory code:

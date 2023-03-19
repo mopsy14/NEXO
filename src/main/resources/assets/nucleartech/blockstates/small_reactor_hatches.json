@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/small_reactor_hatches"}
+    "facing=east": {
+      "model": "nucleartech:block/small_reactor_hatches",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nucleartech:block/small_reactor_hatches"
+    },
+    "facing=south": {
+      "model": "nucleartech:block/small_reactor_hatches",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nucleartech:block/small_reactor_hatches",
+      "y": 270
+    }
   }
 }
