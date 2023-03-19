@@ -1,7 +1,7 @@
 package mopsy.productions.nucleartech.screen.steamTurbine;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.SteamTurbineEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.DisplayUtils;
@@ -52,7 +52,7 @@ public class SteamTurbineScreen extends HandledScreen<SteamTurbineScreenHandler>
 
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+67, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), ElectrolyzerEntity.POWER_CAPACITY);
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), SteamTurbineEntity.POWER_CAPACITY);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SteamTurbineScreen extends HandledScreen<SteamTurbineScreenHandler>
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
-        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), ElectrolyzerEntity.POWER_CAPACITY, hasShiftDown())));
+        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), SteamTurbineEntity.POWER_CAPACITY, hasShiftDown())));
         if(!exact)
             text.add(Text.of("Hold shift for advanced view"));
         renderTooltip(matrices, text, mouseCords.x, mouseCords.y);

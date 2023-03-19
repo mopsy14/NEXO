@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " II",
-    "ICC",
-    " II"
+    " CC",
+    "IPP",
+    " CC"
   ],
   "key": {
     "I": {
@@ -11,6 +11,9 @@
     },
     "C": {
       "item": "nucleartech:copper_wire"
+    },
+    "P": {
+      "item": "nucleartech:iron_plate"
     }
   },
   "result": {

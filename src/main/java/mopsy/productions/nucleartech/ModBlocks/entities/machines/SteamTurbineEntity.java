@@ -47,9 +47,9 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
     public final Inventory inventory = new SimpleInventory(4);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     public long previousPower = 0;
-    public static final long POWER_CAPACITY = 100000;
+    public static final long POWER_CAPACITY = 5000000;
     public static final long POWER_MAX_INSERT = 0;
-    public static final long POWER_MAX_EXTRACT = 1000;
+    public static final long POWER_MAX_EXTRACT = 200000;
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
         protected void onFinalCommit() {
@@ -123,19 +123,19 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
             entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.DENSE_STEAM);
             entity.fluidStorages.get(0).amount -= 40500;
             entity.fluidStorages.get(1).amount += 40500;
-            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 100000);
             sendFluidUpdate(entity);
         } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.DENSE_STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
             entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.STEAM);
             entity.fluidStorages.get(0).amount -= 40500;
             entity.fluidStorages.get(1).amount += 40500;
-            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 50000);
             sendFluidUpdate(entity);
-        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(Fluids.WATER))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(Fluids.WATER))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>20249)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
             entity.fluidStorages.get(1).variant = FluidVariant.of(Fluids.WATER);
             entity.fluidStorages.get(0).amount -= 40500;
-            entity.fluidStorages.get(1).amount += 40500;
-            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            entity.fluidStorages.get(1).amount += 20250;
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 50000);
             sendFluidUpdate(entity);
         }
 
