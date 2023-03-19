@@ -52,6 +52,12 @@ public class SmallReactorScreenHandler extends ScreenHandler {
     public boolean isActive(){
         return delegate.get(2)>0;
     }
+    public int getCoreHeat(){
+        return delegate.get(0);
+    }
+    public int getWaterHeat(){
+        return delegate.get(1);
+    }
 
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {

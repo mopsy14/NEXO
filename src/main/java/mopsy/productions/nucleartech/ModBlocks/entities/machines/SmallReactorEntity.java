@@ -20,6 +20,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -33,6 +34,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -137,6 +139,9 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     public static void tick(World world, BlockPos blockPos, BlockState blockState, SmallReactorEntity entity) {
         if(world.isClient)return;
 
+        setFluidStorageToEmpty(entity.fluidStorages.get(0));
+        setFluidStorageToEmpty(entity.fluidStorages.get(1));
+
         if(entity.active!= entity.prevActive){
             world.setBlockState(blockPos.up(2),
                     world.getBlockState(blockPos.up(2)).with(ControlRodsBlock.ACTIVE, entity.active != 0));
@@ -153,24 +158,42 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
                 entity.coreHeat -= change;
             }
             if (entity.waterHeat > 100) {
-                try (Transaction transaction = Transaction.openOuter()) {
-                    long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), 81L * (entity.waterHeat - 100), transaction);
-                    if (inputAmount > 0) {
-                        transaction.commit();
-                        entity.waterHeat -= inputAmount / 81;
+                if(entity.fluidStorages.get(0).variant.equals(FluidVariant.of(Fluids.WATER))){
+                    try (Transaction transaction = Transaction.openOuter()) {
+                        long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), Math.min(81L * (entity.waterHeat - 100), entity.fluidStorages.get(0).amount*2), transaction);
+                        if (inputAmount > 0) {
+                            transaction.commit();
+                            entity.waterHeat -= inputAmount / 81;
+                            entity.fluidStorages.get(0).amount -= inputAmount/2F;
+                            sendFluidUpdate(entity);
+                        }
                     }
                 }
             }
+            entity.coreHeat+=Math.max(0,entity.waterHeat-100);
+            entity.waterHeat-= Math.max(0,entity.waterHeat-100);
             if (getHeat(entity.inventory) < 0.01)
                 entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
         }else
             entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
+
+        if(entity.coreHeat>1000){
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20F, false, Explosion.DestructionType.DESTROY);
+        }
+
         markDirty(world,blockPos,blockState);
 
         tryFabricTransactions(entity);
 
         if(tryTransactions(entity)){
             sendFluidUpdate(entity);
+        }
+    }
+    private static void setFluidStorageToEmpty(SingleVariantStorage storage){
+        if(storage.amount==0){
+            storage.variant = FluidVariant.blank();
+        } else if (storage.variant.equals(FluidVariant.blank())) {
+            storage.amount = 0;
         }
     }
     public static float getHeat(Inventory inv){

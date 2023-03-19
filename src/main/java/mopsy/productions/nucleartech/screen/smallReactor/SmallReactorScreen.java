@@ -19,6 +19,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
@@ -30,6 +31,7 @@ public class SmallReactorScreen extends HandledScreen<SmallReactorScreenHandler>
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
     public Predicate<IntCords2D> buttonCordPredicate;
+    public Predicate<IntCords2D> renderCoreHeatTooltipPredicate;
 
     public SmallReactorScreen(SmallReactorScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -53,6 +55,7 @@ public class SmallReactorScreen extends HandledScreen<SmallReactorScreenHandler>
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+127, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
         buttonCordPredicate = ScreenUtils.renderButton(this, matrices, x+57, y+18, handler.isActive());
+        renderCoreHeatTooltipPredicate = ScreenUtils.renderCoreHeatBar(this, matrices,x+57, y+39, handler.getCoreHeat(),TEXTURE);
     }
 
     @Override
@@ -77,6 +80,9 @@ public class SmallReactorScreen extends HandledScreen<SmallReactorScreenHandler>
         }
         if (renderFluidStorageTooltipPredicate2.test(mouse)) {
             renderFluidTooltip(1, hasShiftDown(), matrices, mouse);
+        }
+        if (renderCoreHeatTooltipPredicate.test(mouse)) {
+            renderTooltip(matrices, List.of(Text.of("Core Temperature"),Text.of(handler.getCoreHeat()+"°C")), mouse.x,mouse.y);
         }
     }
 

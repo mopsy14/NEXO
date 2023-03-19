@@ -13,7 +13,7 @@ public class C2SPackets {
     public static void receiveSwitchReactorPower(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender packetSender) {
         BlockPos pos = buf.readBlockPos();
         server.execute(()->{
-            if(player.currentScreenHandler instanceof SmallReactorScreenHandler && ((SmallReactorScreenHandler) player.currentScreenHandler).getBlockPos().equals(pos)){
+            if(player.currentScreenHandler instanceof SmallReactorScreenHandler sh && sh.getBlockPos().equals(pos)){
                 if (player.getWorld().getBlockEntity(pos) instanceof SmallReactorEntity entity){
                     entity.active = entity.active==0 ? 1:0;
                 }
