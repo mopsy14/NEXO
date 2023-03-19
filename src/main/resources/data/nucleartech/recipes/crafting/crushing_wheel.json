@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "TIT",
+    " T "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "T": {
+      "item": "nucleartech:titanium_ingot"
+    }
+  },
+  "result": {
+    "item": "nucleartech:crushing_wheel"
+  }
+}

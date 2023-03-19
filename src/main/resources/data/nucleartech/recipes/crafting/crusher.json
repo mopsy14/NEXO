@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IWI",
+    "ICI",
+    "IWI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "nucleartech:copper_wire"
+    },
+    "W": {
+      "item": "nucleartech:crushing_wheel"
+    }
+  },
+  "result": {
+    "item": "nucleartech:crusher"
+  }
+}

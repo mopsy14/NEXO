@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " II",
+    "ICC",
+    " II"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "nucleartech:copper_wire"
+    }
+  },
+  "result": {
+    "item": "nucleartech:electric_motor"
+  }
+}
