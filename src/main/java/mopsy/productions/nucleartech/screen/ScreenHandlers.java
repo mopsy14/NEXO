@@ -14,6 +14,8 @@ import mopsy.productions.nucleartech.screen.press.PressScreen;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
 import mopsy.productions.nucleartech.screen.smallReactor.SmallReactorScreen;
 import mopsy.productions.nucleartech.screen.smallReactor.SmallReactorScreenHandler;
+import mopsy.productions.nucleartech.screen.steamTurbine.SteamTurbineScreen;
+import mopsy.productions.nucleartech.screen.steamTurbine.SteamTurbineScreenHandler;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.screen.tank.TankScreen_MK1;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
@@ -31,6 +33,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<ElectrolyzerScreenHandler> ELECTROLYZER = new ExtendedScreenHandlerType<>(ElectrolyzerScreenHandler::new);
     public static final ExtendedScreenHandlerType<CentrifugeScreenHandler> CENTRIFUGE = new ExtendedScreenHandlerType<>(CentrifugeScreenHandler::new);
     public static final ExtendedScreenHandlerType<FurnaceGeneratorScreenHandler> FURNACE_GENERATOR = new ExtendedScreenHandlerType<>(FurnaceGeneratorScreenHandler::new);
+    public static final ExtendedScreenHandlerType<SteamTurbineScreenHandler> STEAM_TURBINE = new ExtendedScreenHandlerType<>(SteamTurbineScreenHandler::new);
     public static final ExtendedScreenHandlerType<SmallReactorScreenHandler> SMALL_REACTOR = new ExtendedScreenHandlerType<>(SmallReactorScreenHandler::new);
 
     public static void regScreenHandlers(){
@@ -41,6 +44,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electrolyzer"), ELECTROLYZER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "centrifuge"), CENTRIFUGE);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "furnace_generator"), FURNACE_GENERATOR);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "steam_turbine"), STEAM_TURBINE);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "small_reactor"), SMALL_REACTOR);
     }
     public static void regClientScreens(){
@@ -51,6 +55,7 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.ELECTROLYZER, ElectrolyzerScreen::new);
         HandledScreens.register(ScreenHandlers.CENTRIFUGE, CentrifugeScreen::new);
         HandledScreens.register(ScreenHandlers.FURNACE_GENERATOR, FurnaceGeneratorScreen::new);
+        HandledScreens.register(ScreenHandlers.STEAM_TURBINE, SteamTurbineScreen::new);
         HandledScreens.register(ScreenHandlers.SMALL_REACTOR, SmallReactorScreen::new);
     }
 }

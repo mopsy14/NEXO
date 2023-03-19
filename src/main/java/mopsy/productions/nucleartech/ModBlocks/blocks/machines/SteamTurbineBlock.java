@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.blocks.machines;
 
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.ElectrolyzerEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.SteamTurbineEntity;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -58,7 +58,7 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            NamedScreenHandlerFactory screenHandlerFactory = (ElectrolyzerEntity)world.getBlockEntity(pos);
+            NamedScreenHandlerFactory screenHandlerFactory = (SteamTurbineEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
             }
@@ -69,21 +69,21 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ElectrolyzerEntity(pos, state);
+        return new SteamTurbineEntity(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.ELECTROLYZER, ElectrolyzerEntity::tick);
+        return checkType(type, ModdedBlockEntities.STEAM_TURBINE, SteamTurbineEntity::tick);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.isCreative()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof ElectrolyzerEntity) {
-                ItemScatterer.spawn(world, pos, ((ElectrolyzerEntity) blockEntity).inventory);
+            if (blockEntity instanceof SteamTurbineEntity) {
+                ItemScatterer.spawn(world, pos, ((SteamTurbineEntity) blockEntity).inventory);
                 world.updateComparators(pos, this);
             }
         }
