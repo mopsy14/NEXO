@@ -44,7 +44,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IFluidStorage {
-
+    public static String ID = "small_reactor";
     private final Inventory inventory = new SimpleInventory(8);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
@@ -92,6 +92,14 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        for (int i = 0; i < fluidStorages.size(); i++){
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeInt(i);
+            fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(fluidStorages.get(i).amount);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+        }
         return new SmallReactorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
@@ -104,9 +112,9 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         writeInv(inventory, nbt);
-        nbt.putInt("centrifuge.core_heat", coreHeat);
-        nbt.putInt("centrifuge.water_heat", waterHeat);
-        nbt.putInt("centrifuge.active", active);
+        nbt.putInt(ID+".core_heat", coreHeat);
+        nbt.putInt(ID+".water_heat", waterHeat);
+        nbt.putInt(ID+".active", active);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
             nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
@@ -117,9 +125,9 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         readInv(inventory, nbt);
-        coreHeat = nbt.getInt("centrifuge.core_heat");
-        waterHeat = nbt.getInt("centrifuge.water_heat");
-        active = nbt.getInt("centrifuge.active");
+        coreHeat = nbt.getInt(ID+".core_heat");
+        waterHeat = nbt.getInt(ID+".water_heat");
+        active = nbt.getInt(ID+".active");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
             fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));

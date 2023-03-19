@@ -1,26 +1,31 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.furnaceGenerator.FurnaceGeneratorScreenHandler;
+import mopsy.productions.nucleartech.registry.ModdedFluids;
+import mopsy.productions.nucleartech.screen.steamTurbine.SteamTurbineScreenHandler;
+import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.InvUtils;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -30,15 +35,17 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage{
+public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
     public static String ID = "steam_turbine";
-    private final Inventory inventory = new SimpleInventory(1);
-    protected final PropertyDelegate propertyDelegate;
-    private int burnTimeLeft;
-    private int burnTime;
+    public final Inventory inventory = new SimpleInventory(4);
+    public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 100000;
     public static final long POWER_MAX_INSERT = 0;
@@ -52,29 +59,8 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
 
     public SteamTurbineEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.STEAM_TURBINE, pos, state);
-        this.propertyDelegate = new PropertyDelegate() {
-            @Override
-            public int get(int index) {
-                switch (index){
-                    case 0: return SteamTurbineEntity.this.burnTimeLeft;
-                    case 1: return SteamTurbineEntity.this.burnTime;
-                    default: return 0;
-                }
-            }
-
-            @Override
-            public void set(int index, int value) {
-                switch (index){
-                    case 0: SteamTurbineEntity.this.burnTimeLeft = value; break;
-                    case 1: SteamTurbineEntity.this.burnTime = value; break;
-                }
-            }
-
-            @Override
-            public int size() {
-                return 2;
-            }
-        };
+        fluidStorages.add(new NTFluidStorage(16* FluidConstants.BUCKET,this, true , 0));
+        fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
     }
 
     @Override
@@ -89,7 +75,15 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        return new FurnaceGeneratorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+        for (int i = 0; i < fluidStorages.size(); i++){
+            buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            buf.writeInt(i);
+            fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(fluidStorages.get(i).amount);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+        }
+        return new SteamTurbineScreenHandler(syncId, inv, this, pos);
     }
 
     @Override
@@ -101,44 +95,57 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         InvUtils.writeInv(inventory, nbt);
-        nbt.putInt(ID+".burn_time_left", burnTimeLeft);
-        nbt.putInt(ID+".burn_time", burnTime);
         nbt.putLong(ID+".power", energyStorage.amount);
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
+            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+        }
     }
 
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         InvUtils.readInv(inventory, nbt);
-        burnTimeLeft = nbt.getInt(ID+".burn_time_left");
-        burnTime = nbt.getInt(ID+".burn_time");
         energyStorage.amount = nbt.getLong(ID+".power");
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
+            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+        }
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, SteamTurbineEntity entity) {
         if(world.isClient)return;
 
-        if(entity.burnTimeLeft ==0&&entity.energyStorage.capacity-entity.energyStorage.amount!=0){
-             Integer burnTime = FuelRegistry.INSTANCE.get(entity.inventory.getStack(0).getItem());
-             if(burnTime!=null && burnTime>1){
-                 burnTime = Math.round(burnTime/2.0f);
-                 entity.burnTime = burnTime;
-                 entity.burnTimeLeft = burnTime;
-                 Inventory inv = entity.inventory;
-                 Item remainder = inv.getStack(0).getItem().getRecipeRemainder();
-                 inv.getStack(0).decrement(1);
-                 if (entity.inventory.getStack(0).isEmpty()) {
-                     inv.setStack(0, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
-                 }
-             }
-        }
+        setFluidStorageToEmpty(entity.fluidStorages.get(0));
+        setFluidStorageToEmpty(entity.fluidStorages.get(1));
 
-        if(entity.burnTimeLeft >0 && entity.energyStorage.amount < entity.energyStorage.capacity){
-            entity.burnTimeLeft--;
-            entity.energyStorage.amount += Math.min(5, entity.energyStorage.capacity-entity.energyStorage.amount);
+        if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.DENSE_STEAM))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.DENSE_STEAM);
+            entity.fluidStorages.get(0).amount -= 40500;
+            entity.fluidStorages.get(1).amount += 40500;
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            sendFluidUpdate(entity);
+        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.DENSE_STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.STEAM);
+            entity.fluidStorages.get(0).amount -= 40500;
+            entity.fluidStorages.get(1).amount += 40500;
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            sendFluidUpdate(entity);
+        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(Fluids.WATER))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+            entity.fluidStorages.get(1).variant = FluidVariant.of(Fluids.WATER);
+            entity.fluidStorages.get(0).amount -= 40500;
+            entity.fluidStorages.get(1).amount += 40500;
+            entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 5000);
+            sendFluidUpdate(entity);
         }
 
         markDirty(world,blockPos,blockState);
+
+        tryFabricTransactions(entity);
+
+        if(tryTransactions(entity)){
+            sendFluidUpdate(entity);
+        }
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
@@ -147,6 +154,45 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
             buf.writeLong(entity.getPower());
             PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
+    }
+
+    private static void setFluidStorageToEmpty(SingleVariantStorage storage){
+        if(storage.amount==0){
+            storage.variant = FluidVariant.blank();
+        } else if (storage.variant.equals(FluidVariant.blank())) {
+            storage.amount = 0;
+        }
+    }
+
+    private static void sendFluidUpdate(SteamTurbineEntity entity){
+        for (int i = 0; i < entity.fluidStorages.size(); i++){
+            var buf = PacketByteBufs.create();
+            buf.writeBlockPos(entity.pos);
+            buf.writeInt(i);
+            entity.fluidStorages.get(i).variant.toPacket(buf);
+            buf.writeLong(entity.fluidStorages.get(i).amount);
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+        }
+    }
+
+    private static boolean tryFabricTransactions(SteamTurbineEntity entity) {
+        boolean didSomething= FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+
+        return didSomething;
+    }
+    //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output, 4=FluidOutput2Input, 5=FluidOutput2Output,
+    private static boolean tryTransactions(SteamTurbineEntity entity){
+        boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
+            didSomething = true;
+        if(FluidTransactionUtils.tryExportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+
+        return didSomething;
     }
 
     @Override
@@ -218,5 +264,30 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
         return true;
+    }
+
+    @Override
+    public FluidVariant getFluidType() {
+        return null;
+    }
+
+    @Override
+    public void setFluidType(FluidVariant fluidType) {
+
+    }
+
+    @Override
+    public long getFluidAmount() {
+        return 0;
+    }
+
+    @Override
+    public void setFluidAmount(long amount) {
+
+    }
+
+    @Override
+    public List<SingleVariantStorage<FluidVariant>> getFluidStorages() {
+        return fluidStorages;
     }
 }
