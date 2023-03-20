@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SBS",
+    "SSS"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "S": {
+      "item": "nucleartech:steel_plate"
+    }
+  },
+  "result": {
+    "item": "nucleartech:tank_mk1"
+  }
+}

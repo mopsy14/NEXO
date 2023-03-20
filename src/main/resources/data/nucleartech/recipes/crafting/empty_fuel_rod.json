@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L L",
+    "L L",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "item": "nucleartech:lead_plate"
+    }
+  },
+  "result": {
+    "item": "nucleartech:empty_fuel_rod"
+  }
+}

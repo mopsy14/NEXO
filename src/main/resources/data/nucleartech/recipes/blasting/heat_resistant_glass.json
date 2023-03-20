@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "nucleartech:glass_dust"
+  },
+  "result": "nucleartech:heat_resistant_glass",
+  "experience": 3
+}

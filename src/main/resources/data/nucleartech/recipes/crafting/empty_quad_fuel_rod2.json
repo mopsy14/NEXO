@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nucleartech:empty_dual_fuel_rod"
+    },
+    {
+      "item": "nucleartech:empty_dual_fuel_rod"
+    }
+  ],
+  "result": {
+    "item": "nucleartech:empty_quad_fuel_rod"
+  }
+}

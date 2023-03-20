@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "result": "nucleartech:graphite_ingot",
+  "experience": 3
+}

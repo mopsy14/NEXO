@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "BRB",
+    "T T"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:titanium_ingot"
+    },
+    "G": {
+      "item": "nucleartech:graphite_ingot"
+    },
+    "R": {
+      "item": "nucleartech:reaction_chamber"
+    },
+    "B": {
+      "item": "nucleartech:reactor_boiler"
+    }
+  },
+  "result": {
+    "item": "nucleartech:small_reactor"
+  }
+}

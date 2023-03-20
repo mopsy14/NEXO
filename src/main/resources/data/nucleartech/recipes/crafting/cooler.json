@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "FEC",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:titanium_ingot"
+    },
+    "F": {
+      "item": "nucleartech:fan"
+    },
+    "E": {
+      "item": "nucleartech:electric_motor"
+    },
+    "C": {
+      "item": "nucleartech:cooling_pipe"
+    }
+  },
+  "result": {
+    "item": "nucleartech:cooler"
+  }
+}

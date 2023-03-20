@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ERE",
+    "ERE",
+    "ERE"
+  ],
+  "key": {
+    "R": {
+      "item": "nucleartech:control_rod"
+    },
+    "E": {
+      "item": "nucleartech:electric_motor"
+    }
+  },
+  "result": {
+    "item": "nucleartech:control_rods"
+  }
+}

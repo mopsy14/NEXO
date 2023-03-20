@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:titanium_plate"
+    }
+  },
+  "result": {
+    "item": "nucleartech:cooling_pipe"
+  }
+}

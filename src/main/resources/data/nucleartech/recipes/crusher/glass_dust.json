@@ -1,0 +1,11 @@
+{
+  "type": "nucleartech:crushing",
+  "input": [
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "output":{
+    "item": "nucleartech:glass_dust"
+  }
+}
