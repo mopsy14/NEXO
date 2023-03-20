@@ -1,7 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
-import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.registry.ModdedFluids;
@@ -17,7 +16,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluids;
@@ -43,7 +41,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FL
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
+public class SteamTurbineEntity extends AbstractGeneratorEntity implements ExtendedScreenHandlerFactory, SidedInventory, IFluidStorage {
     public static String ID = "steam_turbine";
     public final Inventory inventory = new SimpleInventory(4);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
@@ -59,7 +57,7 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
     };
 
     public SteamTurbineEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.STEAM_TURBINE, pos, state);
+        super(ModdedBlockEntities.STEAM_TURBINE, pos, state, POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT);
         fluidStorages.add(new NTFluidStorage(16* FluidConstants.BUCKET,this, true , 0));
         fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, false, 1));
     }
@@ -147,6 +145,8 @@ public class SteamTurbineEntity extends BlockEntity implements ExtendedScreenHan
         if(tryTransactions(entity)){
             sendFluidUpdate(entity);
         }
+
+        tryExportPower(entity);
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;

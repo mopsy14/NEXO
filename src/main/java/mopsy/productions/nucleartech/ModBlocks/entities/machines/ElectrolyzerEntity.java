@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
@@ -27,6 +28,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
@@ -214,6 +216,16 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
                 }
             }
         }
+        return null;
+    }
+
+    public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
+        if(direction==Direction.DOWN)
+            return fluidStorages.get(0);
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite().rotateYClockwise())
+            return fluidStorages.get(1);
+        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.rotateYClockwise())
+            return fluidStorages.get(2);
         return null;
     }
 

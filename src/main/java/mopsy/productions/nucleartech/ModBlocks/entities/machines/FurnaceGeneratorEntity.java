@@ -1,6 +1,5 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
-import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.furnaceGenerator.FurnaceGeneratorScreenHandler;
 import mopsy.productions.nucleartech.util.InvUtils;
@@ -10,7 +9,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -28,12 +26,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FurnaceGeneratorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage {
+public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements ExtendedScreenHandlerFactory, SidedInventory{
 
     private final Inventory inventory = new SimpleInventory(1);
     protected final PropertyDelegate propertyDelegate;
@@ -42,16 +39,10 @@ public class FurnaceGeneratorEntity extends BlockEntity implements ExtendedScree
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 1000;
     public static final long POWER_MAX_INSERT = 0;
-    public static final long POWER_MAX_EXTRACT = 4;
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
-        @Override
-        protected void onFinalCommit() {
-            markDirty();
-        }
-    };
+    public static final long POWER_MAX_EXTRACT = 5;
 
     public FurnaceGeneratorEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.FURNACE_GENERATOR, pos, state);
+        super(ModdedBlockEntities.FURNACE_GENERATOR, pos, state, POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -139,6 +130,8 @@ public class FurnaceGeneratorEntity extends BlockEntity implements ExtendedScree
         }
 
         markDirty(world,blockPos,blockState);
+
+        tryExportPower(entity);
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
