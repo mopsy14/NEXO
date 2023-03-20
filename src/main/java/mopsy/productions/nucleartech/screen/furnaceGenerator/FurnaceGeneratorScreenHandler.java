@@ -29,24 +29,18 @@ public class FurnaceGeneratorScreenHandler extends ScreenHandler {
         this.delegate = delegate;
         this.blockPos = blockPos;
 
-        this.addSlot(new Slot(inventory, 0,48,35));
+        this.addSlot(new Slot(inventory, 0,80,32));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
 
         addProperties(delegate);
     }
-
-    public boolean isCrafting(){
-        return delegate.get(0)>0;
+    public int getTimeLeft(){
+        return delegate.get(0);
     }
-
-    public int getScaledProgress(){
-        int progress = this.delegate.get(0);
-        int max = this.delegate.get(1);
-        int barSize = 26;
-
-        return max!=0 && progress!=0 ? progress*barSize/max : 0;
+    public int getTotalTime(){
+        return delegate.get(1);
     }
     public BlockPos getBlockPos(){
         return blockPos;

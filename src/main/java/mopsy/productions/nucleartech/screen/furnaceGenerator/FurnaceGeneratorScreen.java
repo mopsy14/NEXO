@@ -24,6 +24,7 @@ import static mopsy.productions.nucleartech.Main.modid;
 public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/furnace_generator.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
+    public Predicate<IntCords2D> renderHeatTooltipPredicate;
 
     public FurnaceGeneratorScreen(FurnaceGeneratorScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -44,8 +45,8 @@ public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreen
         int y = (height - backgroundHeight)/2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+147, y+11, getPower(), FurnaceGeneratorEntity.POWER_CAPACITY);
-        renderProgress(matrices, x, y);
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+155, y+11, getPower(), FurnaceGeneratorEntity.POWER_CAPACITY);
+        renderHeatTooltipPredicate = ScreenUtils.renderFurnaceHeatBar(this, matrices, x+138, y+11, handler.getTimeLeft(), handler.getTotalTime(), TEXTURE);
     }
 
     @Override
@@ -54,6 +55,8 @@ public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreen
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
             renderEnergyTooltip(hasShiftDown(), matrices, mouse);
+        if (renderHeatTooltipPredicate.test(mouse))
+            renderHeatTooltip(matrices, mouse);
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
@@ -62,11 +65,8 @@ public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreen
             text.add(Text.of("Hold shift for advanced view"));
         renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
     }
-
-    private void renderProgress(MatrixStack matrices, int x, int y){
-        if(handler.isCrafting()){
-            drawTexture(matrices, x+76, y+24, 176, 0, handler.getScaledProgress(), 37);
-        }
+    private void renderHeatTooltip(MatrixStack matrices, IntCords2D mouseCords){
+        renderTooltip(matrices, Text.of(Math.round(handler.getTimeLeft()/20f)+"s"), mouseCords.x, mouseCords.y);
     }
 
     @Override

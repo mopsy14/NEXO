@@ -93,6 +93,9 @@ public class ScreenUtils {
         res = barSize-res;
         return res;
     }
+    private static int getScaledAmountType2(int amount, int max, int barSize){
+        return max!=0 && amount!=0 ? amount*barSize/max : 0;
+    }
 
     public static Predicate<IntCords2D> renderCoreHeatBar(Screen screen, MatrixStack matrices, int x, int y, int coreHeat, Identifier texture){
         if(coreHeat>100){
@@ -107,6 +110,17 @@ public class ScreenUtils {
         return ic2d -> (
                 ic2d.x>x && ic2d.x<x+16 &&
                         ic2d.y>y && ic2d.y<y+40
+        );
+    }
+    public static Predicate<IntCords2D> renderFurnaceHeatBar(Screen screen, MatrixStack matrices, int x, int y, int timeLeft, int totalTime, Identifier texture){
+        if(timeLeft>0){
+            RenderSystem.setShaderTexture(0, texture);
+            int scaledPower = getScaledAmountType2(totalTime-timeLeft, totalTime, 62);
+            screen.drawTexture(matrices, x, y+scaledPower, 176, scaledPower, 14, 62-scaledPower);
+        }
+        return ic2d -> (
+                ic2d.x>x && ic2d.x<x+14 &&
+                        ic2d.y>y && ic2d.y<y+62
         );
     }
 }
