@@ -31,6 +31,10 @@ public class ModdedItems {
             new ItemInfo("reaction_chamber"),
             new ItemInfo("rod_holder"),
             new ItemInfo("reactor_boiler"),
+            new ItemInfo("heat_resistant_glass"),
+            new ItemInfo("cooling_pipe"),
+            new ItemInfo("fan"),
+            new ItemInfo("enriched_uranium_pallet", 3),
 
             //plates
             new ItemInfo("gold_plate"),
@@ -39,7 +43,7 @@ public class ModdedItems {
             new ItemInfo("titanium_plate"),
             new ItemInfo("diamond_plate"),
             new ItemInfo("lead_plate"),
-
+            new ItemInfo("steel_plate"),
 
             //raw's
             new ItemInfo("raw_uranium", 1),
@@ -53,6 +57,7 @@ public class ModdedItems {
             new ItemInfo("titanium_ingot"),
             new ItemInfo("graphite_ingot"),
             new ItemInfo("lead_ingot"),
+            new ItemInfo("steel_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
@@ -70,6 +75,8 @@ public class ModdedItems {
             new ItemInfo("copper_dust"),
             new ItemInfo("lead_dust"),
             new ItemInfo("graphite_dust"),
+            new ItemInfo("glass_dust"),
+            new ItemInfo("steel_dust"),
 
             //nuclear fuels
             new ItemInfo("empty_fuel_rod"),
