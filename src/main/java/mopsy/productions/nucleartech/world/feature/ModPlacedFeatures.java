@@ -30,6 +30,11 @@ public class ModPlacedFeatures {
             ModConfiguredFeatures.OVERWORLD_SULFUR_ORES_REG_ENTRY,
             modifiersWithCount(20, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
     );
+    public static final RegistryEntry<PlacedFeature> LEAD_ORE_PLACED = PlacedFeatures.register(
+            "lead_ore_placed",
+            ModConfiguredFeatures.OVERWORLD_LEAD_ORES_REG_ENTRY,
+            modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
+    );
 
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier) {
         return List.of(countModifier, SquarePlacementModifier.of(), heightModifier, BiomePlacementModifier.of());

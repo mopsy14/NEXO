@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModItems.NTFuelRodItem;
 import mopsy.productions.nucleartech.ModItems.NTItem;
 import mopsy.productions.nucleartech.ModItems.NTRadiatingItem;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
@@ -82,9 +83,9 @@ public class ModdedItems {
             new ItemInfo("empty_fuel_rod"),
             new ItemInfo("empty_dual_fuel_rod"),
             new ItemInfo("empty_quad_fuel_rod"),
-            new ItemInfo("uranium_fuel_rod", 5, 1),
-            new ItemInfo("uranium_dual_fuel_rod", 10, 2.5f),
-            new ItemInfo("uranium_quad_fuel_rod", 15, 6f),
+            new ItemInfo("uranium_fuel_rod",      5,  1,    100000),
+            new ItemInfo("uranium_dual_fuel_rod", 10, 2.5f, 100000),
+            new ItemInfo("uranium_quad_fuel_rod", 15, 6f,   100000),
 
     };
 
@@ -114,7 +115,7 @@ public class ModdedItems {
                 if(info.heat<0.0001F)
                     regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation));
                 else
-                    regItem(new NTRadiatingItem(info.settings, info.ID, info.radiation, info.heat));
+                    regItem(new NTFuelRodItem(info.settings, info.ID, info.depletionTime, info.radiation, info.heat));
             }
         }
     }

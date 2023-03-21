@@ -2,6 +2,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
+import mopsy.productions.nucleartech.ModItems.NTFuelRodItem;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
@@ -175,6 +176,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             entity.waterHeat-= Math.max(0,entity.waterHeat-100);
             if (getHeat(entity.inventory) < 0.01)
                 entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
+            useFuel(entity.inventory);
         }else
             entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
 
@@ -200,9 +202,20 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     public static float getHeat(Inventory inv){
         float total = 0;
         for (int i = 4; i < 8; i++) {
-            if(inv.getStack(i).getItem() instanceof IItemRadiation item){
+            if(inv.getStack(i).getItem() instanceof IItemRadiation item &&
+                    inv.getStack(i).getDamage()<inv.getStack(i).getItem().getMaxDamage()){
                 if(item.hasHeat())
                     total += item.getHeat();
+            }
+        }
+        return total;
+    }
+
+    public static float useFuel(Inventory inv){
+        float total = 0;
+        for (int i = 4; i < 8; i++) {
+            if(inv.getStack(i).getItem() instanceof NTFuelRodItem){
+                NTFuelRodItem.addDamage(inv.getStack(i));
             }
         }
         return total;

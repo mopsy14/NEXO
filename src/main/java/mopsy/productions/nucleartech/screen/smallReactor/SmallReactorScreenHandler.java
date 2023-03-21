@@ -2,6 +2,7 @@ package mopsy.productions.nucleartech.screen.smallReactor;
 
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import mopsy.productions.nucleartech.util.slots.ReturnSlot;
+import mopsy.productions.nucleartech.util.slots.RodSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -37,10 +38,10 @@ public class SmallReactorScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 2,152,19));
         this.addSlot(new ReturnSlot(inventory, 3,152,50));
         //rods
-        this.addSlot(new Slot(inventory, 4,82,19));
-        this.addSlot(new Slot(inventory, 5,102,19));
-        this.addSlot(new Slot(inventory, 6,82,39));
-        this.addSlot(new Slot(inventory, 7,102,39));
+        this.addSlot(new RodSlot(inventory, 4,82,19, b->delegate.get(2)==0));
+        this.addSlot(new RodSlot(inventory, 5,102,19, b->delegate.get(2)==0));
+        this.addSlot(new RodSlot(inventory, 6,82,39, b->delegate.get(2)==0));
+        this.addSlot(new RodSlot(inventory, 7,102,39, b->delegate.get(2)==0));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
