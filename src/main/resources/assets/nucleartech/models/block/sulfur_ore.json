@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "nucleartech:blocks/sulfur_ore",
+		"particle": "nucleartech:blocks/sulfur_ore"
+	}
+}

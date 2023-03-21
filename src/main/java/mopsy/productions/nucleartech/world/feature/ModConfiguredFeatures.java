@@ -22,7 +22,8 @@ public class ModConfiguredFeatures {
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("sulfur_ore").getDefaultState())
     );
     public static final List<OreFeatureConfig.Target> OVERWORLD_LEAD_ORES = List.of(
-            OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("lead_ore").getDefaultState())
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("lead_ore").getDefaultState()),
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_lead_ore").getDefaultState())
     );
 
 

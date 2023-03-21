@@ -33,7 +33,7 @@ public class ModPlacedFeatures {
     public static final RegistryEntry<PlacedFeature> LEAD_ORE_PLACED = PlacedFeatures.register(
             "lead_ore_placed",
             ModConfiguredFeatures.OVERWORLD_LEAD_ORES_REG_ENTRY,
-            modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.TOP))
+            modifiersWithCount(20, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
     );
 
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier) {
