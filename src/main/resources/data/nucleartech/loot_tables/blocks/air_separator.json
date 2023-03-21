@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:air_seperator"
+          "name": "nucleartech:air_separator"
         }
       ]
     }
