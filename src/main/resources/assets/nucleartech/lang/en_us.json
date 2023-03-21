@@ -57,6 +57,13 @@
   "item.nucleartech.steam_bucket": "Steam Bucket",
   "item.nucleartech.dense_steam_bucket": "Dense Steam Bucket",
   "item.nucleartech.super_dense_steam_bucket": "Super Dense Steam Bucket",
+  "item.nucleartech.enriched_uranium_pallet": "Enriched Uranium Pallet",
+  "item.nucleartech.fan": "Fan",
+  "item.nucleartech.cooling_pipe": "Cooling Pipe",
+  "item.nucleartech.steel_plate": "Steel Plate",
+  "item.nucleartech.steel_dust": "Steel Dust",
+  "item.nucleartech.steel_ingot": "Steel Ingot",
+  "item.nucleartech.glass_dust": "Glass Dust",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -81,5 +88,8 @@
   "block.nucleartech.fluorite_ore": "Fluorite Ore",
   "block.nucleartech.small_reactor": "Small Reactor",
   "block.nucleartech.small_reactor_hatches": "Small Reactor Hatches",
-  "block.nucleartech.steam_turbine": "Steam Turbine"
+  "block.nucleartech.steam_turbine": "Steam Turbine",
+  "block.nucleartech.lead_ore": "Lead Ore",
+  "block.nucleartech.deepslate_lead_ore": "Deepslate Lead Ore",
+  "block.nucleartech.heat_resistant_glass": "Heat Resistant Glass"
 }
