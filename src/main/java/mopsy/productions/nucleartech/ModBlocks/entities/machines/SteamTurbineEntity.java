@@ -32,7 +32,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +48,6 @@ public class SteamTurbineEntity extends AbstractGeneratorEntity implements Exten
     public static final long POWER_CAPACITY = 5000000;
     public static final long POWER_MAX_INSERT = 0;
     public static final long POWER_MAX_EXTRACT = 200000;
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
-        @Override
-        protected void onFinalCommit() {
-            markDirty();
-        }
-    };
 
     public SteamTurbineEntity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.STEAM_TURBINE, pos, state, POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT);
