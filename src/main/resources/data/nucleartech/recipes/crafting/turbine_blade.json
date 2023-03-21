@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TIT",
+    "TTT"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "T": {
+      "item": "nucleartech:titanium_turbine_blade"
+    }
+  },
+  "result": {
+    "item": "nucleartech:titanium_turbine"
+  }
+}

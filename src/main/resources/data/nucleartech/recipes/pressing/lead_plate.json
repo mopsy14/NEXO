@@ -2,7 +2,7 @@
   "type": "nucleartech:pressing",
   "input": [
     {
-      "item": "minecraft:lead_ingot"
+      "item": "nucleartech:lead_ingot"
     }
   ],
   "output":{

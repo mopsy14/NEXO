@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "FTF",
+    "FFF"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:tank_mk1"
+    },
+    "F": {
+      "item": "nucleartech:fan"
+    }
+  },
+  "result": {
+    "item": "nucleartech:air_pump"
+  }
+}

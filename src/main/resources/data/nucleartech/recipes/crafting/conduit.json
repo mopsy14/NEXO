@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "TTT",
-    "W W",
-    "WBW"
+    "BCB",
+    "CTC",
+    "BCB"
   ],
   "key": {
-    "T": {
-      "item": "nucleartech:test_tube"
-    },
-    "W": {
+    "C": {
       "item": "nucleartech:copper_wire"
+    },
+    "T": {
+      "item": "nucleartech:tank_mk1"
     },
     "B": {
       "item": "minecraft:iron_block"
     }
   },
   "result": {
-    "item": "nucleartech:electrolyzer"
+    "item": "nucleartech:conduit"
   }
 }

@@ -2,7 +2,7 @@
   "type": "nucleartech:crushing",
   "input": [
     {
-      "item": "minecraft:steel_ingot"
+      "item": "nucleartech:steel_ingot"
     }
   ],
   "output":{

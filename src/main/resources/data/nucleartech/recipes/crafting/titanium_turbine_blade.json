@@ -1,16 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "TTT",
-    "   ",
-    "TTT"
+    "ITT",
+    "ITT",
+    "III"
   ],
   "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
     "T": {
       "item": "nucleartech:titanium_plate"
     }
   },
   "result": {
-    "item": "nucleartech:cooling_pipe"
+    "item": "nucleartech:titanium_turbine_blade"
   }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "EEE",
+    "CCC"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:titanium_turbine"
+    },
+    "E": {
+      "item": "nucleartech:electric_motor"
+    },
+    "C": {
+      "item": "nucleartech:copper_wire"
+    }
+  },
+  "result": {
+    "item": "nucleartech:steam_turbine"
+  }
+}

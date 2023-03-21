@@ -2,7 +2,7 @@
   "type": "nucleartech:crushing",
   "input": [
     {
-      "item": "minecraft:graphite_ingot"
+      "item": "nucleartech:graphite_ingot"
     }
   ],
   "output":{

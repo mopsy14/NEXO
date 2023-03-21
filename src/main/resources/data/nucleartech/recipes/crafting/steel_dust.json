@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nucleartech:iron_dust"
+    },
+    {
+      "item": "nucleartech:coal_dust"
+    }
+  ],
+  "result": {
+    "item": "nucleartech:steel_dust"
+  }
+}

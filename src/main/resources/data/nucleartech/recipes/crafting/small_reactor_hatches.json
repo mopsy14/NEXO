@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    " T ",
+    "SSS"
+  ],
+  "key": {
+    "T": {
+      "item": "nucleartech:tank_mk1"
+    },
+    "S": {
+      "item": "nucleartech:steel_plate"
+    }
+  },
+  "result": {
+    "item": "nucleartech:small_reactor_hatches"
+  }
+}

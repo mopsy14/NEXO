@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "SES",
+    "ICI"
+  ],
+  "key": {
+    "S": {
+      "item": "nucleartech:steel_plate"
+    },
+    "E": {
+      "item": "nucleartech:electric_motor"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "C": {
+      "item": "nucleartech:copper_wire"
+    }
+  },
+  "result": {
+    "item": "nucleartech:centrifuge"
+  }
+}
