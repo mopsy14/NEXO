@@ -22,6 +22,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<FurnaceGeneratorEntity> FURNACE_GENERATOR;
     public static BlockEntityType<SteamTurbineEntity> STEAM_TURBINE;
     public static BlockEntityType<SmallReactorEntity> SMALL_REACTOR;
+    public static BlockEntityType<AmmoniaSynthesiserEntity> AMMONIA_SYNTHESISER;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -51,6 +52,9 @@ public class ModdedBlockEntities {
         SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "small_reactor"),
                 FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor_hatches")).build(null));
 
+        AMMONIA_SYNTHESISER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "ammonia_synthesiser"),
+                FabricBlockEntityTypeBuilder.create(AmmoniaSynthesiserEntity::new, ModdedBlocks.Blocks.get("ammonia_synthesiser")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
@@ -59,10 +63,12 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CENTRIFUGE);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, FURNACE_GENERATOR);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, STEAM_TURBINE);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AMMONIA_SYNTHESISER);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);
         FluidStorage.SIDED.registerForBlockEntity((SmallReactorEntity::getFluidStorageFromDirection), SMALL_REACTOR);
         FluidStorage.SIDED.registerForBlockEntity((SteamTurbineEntity::getFluidStorageFromDirection), STEAM_TURBINE);
+        FluidStorage.SIDED.registerForBlockEntity((AmmoniaSynthesiserEntity::getFluidStorageFromDirection), AMMONIA_SYNTHESISER);
     }
 }

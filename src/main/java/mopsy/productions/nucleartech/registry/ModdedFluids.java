@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ModFluids.Ammonia;
 import mopsy.productions.nucleartech.ModFluids.Hydrogen;
 import mopsy.productions.nucleartech.ModFluids.Nitrogen;
 import mopsy.productions.nucleartech.ModFluids.Oxygen;
@@ -46,6 +47,9 @@ public class ModdedFluids {
     public static FlowableFluid STEAM;
     public static Block STEAM_BLOCK;
     public static Item STEAM_BUCKET;
+    public static FlowableFluid AMMONIA;
+    public static Block AMMONIA_BLOCK;
+    public static Item AMMONIA_BUCKET;
 
     public static void regFluids(){
         NITROGEN = regFluid(new Nitrogen.Still());
@@ -54,12 +58,14 @@ public class ModdedFluids {
         SUPER_DENSE_STEAM = regFluid(new SuperDenseSteam.Still());
         DENSE_STEAM = regFluid(new DenseSteam.Still());
         STEAM = regFluid(new Steam.Still());
+        AMMONIA = regFluid(new Ammonia.Still());
         NITROGEN_BLOCK = regBlock(NITROGEN);
         OXYGEN_BLOCK = regBlock(OXYGEN);
         HYDROGEN_BLOCK = regBlock(HYDROGEN);
         SUPER_DENSE_STEAM_BLOCK = regBlock(SUPER_DENSE_STEAM);
         DENSE_STEAM_BLOCK = regBlock(DENSE_STEAM);
         STEAM_BLOCK = regBlock(STEAM);
+        AMMONIA_BLOCK = regBlock(AMMONIA);
         NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
@@ -97,6 +103,13 @@ public class ModdedFluids {
                 });
         STEAM_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "steam_bucket"),
                 new BucketItem(ModdedFluids.STEAM, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        AMMONIA_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "ammonia_bucket"),
+                new BucketItem(ModdedFluids.AMMONIA, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
                     public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
                         return false;

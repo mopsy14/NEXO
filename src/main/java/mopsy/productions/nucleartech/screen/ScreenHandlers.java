@@ -2,6 +2,8 @@ package mopsy.productions.nucleartech.screen;
 
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreen;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
+import mopsy.productions.nucleartech.screen.ammoniaSynth.AmmoniaSynthesiserScreen;
+import mopsy.productions.nucleartech.screen.ammoniaSynth.AmmoniaSynthesiserScreenHandler;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreen;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreen;
@@ -35,6 +37,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<FurnaceGeneratorScreenHandler> FURNACE_GENERATOR = new ExtendedScreenHandlerType<>(FurnaceGeneratorScreenHandler::new);
     public static final ExtendedScreenHandlerType<SteamTurbineScreenHandler> STEAM_TURBINE = new ExtendedScreenHandlerType<>(SteamTurbineScreenHandler::new);
     public static final ExtendedScreenHandlerType<SmallReactorScreenHandler> SMALL_REACTOR = new ExtendedScreenHandlerType<>(SmallReactorScreenHandler::new);
+    public static final ExtendedScreenHandlerType<AmmoniaSynthesiserScreenHandler> AMMONIA_SYNTHESISER = new ExtendedScreenHandlerType<>(AmmoniaSynthesiserScreenHandler::new);
 
     public static void regScreenHandlers(){
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
@@ -46,6 +49,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "furnace_generator"), FURNACE_GENERATOR);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "steam_turbine"), STEAM_TURBINE);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "small_reactor"), SMALL_REACTOR);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "ammonia_synthesiser"), AMMONIA_SYNTHESISER);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -57,5 +61,6 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.FURNACE_GENERATOR, FurnaceGeneratorScreen::new);
         HandledScreens.register(ScreenHandlers.STEAM_TURBINE, SteamTurbineScreen::new);
         HandledScreens.register(ScreenHandlers.SMALL_REACTOR, SmallReactorScreen::new);
+        HandledScreens.register(ScreenHandlers.AMMONIA_SYNTHESISER, AmmoniaSynthesiserScreen::new);
     }
 }

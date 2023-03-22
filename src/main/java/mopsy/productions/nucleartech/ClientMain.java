@@ -20,6 +20,7 @@ public class ClientMain implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SUPER_DENSE_STEAM, SimpleFluidRenderHandler.coloredWater( 0xA1ff8585));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.DENSE_STEAM, SimpleFluidRenderHandler.coloredWater( 0xA1ffa4a4));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.STEAM, SimpleFluidRenderHandler.coloredWater( 0xA1ffd4d4));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.AMMONIA, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.NITROGEN);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.OXYGEN);
@@ -27,5 +28,6 @@ public class ClientMain implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SUPER_DENSE_STEAM);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.DENSE_STEAM);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.STEAM);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.AMMONIA);
     }
 }
