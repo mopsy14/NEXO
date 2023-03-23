@@ -55,6 +55,12 @@ public class CrusherScreen extends HandledScreen<CrusherScreenHandler> {
         if (renderEnergyTooltipPredicate.test(mouse))
             renderEnergyTooltip(hasShiftDown(), matrices, mouse);
     }
+
+    @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+    }
+
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
         text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), CrusherEntity.POWER_CAPACITY, hasShiftDown())));

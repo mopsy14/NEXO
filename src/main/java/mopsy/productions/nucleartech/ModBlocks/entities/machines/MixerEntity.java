@@ -2,7 +2,7 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
-import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
+import mopsy.productions.nucleartech.recipes.MixerRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
@@ -45,7 +45,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 @SuppressWarnings("UnstableApiUsage")
 public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
 
-    private final Inventory inventory = new SimpleInventory(14);
+    private final Inventory inventory = new SimpleInventory(12);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     private int progress;
@@ -62,11 +62,10 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     };
 
     public MixerEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.CENTRIFUGE, pos, state);
-        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, true , 0));
-        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, true, 1));
-        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, true, 2));
-        fluidStorages.add(new NTFluidStorage(8* FluidConstants.BUCKET ,this, true, 3));
+        super(ModdedBlockEntities.MIXER, pos, state);
+        fluidStorages.add(new NTFluidStorage(4* FluidConstants.BUCKET ,this, true, 0));
+        fluidStorages.add(new NTFluidStorage(4* FluidConstants.BUCKET ,this, true, 1));
+        fluidStorages.add(new NTFluidStorage(4* FluidConstants.BUCKET ,this, true, 2));
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -144,35 +143,35 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         }
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, MixerEntity centrifugeEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, MixerEntity entity) {
         if(world.isClient)return;
 
-        if(hasRecipe(centrifugeEntity)&& centrifugeEntity.energyStorage.amount >= 50){
-            centrifugeEntity.progress++;
-            centrifugeEntity.energyStorage.amount -= 50;
-            if(centrifugeEntity.progress >= centrifugeEntity.maxProgress){
-                craft(centrifugeEntity);
-                sendFluidUpdate(centrifugeEntity);
+        if(hasRecipe(entity)&& entity.energyStorage.amount >= 50){
+            entity.progress++;
+            entity.energyStorage.amount -= 50;
+            if(entity.progress >= entity.maxProgress){
+                craft(entity);
+                sendFluidUpdate(entity);
             }
         }else{
-            centrifugeEntity.progress = 0;
+            entity.progress = 0;
         }
 
         markDirty(world,blockPos,blockState);
 
-        if(centrifugeEntity.energyStorage.amount!=centrifugeEntity.previousPower){
-            centrifugeEntity.previousPower = centrifugeEntity.energyStorage.amount;
+        if(tryFabricTransactions(entity)){
+
+        }
+        if(tryTransactions(entity)){
+            sendFluidUpdate(entity);
+        }
+
+        if(entity.energyStorage.amount!=entity.previousPower){
+            entity.previousPower = entity.energyStorage.amount;
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
-            buf.writeLong(centrifugeEntity.getPower());
-            PlayerLookup.tracking(centrifugeEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
-        }
-
-        if(tryFabricTransactions(centrifugeEntity)){
-
-        }
-        if(tryTransactions(centrifugeEntity)){
-            sendFluidUpdate(centrifugeEntity);
+            buf.writeLong(entity.getPower());
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
     }
 
@@ -180,20 +179,26 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         boolean didSomething = FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
         if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
             didSomething = true;
+        if(FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
         if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+        if(FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
             didSomething = true;
         if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
             didSomething = true;
 
         return didSomething;
     }
-
-    //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output, 4=FluidOutput2Input, 5=FluidOutput2Output,
     private static boolean tryTransactions(MixerEntity entity){
         boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
             didSomething = true;
+        if(FluidTransactionUtils.tryImportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 2, 3, entity.fluidStorages.get(1)))
+            didSomething = true;
+        if(FluidTransactionUtils.tryImportFluid(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
             didSomething = true;
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 4, 5, entity.fluidStorages.get(2)))
             didSomething = true;
@@ -202,14 +207,19 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     private static void craft(MixerEntity entity) {
-        CentrifugeRecipe match = getFirstRecipeMatch(entity);
+        MixerRecipe match = getFirstRecipeMatch(entity);
 
         if(match!=null){
-            entity.fluidStorages.get(0).amount -= match.inputAmount;
-            entity.fluidStorages.get(1).variant = match.output1;
-            entity.fluidStorages.get(1).amount += match.output1Amount;
-            entity.fluidStorages.get(2).variant = match.output2;
-            entity.fluidStorages.get(2).amount += match.output2Amount;
+            entity.fluidStorages.get(0).variant = match.outputFluid1;
+            entity.fluidStorages.get(0).amount = match.outputFluid1Amount;
+            entity.fluidStorages.get(1).variant = match.outputFluid2;
+            entity.fluidStorages.get(1).amount = match.outputFluid2Amount;
+            entity.fluidStorages.get(2).variant = match.outputFluid3;
+            entity.fluidStorages.get(2).amount = match.outputFluid3Amount;
+
+            for (int i = 8; i < 12; i++) {
+                entity.inventory.setStack(i, match.outputs.get(i-8));
+            }
 
             entity.progress = 0;
         }
@@ -219,10 +229,10 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         return getFirstRecipeMatch(entity)!=null;
     }
 
-    private static CentrifugeRecipe getFirstRecipeMatch(MixerEntity entity){
-        for(CentrifugeRecipe centrifugeRecipe : entity.getWorld().getRecipeManager().listAllOfType(CentrifugeRecipe.Type.INSTANCE)){
-            if(centrifugeRecipe.canProduce(entity.fluidStorages, entity.inventory.getStack(6), entity.getWorld())) {
-                return centrifugeRecipe;
+    private static MixerRecipe getFirstRecipeMatch(MixerEntity entity){
+        for(MixerRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(MixerRecipe.Type.INSTANCE)){
+            if(recipe.isMatch(entity.fluidStorages, entity.inventory)) {
+                return recipe;
             }
         }
         return null;

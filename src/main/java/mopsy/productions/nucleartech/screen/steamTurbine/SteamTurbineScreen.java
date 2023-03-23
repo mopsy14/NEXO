@@ -34,7 +34,10 @@ public class SteamTurbineScreen extends HandledScreen<SteamTurbineScreenHandler>
     public SteamTurbineScreen(SteamTurbineScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
-
+    @Override
+    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+        this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+    }
     @Override
     protected void init() {
         super.init();

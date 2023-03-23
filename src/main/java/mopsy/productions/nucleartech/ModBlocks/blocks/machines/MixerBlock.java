@@ -76,7 +76,7 @@ public class MixerBlock extends BlockWithEntity implements IModID, BlockEntityPr
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.CENTRIFUGE, MixerEntity::tick);
+        return checkType(type, ModdedBlockEntities.MIXER, MixerEntity::tick);
     }
 
     @Override
