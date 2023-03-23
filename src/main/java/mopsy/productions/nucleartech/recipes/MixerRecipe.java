@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Recipe;
@@ -69,10 +70,28 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
         return itemsMatch(inv)&&fluidsMatch(fluidStorages);
     }
     private boolean itemsMatch(Inventory inv){
-
+        for(ItemStack stack : ingredients){
+            if (!containsItems(inv,stack.getItem(),stack.getCount()))return false;
+        }
+        return true;
+    }
+    private boolean containsItems(Inventory inv, Item item, int amount){
+        for (int i = 8; i < 14; i++) {
+            if(inv.getStack(i).getItem()==item&&inv.getStack(i).getCount()==amount)return true;
+        }
+        return false;
     }
     private boolean fluidsMatch(List<SingleVariantStorage<FluidVariant>> fluidStorages){
-
+        return  containsFluid(fluidStorages,inputFluid1,inputFluid1Amount)&&
+                containsFluid(fluidStorages,inputFluid2,inputFluid2Amount)&&
+                containsFluid(fluidStorages,inputFluid3,inputFluid3Amount)&&
+                containsFluid(fluidStorages,inputFluid4,inputFluid4Amount);
+    }
+    private boolean containsFluid(List<SingleVariantStorage<FluidVariant>> fluidStorages, FluidVariant type, long amount){
+        for(SingleVariantStorage<FluidVariant> storage : fluidStorages){
+            if(storage.variant==type&&storage.amount>=amount) return true;
+        }
+        return false;
     }
 
     @Override

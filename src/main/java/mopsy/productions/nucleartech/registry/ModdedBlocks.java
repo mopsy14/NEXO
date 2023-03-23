@@ -45,6 +45,7 @@ public class ModdedBlocks {
         regBlock(new ElectrolyzerBlock());
         regBlock(new CentrifugeBlock());
         regBlock(new AmmoniaSynthesiserBlock());
+        regBlock(new MixerBlock());
         //generators
         regBlock(new FurnaceGeneratorBlock());
         regBlock(new SteamTurbineBlock());
