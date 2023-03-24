@@ -4,8 +4,10 @@ import mopsy.productions.nucleartech.registry.ModdedFluids;
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.render.RenderLayer;
 
 public class ClientMain implements ClientModInitializer {
@@ -13,6 +15,8 @@ public class ClientMain implements ClientModInitializer {
     public void onInitializeClient() {
 
         ScreenHandlers.regClientScreens();
+        HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
+        ItemTooltipCallback.EVENT.register(new mopsy.productions.nucleartech.registry.ItemCode.TooltipCallbackClass());
 
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.NITROGEN, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.OXYGEN, SimpleFluidRenderHandler.coloredWater( 0xA1DCF2FF));
