@@ -1,9 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
-import mopsy.productions.nucleartech.ModFluids.Ammonia;
-import mopsy.productions.nucleartech.ModFluids.Hydrogen;
-import mopsy.productions.nucleartech.ModFluids.Nitrogen;
-import mopsy.productions.nucleartech.ModFluids.Oxygen;
+import mopsy.productions.nucleartech.ModFluids.*;
 import mopsy.productions.nucleartech.ModFluids.steam.DenseSteam;
 import mopsy.productions.nucleartech.ModFluids.steam.Steam;
 import mopsy.productions.nucleartech.ModFluids.steam.SuperDenseSteam;
@@ -77,6 +74,12 @@ public class ModdedFluids {
         DENSE_STEAM = regFluid(new DenseSteam.Still());
         STEAM = regFluid(new Steam.Still());
         AMMONIA = regFluid(new Ammonia.Still());
+        FLUORINE = regFluid(new Fluorine.Still());
+        HYDROGEN_FLUORIDE = regFluid(new HydrogenFluoride.Still());
+        SULFUR_DIOXIDE = regFluid(new Sulfurdioxide.Still());
+        SULFURIC_ACID = regFluid(new SulfuricAcid.Still());
+        SULFUR_TRIOXIDE = regFluid(new Sulfurtrioxide.Still());
+        URANIUM_HEXAFLUORIDE = regFluid(new Uraniumhexafluoride.Still());
         NITROGEN_BLOCK = regBlock(NITROGEN);
         OXYGEN_BLOCK = regBlock(OXYGEN);
         HYDROGEN_BLOCK = regBlock(HYDROGEN);
@@ -86,7 +89,7 @@ public class ModdedFluids {
         AMMONIA_BLOCK = regBlock(AMMONIA);
         FLUORINE_BLOCK = regBlock(FLUORINE);
         HYDROGEN_FLUORIDE_BLOCK = regBlock(HYDROGEN_FLUORIDE);
-        SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
+        SULFUR_DIOXIDE_BLOCK = regBlock(SULFUR_DIOXIDE);
         SULFURIC_ACID_BLOCK = regBlock(SULFURIC_ACID);
         SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
         URANIUM_HEXAFLUORIDE_BLOCK = regBlock(URANIUM_HEXAFLUORIDE);
