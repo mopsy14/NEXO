@@ -44,7 +44,8 @@ public class ModdedItems {
             new ItemInfo("potassium_fluoride"),
             new ItemInfo("potassium"),
             new ItemInfo("uranyl_fluoride"),
-            new ItemInfo("triuranium_octoxide"),
+            new ItemInfo("triuranium_octoxide", 1),
+            new ItemInfo("uranium_dioxide", 1),
             new ItemInfo("yellowcake", 3),
 
             //plates
