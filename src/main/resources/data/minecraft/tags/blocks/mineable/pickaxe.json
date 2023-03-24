@@ -20,7 +20,8 @@
     "nucleartech:cooler",
     "nucleartech:air_pump",
     "nucleartech:small_reactor_hatches",
-    "nucleartech:control_rods"
-
+    "nucleartech:control_rods",
+    "nucleartech:mixer",
+    "nucleartech:steam_turbine"
   ]
 }
