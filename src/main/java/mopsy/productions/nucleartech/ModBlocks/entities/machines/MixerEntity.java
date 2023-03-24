@@ -4,7 +4,7 @@ import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.recipes.MixerRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
+import mopsy.productions.nucleartech.screen.mixer.MixerScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -48,11 +48,12 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     private final Inventory inventory = new SimpleInventory(12);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
+    public boolean tryStart;
     private int progress;
     private int maxProgress = 500;
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 100000;
-    public static final long POWER_MAX_INSERT = 100;
+    public static final long POWER_MAX_INSERT = 50;
     public static final long POWER_MAX_EXTRACT = 0;
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
         @Override
@@ -111,7 +112,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
             buf.writeLong(fluidStorages.get(i).amount);
             ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
         }
-        return new CentrifugeScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+        return new MixerScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
     @Override
@@ -146,12 +147,24 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     public static void tick(World world, BlockPos blockPos, BlockState blockState, MixerEntity entity) {
         if(world.isClient)return;
 
-        if(hasRecipe(entity)&& entity.energyStorage.amount >= 50){
+        if(entity.energyStorage.amount >= 25 && (entity.progress > 0|| entity.tryStart)){
+            entity.tryStart = false;
             entity.progress++;
-            entity.energyStorage.amount -= 50;
+            entity.energyStorage.amount -= 25;
             if(entity.progress >= entity.maxProgress){
-                craft(entity);
-                sendFluidUpdate(entity);
+                entity.progress = 0;
+                if(hasRecipe(entity)) {
+                    craft(entity);
+                    sendFluidUpdate(entity);
+                }else{
+                    for (int i = 8; i < 12; i++) {
+                        entity.inventory.setStack(i, ItemStack.EMPTY);
+                    }
+                    for(SingleVariantStorage<FluidVariant> storage : entity.fluidStorages){
+                        storage.amount = 0;
+                        storage.variant = FluidVariant.blank();
+                    }
+                }
             }
         }else{
             entity.progress = 0;
@@ -159,11 +172,13 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
 
         markDirty(world,blockPos,blockState);
 
-        if(tryFabricTransactions(entity)){
+        if(entity.progress==0) {
+            if (tryFabricTransactions(entity)) {
 
-        }
-        if(tryTransactions(entity)){
-            sendFluidUpdate(entity);
+            }
+            if (tryTransactions(entity)) {
+                sendFluidUpdate(entity);
+            }
         }
 
         if(entity.energyStorage.amount!=entity.previousPower){
@@ -220,8 +235,6 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
             for (int i = 8; i < 12; i++) {
                 entity.inventory.setStack(i, match.outputs.get(i-8));
             }
-
-            entity.progress = 0;
         }
     }
 

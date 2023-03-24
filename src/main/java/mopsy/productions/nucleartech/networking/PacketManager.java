@@ -15,8 +15,11 @@ public class PacketManager {
     public static final Identifier FLUID_CHANGE_PACKET = new Identifier(modid, "fluid_change");
     public static final Identifier ADVANCED_FLUID_CHANGE_PACKET = new Identifier(modid, "adv_fluid_change");
     public static final Identifier SWITCH_REACTOR_POWER_PACKET = new Identifier(modid, "switch_reactor_power");
+
+    public static final Identifier START_MIXER_PACKET = new Identifier(modid, "start_mixer");
     public static void registerC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(SWITCH_REACTOR_POWER_PACKET, C2SPackets::receiveSwitchReactorPower);
+        ServerPlayNetworking.registerGlobalReceiver(START_MIXER_PACKET, C2SPackets::receiveStartMixer);
     }
     public static void registerS2CPackets(){
         ClientPlayNetworking.registerGlobalReceiver(RADIATION_CHANGE_PACKET, S2CPackets::receiveRadiationChange);
