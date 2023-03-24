@@ -64,6 +64,10 @@
   "item.nucleartech.steel_dust": "Steel Dust",
   "item.nucleartech.steel_ingot": "Steel Ingot",
   "item.nucleartech.glass_dust": "Glass Dust",
+  "item.nucleartech.titanium_turbine": "Titanium Turbine",
+  "item.nucleartech.titanium_turbine_blade": "Titanium Turbine Blade",
+  "item.nucleartech.heat_resistant_glass":"Heat Resistant Glass",
+  "item.nucleartech.ammonia_bucket": "Ammonia Bucket",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -91,5 +95,7 @@
   "block.nucleartech.steam_turbine": "Steam Turbine",
   "block.nucleartech.lead_ore": "Lead Ore",
   "block.nucleartech.deepslate_lead_ore": "Deepslate Lead Ore",
-  "block.nucleartech.heat_resistant_glass": "Heat Resistant Glass"
+  "block.nucleartech.heat_resistant_glass": "Heat Resistant Glass",
+  "block.nucleartech.mixer": "Mixer",
+  "block.nucleartech.ammonia_synthesiser": "Ammonia Synthesiser"
 }
