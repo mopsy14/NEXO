@@ -65,6 +65,12 @@ public class ModdedFluids {
     public static FlowableFluid URANIUM_HEXAFLUORIDE;
     public static Block URANIUM_HEXAFLUORIDE_BLOCK;
     public static Item URANIUM_HEXAFLUORIDE_BUCKET;
+    public static FlowableFluid URANIUM_HEXAFLUORIDE_ENRICHED;
+    public static Block URANIUM_HEXAFLUORIDE_ENRICHED_BLOCK;
+    public static Item URANIUM_HEXAFLUORIDE_ENRICHED_BUCKET;
+    public static FlowableFluid URANIUM_HEXAFLUORIDE_DEPLETED;
+    public static Block URANIUM_HEXAFLUORIDE_DEPLETED_BLOCK;
+    public static Item URANIUM_HEXAFLUORIDE_DEPLETED_BUCKET;
     public static FlowableFluid HKF2;
     public static Block HKF2_BLOCK;
     public static Item HKF2_BUCKET;
@@ -84,6 +90,8 @@ public class ModdedFluids {
         SULFURIC_ACID = regFluid(new SulfuricAcid.Still());
         SULFUR_TRIOXIDE = regFluid(new Sulfurtrioxide.Still());
         URANIUM_HEXAFLUORIDE = regFluid(new Uraniumhexafluoride.Still());
+        URANIUM_HEXAFLUORIDE_ENRICHED = regFluid(new UraniumhexafluorideEnriched.Still());
+        URANIUM_HEXAFLUORIDE_DEPLETED = regFluid(new UraniumhexafluorideDepleted.Still());
         NITROGEN_BLOCK = regBlock(NITROGEN);
         OXYGEN_BLOCK = regBlock(OXYGEN);
         HYDROGEN_BLOCK = regBlock(HYDROGEN);
@@ -97,6 +105,8 @@ public class ModdedFluids {
         SULFURIC_ACID_BLOCK = regBlock(SULFURIC_ACID);
         SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
         URANIUM_HEXAFLUORIDE_BLOCK = regBlock(URANIUM_HEXAFLUORIDE);
+        URANIUM_HEXAFLUORIDE_ENRICHED_BLOCK = regBlock(URANIUM_HEXAFLUORIDE_ENRICHED);
+        URANIUM_HEXAFLUORIDE_DEPLETED_BLOCK = regBlock(URANIUM_HEXAFLUORIDE_DEPLETED);
         HKF2_BLOCK = regBlock(HKF2);
         NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
@@ -184,6 +194,20 @@ public class ModdedFluids {
                 });
         URANIUM_HEXAFLUORIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_hexafluoride_bucket"),
                 new BucketItem(ModdedFluids.URANIUM_HEXAFLUORIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        URANIUM_HEXAFLUORIDE_ENRICHED_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_hexafluoride_enriched_bucket"),
+                new BucketItem(ModdedFluids.URANIUM_HEXAFLUORIDE_ENRICHED, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        URANIUM_HEXAFLUORIDE_DEPLETED_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_hexafluoride_depleted_bucket"),
+                new BucketItem(ModdedFluids.URANIUM_HEXAFLUORIDE_DEPLETED, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
                     public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
                         return false;
