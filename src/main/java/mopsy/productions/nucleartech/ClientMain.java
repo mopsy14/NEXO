@@ -10,6 +10,8 @@ import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.render.RenderLayer;
 
+import static mopsy.productions.nucleartech.networking.PacketManager.registerS2CPackets;
+
 public class ClientMain implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
@@ -17,6 +19,7 @@ public class ClientMain implements ClientModInitializer {
         ScreenHandlers.regClientScreens();
         HudRenderCallback.EVENT.register(new mopsy.productions.nucleartech.HUD.Radiation());
         ItemTooltipCallback.EVENT.register(new mopsy.productions.nucleartech.registry.ItemCode.TooltipCallbackClass());
+        registerS2CPackets();
 
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.NITROGEN, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.OXYGEN, SimpleFluidRenderHandler.coloredWater( 0xA1DCF2FF));
