@@ -233,7 +233,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
             entity.fluidStorages.get(2).amount = match.outputFluid3Amount;
 
             for (int i = 8; i < 12; i++) {
-                if(match.outputs.size()>=i-8)
+                if(match.outputs.size()>=i-7)
                     entity.inventory.setStack(i, match.outputs.get(i-8));
                 else
                     entity.inventory.setStack(i, ItemStack.EMPTY);

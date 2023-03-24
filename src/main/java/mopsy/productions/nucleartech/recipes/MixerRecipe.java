@@ -170,13 +170,13 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             //input items:
             List<ItemStack> inputStacks = new ArrayList<>();
             JsonArray jsonInputs = JsonHelper.getArray(json, "input");
-            jsonInputs.forEach((jsonElement) -> {if(!((JsonObject) jsonElement).has("item")) inputStacks.add(getStack((JsonObject) jsonElement));});
+            jsonInputs.forEach((jsonElement) -> {if(((JsonObject) jsonElement).has("item")) inputStacks.add(getStack((JsonObject) jsonElement));});
 
 
             //output items:
             List<ItemStack> outputStacks = new ArrayList<>();
             JsonArray jsonOutputs = JsonHelper.getArray(json, "output");
-            jsonOutputs.forEach((jsonElement) -> {if(!((JsonObject) jsonElement).has("item")) outputStacks.add(getStack((JsonObject) jsonElement));});
+            jsonOutputs.forEach((jsonElement) -> {if(((JsonObject) jsonElement).has("item")) outputStacks.add(getStack((JsonObject) jsonElement));});
 
 
             return new MixerRecipe(id, fluidInputType, fluidInputAmount, fluidInput2Type, fluidInput2Amount, fluidInput3Type, fluidInput3Amount, fluidOutput1Type, fluidOutput1Amount, fluidOutput2Type, fluidOutput2Amount, fluidOutput3Type, fluidOutput3Amount, inputStacks, outputStacks);
