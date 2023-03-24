@@ -98,5 +98,16 @@
 
   "block.nucleartech.nitrogen": "Nitrogen",
   "block.nucleartech.oxygen": "Oxygen",
-  "block.nucleartech.hydrogen": "Hydrogen"
+  "block.nucleartech.hydrogen": "Hydrogen",
+  "block.nucleartech.sulfur_dioxide": "Sulfurdioxide",
+  "block.nucleartech.sulfuric_acid": "Sulfuric Acid",
+  "block.nucleartech.sulfur_trioxide": "Sulfurtrioxide",
+  "block.nucleartech.uranium_hexafluoride": "Uranium Hexafluoride",
+  "block.nucleartech.hydrogen_fluoride": "Hydrogen Fluoride",
+  "block.nucleartech.fluorine": "Fluorine",
+  "block.nucleartech.ammonia": "Ammonia",
+  "block.nucleartech.super_dense_steam": "Super Dense Steam",
+  "block.nucleartech.dense_steam": "Dense Steam",
+  "block.nucleartech.steam": "Steam"
+
 }
