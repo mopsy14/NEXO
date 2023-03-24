@@ -1,0 +1,33 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:sulfuric_acid",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+    {"item": "nucleartech:uranium_dust"}
+  ],
+  "output": [
+    {"item": "nucleartech:yellowcake","count": 1}
+  ]
+}
