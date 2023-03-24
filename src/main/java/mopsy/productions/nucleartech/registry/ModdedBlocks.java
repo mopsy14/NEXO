@@ -36,6 +36,7 @@ public class ModdedBlocks {
         regBlock(new SulfurOreBlock());
         regBlock(new LeadOreBlock());
         regBlock(new DeepslateLeadOreBlock());
+        regBlock(new CarobbiiteOreBlock());
         //compressed
         regBlock(new UraniumBlock());
         //machines

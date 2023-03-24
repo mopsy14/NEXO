@@ -65,6 +65,9 @@ public class ModdedFluids {
     public static FlowableFluid URANIUM_HEXAFLUORIDE;
     public static Block URANIUM_HEXAFLUORIDE_BLOCK;
     public static Item URANIUM_HEXAFLUORIDE_BUCKET;
+    public static FlowableFluid HKF2;
+    public static Block HKF2_BLOCK;
+    public static Item HKF2_BUCKET;
 
     public static void regFluids(){
         NITROGEN = regFluid(new Nitrogen.Still());
@@ -75,6 +78,7 @@ public class ModdedFluids {
         STEAM = regFluid(new Steam.Still());
         AMMONIA = regFluid(new Ammonia.Still());
         FLUORINE = regFluid(new Fluorine.Still());
+        HKF2 = regFluid(new HKF2.Still());
         HYDROGEN_FLUORIDE = regFluid(new HydrogenFluoride.Still());
         SULFUR_DIOXIDE = regFluid(new Sulfurdioxide.Still());
         SULFURIC_ACID = regFluid(new SulfuricAcid.Still());
@@ -93,6 +97,7 @@ public class ModdedFluids {
         SULFURIC_ACID_BLOCK = regBlock(SULFURIC_ACID);
         SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
         URANIUM_HEXAFLUORIDE_BLOCK = regBlock(URANIUM_HEXAFLUORIDE);
+        HKF2_BLOCK = regBlock(HKF2);
         NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
@@ -179,6 +184,13 @@ public class ModdedFluids {
                 });
         URANIUM_HEXAFLUORIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_hexafluoride_bucket"),
                 new BucketItem(ModdedFluids.URANIUM_HEXAFLUORIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        HKF2_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "hf_kf_bucket"),
+                new BucketItem(ModdedFluids.HKF2, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
                     public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
                         return false;

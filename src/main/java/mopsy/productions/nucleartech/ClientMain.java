@@ -27,6 +27,7 @@ public class ClientMain implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SULFURIC_ACID, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SULFUR_TRIOXIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.URANIUM_HEXAFLUORIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.HKF2, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.NITROGEN);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.OXYGEN);
@@ -41,5 +42,6 @@ public class ClientMain implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SULFURIC_ACID);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SULFUR_TRIOXIDE);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.URANIUM_HEXAFLUORIDE);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.HKF2);
     }
 }
