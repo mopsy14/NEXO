@@ -1,0 +1,33 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:oxygen",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "nucleartech:sulfur_dioxide",
+    "amount": 1000
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "nucleartech:sulfur_trioxide",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+    {"item": "nucleartech:vanadium","count": 1}
+  ],
+  "output": [
+    {"item": "nucleartech:vanadium","count": 1}
+  ]
+}

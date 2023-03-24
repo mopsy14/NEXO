@@ -1,0 +1,33 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:ammonia",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "nucleartech:ammonia",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "nucleartech:oxygen",
+    "amount": 1000
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+    {"item": "nucleartech:triuranium_octoxide","count": 1}
+  ],
+  "output": [
+    {"item": "nucleartech:uranium_dioxide","count": 1}
+  ]
+}

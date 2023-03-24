@@ -1,0 +1,31 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:sulfur_trioxide",
+    "amount": 1000
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "nucleartech:sulfuric_acid",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+  ],
+  "output": [
+  ]
+}

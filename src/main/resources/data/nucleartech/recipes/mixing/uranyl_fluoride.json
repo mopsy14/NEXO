@@ -1,0 +1,32 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:uranium_hexafluoride",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "nucleartech:hydrogen_fluoride",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+  ],
+  "output": [
+    {"item": "nucleartech::uranyl_fluoride","count": 1}
+  ]
+}

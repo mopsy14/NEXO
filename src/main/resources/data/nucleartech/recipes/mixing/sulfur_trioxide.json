@@ -1,0 +1,35 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_input3": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_output_1": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "nucleartech:oxygen",
+    "amount": 500
+  },
+  "fluid_output_3": {
+    "type": "nucleartech:oxygen",
+    "amount": 500
+  },
+  "input": [
+    {"item": "minecraft:grass"},
+    {"item": "minecraft:iron_ingot","count": 5}
+  ],
+  "output": [
+    {"item": "minecraft:gold_ingot","count": 5}
+  ],
+  "needs_heat_resistant_tubes": true
+}
