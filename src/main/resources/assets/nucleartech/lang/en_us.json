@@ -80,9 +80,6 @@
   "block.nucleartech.air_pump": "Air Pump",
   "block.nucleartech.cooler": "Cooler",
   "block.nucleartech.tank_mk1": "Tank MK1",
-  "block.nucleartech.nitrogen": "Nitrogen",
-  "block.nucleartech.oxygen": "Oxygen",
-  "block.nucleartech.hydrogen": "Hydrogen",
   "block.nucleartech.centrifuge": "Centrifuge",
   "block.nucleartech.titanium_ore": "Titanium Ore",
   "block.nucleartech.deepslate_titanium_ore": "Deepslate Titanium Ore",
@@ -97,5 +94,9 @@
   "block.nucleartech.deepslate_lead_ore": "Deepslate Lead Ore",
   "block.nucleartech.heat_resistant_glass": "Heat Resistant Glass",
   "block.nucleartech.mixer": "Mixer",
-  "block.nucleartech.ammonia_synthesiser": "Ammonia Synthesiser"
+  "block.nucleartech.ammonia_synthesiser": "Ammonia Synthesiser",
+
+  "block.nucleartech.nitrogen": "Nitrogen",
+  "block.nucleartech.oxygen": "Oxygen",
+  "block.nucleartech.hydrogen": "Hydrogen"
 }

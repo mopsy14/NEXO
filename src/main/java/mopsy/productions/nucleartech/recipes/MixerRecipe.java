@@ -151,17 +151,17 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             long fluidInput3Amount = FluidUtils.mBtoDroplets(jsonInput.get("amount").getAsLong());
 
             //output fluids:
-            jsonInput = JsonHelper.getObject(json, "output_1");
+            jsonInput = JsonHelper.getObject(json, "fluid_output_1");
             String fluidOutput1StrType = jsonInput.get("type").getAsString();
             FluidVariant fluidOutput1Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(fluidOutput1StrType)));
             long fluidOutput1Amount = FluidUtils.mBtoDroplets(jsonInput.get("amount").getAsLong());
 
-            jsonInput = JsonHelper.getObject(json, "output_2");
+            jsonInput = JsonHelper.getObject(json, "fluid_output_2");
             String fluidOutput2StrType = jsonInput.get("type").getAsString();
             FluidVariant fluidOutput2Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(fluidOutput2StrType)));
             long fluidOutput2Amount = FluidUtils.mBtoDroplets(jsonInput.get("amount").getAsLong());
 
-            jsonInput = JsonHelper.getObject(json, "output_3");
+            jsonInput = JsonHelper.getObject(json, "fluid_output_3");
             String fluidOutput3StrType = jsonInput.get("type").getAsString();
             FluidVariant fluidOutput3Type = FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(fluidOutput3StrType)));
             long fluidOutput3Amount = FluidUtils.mBtoDroplets(jsonInput.get("amount").getAsLong());
