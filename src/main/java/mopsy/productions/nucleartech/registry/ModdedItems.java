@@ -39,6 +39,12 @@ public class ModdedItems {
             new ItemInfo("titanium_turbine_blade"),
             new ItemInfo("titanium_turbine"),
             new ItemInfo("wire_casing"),
+            new ItemInfo("vanadium"),
+            new ItemInfo("gypsum"),
+            new ItemInfo("potassium_fluoride"),
+            new ItemInfo("potassium"),
+            new ItemInfo("uranyl_fluoride"),
+            new ItemInfo("triuranium_octoxide"),
 
             //plates
             new ItemInfo("gold_plate"),
