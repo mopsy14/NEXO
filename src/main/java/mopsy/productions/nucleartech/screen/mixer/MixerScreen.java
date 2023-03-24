@@ -61,10 +61,12 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         int y = (height - backgroundHeight)/2;
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
+        renderProgress(matrices, x, y);
+
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+5, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+43, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
         renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+81, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
-        buttonCordPredicate = ScreenUtils.renderButton(this, matrices, x+4, y+5, handler.isActive());
+        buttonCordPredicate = ScreenUtils.renderSmallButton(this, matrices, x+4, y+5, handler.isActive());
         renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+156, y+11, getPower(), MixerEntity.POWER_CAPACITY);
     }
 
@@ -108,7 +110,11 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
     }
-
+    private void renderProgress(MatrixStack matrices, int x, int y){
+        if(handler.isActive()){
+            drawTexture(matrices, x+118, y+56, 176, 0, handler.getScaledProgress(), 11);
+        }
+    }
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);

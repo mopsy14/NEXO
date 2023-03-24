@@ -53,7 +53,17 @@ public class MixerScreenHandler extends ScreenHandler {
     public BlockPos getBlockPos(){
         return blockPos;
     }
-    public boolean isActive(){return delegate.get(0)>0;}
+    public boolean isActive(){
+        return delegate.get(0)>0;
+    }
+
+    public int getScaledProgress(){
+        int progress = this.delegate.get(0);
+        int max = this.delegate.get(1);
+        int barSize = 37;
+
+        return max!=0 && progress!=0 ? progress*barSize/max : 0;
+    }
 
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
