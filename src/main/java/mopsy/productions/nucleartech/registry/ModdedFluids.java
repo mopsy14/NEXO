@@ -50,6 +50,24 @@ public class ModdedFluids {
     public static FlowableFluid AMMONIA;
     public static Block AMMONIA_BLOCK;
     public static Item AMMONIA_BUCKET;
+    public static FlowableFluid FLUORINE;
+    public static Block FLUORINE_BLOCK;
+    public static Item FLUORINE_BUCKET;
+    public static FlowableFluid HYDROGEN_FLUORIDE;
+    public static Block HYDROGEN_FLUORIDE_BLOCK;
+    public static Item HYDROGEN_FLUORIDE_BUCKET;
+    public static FlowableFluid SULFUR_DIOXIDE;
+    public static Block SULFUR_DIOXIDE_BLOCK;
+    public static Item SULFUR_DIOXIDE_BUCKET;
+    public static FlowableFluid SULFURIC_ACID;
+    public static Block SULFURIC_ACID_BLOCK;
+    public static Item SULFURIC_ACID_BUCKET;
+    public static FlowableFluid SULFUR_TRIOXIDE;
+    public static Block SULFUR_TRIOXIDE_BLOCK;
+    public static Item SULFUR_TRIOXIDE_BUCKET;
+    public static FlowableFluid URANIUM_HEXAFLUORIDE;
+    public static Block URANIUM_HEXAFLUORIDE_BLOCK;
+    public static Item URANIUM_HEXAFLUORIDE_BUCKET;
 
     public static void regFluids(){
         NITROGEN = regFluid(new Nitrogen.Still());
@@ -66,6 +84,12 @@ public class ModdedFluids {
         DENSE_STEAM_BLOCK = regBlock(DENSE_STEAM);
         STEAM_BLOCK = regBlock(STEAM);
         AMMONIA_BLOCK = regBlock(AMMONIA);
+        FLUORINE_BLOCK = regBlock(FLUORINE);
+        HYDROGEN_FLUORIDE_BLOCK = regBlock(HYDROGEN_FLUORIDE);
+        SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
+        SULFURIC_ACID_BLOCK = regBlock(SULFURIC_ACID);
+        SULFUR_TRIOXIDE_BLOCK = regBlock(SULFUR_TRIOXIDE);
+        URANIUM_HEXAFLUORIDE_BLOCK = regBlock(URANIUM_HEXAFLUORIDE);
         NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
                 new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
@@ -110,6 +134,48 @@ public class ModdedFluids {
                 });
         AMMONIA_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "ammonia_bucket"),
                 new BucketItem(ModdedFluids.AMMONIA, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        FLUORINE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "fluorine_bucket"),
+                new BucketItem(ModdedFluids.FLUORINE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        HYDROGEN_FLUORIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "hydrogen_fluoride_bucket"),
+                new BucketItem(ModdedFluids.HYDROGEN_FLUORIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        SULFUR_DIOXIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "sulfur_dioxide_bucket"),
+                new BucketItem(ModdedFluids.SULFUR_DIOXIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        SULFURIC_ACID_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "sulfuric_acid_bucket"),
+                new BucketItem(ModdedFluids.SULFURIC_ACID, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        SULFUR_TRIOXIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "sulfur_trioxide_bucket"),
+                new BucketItem(ModdedFluids.SULFUR_TRIOXIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+                    @Override
+                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+                        return false;
+                    }
+                });
+        URANIUM_HEXAFLUORIDE_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "uranium_hexafluoride_bucket"),
+                new BucketItem(ModdedFluids.URANIUM_HEXAFLUORIDE, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override
                     public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
                         return false;

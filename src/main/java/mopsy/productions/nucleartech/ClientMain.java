@@ -21,6 +21,12 @@ public class ClientMain implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.DENSE_STEAM, SimpleFluidRenderHandler.coloredWater( 0xA1ffa4a4));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.STEAM, SimpleFluidRenderHandler.coloredWater( 0xA1ffd4d4));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.AMMONIA, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.FLUORINE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.HYDROGEN_FLUORIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SULFUR_DIOXIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SULFURIC_ACID, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.SULFUR_TRIOXIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.URANIUM_HEXAFLUORIDE, SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.NITROGEN);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.OXYGEN);
@@ -29,5 +35,11 @@ public class ClientMain implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.DENSE_STEAM);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.STEAM);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.AMMONIA);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.FLUORINE);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.HYDROGEN_FLUORIDE);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SULFUR_DIOXIDE);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SULFURIC_ACID);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.SULFUR_TRIOXIDE);
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.URANIUM_HEXAFLUORIDE);
     }
 }
