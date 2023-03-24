@@ -27,6 +27,6 @@
   "input": [
   ],
   "output": [
-    {"item": "nucleartech::uranyl_fluoride","count": 1}
+    {"item": "nucleartech:uranyl_fluoride","count": 1}
   ]
 }

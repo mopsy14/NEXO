@@ -25,7 +25,7 @@
     "amount": 0
   },
   "input": [
-    {"item": "nucleartech:fluorine","count": 1}
+    {"item": "nucleartech:fluorite","count": 1}
   ],
   "output": [
     {"item": "nucleartech:gypsum","count": 1}

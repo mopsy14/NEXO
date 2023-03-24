@@ -1,35 +1,33 @@
 {
   "type": "nucleartech:mixing",
   "fluid_input": {
-    "type": "minecraft:water",
+    "type": "minecraft:sulfur_dioxide",
     "amount": 1000
   },
   "fluid_input2": {
-    "type": "minecraft:water",
+    "type": "minecraft:oxygen",
     "amount": 1000
   },
   "fluid_input3": {
-    "type": "minecraft:water",
-    "amount": 1000
+    "type": "minecraft:air",
+    "amount": 0
   },
   "fluid_output_1": {
-    "type": "minecraft:water",
+    "type": "minecraft:sulfur_trioxide",
     "amount": 1000
   },
   "fluid_output_2": {
-    "type": "nucleartech:oxygen",
-    "amount": 500
+    "type": "minecraft:air",
+    "amount": 0
   },
   "fluid_output_3": {
-    "type": "nucleartech:oxygen",
-    "amount": 500
+    "type": "minecraft:air",
+    "amount": 0
   },
   "input": [
-    {"item": "minecraft:grass"},
-    {"item": "minecraft:iron_ingot","count": 5}
+    {"item": "minecraft:vanadium","count": 1}
   ],
   "output": [
-    {"item": "minecraft:gold_ingot","count": 5}
-  ],
-  "needs_heat_resistant_tubes": true
+    {"item": "minecraft:vanadium","count": 1}
+  ]
 }
