@@ -74,6 +74,7 @@
   "item.nucleartech.titanium_turbine_blade": "Titanium Turbine Blade",
   "item.nucleartech.heat_resistant_glass":"Heat Resistant Glass",
   "item.nucleartech.ammonia_bucket": "Ammonia Bucket",
+  "item.nucleartech.hf_kf": "HF+KF Bucket",
   "item.nucleartech.vanadium": "Vanadium",
   "item.nucleartech.gypsum": "Gypsum",
   "item.nucleartech.potassium_fluoride": "Potassium Fluoride",
@@ -108,6 +109,7 @@
   "block.nucleartech.heat_resistant_glass": "Heat Resistant Glass",
   "block.nucleartech.mixer": "Mixer",
   "block.nucleartech.ammonia_synthesiser": "Ammonia Synthesiser",
+  "block.nucleartech.carobbiite_ore": "Carobiitte Ore",
 
   "block.nucleartech.nitrogen": "Nitrogen",
   "block.nucleartech.oxygen": "Oxygen",
@@ -121,6 +123,7 @@
   "block.nucleartech.ammonia": "Ammonia",
   "block.nucleartech.super_dense_steam": "Super Dense Steam",
   "block.nucleartech.dense_steam": "Dense Steam",
-  "block.nucleartech.steam": "Steam"
+  "block.nucleartech.steam": "Steam",
+  "block.nucleartech.hf_kf": "HF+KF"
 
 }
