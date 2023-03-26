@@ -22,6 +22,7 @@
     "nucleartech:small_reactor_hatches",
     "nucleartech:control_rods",
     "nucleartech:mixer",
-    "nucleartech:steam_turbine"
+    "nucleartech:steam_turbine",
+    "nucleartech:lead_ore"
   ]
 }
