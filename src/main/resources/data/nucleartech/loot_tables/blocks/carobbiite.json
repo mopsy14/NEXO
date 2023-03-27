@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:carobbiite",
+          "name": "nucleartech:potassium_fluoride",
           "functions": [
             {
               "function": "minecraft:set_count",
