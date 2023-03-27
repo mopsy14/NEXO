@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_sulfur",
+          "name": "nucleartech:sulfur",
           "functions": [
             {
               "function": "minecraft:set_count",

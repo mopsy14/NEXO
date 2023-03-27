@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_fluorite",
+          "name": "nucleartech:fluorite",
           "functions": [
             {
               "function": "minecraft:set_count",
