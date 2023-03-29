@@ -21,7 +21,7 @@ public class MixerScreenHandler extends ScreenHandler {
     public final PropertyDelegate delegate;
 
     public MixerScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(12), new ArrayPropertyDelegate(2), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(12), new ArrayPropertyDelegate(3), buf.readBlockPos());
     }
     public MixerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.MIXER, syncId);

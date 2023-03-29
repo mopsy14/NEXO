@@ -36,8 +36,9 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate3;
     public Predicate<IntCords2D> buttonCordPredicate;
-
+    public Predicate<IntCords2D> sliderCordPredicate;
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
+    private boolean isDragging = false;
 
     public MixerScreen(MixerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -72,6 +73,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        isDragging = false;
         if(button==0) {
             IntCords2D mouse = new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY)));
             if(buttonCordPredicate.test(mouse)){
@@ -81,6 +83,11 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
             }
         }
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

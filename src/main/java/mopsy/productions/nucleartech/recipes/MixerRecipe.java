@@ -38,8 +38,10 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
     public final long outputFluid3Amount;
     public final List<ItemStack> ingredients;
     public final List<ItemStack> outputs;
+    public final int minHeat;
+    public final int maxHeat;
 
-    public MixerRecipe(Identifier id, FluidVariant inputFluid1, long inputFluid1Amount, FluidVariant inputFluid2, long inputFluid2Amount, FluidVariant inputFluid3, long inputFluid3Amount, FluidVariant outputFluid1, long outputFluid1Amount, FluidVariant outputFluid2, long outputFluid2Amount, FluidVariant outputFluid3, long outputFluid3Amount, List<ItemStack> ingredients, List<ItemStack> outputs){
+    public MixerRecipe(Identifier id, FluidVariant inputFluid1, long inputFluid1Amount, FluidVariant inputFluid2, long inputFluid2Amount, FluidVariant inputFluid3, long inputFluid3Amount, FluidVariant outputFluid1, long outputFluid1Amount, FluidVariant outputFluid2, long outputFluid2Amount, FluidVariant outputFluid3, long outputFluid3Amount, List<ItemStack> ingredients, List<ItemStack> outputs, int minHeat, int maxHeat){
         this.id=id;
         this.inputFluid1 = inputFluid1;
         this.inputFluid1Amount = inputFluid1Amount;
@@ -57,6 +59,8 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
 
         this.ingredients = ingredients;
         this.outputs = outputs;
+        this.minHeat = minHeat;
+        this.maxHeat = maxHeat;
     }
 
 
@@ -178,8 +182,10 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             JsonArray jsonOutputs = JsonHelper.getArray(json, "output");
             jsonOutputs.forEach((jsonElement) -> {if(((JsonObject) jsonElement).has("item")) outputStacks.add(getStack((JsonObject) jsonElement));});
 
+            int minHeat = json.get("minimal_heat").getAsInt();
+            int maxHeat = json.get("maximum_heat").getAsInt();
 
-            return new MixerRecipe(id, fluidInputType, fluidInputAmount, fluidInput2Type, fluidInput2Amount, fluidInput3Type, fluidInput3Amount, fluidOutput1Type, fluidOutput1Amount, fluidOutput2Type, fluidOutput2Amount, fluidOutput3Type, fluidOutput3Amount, inputStacks, outputStacks);
+            return new MixerRecipe(id, fluidInputType, fluidInputAmount, fluidInput2Type, fluidInput2Amount, fluidInput3Type, fluidInput3Amount, fluidOutput1Type, fluidOutput1Amount, fluidOutput2Type, fluidOutput2Amount, fluidOutput3Type, fluidOutput3Amount, inputStacks, outputStacks, minHeat, maxHeat);
         }
         private ItemStack getStack(JsonObject object){
             return new ItemStack(Registry.ITEM.get(Identifier.tryParse(object.get("item").getAsString())), object.has("count")?object.get("count").getAsInt():1);
@@ -214,7 +220,10 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
                 inputStacks.add(buf.readItemStack());
             }
 
-            return new MixerRecipe(id, inputType, inputAmount,  input2Type, input2Amount, input3Type, input3Amount, output1Type, output1Amount, output2Type, output2Amount, output3Type, output3Amount, inputStacks, outputStacks);
+            int minHeat = buf.readInt();
+            int maxHeat = buf.readInt();
+
+            return new MixerRecipe(id, inputType, inputAmount,  input2Type, input2Amount, input3Type, input3Amount, output1Type, output1Amount, output2Type, output2Amount, output3Type, output3Amount, inputStacks, outputStacks, minHeat, maxHeat);
         }
 
         @Override
@@ -243,6 +252,9 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             for(ItemStack output : recipe.outputs){
                 buf.writeItemStack(output);
             }
+
+            buf.writeInt(recipe.minHeat);
+            buf.writeInt(recipe.maxHeat);
         }
     }
 }

@@ -51,6 +51,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     public boolean tryStart;
     private int progress;
     private int maxProgress = 500;
+    private int heat = 0;
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 100000;
     public static final long POWER_MAX_INSERT = 50;
@@ -73,6 +74,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
                 switch (index){
                     case 0: return MixerEntity.this.progress;
                     case 1: return MixerEntity.this.maxProgress;
+                    case 2: return MixerEntity.this.heat;
                     default: return 0;
                 }
             }
@@ -82,12 +84,13 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
                 switch (index){
                     case 0: MixerEntity.this.progress = value; break;
                     case 1: MixerEntity.this.maxProgress = value; break;
+                    case 2: MixerEntity.this.heat = value; break;
                 }
             }
 
             @Override
             public int size() {
-                return 2;
+                return 3;
             }
         };
     }
