@@ -28,6 +28,6 @@
     {"item": "nucleartech:triuranium_octoxide","count": 1}
   ],
   "output": [
-    {"item": "nucleartech:uranium_dioxide","count": 1}
+    {"item": "nucleartech:uranium_fuel_pellet","count": 1}
   ]
 }
