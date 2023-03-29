@@ -86,12 +86,10 @@ public class SmallReactorHatchesBlock extends BlockWithEntity implements IModID,
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof SmallReactorEntity) {
-                ItemScatterer.spawn(world, pos, (SmallReactorEntity)blockEntity);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof SmallReactorEntity) {
+            ItemScatterer.spawn(world, pos, (SmallReactorEntity) blockEntity);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }

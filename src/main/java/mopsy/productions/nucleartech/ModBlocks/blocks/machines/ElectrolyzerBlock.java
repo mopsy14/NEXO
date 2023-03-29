@@ -80,12 +80,10 @@ public class ElectrolyzerBlock extends BlockWithEntity implements IModID, BlockE
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof ElectrolyzerEntity) {
-                ItemScatterer.spawn(world, pos, ((ElectrolyzerEntity) blockEntity).inventory);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof ElectrolyzerEntity) {
+            ItemScatterer.spawn(world, pos, ((ElectrolyzerEntity) blockEntity).inventory);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }

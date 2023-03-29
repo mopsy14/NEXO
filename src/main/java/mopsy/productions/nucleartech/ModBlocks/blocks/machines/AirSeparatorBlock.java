@@ -85,12 +85,10 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof AirSeparatorEntity) {
-                ItemScatterer.spawn(world, pos, (AirSeparatorEntity) blockEntity);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof AirSeparatorEntity) {
+            ItemScatterer.spawn(world, pos, (AirSeparatorEntity) blockEntity);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }

@@ -81,12 +81,10 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof CentrifugeEntity) {
-                ItemScatterer.spawn(world, pos, (CentrifugeEntity)blockEntity);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof CentrifugeEntity) {
+            ItemScatterer.spawn(world, pos, (CentrifugeEntity) blockEntity);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }

@@ -78,12 +78,10 @@ public class FurnaceGeneratorBlock extends BlockWithEntity implements IModID, Bl
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof FurnaceGeneratorEntity) {
-                ItemScatterer.spawn(world, pos, (FurnaceGeneratorEntity) blockEntity);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof FurnaceGeneratorEntity) {
+            ItemScatterer.spawn(world, pos, (FurnaceGeneratorEntity) blockEntity);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }

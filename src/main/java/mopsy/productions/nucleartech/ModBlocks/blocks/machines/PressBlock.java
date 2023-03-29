@@ -80,12 +80,10 @@ public class PressBlock extends BlockWithEntity implements IModID, BlockEntityPr
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if(!player.isCreative()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof PressEntity) {
-                ItemScatterer.spawn(world, pos, (PressEntity) blockEntity);
-                world.updateComparators(pos, this);
-            }
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof PressEntity) {
+            ItemScatterer.spawn(world, pos, (PressEntity) blockEntity);
+            world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
     }
