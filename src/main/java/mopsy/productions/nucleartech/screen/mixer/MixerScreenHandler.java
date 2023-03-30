@@ -64,6 +64,16 @@ public class MixerScreenHandler extends ScreenHandler {
 
         return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
+    public int getSliderPos(){
+        int progress = getHeat()-1000;
+        int max = 1000;
+        int barSize = 100;
+
+        return progress!=0 ? progress*barSize/max : 0;
+    }
+    public int getHeat(){
+        return this.delegate.get(2);
+    }
 
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {

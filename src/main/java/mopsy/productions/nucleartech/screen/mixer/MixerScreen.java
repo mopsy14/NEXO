@@ -36,10 +36,14 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate3;
     public Predicate<IntCords2D> buttonCordPredicate;
-    public Predicate<IntCords2D> sliderCordPredicate;
+    public Predicate<IntCords2D> sliderCordPredicate =
+            ic2d -> (
+                ic2d.x>10+handler.getSliderPos() && ic2d.x<20+handler.getSliderPos() &&
+                ic2d.y>10 && ic2d.y<y+20
+            );
     public Predicate<IntCords2D> sliderTooltipPredicate =
             ic2d -> (
-                ic2d.x>10 && ic2d.x<20 &&
+                ic2d.x>10 && ic2d.x<110 &&
                 ic2d.y>10 && ic2d.y<y+20
     );
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
@@ -97,7 +101,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        //isDragging = sliderCordPredicate.test(new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY))));
+        isDragging = sliderCordPredicate.test(new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY))));
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
