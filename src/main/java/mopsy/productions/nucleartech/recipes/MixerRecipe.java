@@ -182,8 +182,8 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             JsonArray jsonOutputs = JsonHelper.getArray(json, "output");
             jsonOutputs.forEach((jsonElement) -> {if(((JsonObject) jsonElement).has("item")) outputStacks.add(getStack((JsonObject) jsonElement));});
 
-            int minHeat = json.get("minimal_heat").getAsInt();
-            int maxHeat = json.get("maximum_heat").getAsInt();
+            int minHeat = json.has("minimal_heat")?json.get("minimal_heat").getAsInt():10;
+            int maxHeat = json.has("maximum_heat")?json.get("maximum_heat").getAsInt():30;
 
             return new MixerRecipe(id, fluidInputType, fluidInputAmount, fluidInput2Type, fluidInput2Amount, fluidInput3Type, fluidInput3Amount, fluidOutput1Type, fluidOutput1Amount, fluidOutput2Type, fluidOutput2Amount, fluidOutput3Type, fluidOutput3Amount, inputStacks, outputStacks, minHeat, maxHeat);
         }
