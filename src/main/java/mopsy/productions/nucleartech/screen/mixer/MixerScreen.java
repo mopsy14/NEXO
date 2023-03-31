@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static mopsy.productions.nucleartech.Main.modid;
+import static mopsy.productions.nucleartech.networking.PacketManager.CHANGE_MIXER_SLIDER_PACKET;
 import static mopsy.productions.nucleartech.networking.PacketManager.START_MIXER_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -79,9 +80,17 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+81, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
         buttonCordPredicate = ScreenUtils.renderSmallButton(this, matrices, x+4, y+5, handler.isActive());
         renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+156, y+11, getPower(), MixerEntity.POWER_CAPACITY);
+        //TODO: Add render code for the slider itself
+
 
         if(isDragging){
-
+            if(prevDrag!=mouseX){
+                prevDrag = mouseX;
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeBlockPos(handler.getBlockPos());
+                buf.writeInt(handler.getHeatFromSliderPos(mouseX-10));
+                ClientPlayNetworking.send(CHANGE_MIXER_SLIDER_PACKET, buf);
+            }
         }
     }
 
@@ -120,6 +129,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         if (renderFluidStorageTooltipPredicate3.test(mouse)) {
             renderFluidTooltip(2, hasShiftDown(), matrices, mouse);
         }
+        //TODO: Add render code for heat tooltip
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
