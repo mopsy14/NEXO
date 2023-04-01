@@ -64,8 +64,8 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
     }
 
 
-    public boolean isMatch(List<SingleVariantStorage<FluidVariant>> fluidStorages, Inventory inv){
-        return itemsMatch(inv)&&fluidsMatch(fluidStorages);
+    public boolean isMatch(List<SingleVariantStorage<FluidVariant>> fluidStorages, Inventory inv, int heat){
+        return itemsMatch(inv)&&fluidsMatch(fluidStorages)&&heat>=minHeat&&heat<=maxHeat;
     }
     private boolean itemsMatch(Inventory inv){
         for(ItemStack stack : ingredients){
@@ -183,7 +183,7 @@ public class MixerRecipe implements Recipe<SimpleInventory> {
             jsonOutputs.forEach((jsonElement) -> {if(((JsonObject) jsonElement).has("item")) outputStacks.add(getStack((JsonObject) jsonElement));});
 
             int minHeat = json.has("minimal_heat")?json.get("minimal_heat").getAsInt():10;
-            int maxHeat = json.has("maximum_heat")?json.get("maximum_heat").getAsInt():30;
+            int maxHeat = json.has("maximal_heat")?json.get("maximal_heat").getAsInt():30;
 
             return new MixerRecipe(id, fluidInputType, fluidInputAmount, fluidInput2Type, fluidInput2Amount, fluidInput3Type, fluidInput3Amount, fluidOutput1Type, fluidOutput1Amount, fluidOutput2Type, fluidOutput2Amount, fluidOutput3Type, fluidOutput3Amount, inputStacks, outputStacks, minHeat, maxHeat);
         }

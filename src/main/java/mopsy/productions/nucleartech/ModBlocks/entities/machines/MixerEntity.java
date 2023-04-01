@@ -49,9 +49,9 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     public boolean tryStart;
-    private int progress;
+    public int progress;
     private int maxProgress = 500;
-    private int heat = 0;
+    public int heat = 0;
     public long previousPower = 0;
     public static final long POWER_CAPACITY = 100000;
     public static final long POWER_MAX_INSERT = 50;
@@ -250,7 +250,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
 
     private static MixerRecipe getFirstRecipeMatch(MixerEntity entity){
         for(MixerRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(MixerRecipe.Type.INSTANCE)){
-            if(recipe.isMatch(entity.fluidStorages, entity.inventory)) {
+            if(recipe.isMatch(entity.fluidStorages, entity.inventory, entity.heat)) {
                 return recipe;
             }
         }

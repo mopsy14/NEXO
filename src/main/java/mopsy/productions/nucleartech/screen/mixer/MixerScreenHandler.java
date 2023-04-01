@@ -65,7 +65,7 @@ public class MixerScreenHandler extends ScreenHandler {
         return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }
     public int getSliderPos(){
-        int progress = getHeat()-1000;
+        int progress = getHeat()+1000;
         int max = 1000;
         int barSize = 100;
 

@@ -39,13 +39,13 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     public Predicate<IntCords2D> buttonCordPredicate;
     public Predicate<IntCords2D> sliderCordPredicate =
             ic2d -> (
-                ic2d.x>10+handler.getSliderPos() && ic2d.x<20+handler.getSliderPos() &&
-                ic2d.y>10 && ic2d.y<y+20
+                ic2d.x>38+handler.getSliderPos() && ic2d.x<42+handler.getSliderPos() &&
+                ic2d.y>72 && ic2d.y<78
             );
     public Predicate<IntCords2D> sliderTooltipPredicate =
             ic2d -> (
-                ic2d.x>10 && ic2d.x<110 &&
-                ic2d.y>10 && ic2d.y<y+20
+                ic2d.x>38 && ic2d.x<140 &&
+                ic2d.y>72 && ic2d.y<y+77
     );
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     private boolean isDragging = false;
@@ -80,8 +80,8 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+81, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
         buttonCordPredicate = ScreenUtils.renderSmallButton(this, matrices, x+4, y+5, handler.isActive());
         renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+156, y+11, getPower(), MixerEntity.POWER_CAPACITY);
-        //TODO: Add render code for the slider itself
-
+        RenderSystem.setShaderTexture(0, TEXTURE);
+        drawTexture(matrices, x+38+handler.getSliderPos(), y+72, 224, 0, 4, 6);
 
         if(isDragging){
             if(prevDrag!=mouseX){
@@ -129,7 +129,9 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         if (renderFluidStorageTooltipPredicate3.test(mouse)) {
             renderFluidTooltip(2, hasShiftDown(), matrices, mouse);
         }
-        //TODO: Add render code for heat tooltip
+        if (sliderTooltipPredicate.test(mouse)){
+            renderTooltip(matrices, Text.of("Heat: "+handler.getHeat()+"°C"), mouse.x, mouse.y);
+        }
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
