@@ -23,6 +23,7 @@ public class PacketManager {
     public static void registerC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(SWITCH_REACTOR_POWER_PACKET, C2SPackets::receiveSwitchReactorPower);
         ServerPlayNetworking.registerGlobalReceiver(START_MIXER_PACKET, C2SPackets::receiveStartMixer);
+        ServerPlayNetworking.registerGlobalReceiver(CHANGE_MIXER_SLIDER_PACKET, C2SPackets::receiveChangeMixerHeat);
     }
     public static void registerS2CPackets(){
         ClientPlayNetworking.registerGlobalReceiver(RADIATION_CHANGE_PACKET, S2CPackets::receiveRadiationChange);

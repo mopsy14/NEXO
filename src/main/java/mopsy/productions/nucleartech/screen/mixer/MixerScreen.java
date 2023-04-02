@@ -39,13 +39,13 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     public Predicate<IntCords2D> buttonCordPredicate;
     public Predicate<IntCords2D> sliderCordPredicate =
             ic2d -> (
-                ic2d.x>38+handler.getSliderPos() && ic2d.x<42+handler.getSliderPos() &&
-                ic2d.y>72 && ic2d.y<78
+                ic2d.x>x+38+handler.getSliderPos() && ic2d.x<x+42+handler.getSliderPos() &&
+                ic2d.y>y+72 && ic2d.y<y+78
             );
     public Predicate<IntCords2D> sliderTooltipPredicate =
             ic2d -> (
-                ic2d.x>38 && ic2d.x<140 &&
-                ic2d.y>72 && ic2d.y<y+77
+                ic2d.x>x+38 && ic2d.x<x+140 &&
+                ic2d.y>y+72 && ic2d.y<y+77
     );
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     private boolean isDragging = false;
@@ -88,7 +88,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
                 prevDrag = mouseX;
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(handler.getBlockPos());
-                buf.writeInt(handler.getHeatFromSliderPos(mouseX-10));
+                buf.writeInt(handler.getHeatFromSliderPos(mouseX-38));
                 ClientPlayNetworking.send(CHANGE_MIXER_SLIDER_PACKET, buf);
             }
         }

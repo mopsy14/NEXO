@@ -133,12 +133,4 @@ public class ScreenUtils {
                         ic2d.y>y && ic2d.y<y+62
         );
     }
-    public static Predicate<IntCords2D> renderSlider(HandledScreen handledScreen, MatrixStack matrices, int x, int y, int sliderProgress){
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        handledScreen.drawTexture(matrices, x+sliderProgress, y, 176, 12, 7, 17);
-        return ic2d -> (
-                ic2d.x>x && ic2d.x<x+7 &&
-                        ic2d.y>y && ic2d.y<y+17
-        );
-    }
 }
