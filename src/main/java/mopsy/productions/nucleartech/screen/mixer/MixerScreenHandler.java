@@ -72,11 +72,10 @@ public class MixerScreenHandler extends ScreenHandler {
         return progress!=0 ? progress*barSize/max : 0;
     }
     public int getHeatFromSliderPos(int sliderPos){
-        int max = 2000;
+        int max = 1000;
         int barSize = 100;
         System.out.println(sliderPos);
-        System.out.println(sliderPos > 0 ? ((sliderPos/barSize)*max)-1000: -1000);
-        return sliderPos > 0 ? ((sliderPos/barSize)*max)-1000: -1000;
+        return sliderPos > 0 ? ((sliderPos*max)/barSize)-1000: -1000;
     }
     public int getHeat(){
         return this.delegate.get(2);
