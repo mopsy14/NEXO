@@ -88,7 +88,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
                 prevDrag = mouseX;
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(handler.getBlockPos());
-                buf.writeInt(handler.getHeatFromSliderPos(mouseX-38));
+                buf.writeInt(handler.getHeatFromSliderPos(mouseX-40-x));
                 ClientPlayNetworking.send(CHANGE_MIXER_SLIDER_PACKET, buf);
             }
         }
