@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.mechanics.radiation;
 
+import mopsy.productions.nucleartech.interfaces.IArmorRadiationProtection;
 import mopsy.productions.nucleartech.interfaces.IData;
 import mopsy.productions.nucleartech.interfaces.IItemRadiation;
 import mopsy.productions.nucleartech.networking.PacketManager;
@@ -67,8 +68,9 @@ public class RadiationHelper {
         }
     }
     private static void updatePlayerRadiationPerSecond(ServerPlayerEntity player){
-        float calculatedRadiation = getRadiationPerSecondFromInventory(player.getInventory());
-        changePlayerRadiationPerSecond(player, calculatedRadiation);
+        float inventoryRadiation = getRadiationPerSecondFromInventory(player.getInventory());
+        float armorRadiationProtection = getRadiationProtectionFromPlayer(player);
+        changePlayerRadiationPerSecond(player, Math.max(0,inventoryRadiation*(Math.min(0, 1-armorRadiationProtection))));
     }
     private static float getRadiationPerSecondFromInventory(Inventory inventory){
         float res = 0;
@@ -78,6 +80,11 @@ public class RadiationHelper {
                 res = res+(((IItemRadiation) itemStack.getItem()).getRadiation() * itemStack.getCount());
             }
         }
+        return res;
+    }
+    private static float getRadiationProtectionFromPlayer(ServerPlayerEntity player){
+        float res = 0;
+        for(ItemStack stack : player.getArmorItems()){if (stack.getItem() instanceof IArmorRadiationProtection rp) res+=rp.getRadiationProtection();}
         return res;
     }
     public static void updateRadiation(MinecraftServer server){

@@ -3,6 +3,10 @@ package mopsy.productions.nucleartech.registry;
 import mopsy.productions.nucleartech.ModItems.NTFuelRodItem;
 import mopsy.productions.nucleartech.ModItems.NTItem;
 import mopsy.productions.nucleartech.ModItems.NTRadiatingItem;
+import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatBoots;
+import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatChestplate;
+import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatHelmet;
+import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatLeggings;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
@@ -117,6 +121,11 @@ public class ModdedItems {
 
         //dusts
 
+        //armor
+        regItem(new HazmatHelmet());
+        regItem(new HazmatChestplate());
+        regItem(new HazmatLeggings());
+        regItem(new HazmatBoots());
 
         for(ItemInfo info : defaultItems){
 
