@@ -70,7 +70,7 @@ public class RadiationHelper {
     private static void updatePlayerRadiationPerSecond(ServerPlayerEntity player){
         float inventoryRadiation = getRadiationPerSecondFromInventory(player.getInventory());
         float armorRadiationProtection = getRadiationProtectionFromPlayer(player);
-        changePlayerRadiationPerSecond(player, Math.max(0,inventoryRadiation*(Math.min(0, 1-armorRadiationProtection))));
+        changePlayerRadiationPerSecond(player, Math.max(0,inventoryRadiation*(Math.max(0, 1-armorRadiationProtection))));
     }
     private static float getRadiationPerSecondFromInventory(Inventory inventory){
         float res = 0;
