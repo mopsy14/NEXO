@@ -18,6 +18,6 @@ public class HazmatLeggings extends ArmorItem implements IModID, IArmorRadiation
 
     @Override
     public float getRadiationProtection() {
-        return 0.2f;
+        return 0.25f;
     }
 }

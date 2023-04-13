@@ -7,6 +7,14 @@ import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatBoots;
 import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatChestplate;
 import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatHelmet;
 import mopsy.productions.nucleartech.ModItems.armor.hazmat.HazmatLeggings;
+import mopsy.productions.nucleartech.ModItems.armor.makeshiftHazmat.MakeshiftHazmatBoots;
+import mopsy.productions.nucleartech.ModItems.armor.makeshiftHazmat.MakeshiftHazmatChestplate;
+import mopsy.productions.nucleartech.ModItems.armor.makeshiftHazmat.MakeshiftHazmatHelmet;
+import mopsy.productions.nucleartech.ModItems.armor.makeshiftHazmat.MakeshiftHazmatLeggings;
+import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatBoots;
+import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatChestplate;
+import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatHelmet;
+import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatLeggings;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
@@ -126,6 +134,14 @@ public class ModdedItems {
         regItem(new HazmatChestplate());
         regItem(new HazmatLeggings());
         regItem(new HazmatBoots());
+        regItem(new MakeshiftHazmatHelmet());
+        regItem(new MakeshiftHazmatChestplate());
+        regItem(new MakeshiftHazmatLeggings());
+        regItem(new MakeshiftHazmatBoots());
+        regItem(new ProtectiveHazmatHelmet());
+        regItem(new ProtectiveHazmatChestplate());
+        regItem(new ProtectiveHazmatLeggings());
+        regItem(new ProtectiveHazmatBoots());
 
         for(ItemInfo info : defaultItems){
 
