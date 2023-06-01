@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class AmmoniaSynthesiserBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
     @Override
-    public String getID(){return "ammonia_synthesiser";}
+    public String getID(){return "ammonia_synthesizer";}
 
     public AmmoniaSynthesiserBlock() {
         super(FabricBlockSettings
