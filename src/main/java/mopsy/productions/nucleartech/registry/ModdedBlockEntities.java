@@ -53,8 +53,8 @@ public class ModdedBlockEntities {
         SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "small_reactor"),
                 FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor_hatches")).build(null));
 
-        AMMONIA_SYNTHESISER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "ammonia_synthesiser"),
-                FabricBlockEntityTypeBuilder.create(AmmoniaSynthesiserEntity::new, ModdedBlocks.Blocks.get("ammonia_synthesiser")).build(null));
+        AMMONIA_SYNTHESISER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "ammonia_synthesizer"),
+                FabricBlockEntityTypeBuilder.create(AmmoniaSynthesiserEntity::new, ModdedBlocks.Blocks.get("ammonia_synthesizer")).build(null));
 
         MIXER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "mixer"),
                 FabricBlockEntityTypeBuilder.create(MixerEntity::new, ModdedBlocks.Blocks.get("mixer")).build(null));
