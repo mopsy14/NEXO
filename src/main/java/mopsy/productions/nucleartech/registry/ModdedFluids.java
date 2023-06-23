@@ -5,6 +5,7 @@ import mopsy.productions.nucleartech.ModFluids.steam.DenseSteam;
 import mopsy.productions.nucleartech.ModFluids.steam.Steam;
 import mopsy.productions.nucleartech.ModFluids.steam.SuperDenseSteam;
 import mopsy.productions.nucleartech.interfaces.IModID;
+import mopsy.productions.nucleartech.util.NTBucketItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -108,13 +109,14 @@ public class ModdedFluids {
         URANIUM_HEXAFLUORIDE_ENRICHED_BLOCK = regBlock(URANIUM_HEXAFLUORIDE_ENRICHED);
         URANIUM_HEXAFLUORIDE_DEPLETED_BLOCK = regBlock(URANIUM_HEXAFLUORIDE_DEPLETED);
         HKF2_BLOCK = regBlock(HKF2);
-        NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
-                new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
-                    @Override
-                    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
-                        return false;
-                    }
-                });
+        NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"), new NTBucketItem(ModdedFluids.NITROGEN, false));
+        //NITROGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "nitrogen_bucket"),
+        //        new BucketItem(ModdedFluids.NITROGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
+        //            @Override
+        //            public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hitResult) {
+        //                return false;
+        //            }
+        //       });
         OXYGEN_BUCKET = Registry.register(Registry.ITEM, new Identifier(modid, "oxygen_bucket"),
                 new BucketItem(ModdedFluids.OXYGEN, new FabricItemSettings().group(CREATIVE_TAB).recipeRemainder(Items.BUCKET).maxCount(1)){
                     @Override

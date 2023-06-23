@@ -23,6 +23,12 @@
     ],
     "client": [
       "mopsy.productions.nucleartech.ClientMain"
+    ],
+    "rei_client": [
+      "mopsy.productions.nucleartech.REICompat.REIClientCompat"
+    ],
+    "rei_server": [
+      "mopsy.productions.nucleartech.REICompat.REIServerCompat"
     ]
   },
   "mixins": [
