@@ -28,5 +28,7 @@
     {"item": "nucleartech:sulfur","count": 1}
   ],
   "output": [
-  ]
+  ],
+  "minimal_heat": 115,
+  "maximal_heat": 1000
 }

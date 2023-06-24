@@ -29,5 +29,7 @@
   ],
   "output": [
     {"item": "nucleartech:triuranium_octoxide","count": 5}
-  ]
+  ],
+  "minimal_heat": 700,
+  "maximal_heat": 1000
 }

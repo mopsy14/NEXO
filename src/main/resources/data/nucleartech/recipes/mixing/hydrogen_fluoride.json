@@ -29,5 +29,7 @@
   ],
   "output": [
     {"item": "nucleartech:gypsum","count": 1}
-  ]
+  ],
+  "minimal_heat": 0,
+  "maximal_heat": 1000
 }

@@ -29,5 +29,8 @@
   ],
   "output": [
     {"item": "minecraft:vanadium","count": 1}
-  ]
+  ],
+  "minimal_heat": 400,
+  "maximal_heat": 600
+
 }

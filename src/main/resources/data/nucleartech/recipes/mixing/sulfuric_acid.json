@@ -27,5 +27,7 @@
   "input": [
   ],
   "output": [
-  ]
+  ],
+  "minimal_heat": 300,
+  "maximal_heat": 400
 }
