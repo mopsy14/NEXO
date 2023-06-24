@@ -111,19 +111,19 @@ public class SteamTurbineEntity extends AbstractGeneratorEntity implements Exten
         setFluidStorageToEmpty(entity.fluidStorages.get(0));
         setFluidStorageToEmpty(entity.fluidStorages.get(1));
 
-        if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.DENSE_STEAM))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
-            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.DENSE_STEAM);
+        if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("super_dense_steam")))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("dense_steam")))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.stillFluids.get("dense_steam"));
             entity.fluidStorages.get(0).amount -= 40500;
             entity.fluidStorages.get(1).amount += 40500;
             entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 100000);
             sendFluidUpdate(entity);
-        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.DENSE_STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
-            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.STEAM);
+        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("dense_steam")))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("steam")))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>40499)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+            entity.fluidStorages.get(1).variant = FluidVariant.of(ModdedFluids.stillFluids.get("steam"));
             entity.fluidStorages.get(0).amount -= 40500;
             entity.fluidStorages.get(1).amount += 40500;
             entity.energyStorage.amount += Math.min(entity.energyStorage.capacity-entity.energyStorage.amount, 50000);
             sendFluidUpdate(entity);
-        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.STEAM))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(Fluids.WATER))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>20249)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
+        } else if (entity.fluidStorages.get(0).variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("steam")))&&entity.fluidStorages.get(0).amount>40499&&((entity.fluidStorages.get(1).variant.equals(FluidVariant.of(Fluids.WATER))&&entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount>20249)||entity.fluidStorages.get(1).variant.equals(FluidVariant.blank()))){
             entity.fluidStorages.get(1).variant = FluidVariant.of(Fluids.WATER);
             entity.fluidStorages.get(0).amount -= 40500;
             entity.fluidStorages.get(1).amount += 20250;

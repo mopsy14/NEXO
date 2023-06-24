@@ -162,7 +162,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             if (entity.waterHeat > 100) {
                 if(entity.fluidStorages.get(0).variant.equals(FluidVariant.of(Fluids.WATER))){
                     try (Transaction transaction = Transaction.openOuter()) {
-                        long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.SUPER_DENSE_STEAM), Math.min(81L * (entity.waterHeat - 100), entity.fluidStorages.get(0).amount*2), transaction);
+                        long inputAmount = entity.fluidStorages.get(1).insert(FluidVariant.of(ModdedFluids.stillFluids.get("super_dense_steam")), Math.min(81L * (entity.waterHeat - 100), entity.fluidStorages.get(0).amount*2), transaction);
                         if (inputAmount > 0) {
                             transaction.commit();
                             entity.waterHeat -= inputAmount / 81;

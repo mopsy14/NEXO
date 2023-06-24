@@ -57,8 +57,8 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         }
     };
     public static final ElectrolyzerRecipe[] recipes = {
-            new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, FluidVariant.of(ModdedFluids.OXYGEN), 2025, 25),
-            new ElectrolyzerRecipe(FluidVariant.of(ModdedFluids.HKF2), 4050, FluidVariant.of(ModdedFluids.FLUORINE), 2025, FluidVariant.of(ModdedFluids.HYDROGEN), 2025, 25),
+            new ElectrolyzerRecipe(FluidVariant.of(Fluids.WATER), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("hydrogen")), 2025, FluidVariant.of(ModdedFluids.stillFluids.get("oxygen")), 2025, 25),
+            new ElectrolyzerRecipe(FluidVariant.of(ModdedFluids.stillFluids.get("hkf2")), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("fluorine")), 2025, FluidVariant.of(ModdedFluids.stillFluids.get("hydrogen")), 2025, 25),
     };
 
     public ElectrolyzerEntity(BlockPos pos, BlockState state) {

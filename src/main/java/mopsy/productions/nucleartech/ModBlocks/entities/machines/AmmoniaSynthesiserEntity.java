@@ -56,7 +56,7 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
         }
     };
     public static final AmmoniaSynthesiserRecipe[] recipes = {
-            new AmmoniaSynthesiserRecipe(FluidVariant.of(ModdedFluids.NITROGEN), 4050, FluidVariant.of(ModdedFluids.HYDROGEN), 4050, FluidVariant.of(ModdedFluids.AMMONIA), 2025, 25)
+            new AmmoniaSynthesiserRecipe(FluidVariant.of(ModdedFluids.stillFluids.get("nitrogen")), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("hydrogen")), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("ammonia")), 2025, 25)
     };
 
     public AmmoniaSynthesiserEntity(BlockPos pos, BlockState state) {
