@@ -1,5 +1,50 @@
 {
   "variants": {
+    "level=0":{
+      "model": ""
+    },
+    "level=1":{
+      "model": ""
+    },
+    "level=2":{
+      "model": ""
+    },
+    "level=3":{
+      "model": ""
+    },
+    "level=4":{
+      "model": ""
+    },
+    "level=5":{
+      "model": ""
+    },
+    "level=6":{
+      "model": ""
+    },
+    "level=7":{
+      "model": ""
+    },
+    "level=8":{
+      "model": ""
+    },
+    "level=9":{
+      "model": ""
+    },
+    "level=10":{
+      "model": ""
+    },
+    "level=11":{
+      "model": ""
+    },
+    "level=12":{
+      "model": ""
+    },
+    "level=13":{
+      "model": ""
+    },
+    "level=14":{
+      "model": ""
+    },
     "level=15":{
       "model": ""
     }
