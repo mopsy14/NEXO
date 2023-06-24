@@ -1,0 +1,35 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:hydrogen_fluoride",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "minecraft:water",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+    {"item": "nucleartech:yellowcake"}
+  ],
+  "output": [
+    {"item": "nucleartech:uranium_tetrafluoride"}
+  ],
+  "minimal_heat": 200,
+  "maximal_heat": 400
+}

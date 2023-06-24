@@ -1,0 +1,34 @@
+{
+  "type": "nucleartech:mixing",
+  "fluid_input": {
+    "type": "nucleartech:fluorine",
+    "amount": 1000
+  },
+  "fluid_input2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_input3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_1": {
+    "type": "nucleartech:uranium_hexafluoride",
+    "amount": 1000
+  },
+  "fluid_output_2": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "fluid_output_3": {
+    "type": "minecraft:air",
+    "amount": 0
+  },
+  "input": [
+    {"item": "nucleartech:uranium_tetrafluoride"}
+  ],
+  "output": [
+  ],
+  "minimal_heat": 350,
+  "maximal_heat": 500
+}
