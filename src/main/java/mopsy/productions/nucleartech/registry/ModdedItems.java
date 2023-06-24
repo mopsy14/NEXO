@@ -59,6 +59,8 @@ public class ModdedItems {
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("uranium_dioxide", 1),
             new ItemInfo("yellowcake", 3),
+            new ItemInfo("uranium_tetrafluoride"),
+
 
             //plates
             new ItemInfo("gold_plate"),

@@ -45,5 +45,6 @@ public class ModdedFluids {
         registerGas("uranium_hexafluoride");
         registerGas("uranium_hexafluoride_enriched");
         registerGas("uranium_hexafluoride_depleted");
+        registerGas("depleted_uranium_tails");
     }
 }
