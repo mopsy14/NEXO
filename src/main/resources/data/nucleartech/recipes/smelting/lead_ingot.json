@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:raw_lead"
+    "item": "nucleartech:lead_ore"
   },
   "result": "nucleartech:lead_ingot",
   "experience": 3
