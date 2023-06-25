@@ -35,8 +35,8 @@ public class ClientMain implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("sulfur_trioxide"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("uranium_hexafluoride"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("uranium_hexafluoride_enriched"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
-        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("uranium_hexafluoride_depleted"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
         FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("hf_kf"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
+        FluidRenderHandlerRegistry.INSTANCE.register(ModdedFluids.stillFluids.get("depleted_uranium_tails"), SimpleFluidRenderHandler.coloredWater( 0xA1FFFFFF));
 
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("nitrogen"));
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("oxygen"));
@@ -52,7 +52,7 @@ public class ClientMain implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("sulfur_trioxide"));
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("uranium_hexafluoride"));
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("uranium_hexafluoride_enriched"));
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("uranium_hexafluoride_depleted"));
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("hf_kf"));
+        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), ModdedFluids.stillFluids.get("depleted_uranium_tails"));
     }
 }

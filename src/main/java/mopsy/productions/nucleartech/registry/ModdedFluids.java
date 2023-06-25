@@ -26,6 +26,7 @@ public class ModdedFluids {
         stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), new NTFluid.Still(ID)));
         fluidItems.put(ID, Registry.register(Registry.ITEM, new Identifier(modid, ID+"_bucket"), new NTBucketItem(stillFluids.get(ID), false)));
         fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
+
     }
 
     public static void regFluids(){
@@ -44,7 +45,6 @@ public class ModdedFluids {
         registerGas("sulfur_trioxide");
         registerGas("uranium_hexafluoride");
         registerGas("uranium_hexafluoride_enriched");
-        registerGas("uranium_hexafluoride_depleted");
         registerGas("depleted_uranium_tails");
     }
 }
