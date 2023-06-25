@@ -12,9 +12,9 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class CrusherRecipe implements Recipe<SimpleInventory> {
-    private final Identifier id;
-    private final ItemStack output;
-    private final DefaultedList<Ingredient> inputs;
+    public final Identifier id;
+    public final ItemStack output;
+    public final DefaultedList<Ingredient> inputs;
 
     public CrusherRecipe(Identifier id, DefaultedList<Ingredient> inputs, ItemStack output){
         this.id=id;
