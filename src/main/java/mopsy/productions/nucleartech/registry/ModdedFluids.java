@@ -1,5 +1,6 @@
 package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.ClientMain;
 import mopsy.productions.nucleartech.ModFluids.NTFluid;
 import mopsy.productions.nucleartech.util.NTBucketItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -26,16 +27,23 @@ public class ModdedFluids {
         stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), new NTFluid.Still(ID)));
         fluidItems.put(ID, Registry.register(Registry.ITEM, new Identifier(modid, ID+"_bucket"), new NTBucketItem(stillFluids.get(ID), false)));
         fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
-
+        ClientMain.regFluidRenderer(stillFluids.get(ID), 0xA1FFFFFF);
+    }
+    public static void registerGas(String ID, int color){
+        flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
+        stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), new NTFluid.Still(ID)));
+        fluidItems.put(ID, Registry.register(Registry.ITEM, new Identifier(modid, ID+"_bucket"), new NTBucketItem(stillFluids.get(ID), false)));
+        fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
+        ClientMain.regFluidRenderer(stillFluids.get(ID), color);
     }
 
     public static void regFluids(){
         registerGas("nitrogen");
         registerGas("oxygen");
         registerGas("hydrogen");
-        registerGas("super_dense_steam");
-        registerGas("dense_steam");
-        registerGas("steam");
+        registerGas("super_dense_steam",0xA1ff8585);
+        registerGas("dense_steam",0xA1ffa4a4);
+        registerGas("steam",0xA1ffd4d4);
         registerGas("ammonia");
         registerGas("fluorine");
         registerGas("hf_kf");
