@@ -7,9 +7,11 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
@@ -41,5 +43,8 @@ public class CrushingDisplay implements Display {
         return List.of(EntryIngredients.of(recipe.output));
     }
 
-
+    @Override
+    public Optional<Identifier> getDisplayLocation() {
+        return Optional.of(recipe.id);
+    }
 }

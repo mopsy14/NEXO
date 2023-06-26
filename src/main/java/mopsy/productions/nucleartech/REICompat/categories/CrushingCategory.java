@@ -23,4 +23,6 @@ public class CrushingCategory implements DisplayCategory<CrushingDisplay> {
     public Renderer getIcon() {
         return EntryStacks.of(ModdedBlocks.BlockItems.get("crusher"));
     }
+
+
 }
