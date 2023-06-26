@@ -37,6 +37,7 @@ public class CrushingCategory implements DisplayCategory<CrushingDisplay> {
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createSlot(new Point(33+ bounds.x,24+ bounds.y)).markInput().entries(display.getInputEntries().get(0)));
         widgets.add(Widgets.createSlot(new Point(99+ bounds.x,24+ bounds.y)).markOutput().entries(display.getOutputEntries().get(0)));
+        widgets.add(Widgets.createArrow(new Point(63+bounds.x,24+ bounds.y)).animationDurationMS(10000));
         return widgets;
     }
 }
