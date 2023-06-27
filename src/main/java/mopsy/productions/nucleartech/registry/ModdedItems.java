@@ -89,6 +89,7 @@ public class ModdedItems {
             new ItemInfo("uranium_nugget", 0.2F),
             new ItemInfo("titanium_nugget"),
             new ItemInfo("lead_nugget"),
+            new ItemInfo("steel_nugget"),
 
             //dusts
             new ItemInfo("coal_dust"),

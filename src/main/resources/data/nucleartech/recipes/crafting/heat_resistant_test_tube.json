@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    " G ",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "nucleartech:heat_resistant_glass"
+    },
+    "W": {
+      "tag": "nucleartech:steel_nugget"
+    }
+  },
+  "result": {
+    "item": "nucleartech:test_tube"
+  }
+}
