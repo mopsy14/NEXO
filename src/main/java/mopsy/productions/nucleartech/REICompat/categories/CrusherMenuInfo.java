@@ -1,0 +1,36 @@
+package mopsy.productions.nucleartech.REICompat.categories;
+
+import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.transfer.info.MenuInfoContext;
+import me.shedaniel.rei.api.common.transfer.info.simple.SimplePlayerInventoryMenuInfo;
+import me.shedaniel.rei.api.common.transfer.info.stack.SlotAccessor;
+import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.collection.DefaultedList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CrusherMenuInfo implements SimplePlayerInventoryMenuInfo<CrusherScreenHandler, CrushingDisplay> {
+    CrushingDisplay display;
+    public CrusherMenuInfo(Display display){
+        this.display = (CrushingDisplay) display;
+    }
+
+    @Override
+    public Iterable<SlotAccessor> getInputSlots(MenuInfoContext<CrusherScreenHandler, ?, CrushingDisplay> context) {
+        List<SlotAccessor> res = new ArrayList<>();
+        DefaultedList<Slot> slots= context.getMenu().slots;
+        for(Slot slot : slots){
+            if(slot.getIndex()<1){
+                res.add(SlotAccessor.fromSlot(slot));
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public CrushingDisplay getDisplay() {
+        return display;
+    }
+}

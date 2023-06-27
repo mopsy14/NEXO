@@ -27,6 +27,9 @@
     "rei_client": [
       "mopsy.productions.nucleartech.REICompat.REIClientCompat"
     ],
+    "rei_common": [
+      "mopsy.productions.nucleartech.REICompat.REIServerCompat"
+    ],
     "rei_server": [
       "mopsy.productions.nucleartech.REICompat.REIServerCompat"
     ]
