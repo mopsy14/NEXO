@@ -17,7 +17,8 @@ import static mopsy.productions.nucleartech.Main.modid;
 
 public class CrushingDisplay implements Display {
 
-    CrusherRecipe recipe;
+    public CrusherRecipe recipe;
+
 
     public CrushingDisplay(CrusherRecipe recipe){
         this.recipe=  recipe;

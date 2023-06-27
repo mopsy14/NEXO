@@ -21,10 +21,8 @@ public class CrusherMenuInfo implements SimplePlayerInventoryMenuInfo<CrusherScr
     public Iterable<SlotAccessor> getInputSlots(MenuInfoContext<CrusherScreenHandler, ?, CrushingDisplay> context) {
         List<SlotAccessor> res = new ArrayList<>();
         DefaultedList<Slot> slots= context.getMenu().slots;
-        for(Slot slot : slots){
-            if(slot.getIndex()<1){
-                res.add(SlotAccessor.fromSlot(slot));
-            }
+        for (int i = 0; i < 2; i++) {
+            res.add(SlotAccessor.fromSlot(slots.get(i)));
         }
         return res;
     }
