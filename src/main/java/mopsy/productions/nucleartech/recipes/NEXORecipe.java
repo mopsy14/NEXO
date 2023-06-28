@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mopsy.productions.nucleartech.util.NFluidStack;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class NEXORecipe implements Recipe<SimpleInventory> {
+public class NEXORecipe<T> implements Recipe<SimpleInventory> {
     public final Identifier id;
     public final List<Ingredient> inputs;
     public final List<ItemStack> outputs;
@@ -36,24 +35,8 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         this.outputFluids = outputFluids;
     }
 
-    @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        return false;
-    }
-
-    @Override
-    public ItemStack craft(SimpleInventory inventory) {
-        return null;
-    }
-
-    @Override
-    public boolean fits(int width, int height) {
-        return false;
-    }
-
-    @Override
-    public ItemStack getOutput() {
-        return null;
+    public NEXORecipe<T> getRecipe(){
+        return this;
     }
 
     @Override
@@ -66,12 +49,12 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         return Serializer.INSTANCE;
     }
 
-    public static class Serializer implements RecipeSerializer<NEXORecipe>{
+    public static class Serializer implements RecipeSerializer<NEXORecipe<?>>{
         public static final NEXORecipe.Serializer INSTANCE = new NEXORecipe.Serializer();
         //public static final String ID = "centrifuge";
 
         @Override
-        public NEXORecipe read(Identifier id, JsonObject json) {
+        public NEXORecipe<?> read(Identifier id, JsonObject json) {
             List<Ingredient> inputs = new ArrayList<>();
             List<ItemStack> outputs = new ArrayList<>();
             List<NFluidStack> fluidInputs = new ArrayList<>();
@@ -98,59 +81,60 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
             jsonArray = json.getAsJsonArray("fluid_inputs");
             if(jsonArray!=null) {
                 for (JsonElement element : jsonArray){
-                    fluidInputs.add(new NFluidStack(
-                            FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(element.getAsJsonObject().get("fluid_type").getAsString()))),
-                            element.getAsJsonObject().get("fluid_amount").getAsLong()
-                    ));
+                    fluidInputs.add(NFluidStack.fromJson(element));
                 }
             }
 
             jsonArray = json.getAsJsonArray("fluid_outputs");
             if(jsonArray!=null) {
                 for (JsonElement element : jsonArray){
-                    fluidOutputs.add(new NFluidStack(
-                            FluidVariant.of(Registry.FLUID.get(Identifier.tryParse(element.getAsJsonObject().get("fluid_type").getAsString()))),
-                            element.getAsJsonObject().get("fluid_amount").getAsLong()
-                    ));
+                    fluidOutputs.add(NFluidStack.fromJson(element));
                 }
             }
 
-            return new NEXORecipe(id,inputs,outputs,fluidInputs,fluidOutputs);
+            return new NEXORecipe<>(id,inputs,outputs,fluidInputs,fluidOutputs);
         }
 
         @Override
-        public NEXORecipe read(Identifier id, PacketByteBuf buf) {
-            /*
-            FluidVariant inputType = FluidVariant.fromPacket(buf);
-            long inputAmount = buf.readLong();
+        public NEXORecipe<?> read(Identifier id, PacketByteBuf buf) {
+            List<Ingredient> inputs = new ArrayList<>();
+            List<ItemStack> outputs = new ArrayList<>();
+            List<NFluidStack> fluidInputs = new ArrayList<>();
+            List<NFluidStack> fluidOutputs = new ArrayList<>();
 
-            FluidVariant output1Type = FluidVariant.fromPacket(buf);
-            long output1Amount = buf.readLong();
-
-            FluidVariant output2Type = FluidVariant.fromPacket(buf);
-            long output2Amount = buf.readLong();
-
-            boolean outputHRT = buf.readBoolean();
-
-            return new NEXORecipe(id, inputType, inputAmount, output1Type, output1Amount, output2Type, output2Amount, outputHRT);
-             */
-            return null;
+            for (int i = 0; i < buf.readInt(); i++) {
+                inputs.add(Ingredient.fromPacket(buf));
+            }
+            for (int i = 0; i < buf.readInt(); i++) {
+                outputs.add(buf.readItemStack());
+            }
+            for (int i = 0; i < buf.readInt(); i++) {
+                fluidInputs.add(NFluidStack.fromPacket(buf));
+            }
+            for (int i = 0; i < buf.readInt(); i++) {
+                fluidOutputs.add(NFluidStack.fromPacket(buf));
+            }
+            return new NEXORecipe<>(id,inputs,outputs,fluidInputs,fluidOutputs);
         }
 
         @Override
-        public void write(PacketByteBuf buf, NEXORecipe recipe) {
-
-            /*recipe.input.toPacket(buf);
-            buf.writeLong(recipe.inputAmount);
-
-            recipe.output1.toPacket(buf);
-            buf.writeLong(recipe.output1Amount);
-
-            recipe.output2.toPacket(buf);
-            buf.writeLong(recipe.output2Amount);
-
-            buf.writeBoolean(recipe.needsHeatResistantTubes);
-            */
+        public void write(PacketByteBuf buf, NEXORecipe<?> recipe) {
+            buf.writeInt(recipe.inputs.size());
+            for(Ingredient ingredient : recipe.inputs){
+                ingredient.write(buf);
+            }
+            buf.writeInt(recipe.outputs.size());
+            for(ItemStack itemStack : recipe.outputs){
+                buf.writeItemStack(itemStack);
+            }
+            buf.writeInt(recipe.inputFluids.size());
+            for(NFluidStack fluidStack : recipe.inputFluids){
+                NFluidStack.toBuf(fluidStack,buf);
+            }
+            buf.writeInt(recipe.outputFluids.size());
+            for(NFluidStack fluidStack : recipe.outputFluids){
+                NFluidStack.toBuf(fluidStack,buf);
+            }
         }
     }
 
@@ -161,6 +145,36 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
      */
     @Override
     public RecipeType<?> getType() {
+        return null;
+    }
+
+
+    /**
+     * UNUSED METHOD OF RECIPE!!!
+     */
+    @Override
+    public boolean matches(SimpleInventory inventory, World world) {
+        return false;
+    }
+    /**
+     * UNUSED METHOD OF RECIPE!!!
+     */
+    @Override
+    public ItemStack craft(SimpleInventory inventory) {
+        return null;
+    }
+    /**
+     * UNUSED METHOD OF RECIPE!!!
+     */
+    @Override
+    public boolean fits(int width, int height) {
+        return false;
+    }
+    /**
+     * UNUSED METHOD OF RECIPE!!!
+     */
+    @Override
+    public ItemStack getOutput() {
         return null;
     }
 }
