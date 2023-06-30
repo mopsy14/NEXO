@@ -3,7 +3,14 @@ package mopsy.productions.nucleartech.recipes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.NFluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -35,13 +42,40 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         this.outputFluids = outputFluids;
     }
 
-
-
-
-
-    public NEXORecipe getRecipe(){
-        return this;
+    public boolean hasRecipe(BlockEntity blockEntity){
+        return hasItems((SidedInventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
     }
+    private boolean hasFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, IBlockEntityRecipeCompat config){
+        for (int i = 0; i < inputFluids.size(); i++) {
+            if(!hasFluid(fluidStorages, config.getFluidSlotIOs()[i], inputFluids.get(i)))return false;
+        }
+        return true;
+    }
+    private boolean hasFluid(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO fluidConfig, NFluidStack checkStack){
+        for(SingleVariantStorage<FluidVariant> fluidStorage : fluidStorages){
+            if(fluidConfig== SlotIO.INPUT||fluidConfig== SlotIO.BOTH) {
+                if (fluidStorage.variant == checkStack.fluidVariant) {
+                    if (fluidStorage.amount >= checkStack.fluidAmount)return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean hasItems(SidedInventory inv, SlotIO[] itemConfig){
+        for(int i = 0; i < inputs.size(); i++){
+            if(!hasItem(inv,inputs.get(i),itemConfig[i]))return false;
+        }
+        return true;
+    }
+    private boolean hasItem(SidedInventory inv, Ingredient ingredient, SlotIO slotIO){
+        for (int i = 0; i < inv.size(); i++) {
+            if(ingredient.test(inv.getStack(i)))return true;
+        }
+        return false;
+    }
+
+
+
 
     @Override
     public Identifier getId() {

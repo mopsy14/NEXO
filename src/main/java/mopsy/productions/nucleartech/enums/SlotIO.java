@@ -1,7 +1,8 @@
 package mopsy.productions.nucleartech.enums;
 
-public enum FluidSlotIO {
+public enum SlotIO {
     INPUT,
     OUTPUT,
-    BOTH
+    BOTH,
+    NONE
 }

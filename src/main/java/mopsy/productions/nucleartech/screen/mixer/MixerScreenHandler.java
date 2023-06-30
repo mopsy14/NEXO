@@ -21,11 +21,11 @@ public class MixerScreenHandler extends ScreenHandler {
     public final PropertyDelegate delegate;
 
     public MixerScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(12), new ArrayPropertyDelegate(3), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(10), new ArrayPropertyDelegate(3), buf.readBlockPos());
     }
     public MixerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.MIXER, syncId);
-        checkSize(inventory, 12);
+        checkSize(inventory, 10);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
@@ -41,10 +41,10 @@ public class MixerScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 4,100,19));
         this.addSlot(new ReturnSlot(inventory, 5,100,50));
         //rods
-        this.addSlot(new MixerSlot(inventory, 8,119,19, b->delegate.get(0)==0));
-        this.addSlot(new MixerSlot(inventory, 9,138,19, b->delegate.get(0)==0));
-        this.addSlot(new MixerSlot(inventory, 10,119,38, b->delegate.get(0)==0));
-        this.addSlot(new MixerSlot(inventory, 11,138,38, b->delegate.get(0)==0));
+        this.addSlot(new MixerSlot(inventory, 6,119,19, b->delegate.get(0)==0));
+        this.addSlot(new MixerSlot(inventory, 7,138,19, b->delegate.get(0)==0));
+        this.addSlot(new MixerSlot(inventory, 8,119,38, b->delegate.get(0)==0));
+        this.addSlot(new MixerSlot(inventory, 9,138,38, b->delegate.get(0)==0));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);

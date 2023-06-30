@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
-import mopsy.productions.nucleartech.enums.FluidSlotIO;
+import mopsy.productions.nucleartech.enums.SlotIO;
 import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
@@ -47,7 +47,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 @SuppressWarnings("UnstableApiUsage")
 public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat {
 
-    private final Inventory inventory = new SimpleInventory(12);
+    private final Inventory inventory = new SimpleInventory(10);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
     protected final PropertyDelegate propertyDelegate;
     public boolean tryStart;
@@ -369,7 +369,15 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     @Override
-    public FluidSlotIO[] getFluidSlotIOs() {
-        return new FluidSlotIO[]{FluidSlotIO.BOTH, FluidSlotIO.BOTH, FluidSlotIO.BOTH};
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[]{SlotIO.BOTH, SlotIO.BOTH, SlotIO.BOTH};
+    }
+
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{
+                SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,
+                SlotIO.BOTH,SlotIO.BOTH,SlotIO.BOTH,SlotIO.BOTH
+        };
     }
 }

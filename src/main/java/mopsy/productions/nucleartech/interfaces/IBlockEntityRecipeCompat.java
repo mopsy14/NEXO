@@ -1,7 +1,8 @@
 package mopsy.productions.nucleartech.interfaces;
 
-import mopsy.productions.nucleartech.enums.FluidSlotIO;
+import mopsy.productions.nucleartech.enums.SlotIO;
 
 public interface IBlockEntityRecipeCompat {
-    FluidSlotIO[] getFluidSlotIOs();
+    SlotIO[] getFluidSlotIOs();
+    SlotIO[] getItemSlotIOs();
 }
