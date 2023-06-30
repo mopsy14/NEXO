@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class NEXORecipe<T> implements Recipe<SimpleInventory> {
+public class NEXORecipe implements Recipe<SimpleInventory> {
     public final Identifier id;
     public final List<Ingredient> inputs;
     public final List<ItemStack> outputs;
@@ -35,7 +35,11 @@ public class NEXORecipe<T> implements Recipe<SimpleInventory> {
         this.outputFluids = outputFluids;
     }
 
-    public NEXORecipe<T> getRecipe(){
+
+
+
+
+    public NEXORecipe getRecipe(){
         return this;
     }
 
@@ -49,12 +53,12 @@ public class NEXORecipe<T> implements Recipe<SimpleInventory> {
         return Serializer.INSTANCE;
     }
 
-    public static class Serializer implements RecipeSerializer<NEXORecipe<?>>{
+    public static class Serializer implements RecipeSerializer<NEXORecipe>{
         public static final NEXORecipe.Serializer INSTANCE = new NEXORecipe.Serializer();
         //public static final String ID = "centrifuge";
 
         @Override
-        public NEXORecipe<?> read(Identifier id, JsonObject json) {
+        public NEXORecipe read(Identifier id, JsonObject json) {
             List<Ingredient> inputs = new ArrayList<>();
             List<ItemStack> outputs = new ArrayList<>();
             List<NFluidStack> fluidInputs = new ArrayList<>();
@@ -92,11 +96,11 @@ public class NEXORecipe<T> implements Recipe<SimpleInventory> {
                 }
             }
 
-            return new NEXORecipe<>(id,inputs,outputs,fluidInputs,fluidOutputs);
+            return new NEXORecipe(id,inputs,outputs,fluidInputs,fluidOutputs);
         }
 
         @Override
-        public NEXORecipe<?> read(Identifier id, PacketByteBuf buf) {
+        public NEXORecipe read(Identifier id, PacketByteBuf buf) {
             List<Ingredient> inputs = new ArrayList<>();
             List<ItemStack> outputs = new ArrayList<>();
             List<NFluidStack> fluidInputs = new ArrayList<>();
@@ -114,11 +118,11 @@ public class NEXORecipe<T> implements Recipe<SimpleInventory> {
             for (int i = 0; i < buf.readInt(); i++) {
                 fluidOutputs.add(NFluidStack.fromPacket(buf));
             }
-            return new NEXORecipe<>(id,inputs,outputs,fluidInputs,fluidOutputs);
+            return new NEXORecipe(id,inputs,outputs,fluidInputs,fluidOutputs);
         }
 
         @Override
-        public void write(PacketByteBuf buf, NEXORecipe<?> recipe) {
+        public void write(PacketByteBuf buf, NEXORecipe recipe) {
             buf.writeInt(recipe.inputs.size());
             for(Ingredient ingredient : recipe.inputs){
                 ingredient.write(buf);
