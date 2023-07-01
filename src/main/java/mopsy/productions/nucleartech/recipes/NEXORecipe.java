@@ -160,8 +160,53 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
             }
         }
     }
-
-
+    public void craft(BlockEntity entity, boolean doFitCheck){
+        if(canOutput(entity)){
+            craftItems((Inventory)entity,((IBlockEntityRecipeCompat)entity).getItemSlotIOs());
+        }
+    }
+    private void craftItems(Inventory blockInventory, SlotIO[] slotIOs){
+        //creating an inv with all slots that can accept output
+        Inventory outputInv = new SimpleInventory(blockInventory.size());
+        int invCounter=0;
+        for (int i = 0; i < blockInventory.size(); i++) {
+            if(slotIOs[i] == SlotIO.OUTPUT || slotIOs[i] == SlotIO.BOTH) {
+                outputInv.setStack(invCounter,blockInventory.getStack(i));
+                invCounter++;
+            }
+        }
+        //creating an inv with all outputs
+        Inventory toBeOutputted = new SimpleInventory(outputs.size());
+        for (int i = 0; i < outputs.size(); i++) {
+            if(!outputs.get(i).isEmpty()) {
+                toBeOutputted.setStack(i, outputs.get(i).copy());
+            }
+        }
+        //Running tryOutputItemStack for every output stack
+        for (int i = 0; i < toBeOutputted.size();i++) {
+            tryOutputItemStack(toBeOutputted.getStack(i), outputInv);
+        }
+    }
+    private void craftFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO[] fluidSlotIOs){
+        //creating a copy inv with all storages that can accept output
+        List<NTFluidStorage> outputStorages = new ArrayList<>();
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            if(fluidSlotIOs[i] == SlotIO.OUTPUT || fluidSlotIOs[i] == SlotIO.BOTH) {
+                outputStorages.add(((NTFluidStorage)fluidStorages.get(i)));
+            }
+        }
+        //creating a copy of all outputs
+        List<NFluidStack> toBeOutputted = new ArrayList<>();
+        for (NFluidStack outputFluid : outputFluids) {
+            if (!outputFluid.isEmpty()) {
+                toBeOutputted.add(outputFluid.copy());
+            }
+        }
+        //checking if every output can be put into outputInv
+        for (NFluidStack fluidStack : toBeOutputted) {
+            tryOutputFluidStack(fluidStack, outputStorages);
+        }
+    }
 
 
     @Override
