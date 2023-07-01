@@ -10,6 +10,7 @@ import mopsy.productions.nucleartech.util.NFluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
@@ -42,6 +43,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         this.outputFluids = outputFluids;
     }
 
+    //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
         return hasItems((SidedInventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
     }
@@ -69,8 +71,57 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     }
     private boolean hasItem(SidedInventory inv, Ingredient ingredient, SlotIO slotIO){
         for (int i = 0; i < inv.size(); i++) {
-            if(ingredient.test(inv.getStack(i)))return true;
+            if(slotIO==SlotIO.INPUT||slotIO==SlotIO.BOTH)
+                if(ingredient.test(inv.getStack(i)))return true;
         }
+        return false;
+    }
+
+    //canOutput Code:
+    public boolean canOutput(BlockEntity blockEntity){
+        return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs())&&canOutputFluids();
+    }
+    private boolean canOutputItems(Inventory blockInventory,SlotIO[] slotIOs) {
+        //creating a copy inv with all slots that can accept output
+        Inventory outputInv = new SimpleInventory(blockInventory.size());
+        int invCounter=0;
+        for (int i = 0; i < blockInventory.size(); i++) {
+            if(slotIOs[i] == SlotIO.INPUT || slotIOs[i] == SlotIO.OUTPUT) {
+                outputInv.setStack(invCounter,blockInventory.getStack(i).copy());
+                invCounter++;
+            }
+        }
+        //creating an inv with all outputs
+        Inventory toBeOutputted = new SimpleInventory(outputs.size());
+        for (int i = 0; i < outputs.size(); i++) {
+            if(!outputs.get(i).isEmpty()) {
+                toBeOutputted.setStack(i, outputs.get(i).copy());
+            }
+        }
+        //checking if every output can be put into outputInv
+        for (int i = 0; i < toBeOutputted.size();i++) {
+            tryOutputItemStack(toBeOutputted.getStack(i), outputInv);
+            if(!toBeOutputted.getStack(i).isEmpty())return false;
+        }
+        return true;
+    }
+    private void tryOutputItemStack(ItemStack outputStack, Inventory outputInv){
+        int outputted = 0;
+        for (int i = 0; i < outputInv.size() && !outputStack.isEmpty(); i++) {
+            if(outputInv.getStack(i).isEmpty()){
+                outputInv.setStack(i, outputStack);
+                outputted = outputted + outputStack.getCount();
+                outputStack.setCount(0);
+            } else if (outputInv.getStack(i).getItem()==outputStack.getItem()) {
+                int toOutput = Math.min(outputInv.getStack(i).getCount()+outputStack.getCount(),64);
+                outputInv.getStack(i).setCount(toOutput);
+                outputted = outputted + toOutput;
+                outputStack.setCount(outputStack.getCount()-toOutput);
+            }
+            if(outputStack.isEmpty())return;
+        }
+    }
+    private boolean canOutputFluids(){
         return false;
     }
 
