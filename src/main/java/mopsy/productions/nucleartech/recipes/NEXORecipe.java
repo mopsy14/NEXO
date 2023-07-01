@@ -80,7 +80,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //canOutput Code:
     public boolean canOutput(BlockEntity blockEntity){
-        return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs())&&canOutputFluids();
+        return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs())&&canOutputFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity).getFluidSlotIOs());
     }
     private boolean canOutputItems(Inventory blockInventory,SlotIO[] slotIOs) {
         //creating a copy inv with all slots that can accept output
