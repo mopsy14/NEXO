@@ -7,6 +7,7 @@ import mopsy.productions.nucleartech.enums.SlotIO;
 import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.NFluidStack;
+import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
@@ -86,7 +87,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         Inventory outputInv = new SimpleInventory(blockInventory.size());
         int invCounter=0;
         for (int i = 0; i < blockInventory.size(); i++) {
-            if(slotIOs[i] == SlotIO.INPUT || slotIOs[i] == SlotIO.OUTPUT) {
+            if(slotIOs[i] == SlotIO.OUTPUT || slotIOs[i] == SlotIO.BOTH) {
                 outputInv.setStack(invCounter,blockInventory.getStack(i).copy());
                 invCounter++;
             }
@@ -113,16 +114,51 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
                 outputted = outputted + outputStack.getCount();
                 outputStack.setCount(0);
             } else if (outputInv.getStack(i).getItem()==outputStack.getItem()) {
-                int toOutput = Math.min(outputInv.getStack(i).getCount()+outputStack.getCount(),64);
-                outputInv.getStack(i).setCount(toOutput);
+                int toOutput = Math.min(outputStack.getCount(),64-outputInv.getStack(i).getCount());
+                outputInv.getStack(i).setCount(outputInv.getStack(i).getCount()+toOutput);
                 outputted = outputted + toOutput;
                 outputStack.setCount(outputStack.getCount()-toOutput);
             }
-            if(outputStack.isEmpty())return;
         }
     }
-    private boolean canOutputFluids(){
-        return false;
+    private boolean canOutputFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO[] fluidSlotIOs){
+        //creating a copy inv with all storages that can accept output
+        List<NTFluidStorage> outputStorages = new ArrayList<>();
+        for (int i = 0; i < fluidStorages.size(); i++) {
+            if(fluidSlotIOs[i] == SlotIO.OUTPUT || fluidSlotIOs[i] == SlotIO.BOTH) {
+                outputStorages.add(((NTFluidStorage)fluidStorages.get(i)).copy());
+            }
+        }
+        //creating a copy of all outputs
+        List<NFluidStack> toBeOutputted = new ArrayList<>();
+        for (NFluidStack outputFluid : outputFluids) {
+            if (!outputFluid.isEmpty()) {
+                toBeOutputted.add(outputFluid.copy());
+            }
+        }
+        //checking if every output can be put into outputInv
+        for (NFluidStack fluidStack : toBeOutputted) {
+            tryOutputFluidStack(fluidStack, outputStorages);
+            if (!fluidStack.isEmpty()) return false;
+        }
+        return true;
+    }
+    private void tryOutputFluidStack(NFluidStack outputStack, List<NTFluidStorage> outputStorages){
+        long outputted = 0;
+        for (int i = 0; i < outputStorages.size() && !outputStack.isEmpty(); i++) {
+            if(outputStorages.get(i).isResourceBlank()){
+                outputStorages.get(i).variant = outputStack.fluidVariant;
+                long toOutput = Math.min(outputStack.fluidAmount, outputStorages.get(i).getCapacity());
+                outputStorages.get(i).amount = outputStorages.get(i).amount + toOutput;
+                outputted = outputted + toOutput;
+                outputStack.fluidAmount = outputStack.fluidAmount-toOutput;
+            } else if (outputStorages.get(i).getResource().equals(outputStack.fluidVariant)) {
+                long toOutput = Math.min(outputStack.fluidAmount,outputStorages.get(i).getCapacity()-outputStorages.get(i).amount);
+                outputStorages.get(i).amount = outputStorages.get(i).amount + toOutput;
+                outputted = outputted + toOutput;
+                outputStack.fluidAmount = outputStack.fluidAmount-toOutput;
+            }
+        }
     }
 
 

@@ -16,6 +16,29 @@ public class NFluidStack {
         fluidVariant = variant;
         fluidAmount = amount;
     }
+    public boolean isEmpty(){
+        return fluidVariant.isBlank()||fluidAmount==0;
+    }
+    public void setFluidAmount(long fluidAmount) {
+        if(fluidAmount==0)
+            fluidVariant=FluidVariant.blank();
+        this.fluidAmount = fluidAmount;
+    }
+    public long getFluidAmount() {
+        return fluidAmount;
+    }
+    public void setFluidVariant(FluidVariant fluidVariant) {
+        if(fluidVariant.isBlank())
+            fluidAmount = 0;
+        this.fluidVariant = fluidVariant;
+    }
+    public FluidVariant getFluidVariant() {
+        return fluidVariant;
+    }
+    public NFluidStack copy(){
+        return isEmpty() ? new NFluidStack(FluidVariant.blank(),0) : new NFluidStack(fluidVariant,fluidAmount);
+    }
+
     public static NFluidStack fromNBT(NbtCompound nbtCompound){
         return new NFluidStack(
                 FluidVariant.fromNbt(nbtCompound.getCompound("fluid_type")),
