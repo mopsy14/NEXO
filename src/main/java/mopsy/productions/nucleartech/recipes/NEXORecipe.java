@@ -259,8 +259,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     }
 
     public static class Serializer implements RecipeSerializer<NEXORecipe>{
-        public static final NEXORecipe.Serializer INSTANCE = new NEXORecipe.Serializer();
-
+        public static final Serializer INSTANCE = new Serializer();
         @Override
         public NEXORecipe read(Identifier id, JsonObject json) {
             List<Ingredient> inputs = new ArrayList<>();

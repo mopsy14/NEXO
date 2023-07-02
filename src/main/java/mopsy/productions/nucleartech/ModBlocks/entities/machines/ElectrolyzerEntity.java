@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
-import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
+import mopsy.productions.nucleartech.ModBlocks.blocks.machines.ElectrolyzerBlock;
 import mopsy.productions.nucleartech.enums.SlotIO;
 import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
@@ -198,9 +198,9 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
         if(direction==Direction.DOWN)
             return fluidStorages.get(0);
-        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite().rotateYClockwise())
+        if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.getOpposite().rotateYClockwise())
             return fluidStorages.get(1);
-        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.rotateYClockwise())
+        if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.rotateYClockwise())
             return fluidStorages.get(2);
         return null;
     }
