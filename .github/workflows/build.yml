@@ -19,8 +19,12 @@ jobs:
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Discord Commits
+        uses: Sniddl/discord-commits@v1.6
       - name: checkout repository
         uses: actions/checkout@v3
+        with:
+          webhook: 'https://discord.com/api/webhooks/1095952769816465408/mJejoKPW1D0C6bbYoNk6tygUJFhX5IFgW1I9NRQt-6tm7f4hPExXlKwqFIpqzux1FKcJ/github'
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: setup jdk ${{ matrix.java }}
