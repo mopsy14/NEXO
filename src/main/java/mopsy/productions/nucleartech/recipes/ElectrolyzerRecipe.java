@@ -46,6 +46,8 @@ public class ElectrolyzerRecipe extends NEXORecipe{
         }
     }
     public long getRequiredPower(){
-        return Long.parseLong(super.additionalInfo.get(0));
+        if(super.additionalInfo.size()>0)
+            return Long.parseLong(super.additionalInfo.get(0));
+        return 0;
     }
 }

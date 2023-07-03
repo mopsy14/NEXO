@@ -1,7 +1,6 @@
 package mopsy.productions.nucleartech.screen.mixer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.FurnaceGeneratorEntity;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.MixerEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
@@ -135,7 +134,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
-        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), FurnaceGeneratorEntity.POWER_CAPACITY, hasShiftDown())));
+        text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), MixerEntity.POWER_CAPACITY, hasShiftDown())));
         if(!exact)
             text.add(Text.of("Hold shift for advanced view"));
         renderTooltip(matrices, text, mouseCords.x, mouseCords.y);

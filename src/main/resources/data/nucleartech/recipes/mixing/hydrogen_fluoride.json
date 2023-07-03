@@ -1,35 +1,19 @@
 {
-  "type": "nucleartech:mixing",
-  "fluid_input": {
-    "type": "nucleartech:sulfuric_acid",
-    "amount": 1000
-  },
-  "fluid_input2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_input3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_1": {
-    "type": "nucleartech:hydrogen_fluoride",
-    "amount": 1000
-  },
-  "fluid_output_2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "input": [
-    {"item": "nucleartech:fluorite","count": 1}
+  "type": "nucleartech:mixer",
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:sulfuric_acid","fluid_amount": 81000}
   ],
-  "output": [
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
+  ],
+  "item_inputs": [
+    {"item": "nucleartech:fluorite"}
+  ],
+  "item_outputs": [
     {"item": "nucleartech:gypsum","count": 1}
   ],
-  "minimal_heat": 0,
-  "maximal_heat": 1000
+  "additional_info":[
+    "0",
+    "1000"
+  ]
 }

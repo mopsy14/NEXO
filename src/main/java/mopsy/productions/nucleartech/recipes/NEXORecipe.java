@@ -59,30 +59,30 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
             return hasItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs());
     }
     private boolean hasFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, IBlockEntityRecipeCompat config){
-        for (int i = 0; i < inputFluids.size(); i++) {
-            if(!hasFluid(fluidStorages, config.getFluidSlotIOs()[i], inputFluids.get(i)))return false;
+        for (NFluidStack inputFluid : inputFluids) {
+            if (!hasFluid(fluidStorages, config.getFluidSlotIOs(), inputFluid)) return false;
         }
         return true;
     }
-    private boolean hasFluid(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO fluidConfig, NFluidStack checkStack){
-        for(SingleVariantStorage<FluidVariant> fluidStorage : fluidStorages){
-            if(fluidConfig== SlotIO.INPUT||fluidConfig== SlotIO.BOTH) {
-                if (fluidStorage.variant == checkStack.fluidVariant) {
-                    if (fluidStorage.amount >= checkStack.fluidAmount)return true;
+    private boolean hasFluid(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO[] fluidConfig, NFluidStack checkStack){
+        for(int i = 0; i < fluidStorages.size(); i++ ){
+            if(fluidConfig[i]== SlotIO.INPUT||fluidConfig[i]== SlotIO.BOTH) {
+                if (fluidStorages.get(i).variant == checkStack.fluidVariant) {
+                    if (fluidStorages.get(i).amount >= checkStack.fluidAmount)return true;
                 }
             }
         }
         return false;
     }
     private boolean hasItems(Inventory inv, SlotIO[] itemConfig){
-        for(int i = 0; i < inputs.size(); i++){
-            if(!hasItem(inv,inputs.get(i),itemConfig[i]))return false;
+        for (Ingredient input : inputs) {
+            if (!hasItem(inv, input, itemConfig)) return false;
         }
         return true;
     }
-    private boolean hasItem(Inventory inv, Ingredient ingredient, SlotIO slotIO){
+    private boolean hasItem(Inventory inv, Ingredient ingredient, SlotIO[] slotIO){
         for (int i = 0; i < inv.size(); i++) {
-            if(slotIO==SlotIO.INPUT||slotIO==SlotIO.BOTH)
+            if(slotIO[i]==SlotIO.INPUT||slotIO[i]==SlotIO.BOTH)
                 if(ingredient.test(inv.getStack(i)))return true;
         }
         return false;

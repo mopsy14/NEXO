@@ -1,5 +1,5 @@
 {
-  "type": "nucleartech:mixing",
+  "type": "nucleartech:mixer",
   "fluid_input": {
     "type": "nucleartech:uranium_hexafluoride",
     "amount": 1000

@@ -158,11 +158,12 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
             entity.energyStorage.amount -= 25;
             if(entity.progress >= entity.maxProgress){
                 entity.progress = 0;
-                if(hasRecipe(entity)) {
-                    craft(entity);
+                MixerRecipe recipe = getFirstRecipeMatch(entity);
+                if(recipe!=null) {
+                    recipe.craft(entity, false, false);
                     sendFluidUpdate(entity);
                 }else{
-                    for (int i = 8; i < 12; i++) {
+                    for (int i = 6; i < 10; i++) {
                         entity.inventory.setStack(i, ItemStack.EMPTY);
                     }
                     for(SingleVariantStorage<FluidVariant> storage : entity.fluidStorages){
@@ -226,33 +227,9 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         return didSomething;
     }
 
-    private static void craft(MixerEntity entity) {
-        MixerRecipe match = getFirstRecipeMatch(entity);
-
-        if(match!=null){
-            entity.fluidStorages.get(0).variant = match.outputFluid1;
-            entity.fluidStorages.get(0).amount = match.outputFluid1Amount;
-            entity.fluidStorages.get(1).variant = match.outputFluid2;
-            entity.fluidStorages.get(1).amount = match.outputFluid2Amount;
-            entity.fluidStorages.get(2).variant = match.outputFluid3;
-            entity.fluidStorages.get(2).amount = match.outputFluid3Amount;
-
-            for (int i = 8; i < 12; i++) {
-                if(match.outputs.size()>=i-7    )
-                    entity.inventory.setStack(i, match.outputs.get(i-8));
-                else
-                    entity.inventory.setStack(i, ItemStack.EMPTY);
-            }
-        }
-    }
-
-    private static boolean hasRecipe(MixerEntity entity) {
-        return getFirstRecipeMatch(entity)!=null;
-    }
-
     private static MixerRecipe getFirstRecipeMatch(MixerEntity entity){
         for(MixerRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(MixerRecipe.Type.INSTANCE)){
-            if(recipe.isMatch(entity.fluidStorages, entity.inventory, entity.heat)) {
+            if(recipe.hasRecipe(entity)) {
                 return recipe;
             }
         }
