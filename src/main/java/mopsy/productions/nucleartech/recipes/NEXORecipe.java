@@ -49,7 +49,14 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
-        return hasItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
+        if(!(blockEntity instanceof Inventory)){
+            LOGGER.error(blockEntity+" does not implement Inventory");
+            return false;
+        }
+        if(blockEntity instanceof IFluidStorage)
+            return hasItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
+        else
+            return hasItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs());
     }
     private boolean hasFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, IBlockEntityRecipeCompat config){
         for (int i = 0; i < inputFluids.size(); i++) {
@@ -83,8 +90,15 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //canOutput Code:
     public boolean canOutput(BlockEntity blockEntity){
-        return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs())&&
-                canOutputFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity).getFluidSlotIOs());
+        if(!(blockEntity instanceof Inventory)){
+            LOGGER.error(blockEntity+" does not implement Inventory");
+            return false;
+        }
+        if(blockEntity instanceof IFluidStorage)
+            return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs())&&
+                    canOutputFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity).getFluidSlotIOs());
+        else
+            return canOutputItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs());
     }
     private boolean canOutputItems(Inventory blockInventory,SlotIO[] slotIOs) {
         //creating a copy inv with all slots that can accept output
@@ -165,11 +179,16 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         }
     }
     public boolean craft(BlockEntity entity, boolean doFitCheck, boolean doRemoveInputs){
+        if(!(entity instanceof Inventory)){
+            LOGGER.error(entity+" does not implement Inventory");
+            return false;
+        }
         if(!doFitCheck || canOutput(entity)){
             if(doRemoveInputs)
                 removeInputs(entity);
             craftItems((Inventory)entity,((IBlockEntityRecipeCompat)entity).getItemSlotIOs());
-            craftFluids(((IFluidStorage)entity).getFluidStorages(),((IBlockEntityRecipeCompat)entity).getFluidSlotIOs());
+            if(entity instanceof IFluidStorage)
+                craftFluids(((IFluidStorage)entity).getFluidStorages(),((IBlockEntityRecipeCompat)entity).getFluidSlotIOs());
             return true;
         }
         return true;
