@@ -23,6 +23,7 @@ jobs:
         uses: Sniddl/discord-commits@v1.6
         with:
           webhook: 'https://discord.com/api/webhooks/1125417604148908072/vYq91fSdsUdN7ypu8skV9BRnWVxz2bqSW4VjebZw40pzJr4eovxmeXwgek5ihli-5ErX'
+          template: 'author-with-link'
       - name: checkout repository
         uses: actions/checkout@v3
       - name: validate gradle wrapper
