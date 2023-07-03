@@ -24,7 +24,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v3
         with:
-          webhook: 'https://discord.com/api/webhooks/1095952769816465408/mJejoKPW1D0C6bbYoNk6tygUJFhX5IFgW1I9NRQt-6tm7f4hPExXlKwqFIpqzux1FKcJ/github'
+          webhook: 'https://discord.com/api/webhooks/1125417604148908072/vYq91fSdsUdN7ypu8skV9BRnWVxz2bqSW4VjebZw40pzJr4eovxmeXwgek5ihli-5ErX'
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: setup jdk ${{ matrix.java }}
