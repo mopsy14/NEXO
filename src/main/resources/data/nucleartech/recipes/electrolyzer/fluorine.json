@@ -1,0 +1,17 @@
+{
+  "type": "nucleartech:electrolyzer",
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:hf_kf","fluid_amount": 4050}
+  ],
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:fluorine","fluid_amount": 2025},
+    {"fluid_type": "nucleartech:hydrogen","fluid_amount": 2025}
+  ],
+  "item_inputs": [
+  ],
+  "item_outputs": [
+  ],
+  "additional_info": [
+    "25"
+  ]
+}
