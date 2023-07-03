@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -50,7 +49,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
-        return hasItems((SidedInventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
+        return hasItems((Inventory)blockEntity,((IBlockEntityRecipeCompat)blockEntity).getItemSlotIOs()) && hasFluids(((IFluidStorage)blockEntity).getFluidStorages(),((IBlockEntityRecipeCompat)blockEntity));
     }
     private boolean hasFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, IBlockEntityRecipeCompat config){
         for (int i = 0; i < inputFluids.size(); i++) {
@@ -68,13 +67,13 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         }
         return false;
     }
-    private boolean hasItems(SidedInventory inv, SlotIO[] itemConfig){
+    private boolean hasItems(Inventory inv, SlotIO[] itemConfig){
         for(int i = 0; i < inputs.size(); i++){
             if(!hasItem(inv,inputs.get(i),itemConfig[i]))return false;
         }
         return true;
     }
-    private boolean hasItem(SidedInventory inv, Ingredient ingredient, SlotIO slotIO){
+    private boolean hasItem(Inventory inv, Ingredient ingredient, SlotIO slotIO){
         for (int i = 0; i < inv.size(); i++) {
             if(slotIO==SlotIO.INPUT||slotIO==SlotIO.BOTH)
                 if(ingredient.test(inv.getStack(i)))return true;

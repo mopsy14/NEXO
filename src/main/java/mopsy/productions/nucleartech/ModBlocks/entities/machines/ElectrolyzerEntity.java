@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -43,7 +44,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat {
+public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat, Inventory{
 
     public final Inventory inventory = new SimpleInventory(6);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
@@ -120,6 +121,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         ElectrolyzerRecipe recipe = getFirstRecipeMatch(entity);
         if(recipe!=null){
             if(entity.energyStorage.amount >= recipe.getRequiredPower()){
+                entity.energyStorage.amount -= recipe.getRequiredPower();
                 recipe.craft(entity,true,true);
                 markDirty(world,blockPos,blockState);
 
@@ -246,5 +248,46 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public SlotIO[] getItemSlotIOs() {
         return new SlotIO[]{SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE};
+    }
+
+    //Inventory code:
+    @Override
+    public int size() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return inventory.removeStack(slot,amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setStack(slot,stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 }
