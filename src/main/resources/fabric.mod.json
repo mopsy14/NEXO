@@ -3,7 +3,7 @@
   "id": "nucleartech",
   "version": "${version}",
 
-  "name": "Nuclear Tech Mod",
+  "name": "NEXO Tech Mod",
   "description": "A mod that adds nuclear technology",
   "authors": [
     "Mopsy"
@@ -13,7 +13,7 @@
     "sources": "https://github.com/mopsy14/Nuclear-Tech-Mod"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/nucleartech/icon.png",
 
   "environment": "*",
