@@ -49,6 +49,10 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
+        if(!(inputs.size()>0&&inputFluids.size()>0)) {
+            LOGGER.error("Empty fluid and item inputs found in recipe: " + id);
+            return false;
+        }
         if(!(blockEntity instanceof Inventory)){
             LOGGER.error(blockEntity+" does not implement Inventory");
             return false;
@@ -124,11 +128,28 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         }
         return true;
     }
+    private void tryOutputItemStackWithChecks(ItemStack outputStack, Inventory outputInv, SlotIO[] slotIOs){
+        int outputted = 0;
+        for (int i = 0; i < outputInv.size() && !outputStack.isEmpty(); i++) {
+            if(slotIOs[i]==SlotIO.OUTPUT||slotIOs[i]==SlotIO.BOTH) {
+                if (outputInv.getStack(i).isEmpty()) {
+                    outputInv.setStack(i, outputStack.copy());
+                    outputted = outputted + outputStack.getCount();
+                    outputStack.setCount(0);
+                } else if (outputInv.getStack(i).getItem() == outputStack.getItem()) {
+                    int toOutput = Math.min(outputStack.getCount(), 64 - outputInv.getStack(i).getCount());
+                    outputInv.getStack(i).setCount(outputInv.getStack(i).getCount() + toOutput);
+                    outputted = outputted + toOutput;
+                    outputStack.setCount(outputStack.getCount() - toOutput);
+                }
+            }
+        }
+    }
     private void tryOutputItemStack(ItemStack outputStack, Inventory outputInv){
         int outputted = 0;
         for (int i = 0; i < outputInv.size() && !outputStack.isEmpty(); i++) {
             if(outputInv.getStack(i).isEmpty()){
-                outputInv.setStack(i, outputStack);
+                outputInv.setStack(i, outputStack.copy());
                 outputted = outputted + outputStack.getCount();
                 outputStack.setCount(0);
             } else if (outputInv.getStack(i).getItem()==outputStack.getItem()) {
@@ -223,15 +244,6 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         }
     }
     private void craftItems(Inventory blockInventory, SlotIO[] slotIOs){
-        //creating an inv with all slots that can accept output
-        Inventory outputInv = new SimpleInventory(blockInventory.size());
-        int invCounter=0;
-        for (int i = 0; i < blockInventory.size(); i++) {
-            if(slotIOs[i] == SlotIO.OUTPUT || slotIOs[i] == SlotIO.BOTH) {
-                outputInv.setStack(invCounter,blockInventory.getStack(i));
-                invCounter++;
-            }
-        }
         //creating an inv with all outputs
         Inventory toBeOutputted = new SimpleInventory(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
@@ -241,7 +253,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         }
         //Running tryOutputItemStack for every output stack
         for (int i = 0; i < toBeOutputted.size();i++) {
-            tryOutputItemStack(toBeOutputted.getStack(i), outputInv);
+            tryOutputItemStackWithChecks(toBeOutputted.getStack(i), blockInventory, slotIOs);
         }
     }
     private void craftFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO[] fluidSlotIOs){

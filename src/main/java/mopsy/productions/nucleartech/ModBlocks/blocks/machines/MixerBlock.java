@@ -82,9 +82,11 @@ public class MixerBlock extends BlockWithEntity implements IModID, BlockEntityPr
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof MixerEntity) {
-            ItemScatterer.spawn(world, pos, (MixerEntity) blockEntity);
-            world.updateComparators(pos, this);
+        if (blockEntity instanceof MixerEntity mixer) {
+            if (mixer.progress == 0) {
+                ItemScatterer.spawn(world, pos, (MixerEntity) blockEntity);
+                world.updateComparators(pos, this);
+            }
         }
         super.onBreak(world, pos, state, player);
     }

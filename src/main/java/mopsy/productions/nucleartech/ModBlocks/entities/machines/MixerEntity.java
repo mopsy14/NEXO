@@ -160,8 +160,8 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
                 entity.progress = 0;
                 MixerRecipe recipe = getFirstRecipeMatch(entity);
                 if(recipe!=null) {
-                    recipe.craft(entity, false, false);
-                    sendFluidUpdate(entity);
+                    recipe.craft(entity, true, true);
+
                 }else{
                     for (int i = 6; i < 10; i++) {
                         entity.inventory.setStack(i, ItemStack.EMPTY);
@@ -171,6 +171,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
                         storage.variant = FluidVariant.blank();
                     }
                 }
+                sendFluidUpdate(entity);
             }
         }else{
             entity.progress = 0;

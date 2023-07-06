@@ -2,7 +2,11 @@ package mopsy.productions.nucleartech.recipes;
 
 import com.google.gson.JsonObject;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.MixerEntity;
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.util.NFluidStack;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
@@ -13,6 +17,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 public class MixerRecipe extends NEXORecipe{
     public MixerRecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo) {
         super(id, inputs, outputs, inputFluids, outputFluids, additionalInfo);
@@ -28,6 +33,37 @@ public class MixerRecipe extends NEXORecipe{
         }
 
         return false;
+    }
+
+    @Override
+    public boolean craft(BlockEntity entity, boolean doFitCheck, boolean doRemoveInputs) {
+        int craftable = 0;
+        while (hasRecipe(entity)) {
+            if(doRemoveInputs)
+                removeInputs(entity);
+            craftable++;
+        }
+
+        clearMixer((MixerEntity) entity);
+
+        boolean res = true;
+        for (; craftable > 0; craftable--) {
+            if(!super.craft(entity, doFitCheck, false))res=false;
+        }
+
+        return res;
+    }
+
+    private void clearMixer(MixerEntity mixer){
+        SlotIO[] itemSlotIOs = ((IBlockEntityRecipeCompat)mixer).getItemSlotIOs();
+        for (int i = 0; i < mixer.size(); i++) {
+            if(itemSlotIOs[i]!=SlotIO.NONE)
+                mixer.setStack(i, ItemStack.EMPTY);
+        }
+        for(SingleVariantStorage<FluidVariant> storage : mixer.fluidStorages){
+            storage.amount = 0;
+            storage.variant = FluidVariant.blank();
+        }
     }
 
     @Override
