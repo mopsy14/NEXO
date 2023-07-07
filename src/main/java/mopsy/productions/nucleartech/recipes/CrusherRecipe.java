@@ -1,104 +1,49 @@
 package mopsy.productions.nucleartech.recipes;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.SimpleInventory;
+import mopsy.productions.nucleartech.util.NFluidStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
 
-public class CrusherRecipe implements Recipe<SimpleInventory> {
-    public final Identifier id;
-    public final ItemStack output;
-    public final DefaultedList<Ingredient> inputs;
+import java.util.List;
 
-    public CrusherRecipe(Identifier id, DefaultedList<Ingredient> inputs, ItemStack output){
-        this.id=id;
-        this.output=output;
-        this.inputs =inputs;
+public class CrusherRecipe extends NEXORecipe{
+    public CrusherRecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo) {
+        super(id, inputs, outputs, inputFluids, outputFluids, additionalInfo);
     }
-
-    @Override
-    public boolean matches(SimpleInventory inventory, World world) {
-        if(world.isClient) return false;
-
-        return inputs.get(0).test(inventory.getStack(0));
-    }
-
-    @Override
-    public ItemStack craft(SimpleInventory inventory) {
-        return output;
-    }
-
-    @Override
-    public boolean fits(int width, int height) {
-        return true;
-    }
-
-    @Override
-    public ItemStack getOutput() {
-        return output.copy();
-    }
-
-    @Override
-    public Identifier getId() {
-        return id;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return Serializer.INSTANCE;
+    public CrusherRecipe(NEXORecipe recipe) {
+        super(recipe.id, recipe.inputs, recipe.outputs, recipe.inputFluids, recipe.outputFluids, recipe.additionalInfo);
     }
 
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
     }
-
     public static class Type implements RecipeType<CrusherRecipe>{
         private Type() {}
-        public static final Type INSTANCE = new Type();
-        public static final String ID = "crushing";
+        public static final CrusherRecipe.Type INSTANCE = new CrusherRecipe.Type();
+        public static final String ID = "crusher";
     }
-    public static class Serializer implements RecipeSerializer<CrusherRecipe>{
-        public static final Serializer INSTANCE = new Serializer();
-        public static final String ID = "crushing";
+    public static class Serializer implements RecipeSerializer<CrusherRecipe> {
+        public static final CrusherRecipe.Serializer INSTANCE = new CrusherRecipe.Serializer();
 
         @Override
         public CrusherRecipe read(Identifier id, JsonObject json) {
-            ItemStack output = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "output"));
-
-            JsonArray jsonInputs = JsonHelper.getArray(json, "input");
-            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(1, Ingredient.EMPTY);
-
-            for(int i = 0; i<inputs.size(); i++){
-                inputs.set(i, Ingredient.fromJson(jsonInputs.get(i)));
-            }
-
-            return new CrusherRecipe(id, inputs,  output);
+            return new CrusherRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
         }
 
         @Override
         public CrusherRecipe read(Identifier id, PacketByteBuf buf) {
-            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
-
-            inputs.replaceAll(ignored -> Ingredient.fromPacket(buf));
-
-            ItemStack output = buf.readItemStack();
-            return new CrusherRecipe(id, inputs, output);
+            return new CrusherRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
         }
 
         @Override
         public void write(PacketByteBuf buf, CrusherRecipe recipe) {
-            buf.writeInt(recipe.getIngredients().size());
-            for(Ingredient ingredient : recipe.getIngredients()){
-                ingredient.write(buf);
-            }
-            buf.writeItemStack(recipe.output);
+            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
         }
     }
 }

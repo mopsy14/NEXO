@@ -1,5 +1,7 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
@@ -15,7 +17,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -29,12 +30,10 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.Optional;
-
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage {
+public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
 
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     protected final PropertyDelegate propertyDelegate;
@@ -122,7 +121,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CrusherEntity crusherEntity) {
         if(world.isClient)return;
 
-        if(hasRecipe(crusherEntity)&& crusherEntity.energyStorage.amount >= 5){
+        if(/*hasRecipe(crusherEntity)&&*/ crusherEntity.energyStorage.amount >= 5){
             crusherEntity.progress++;
             crusherEntity.energyStorage.amount -= 5;
             if(crusherEntity.progress >= crusherEntity.maxProgress){
@@ -149,33 +148,23 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
             inventory.setStack(i, entity.getStack(i));
         }
 
-        Optional<CrusherRecipe> recipe = entity.getWorld().getRecipeManager().getFirstMatch(
-                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
+        CrusherRecipe recipe = getRecipe(entity);
 
-        if(hasRecipe(entity)){
-            entity.removeStack(0, 1);
-            ItemStack output = recipe.get().getOutput();
+        if(recipe!=null){
+            ItemStack output = recipe.getOutput();
             output.setCount(output.getCount() + entity.getStack(1).getCount());
             entity.setStack(1, output);
             entity.progress = 0;
         }
     }
 
-    private static boolean hasRecipe(CrusherEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
+    private static CrusherRecipe getRecipe(CrusherEntity entity){
+        for(CrusherRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(CrusherRecipe.Type.INSTANCE)){
+            if(recipe.hasRecipe(entity)) {
+                return recipe;
+            }
         }
-
-        Optional<CrusherRecipe> match = entity.getWorld().getRecipeManager().getFirstMatch(
-                CrusherRecipe.Type.INSTANCE, inventory, entity.world);
-
-        return match.isPresent()&&canOutput(inventory, match.get().getOutput().getItem(), match.get().getOutput().getCount());
-    }
-
-    private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
-        return (inventory.getStack(1).getItem()==outputType || inventory.getStack(1).isEmpty())
-                &&inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount() + count;
+        return null;
     }
 
 
@@ -187,5 +176,15 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     @Override
     public void setPower(long power) {
         energyStorage.amount = power;
+    }
+
+    @Override
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[0];
+    }
+
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{SlotIO.INPUT,SlotIO.OUTPUT};
     }
 }
