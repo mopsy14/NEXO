@@ -1,35 +1,20 @@
 {
   "type": "nucleartech:mixer",
-  "fluid_input": {
-    "type": "minecraft:water",
-    "amount": 1000
-  },
-  "fluid_input2": {
-    "type": "nucleartech:hydrogen",
-    "amount": 1000
-  },
-  "fluid_input3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_1": {
-    "type": "nucleartech:hydrogen_fluoride",
-    "amount": 1000
-  },
-  "fluid_output_2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "input": [
-    {"item": "nucleartech:uranyl_fluoride","count": 1}
+  "fluid_inputs": [
+    {"fluid_type": "minecraft:water","fluid_amount": 81000},
+    {"fluid_type": "nucleartech:hydrogen","fluid_amount": 81000}
   ],
-  "output": [
-    {"item": "nucleartech:triuranium_octoxide","count": 5}
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
   ],
-  "minimal_heat": 700,
-  "maximal_heat": 1000
+  "item_inputs": [
+    {"item": "nucleartech:urnayl_fluoride"}
+  ],
+  "item_outputs": [
+    {"item":"nucleartech:triuranium_octoxide","count":1}
+  ],
+  "additional_info":[
+    "700",
+    "1000"
+  ]
 }

@@ -1,33 +1,20 @@
 {
   "type": "nucleartech:mixer",
-  "fluid_input": {
-    "type": "nucleartech:ammonia",
-    "amount": 1000
-  },
-  "fluid_input2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_input3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_1": {
-    "type": "nucleartech:ammonia",
-    "amount": 1000
-  },
-  "fluid_output_2": {
-    "type": "nucleartech:oxygen",
-    "amount": 1000
-  },
-  "fluid_output_3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "input": [
-    {"item": "nucleartech:triuranium_octoxide","count": 1}
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:ammonia","fluid_amount": 81000}
   ],
-  "output": [
-    {"item": "nucleartech:uranium_fuel_pellet","count": 1}
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:ammonia","fluid_amount": 81000},
+    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000}
+  ],
+  "item_inputs": [
+    {"item": "nucleartech:triuranium_octoxide"}
+  ],
+  "item_outputs": [
+    {"item":"nucleartech:uranium_fuel_pellet","count":1}
+  ],
+  "additional_info":[
+    "500",
+    "700"
   ]
 }

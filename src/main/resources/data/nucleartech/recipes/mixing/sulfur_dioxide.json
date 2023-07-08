@@ -1,34 +1,16 @@
 {
   "type": "nucleartech:mixer",
-  "fluid_input": {
-    "type": "nucleartech:oxygen",
-    "amount": 1000
-  },
-  "fluid_input2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_input3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_1": {
-    "type": "nucleartech:sulfur_dioxide",
-    "amount": 1000
-  },
-  "fluid_output_2": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "fluid_output_3": {
-    "type": "minecraft:air",
-    "amount": 0
-  },
-  "input": [
-    {"item": "nucleartech:sulfur","count": 1}
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000}
   ],
-  "output": [
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:sulfur_dioxide","fluid_amount": 81000}
   ],
-  "minimal_heat": 115,
-  "maximal_heat": 1000
+  "item_inputs": [
+    {"item": "nucleartech:sulfur"}
+  ],
+  "additional_info":[
+    "115",
+    "1000"
+  ]
 }
