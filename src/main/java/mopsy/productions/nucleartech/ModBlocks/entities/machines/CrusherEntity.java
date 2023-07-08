@@ -120,11 +120,13 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CrusherEntity crusherEntity) {
         if(world.isClient)return;
 
-        if(/*hasRecipe(crusherEntity)&&*/ crusherEntity.energyStorage.amount >= 5){
+        CrusherRecipe recipe = getRecipe(crusherEntity);
+        if(recipe != null && crusherEntity.energyStorage.amount >= 5){
             crusherEntity.progress++;
             crusherEntity.energyStorage.amount -= 5;
             if(crusherEntity.progress >= crusherEntity.maxProgress){
-                craft(crusherEntity);
+                recipe.craft(crusherEntity,true,true);
+                crusherEntity.progress=0;
             }
         }else{
             crusherEntity.progress = 0;
@@ -138,22 +140,6 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
             buf.writeBlockPos(blockPos);
             buf.writeLong(crusherEntity.getPower());
             PlayerLookup.tracking(crusherEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
-        }
-    }
-
-    private static void craft(CrusherEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
-
-        CrusherRecipe recipe = getRecipe(entity);
-
-        if(recipe!=null){
-            ItemStack output = recipe.getOutput();
-            output.setCount(output.getCount() + entity.getStack(1).getCount());
-            entity.setStack(1, output);
-            entity.progress = 0;
         }
     }
 
