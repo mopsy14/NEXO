@@ -1,7 +1,7 @@
 {
   "type": "nucleartech:mixer",
   "fluid_inputs": [
-    {"fluid_type": "minecraft:sulfuric_acid","fluid_amount": 81000}
+    {"fluid_type": "nucleartech:sulfuric_acid","fluid_amount": 81000}
   ],
   "item_inputs": [
     {"item": "nucleartech:uranium_dust"}
