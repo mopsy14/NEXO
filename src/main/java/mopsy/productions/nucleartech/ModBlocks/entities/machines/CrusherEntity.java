@@ -191,7 +191,9 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     //Inventory Code:
     @Override
     public int[] getAvailableSlots(Direction side) {
-        if (Objects.requireNonNull(side) == Direction.UP) {
+        switch(side){
+            case UP -> {return new int[]{0};}
+            default -> {return new int[]{1};}
         }
     }
 
