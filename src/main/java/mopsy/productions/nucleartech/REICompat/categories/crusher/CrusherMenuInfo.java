@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.REICompat.categories;
+package mopsy.productions.nucleartech.REICompat.categories.crusher;
 
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.transfer.info.MenuInfoContext;

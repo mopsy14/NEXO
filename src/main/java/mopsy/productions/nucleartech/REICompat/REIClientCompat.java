@@ -5,8 +5,8 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import mopsy.productions.nucleartech.REICompat.categories.CrushingCategory;
-import mopsy.productions.nucleartech.REICompat.categories.CrushingDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingCategory;
+import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlocks;
 

@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.REICompat.categories;
+package mopsy.productions.nucleartech.REICompat.categories.crusher;
 
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;

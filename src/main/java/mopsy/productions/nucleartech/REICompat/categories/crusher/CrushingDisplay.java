@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.REICompat.categories;
+package mopsy.productions.nucleartech.REICompat.categories.crusher;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
@@ -41,7 +41,7 @@ public class CrushingDisplay implements Display {
 
     @Override
     public List<EntryIngredient> getOutputEntries() {
-        return List.of(EntryIngredients.of(recipe.output));
+        return List.of(EntryIngredients.of(recipe.outputs.get(0)));
     }
 
     @Override

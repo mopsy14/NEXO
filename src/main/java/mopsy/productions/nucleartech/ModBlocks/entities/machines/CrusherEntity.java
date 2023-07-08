@@ -3,10 +3,10 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 import mopsy.productions.nucleartech.enums.SlotIO;
 import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
-import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nucleartech.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -15,7 +15,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -24,18 +25,20 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
+import java.util.Objects;
+
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
+public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    private final Inventory inventory = new SimpleInventory(2);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
     private int maxProgress = 200;
@@ -97,15 +100,11 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
         buf.writeBlockPos(this.pos);
     }
 
-    @Override
-    public DefaultedList<ItemStack> getItems() {
-        return this.inventory;
-    }
 
     @Override
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
+        InvUtils.writeInv(inventory,nbt);
         nbt.putInt("crusher.progress", progress);
         nbt.putLong("crusher.power", energyStorage.amount);
     }
@@ -113,7 +112,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        Inventories.readNbt(nbt, inventory);
+        InvUtils.readInv(inventory,nbt);
         progress = nbt.getInt("crusher.progress");
         energyStorage.amount = nbt.getLong("crusher.power");
     }
@@ -186,5 +185,63 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     @Override
     public SlotIO[] getItemSlotIOs() {
         return new SlotIO[]{SlotIO.INPUT,SlotIO.OUTPUT};
+    }
+
+
+    //Inventory Code:
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        if (Objects.requireNonNull(side) == Direction.UP) {
+        }
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return slot==0;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return slot==1;
+    }
+
+    @Override
+    public int size() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return inventory.removeStack(slot, amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setStack(slot,stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 }
