@@ -49,7 +49,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
-        if(!(inputs.size()>0&&inputFluids.size()>0)) {
+        if(!(inputs.size()>0||inputFluids.size()>0)) {
             LOGGER.error("Empty fluid and item inputs found in recipe: " + id);
             return false;
         }
