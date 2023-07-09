@@ -23,6 +23,8 @@
     "nucleartech:control_rods",
     "nucleartech:mixer",
     "nucleartech:steam_turbine",
-    "nucleartech:lead_ore"
+    "nucleartech:lead_ore",
+    "nucleartech:deepslate_lead_ore",
+    "nucleartech:carobbiite_ore"
   ]
 }
