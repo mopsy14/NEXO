@@ -21,7 +21,7 @@ public class MixerMenuInfo implements SimplePlayerInventoryMenuInfo<MixerScreenH
     public Iterable<SlotAccessor> getInputSlots(MenuInfoContext<MixerScreenHandler, ?, MixerDisplay> context) {
         List<SlotAccessor> res = new ArrayList<>();
         DefaultedList<Slot> slots= context.getMenu().slots;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 6; i < 10; i++) {
             res.add(SlotAccessor.fromSlot(slots.get(i)));
         }
         return res;

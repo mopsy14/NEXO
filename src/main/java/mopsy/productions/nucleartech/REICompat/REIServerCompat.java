@@ -9,8 +9,12 @@ import me.shedaniel.rei.api.common.transfer.info.simple.SimpleMenuInfoProvider;
 import mopsy.productions.nucleartech.Main;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrusherMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerMenuInfo;
+import mopsy.productions.nucleartech.REICompat.categories.press.PressMenuInfo;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nucleartech.screen.mixer.MixerScreenHandler;
+import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.util.Identifier;
@@ -22,8 +26,14 @@ import static mopsy.productions.nucleartech.Main.modid;
 public class REIServerCompat implements REIServerPlugin {
     @Override
     public void registerMenuInfo(MenuInfoRegistry registry) {
-        registry.register(CategoryIdentifier.of(modid,"crushing"), CrusherScreenHandler.class,
+        registry.register(CategoryIdentifier.of(modid,"crusher"), CrusherScreenHandler.class,
                 SimpleMenuInfoProvider.of(CrusherMenuInfo::new)
+        );
+        registry.register(CategoryIdentifier.of(modid,"press"), PressScreenHandler.class,
+                SimpleMenuInfoProvider.of(PressMenuInfo::new)
+        );
+        registry.register(CategoryIdentifier.of(modid,"mixer"), MixerScreenHandler.class,
+                SimpleMenuInfoProvider.of(MixerMenuInfo::new)
         );
     }
 
