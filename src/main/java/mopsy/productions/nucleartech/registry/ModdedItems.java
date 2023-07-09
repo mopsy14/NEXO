@@ -60,6 +60,7 @@ public class ModdedItems {
             new ItemInfo("uranium_dioxide", 1),
             new ItemInfo("yellowcake", 3),
             new ItemInfo("uranium_tetrafluoride"),
+            new ItemInfo("uranium_fuel_pellet"),
 
 
             //plates

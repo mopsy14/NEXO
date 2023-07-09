@@ -8,7 +8,7 @@
     {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:urnayl_fluoride"}
+    {"item": "nucleartech:uranyl_fluoride"}
   ],
   "item_outputs": [
     {"item":"nucleartech:triuranium_octoxide","count":1}
