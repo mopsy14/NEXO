@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "nucleartech:lead_ingot"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "nucleartech:lead_ingot"}
   ],
-  "output":{
-    "item": "nucleartech:lead_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:lead_dust","count": 1}
+  ]
 }
