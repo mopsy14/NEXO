@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.util;
 
 import com.google.gson.JsonElement;
+import dev.architectury.fluid.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -74,5 +75,8 @@ public class NFluidStack {
         buf.writeLong(fluidStack.fluidAmount);
 
         return buf;
+    }
+    public FluidStack toFluidStack(){
+        return FluidStack.create(fluidVariant.getFluid(),fluidAmount);
     }
 }
