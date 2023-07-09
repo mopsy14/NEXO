@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:pressing",
-  "input": [
-    {
-      "item": "minecraft:diamond"
-    }
+  "type": "nucleartech:press",
+  "item_inputs": [
+    {"item": "minecraft:diamond"}
   ],
-  "output":{
-    "item": "nucleartech:diamond_plate"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:diamond_plate","count": 1}
+  ]
 }

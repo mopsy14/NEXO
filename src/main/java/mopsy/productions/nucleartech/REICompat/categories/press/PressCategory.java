@@ -1,4 +1,4 @@
-package mopsy.productions.nucleartech.REICompat.categories.crusher;
+package mopsy.productions.nucleartech.REICompat.categories.press;
 
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -16,23 +16,23 @@ import java.util.List;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
-public class CrushingCategory implements DisplayCategory<CrushingDisplay> {
+public class PressCategory implements DisplayCategory<PressDisplay> {
     @Override
-    public CategoryIdentifier<? extends CrushingDisplay> getCategoryIdentifier() {
-        return CategoryIdentifier.of(modid,"crusher");
+    public CategoryIdentifier<? extends PressDisplay> getCategoryIdentifier() {
+        return CategoryIdentifier.of(modid,"press");
     }
 
     @Override
     public Text getTitle() {
-        return Text.of("Crushing");
+        return Text.of("Pressing");
     }
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModdedBlocks.BlockItems.get("crusher"));
+        return EntryStacks.of(ModdedBlocks.BlockItems.get("press"));
     }
 
     @Override
-    public List<Widget> setupDisplay(CrushingDisplay display, Rectangle bounds) {
+    public List<Widget> setupDisplay(PressDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createSlot(new Point(33+ bounds.x,24+ bounds.y)).markInput().entries(display.getInputEntries().get(0)));

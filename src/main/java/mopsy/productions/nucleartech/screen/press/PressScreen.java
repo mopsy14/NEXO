@@ -68,7 +68,8 @@ public class PressScreen extends HandledScreen<PressScreenHandler> {
 
     private void renderProgress(MatrixStack matrices, int x, int y){
         if(handler.isCrafting()){
-            drawTexture(matrices, x+76, y+24, 176, 0, handler.getScaledProgress(), 37);
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            drawTexture(matrices, x+80, y+16, 192, 0, 16, handler.getScaledProgress());
         }
     }
 

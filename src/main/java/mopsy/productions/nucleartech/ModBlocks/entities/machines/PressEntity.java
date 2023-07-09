@@ -1,10 +1,12 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
-import mopsy.productions.nucleartech.interfaces.ImplementedInventory;
 import mopsy.productions.nucleartech.recipes.PressRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
+import mopsy.productions.nucleartech.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -13,9 +15,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -23,20 +25,18 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.Optional;
-
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory, IEnergyStorage {
+public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
+    private final Inventory inventory = new SimpleInventory(2);
     protected final PropertyDelegate propertyDelegate;
     private int progress;
     private int maxProgress = 200;
@@ -99,14 +99,9 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     @Override
-    public DefaultedList<ItemStack> getItems() {
-        return this.inventory;
-    }
-
-    @Override
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
+        InvUtils.writeInv(inventory,nbt);
         nbt.putInt("press.progress", progress);
         nbt.putLong("press.power", energyStorage.amount);
     }
@@ -114,7 +109,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        Inventories.readNbt(nbt, inventory);
+        InvUtils.readInv(inventory,nbt);
         progress = nbt.getInt("press.progress");
         energyStorage.amount = nbt.getLong("press.power");
     }
@@ -122,11 +117,14 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     public static void tick(World world, BlockPos blockPos, BlockState blockState, PressEntity pressEntity) {
         if(world.isClient)return;
 
-        if(hasRecipe(pressEntity)&& pressEntity.energyStorage.amount >= 5){
+        PressRecipe recipe = getRecipe(pressEntity);
+
+        if(recipe!=null && recipe.canOutput(pressEntity) && pressEntity.energyStorage.amount >= 5){
             pressEntity.progress++;
             pressEntity.energyStorage.amount -= 5;
             if(pressEntity.progress >= pressEntity.maxProgress){
-                craft(pressEntity);
+                recipe.craft(pressEntity,true,true);
+                pressEntity.progress = 0;
             }
         }else{
             pressEntity.progress = 0;
@@ -143,40 +141,15 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
         }
     }
 
-    private static void craft(PressEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
+    private static PressRecipe getRecipe(PressEntity entity) {
+        for(PressRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(PressRecipe.Type.INSTANCE)){
+            if(recipe.hasRecipe(entity)) {
+                return recipe;
+            }
         }
-
-        Optional<PressRecipe> recipe = entity.getWorld().getRecipeManager().getFirstMatch(
-                PressRecipe.Type.INSTANCE, inventory, entity.world);
-
-        if(hasRecipe(entity)){
-            entity.removeStack(0, 1);
-            ItemStack output = recipe.get().getOutput();
-            output.setCount(output.getCount() + entity.getStack(1).getCount());
-            entity.setStack(1, output);
-            entity.progress = 0;
-        }
+        return null;
     }
 
-    private static boolean hasRecipe(PressEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for(int i = 0; i< entity.size(); i++){
-            inventory.setStack(i, entity.getStack(i));
-        }
-
-        Optional<PressRecipe> match = entity.getWorld().getRecipeManager().getFirstMatch(
-                PressRecipe.Type.INSTANCE, inventory, entity.world);
-
-        return match.isPresent()&&canOutput(inventory, match.get().getOutput().getItem(), match.get().getOutput().getCount());
-    }
-
-    private static boolean canOutput(SimpleInventory inventory, Item outputType, int count){
-        return (inventory.getStack(1).getItem()==outputType || inventory.getStack(1).isEmpty())
-                &&inventory.getStack(1).getMaxCount() > inventory.getStack(1).getCount() + count;
-    }
 
 
     @Override
@@ -187,5 +160,74 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void setPower(long power) {
         energyStorage.amount = power;
+    }
+    @Override
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[0];
+    }
+
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{SlotIO.INPUT,SlotIO.OUTPUT};
+    }
+
+
+    //Inventory Code:
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        switch(side){
+            case UP -> {return new int[]{0};}
+            default -> {return new int[]{1};}
+        }
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return slot==0;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return slot==1;
+    }
+
+    @Override
+    public int size() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return inventory.removeStack(slot, amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setStack(slot,stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 }

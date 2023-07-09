@@ -50,7 +50,7 @@ public class PressScreenHandler extends ScreenHandler {
     public int getScaledProgress(){
         int progress = this.delegate.get(0);
         int max = this.delegate.get(1);
-        int barSize = 26;
+        int barSize = 21;
 
         return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }

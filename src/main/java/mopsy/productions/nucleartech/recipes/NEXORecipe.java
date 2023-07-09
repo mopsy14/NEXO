@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import mopsy.productions.nucleartech.enums.SlotIO;
 import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
+import mopsy.productions.nucleartech.util.NEXOInventory;
 import mopsy.productions.nucleartech.util.NFluidStack;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -106,7 +107,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     }
     private boolean canOutputItems(Inventory blockInventory,SlotIO[] slotIOs) {
         //creating a copy inv with all slots that can accept output
-        Inventory outputInv = new SimpleInventory(blockInventory.size());
+        Inventory outputInv = new NEXOInventory(blockInventory.size());
         int invCounter=0;
         for (int i = 0; i < blockInventory.size(); i++) {
             if(slotIOs[i] == SlotIO.OUTPUT || slotIOs[i] == SlotIO.BOTH) {
@@ -114,6 +115,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
                 invCounter++;
             }
         }
+        outputInv = ((NEXOInventory)outputInv).withSize(invCounter);
         //creating an inv with all outputs
         Inventory toBeOutputted = new SimpleInventory(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
@@ -153,7 +155,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
                 outputted = outputted + outputStack.getCount();
                 outputStack.setCount(0);
             } else if (outputInv.getStack(i).getItem()==outputStack.getItem()) {
-                int toOutput = Math.min(outputStack.getCount(),64-outputInv.getStack(i).getCount());
+                int toOutput = Math.min(outputStack.getCount(),outputInv.getStack(i).getMaxCount()-outputInv.getStack(i).getCount());
                 outputInv.getStack(i).setCount(outputInv.getStack(i).getCount()+toOutput);
                 outputted = outputted + toOutput;
                 outputStack.setCount(outputStack.getCount()-toOutput);
@@ -215,8 +217,10 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
         return true;
     }
     public void removeInputs(BlockEntity entity){
-        removeInputItems((Inventory)entity,((IBlockEntityRecipeCompat)entity).getItemSlotIOs());
-        removeInputFluids(((IFluidStorage)entity).getFluidStorages(),((IBlockEntityRecipeCompat)entity).getFluidSlotIOs());
+        if(entity instanceof Inventory)
+            removeInputItems((Inventory)entity,((IBlockEntityRecipeCompat)entity).getItemSlotIOs());
+        if(entity instanceof IFluidStorage)
+            removeInputFluids(((IFluidStorage)entity).getFluidStorages(),((IBlockEntityRecipeCompat)entity).getFluidSlotIOs());
     }
     private void removeInputItems(Inventory inv, SlotIO[] itemSlotIOs){
         for (Ingredient ingredient : inputs) {

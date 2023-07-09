@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:pressing",
-  "input": [
-    {
-      "item": "nucleartech:steel_ingot"
-    }
+  "type": "nucleartech:press",
+  "item_inputs": [
+    {"item": "nucleartech:steel_ingot"}
   ],
-  "output":{
-    "item": "nucleartech:steel_plate"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:steel_plate","count": 1}
+  ]
 }

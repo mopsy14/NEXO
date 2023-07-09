@@ -31,8 +31,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.Objects;
-
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -121,7 +119,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
         if(world.isClient)return;
 
         CrusherRecipe recipe = getRecipe(crusherEntity);
-        if(recipe != null && crusherEntity.energyStorage.amount >= 5){
+        if(recipe != null && recipe.canOutput(crusherEntity) && crusherEntity.energyStorage.amount >= 5){
             crusherEntity.progress++;
             crusherEntity.energyStorage.amount -= 5;
             if(crusherEntity.progress >= crusherEntity.maxProgress){
