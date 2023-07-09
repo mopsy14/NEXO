@@ -1,5 +1,5 @@
 {
-  "type": "nucleartech:electrolyzer",
+  "type": "nucleartech:centrifuge",
   "fluid_inputs": [
     {"fluid_type": "nucleartech:uranium_hexafluoride","fluid_amount": 81000}
   ],
