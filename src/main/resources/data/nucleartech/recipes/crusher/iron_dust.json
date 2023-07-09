@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "minecraft:iron_ingot"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "minecraft:iron_ingot"}
   ],
-  "output":{
-    "item": "nucleartech:iron_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:iron_dust","count": 1}
+  ]
 }

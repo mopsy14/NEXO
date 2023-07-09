@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "minecraft:quartz"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "minecraft:quartz"}
   ],
-  "output":{
-    "item": "nucleartech:quartz_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:quartz_dust","count": 1}
+  ]
 }

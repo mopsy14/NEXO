@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "nucleartech:uranium_ingot"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "nucleartech:uranium_ingot"}
   ],
-  "output":{
-    "item": "nucleartech:uranium_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:uranium_dust","count": 1}
+  ]
 }

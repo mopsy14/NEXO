@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "nucleartech:graphite_ingot"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "nucleartech:graphite_ingot"}
   ],
-  "output":{
-    "item": "nucleartech:graphite_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:graphite_dust","count": 1}
+  ]
 }

@@ -1,11 +1,9 @@
 {
-  "type": "nucleartech:crushing",
-  "input": [
-    {
-      "item": "minecraft:diamond"
-    }
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "minecraft:diamond"}
   ],
-  "output":{
-    "item": "nucleartech:diamond_dust"
-  }
+  "item_outputs": [
+    {"item": "nucleartech:diamond_dust","count": 1}
+  ]
 }
