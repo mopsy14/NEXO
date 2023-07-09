@@ -1,16 +1,13 @@
 {
-  "type": "nucleartech:centrifuge",
-  "input": {
-    "type": "nucleartech:uranium_hexafluoride",
-    "amount": 1000
-  },
-  "output_1": {
-    "type": "nucleartech:enriched_uranium_hexafluoride",
-    "amount": 100
-  },
-  "output_2": {
-    "type": "nucleartech:depleted_uranium_tails",
-    "amount": 900
-  },
-  "needs_heat_resistant_tubes": true
+  "type": "nucleartech:electrolyzer",
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:uranium_hexafluoride","fluid_amount": 81000}
+  ],
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:enriched_uranium_hexafluoride","fluid_amount": 9000},
+    {"fluid_type": "nucleartech:depleted_uranium_tails","fluid_amount": 72000}
+  ],
+  "additional_info": [
+    "true"
+  ]
 }
