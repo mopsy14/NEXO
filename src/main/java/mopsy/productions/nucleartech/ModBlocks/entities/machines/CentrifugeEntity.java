@@ -1,5 +1,7 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
@@ -43,7 +45,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 @SuppressWarnings("UnstableApiUsage")
-public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage {
+public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(7);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
@@ -146,12 +148,15 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     public static void tick(World world, BlockPos blockPos, BlockState blockState, CentrifugeEntity centrifugeEntity) {
         if(world.isClient)return;
 
-        if(hasRecipe(centrifugeEntity)&& centrifugeEntity.energyStorage.amount >= 50){
+        CentrifugeRecipe recipe = getFirstRecipeMatch(centrifugeEntity);
+
+        if(recipe!=null&& centrifugeEntity.energyStorage.amount >= 50){
             centrifugeEntity.progress++;
             centrifugeEntity.energyStorage.amount -= 50;
             if(centrifugeEntity.progress >= centrifugeEntity.maxProgress){
-                craft(centrifugeEntity);
+                recipe.craft(centrifugeEntity,true,true);
                 sendFluidUpdate(centrifugeEntity);
+                centrifugeEntity.progress=0;
             }
         }else{
             centrifugeEntity.progress = 0;
@@ -199,28 +204,9 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
 
         return didSomething;
     }
-
-    private static void craft(CentrifugeEntity entity) {
-        CentrifugeRecipe match = getFirstRecipeMatch(entity);
-
-        if(match!=null){
-            entity.fluidStorages.get(0).amount -= match.inputAmount;
-            entity.fluidStorages.get(1).variant = match.output1;
-            entity.fluidStorages.get(1).amount += match.output1Amount;
-            entity.fluidStorages.get(2).variant = match.output2;
-            entity.fluidStorages.get(2).amount += match.output2Amount;
-
-            entity.progress = 0;
-        }
-    }
-
-    private static boolean hasRecipe(CentrifugeEntity entity) {
-        return getFirstRecipeMatch(entity)!=null;
-    }
-
     private static CentrifugeRecipe getFirstRecipeMatch(CentrifugeEntity entity){
         for(CentrifugeRecipe centrifugeRecipe : entity.getWorld().getRecipeManager().listAllOfType(CentrifugeRecipe.Type.INSTANCE)){
-            if(centrifugeRecipe.canProduce(entity.fluidStorages, entity.inventory.getStack(6), entity.getWorld())) {
+            if(centrifugeRecipe.hasRecipe(entity)) {
                 return centrifugeRecipe;
             }
         }
@@ -334,5 +320,15 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public List<SingleVariantStorage<FluidVariant>> getFluidStorages() {
         return fluidStorages;
+    }
+
+    @Override
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[]{SlotIO.INPUT,SlotIO.OUTPUT,SlotIO.OUTPUT};
+    }
+
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE};
     }
 }

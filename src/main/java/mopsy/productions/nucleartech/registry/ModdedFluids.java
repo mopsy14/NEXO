@@ -52,7 +52,8 @@ public class ModdedFluids {
         registerGas("sulfuric_acid");
         registerGas("sulfur_trioxide");
         registerGas("uranium_hexafluoride");
-        registerGas("uranium_hexafluoride_enriched");
+        registerGas("enriched_uranium_hexafluoride");
         registerGas("depleted_uranium_tails");
+        registerGas("potassium_fluoride");
     }
 }

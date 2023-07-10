@@ -20,12 +20,9 @@ public class NEXODisplay implements Display {
         this.recipe=  recipe;
 
     }
-    private Identifier getID(){
-        return new Identifier("");
-    }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return CategoryIdentifier.of(getID());
+        return null;
     }
     @Override
     public List<EntryIngredient> getInputEntries() {
@@ -57,9 +54,5 @@ public class NEXODisplay implements Display {
     @Override
     public Optional<Identifier> getDisplayLocation() {
         return Optional.of(recipe.id);
-    }
-
-    public static NEXODisplay fromRecipe(NEXORecipe recipe){
-        return null;
     }
 }

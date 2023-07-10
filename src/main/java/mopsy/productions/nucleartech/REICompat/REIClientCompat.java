@@ -5,12 +5,15 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeCategory;
+import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingCategory;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerCategory;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressCategory;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressDisplay;
+import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
 import mopsy.productions.nucleartech.recipes.CrusherRecipe;
 import mopsy.productions.nucleartech.recipes.MixerRecipe;
 import mopsy.productions.nucleartech.recipes.PressRecipe;
@@ -27,6 +30,8 @@ public class REIClientCompat implements REIClientPlugin {
         registry.addWorkstations(CategoryIdentifier.of(modid,"press"), EntryStacks.of(ModdedBlocks.BlockItems.get("press")));
         registry.add(new MixerCategory());
         registry.addWorkstations(CategoryIdentifier.of(modid,"mixer"), EntryStacks.of(ModdedBlocks.BlockItems.get("mixer")));
+        registry.add(new CentrifugeCategory());
+        registry.addWorkstations(CategoryIdentifier.of(modid,"centrifuge"), EntryStacks.of(ModdedBlocks.BlockItems.get("centrifuge")));
     }
 
     @Override
@@ -34,5 +39,6 @@ public class REIClientCompat implements REIClientPlugin {
         registry.registerRecipeFiller(CrusherRecipe.class, CrusherRecipe.Type.INSTANCE, CrushingDisplay::new);
         registry.registerRecipeFiller(PressRecipe.class, PressRecipe.Type.INSTANCE, PressDisplay::new);
         registry.registerRecipeFiller(MixerRecipe.class, MixerRecipe.Type.INSTANCE, MixerDisplay::new);
+        registry.registerRecipeFiller(CentrifugeRecipe.class, CentrifugeRecipe.Type.INSTANCE, CentrifugeDisplay::new);
     }
 }

@@ -1,22 +1,22 @@
-package mopsy.productions.nucleartech.REICompat.categories.mixer;
+package mopsy.productions.nucleartech.REICompat.categories.centrifuge;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import mopsy.productions.nucleartech.REICompat.NEXODisplay;
-import mopsy.productions.nucleartech.recipes.MixerRecipe;
+import mopsy.productions.nucleartech.recipes.CentrifugeRecipe;
 import mopsy.productions.nucleartech.recipes.NEXORecipe;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
 @SuppressWarnings("UnstableApiUsage")
-public class MixerDisplay extends NEXODisplay {
+public class CentrifugeDisplay extends NEXODisplay {
 
-    public MixerRecipe recipe;
+    public CentrifugeRecipe recipe;
 
-    public MixerDisplay(NEXORecipe recipe) {
+    public CentrifugeDisplay(NEXORecipe recipe) {
         super(recipe);
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
-        return CategoryIdentifier.of(modid,"mixer");
+        return CategoryIdentifier.of(modid,"centrifuge");
     }
 }
