@@ -14,10 +14,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class ControlRodsBlock extends Block implements IModID{
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
+    private static final VoxelShape SHAPE_INACTIVE = Block.createCuboidShape(0,0,0,16,4,16);
+    private static final VoxelShape SHAPE_ACTIVE = Block.createCuboidShape(0,0,0,16,16,16);
     @Override
     public String getID(){return "control_rods";}
 
@@ -30,6 +34,11 @@ public class ControlRodsBlock extends Block implements IModID{
                 .nonOpaque()
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+            return state.get(ACTIVE)? SHAPE_ACTIVE: SHAPE_INACTIVE;
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
