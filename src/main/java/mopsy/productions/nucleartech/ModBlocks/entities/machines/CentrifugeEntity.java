@@ -288,12 +288,12 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return slot==0;
+        return slot==6;
     }
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-        return slot==1;
+        return slot==6;
     }
 
     //IFluidStorage Code:

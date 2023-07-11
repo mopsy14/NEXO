@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public class CentrifugeRecipe extends NEXORecipe{
     public CentrifugeRecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo) {
         super(id, inputs, outputs, inputFluids, outputFluids, additionalInfo);
@@ -27,7 +26,7 @@ public class CentrifugeRecipe extends NEXORecipe{
     public boolean hasRecipe(BlockEntity blockEntity) {
         ItemStack stack = ((Inventory)blockEntity).getStack(6);
         return super.hasRecipe(blockEntity)&&stack.getCount()==4&&
-                needsHeatResistant()? stack.getItem()==ModdedItems.Items.get("heat_resistant_test_tube") : stack.getItem()==ModdedItems.Items.get("test_tube");
+                (needsHeatResistant()? stack.getItem()==ModdedItems.Items.get("heat_resistant_test_tube") : stack.getItem()==ModdedItems.Items.get("test_tube"));
     }
 
     @Override

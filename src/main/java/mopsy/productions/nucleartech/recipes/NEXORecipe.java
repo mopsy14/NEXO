@@ -72,7 +72,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     private boolean hasFluid(List<SingleVariantStorage<FluidVariant>> fluidStorages, SlotIO[] fluidConfig, NFluidStack checkStack){
         for(int i = 0; i < fluidStorages.size(); i++ ){
             if(fluidConfig[i]== SlotIO.INPUT||fluidConfig[i]== SlotIO.BOTH) {
-                if (fluidStorages.get(i).variant == checkStack.fluidVariant) {
+                if (fluidStorages.get(i).variant.equals(checkStack.fluidVariant)) {
                     if (fluidStorages.get(i).amount >= checkStack.fluidAmount)return true;
                 }
             }
