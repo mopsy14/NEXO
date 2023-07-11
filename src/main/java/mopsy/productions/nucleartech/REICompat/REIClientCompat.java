@@ -5,6 +5,8 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import mopsy.productions.nucleartech.REICompat.categories.air_separator.AirSeparatorCategory;
+import mopsy.productions.nucleartech.REICompat.categories.air_separator.AirSeparatorDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeCategory;
 import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingCategory;
@@ -33,6 +35,8 @@ public class REIClientCompat implements REIClientPlugin {
         registry.addWorkstations(CategoryIdentifier.of(modid,"centrifuge"), EntryStacks.of(ModdedBlocks.BlockItems.get("centrifuge")));
         registry.add(new ElectrolyzerCategory());
         registry.addWorkstations(CategoryIdentifier.of(modid,"electrolyzer"), EntryStacks.of(ModdedBlocks.BlockItems.get("electrolyzer")));
+        registry.add(new AirSeparatorCategory());
+        registry.addWorkstations(CategoryIdentifier.of(modid,"air_separator"), EntryStacks.of(ModdedBlocks.BlockItems.get("air_separator")));
     }
 
     @Override
@@ -42,5 +46,6 @@ public class REIClientCompat implements REIClientPlugin {
         registry.registerRecipeFiller(MixerRecipe.class, MixerRecipe.Type.INSTANCE, MixerDisplay::new);
         registry.registerRecipeFiller(CentrifugeRecipe.class, CentrifugeRecipe.Type.INSTANCE, CentrifugeDisplay::new);
         registry.registerRecipeFiller(ElectrolyzerRecipe.class, ElectrolyzerRecipe.Type.INSTANCE, ElectrolyzerDisplay::new);
+        registry.registerRecipeFiller(AirSeparatorRecipe.class, AirSeparatorRecipe.Type.INSTANCE, AirSeparatorDisplay::new);
     }
 }

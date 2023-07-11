@@ -1,9 +1,12 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.interfaces.IMultiBlockController;
 import mopsy.productions.nucleartech.multiblock.AirSeparatorMultiBlock;
+import mopsy.productions.nucleartech.recipes.AirSeparatorRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
@@ -43,7 +46,7 @@ import static mopsy.productions.nucleartech.networking.PacketManager.ADVANCED_FL
 import static mopsy.productions.nucleartech.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory, IEnergyStorage, IMultiBlockController {
+public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory, IEnergyStorage, IMultiBlockController, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(4);
     protected final PropertyDelegate propertyDelegate;
@@ -186,9 +189,11 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
             airSeparatorEntity.progress++;
             airSeparatorEntity.energyStorage.amount -= 5;
             if(airSeparatorEntity.progress >= airSeparatorEntity.maxProgress){
-                if (produce(airSeparatorEntity)>0) {
+                AirSeparatorRecipe recipe = getRecipe(airSeparatorEntity);
+                if (recipe.craft(airSeparatorEntity,true,false)) {
                     sendFluidUpdate(airSeparatorEntity);
                 }
+                airSeparatorEntity.progress = 0;
             }
         }else{
             airSeparatorEntity.progress = 0;
@@ -212,38 +217,11 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         markDirty(world,blockPos,blockState);
     }
 
-    private static long produce(AirSeparatorEntity entity) {
-        long produceAmount = getProduceAmount(entity);
-        long totalProduced = 0;
-
-        if(entity.fluidStorages.get(0).getCapacity()-entity.fluidStorages.get(0).amount <= produceAmount) {
-            totalProduced += produceAmount;
-            entity.fluidStorages.get(0).amount += produceAmount;
-        }else{
-            totalProduced += entity.fluidStorages.get(0).getCapacity() - entity.fluidStorages.get(0).amount;
-            entity.fluidStorages.get(0).amount = entity.fluidStorages.get(0).getCapacity();
+    private static AirSeparatorRecipe getRecipe(AirSeparatorEntity entity){
+        for(AirSeparatorRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(AirSeparatorRecipe.Type.INSTANCE)){
+            return recipe;
         }
-
-        if(entity.fluidStorages.get(1).getCapacity()-entity.fluidStorages.get(1).amount <= produceAmount) {
-            totalProduced += produceAmount;
-            entity.fluidStorages.get(1).amount += produceAmount;
-        }else{
-            totalProduced += entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount;
-            entity.fluidStorages.get(1).amount = entity.fluidStorages.get(1).getCapacity();
-        }
-
-        return totalProduced;
-    }
-    private static long getProduceAmount(AirSeparatorEntity entity){
-        if(entity.fluidStorages.get(0).amount<entity.fluidStorages.get(0).getCapacity() || entity.fluidStorages.get(1).amount<entity.fluidStorages.get(1).getCapacity()){
-            int level = Math.min(entity.coolerAmount, entity.pumpAmount);
-            if(entity.fluidStorages.get(0).amount>entity.fluidStorages.get(1).amount){
-                return Math.min(level*100L, entity.fluidStorages.get(0).getCapacity() - entity.fluidStorages.get(0).amount);
-            }else{
-                return Math.min(level*100L, entity.fluidStorages.get(1).getCapacity() - entity.fluidStorages.get(1).amount);
-            }
-        }
-        return 0;
+        return null;
     }
 
     private static boolean tryFabricTransactions(AirSeparatorEntity entity) {
@@ -372,11 +350,21 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return slot==0;
+        return false;
     }
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-        return slot==1;
+        return false;
+    }
+
+    @Override
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[]{SlotIO.OUTPUT,SlotIO.OUTPUT};
+    }
+
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE};
     }
 }

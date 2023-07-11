@@ -5,6 +5,8 @@ import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.plugins.REIServerPlugin;
 import me.shedaniel.rei.api.common.transfer.info.MenuInfoRegistry;
 import me.shedaniel.rei.api.common.transfer.info.simple.SimpleMenuInfoProvider;
+import mopsy.productions.nucleartech.REICompat.categories.air_separator.AirSeparatorDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.air_separator.AirSeparatorMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrusherMenuInfo;
@@ -15,6 +17,7 @@ import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressMenuInfo;
+import mopsy.productions.nucleartech.screen.airSeparator.AirSeparatorScreenHandler;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
@@ -41,6 +44,9 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"electrolyzer"), ElectrolyzerScreenHandler.class,
                 SimpleMenuInfoProvider.of(ElectrolyzerMenuInfo::new)
         );
+        registry.register(CategoryIdentifier.of(modid,"air_separator"), AirSeparatorScreenHandler.class,
+                SimpleMenuInfoProvider.of(AirSeparatorMenuInfo::new)
+        );
     }
 
     @Override
@@ -50,5 +56,6 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"mixer"), new DefaultDisplaySerializer(MixerDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"centrifuge"), new DefaultDisplaySerializer(CentrifugeDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"electrolyzer"), new DefaultDisplaySerializer(ElectrolyzerDisplay::new));
+        registry.register(CategoryIdentifier.of(modid,"air_separator"), new DefaultDisplaySerializer(AirSeparatorDisplay::new));
     }
 }
