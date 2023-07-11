@@ -9,12 +9,15 @@ import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeD
 import mopsy.productions.nucleartech.REICompat.categories.centrifuge.CentrifugeMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrusherMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressMenuInfo;
 import mopsy.productions.nucleartech.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nucleartech.screen.mixer.MixerScreenHandler;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
 
@@ -35,6 +38,9 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"centrifuge"), CentrifugeScreenHandler.class,
                 SimpleMenuInfoProvider.of(CentrifugeMenuInfo::new)
         );
+        registry.register(CategoryIdentifier.of(modid,"electrolyzer"), ElectrolyzerScreenHandler.class,
+                SimpleMenuInfoProvider.of(ElectrolyzerMenuInfo::new)
+        );
     }
 
     @Override
@@ -43,5 +49,6 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"press"), new DefaultDisplaySerializer(PressDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"mixer"), new DefaultDisplaySerializer(MixerDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"centrifuge"), new DefaultDisplaySerializer(CentrifugeDisplay::new));
+        registry.register(CategoryIdentifier.of(modid,"electrolyzer"), new DefaultDisplaySerializer(ElectrolyzerDisplay::new));
     }
 }
