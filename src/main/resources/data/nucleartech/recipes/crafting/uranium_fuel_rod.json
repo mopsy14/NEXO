@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:uranium_fuel_pallet"
+      "item": "nucleartech:uranium_fuel_pellet"
     },
     {
-      "item": "nucleartech:uranium_fuel_pallet"
+      "item": "nucleartech:uranium_fuel_pellet"
     },
     {
-      "item": "nucleartech:uranium_fuel_pallet"
+      "item": "nucleartech:uranium_fuel_pellet"
     },
     {
       "item": "nucleartech:empty_fuel_rod"
