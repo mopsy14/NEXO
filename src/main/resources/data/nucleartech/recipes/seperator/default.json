@@ -1,0 +1,15 @@
+{
+  "type": "nucleartech:air_separator",
+  "fluid_inputs": [
+  ],
+  "fluid_outputs": [
+    {"fluid_type": "nucleartech:oxygen","fluid_amount": 17010},
+    {"fluid_type": "nucleartech:nitrogen","fluid_amount": 63180}
+  ],
+  "item_inputs": [
+  ],
+  "item_outputs": [
+  ],
+  "additional_info": [
+  ]
+}
