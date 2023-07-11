@@ -25,6 +25,8 @@
     "nucleartech:steam_turbine",
     "nucleartech:lead_ore",
     "nucleartech:deepslate_lead_ore",
-    "nucleartech:carobbiite_ore"
+    "nucleartech:carobbiite_ore",
+    "nucleartech:deepslate_vanadium_ore",
+    "nucleartech:vanadium_ore"
   ]
 }

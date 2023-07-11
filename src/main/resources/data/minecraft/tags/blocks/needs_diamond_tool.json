@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "nucleartech:uranium_ore",
-    "nucleartech:deepslate_uranium_ore"
+    "nucleartech:deepslate_uranium_ore",
+    "nucleartech:deepslate_vanadium_ore",
+    "nucleartech:vanadium_ore"
   ]
 }
