@@ -47,7 +47,6 @@ public class ModdedItems {
             new ItemInfo("heat_resistant_glass"),
             new ItemInfo("cooling_pipe"),
             new ItemInfo("fan"),
-            new ItemInfo("enriched_uranium_pallet", 3),
             new ItemInfo("titanium_turbine_blade"),
             new ItemInfo("titanium_turbine"),
             new ItemInfo("wire_casing"),

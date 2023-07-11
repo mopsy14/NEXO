@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
-      "item": "nucleartech:enriched_uranium_pallet"
+      "item": "nucleartech:uranium_fuel_pallet"
     },
     {
       "item": "nucleartech:empty_dual_fuel_rod"
