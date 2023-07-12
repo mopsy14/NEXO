@@ -28,6 +28,13 @@ public class ModConfiguredFeatures {
     public static final List<OreFeatureConfig.Target> OVERWORLD_CAROBBIITE_ORES = List.of(
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("carobbiite_ore").getDefaultState())
     );
+    public static final List<OreFeatureConfig.Target> OVERWORLD_SALT_ORES = List.of(
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("salt_ore").getDefaultState())
+    );
+    public static final List<OreFeatureConfig.Target> OVERWORLD_VANADIUM_ORES = List.of(
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("vanadium_ore").getDefaultState()),
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_vanadium_ore").getDefaultState())
+    );
 
 
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_URANIUM_ORES_REG_ENTRY =
@@ -42,6 +49,10 @@ public class ModConfiguredFeatures {
             ConfiguredFeatures.register("lead_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_LEAD_ORES, 5));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_CAROBBIITE_ORES_REG_ENTRY =
             ConfiguredFeatures.register("carobbiite_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_CAROBBIITE_ORES, 5));
+    public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_SALT_ORES_REG_ENTRY =
+            ConfiguredFeatures.register("salt_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_SALT_ORES, 40));
+    public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_VANADIUM_ORES_REG_ENTRY =
+            ConfiguredFeatures.register("vanadium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_VANADIUM_ORES, 5));
 
     public static void regConfiguredFeatures(){
 

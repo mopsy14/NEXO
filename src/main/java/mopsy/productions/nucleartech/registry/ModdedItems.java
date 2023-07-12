@@ -77,6 +77,7 @@ public class ModdedItems {
             new ItemInfo("fluorite"),
             new ItemInfo("raw_titanium"),
             new ItemInfo("raw_lead"),
+            new ItemInfo("salt"),
 
             //ingots
             new ItemInfo("uranium_ingot", 1),
