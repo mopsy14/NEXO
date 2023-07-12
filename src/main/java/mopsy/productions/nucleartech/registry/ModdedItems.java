@@ -105,6 +105,7 @@ public class ModdedItems {
             new ItemInfo("graphite_dust"),
             new ItemInfo("glass_dust"),
             new ItemInfo("steel_dust"),
+            new ItemInfo("vanadium_ore_dust"),
 
             //nuclear fuels
             new ItemInfo("empty_fuel_rod"),
