@@ -185,11 +185,12 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity airSeparatorEntity) {
         if(world.isClient)return;
 
-        if(airSeparatorEntity.energyStorage.amount >= 5){
+        AirSeparatorRecipe recipe = getRecipe(airSeparatorEntity);
+
+        if(airSeparatorEntity.energyStorage.amount >= 5 && recipe.canOutput(airSeparatorEntity)){
             airSeparatorEntity.progress++;
             airSeparatorEntity.energyStorage.amount -= 5;
             if(airSeparatorEntity.progress >= airSeparatorEntity.maxProgress){
-                AirSeparatorRecipe recipe = getRecipe(airSeparatorEntity);
                 if (recipe.craft(airSeparatorEntity,true,false)) {
                     sendFluidUpdate(airSeparatorEntity);
                 }

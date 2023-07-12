@@ -33,7 +33,12 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
     }
 
     public NTFluidStorage copy(){
-        return isAdvanced? new NTFluidStorage(MAX_CAPACITY, blockEntity, canInsert, index) : new NTFluidStorage(MAX_CAPACITY,blockEntity,canInsert);
+        NTFluidStorage storage = isAdvanced? new NTFluidStorage(MAX_CAPACITY, blockEntity, canInsert, index) : new NTFluidStorage(MAX_CAPACITY,blockEntity,canInsert);
+
+        storage.amount = amount;
+        storage.variant= variant;
+
+        return storage;
     }
     public boolean isEmpty(){
         return amount==0||variant.isBlank();
