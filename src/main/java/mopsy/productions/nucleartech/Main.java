@@ -1,11 +1,7 @@
 package mopsy.productions.nucleartech;
 
 import mopsy.productions.nucleartech.mechanics.radiation.RadiationEvents;
-import mopsy.productions.nucleartech.recipes.ModdedRecipes;
-import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.registry.ModdedBlocks;
-import mopsy.productions.nucleartech.registry.ModdedFluids;
-import mopsy.productions.nucleartech.registry.ModdedItems;
+import mopsy.productions.nucleartech.registry.*;
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
 import mopsy.productions.nucleartech.world.feature.ModConfiguredFeatures;
 import mopsy.productions.nucleartech.world.gen.ModOreGeneration;

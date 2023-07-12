@@ -1,5 +1,6 @@
-package mopsy.productions.nucleartech.recipes;
+package mopsy.productions.nucleartech.registry;
 
+import mopsy.productions.nucleartech.recipes.*;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
@@ -15,6 +16,7 @@ public class ModdedRecipes {
         regRecipe(ElectrolyzerRecipe.Type.ID, ElectrolyzerRecipe.Serializer.INSTANCE, ElectrolyzerRecipe.Type.INSTANCE);
         regRecipe(MixerRecipe.Type.ID, MixerRecipe.Serializer.INSTANCE, MixerRecipe.Type.INSTANCE);
         regRecipe(AirSeparatorRecipe.Type.ID, AirSeparatorRecipe.Serializer.INSTANCE, AirSeparatorRecipe.Type.INSTANCE);
+        regRecipe(AmmoniaSynthesizerRecipe.Type.ID, AmmoniaSynthesizerRecipe.Serializer.INSTANCE, AmmoniaSynthesizerRecipe.Type.INSTANCE);
     }
     private static void regRecipe(String ID, RecipeSerializer<?> recipeSerializer, RecipeType<?> recipeType){
         Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(modid, ID), recipeSerializer);

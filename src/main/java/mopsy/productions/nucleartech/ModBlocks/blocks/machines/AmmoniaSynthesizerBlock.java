@@ -1,6 +1,6 @@
 package mopsy.productions.nucleartech.ModBlocks.blocks.machines;
 
-import mopsy.productions.nucleartech.ModBlocks.entities.machines.AmmoniaSynthesiserEntity;
+import mopsy.productions.nucleartech.ModBlocks.entities.machines.AmmoniaSynthesizerEntity;
 import mopsy.productions.nucleartech.interfaces.IModID;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -21,12 +21,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class AmmoniaSynthesiserBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
+public class AmmoniaSynthesizerBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
     @Override
     public String getID(){return "ammonia_synthesizer";}
 
-    public AmmoniaSynthesiserBlock() {
+    public AmmoniaSynthesizerBlock() {
         super(FabricBlockSettings
                 .of(Material.METAL, MapColor.BLACK)
                 .strength(4.0F, 8.0F)
@@ -58,7 +58,7 @@ public class AmmoniaSynthesiserBlock extends BlockWithEntity implements IModID, 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            NamedScreenHandlerFactory screenHandlerFactory = (AmmoniaSynthesiserEntity)world.getBlockEntity(pos);
+            NamedScreenHandlerFactory screenHandlerFactory = (AmmoniaSynthesizerEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
             }
@@ -69,20 +69,20 @@ public class AmmoniaSynthesiserBlock extends BlockWithEntity implements IModID, 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new AmmoniaSynthesiserEntity(pos, state);
+        return new AmmoniaSynthesizerEntity(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.AMMONIA_SYNTHESISER, AmmoniaSynthesiserEntity::tick);
+        return checkType(type, ModdedBlockEntities.AMMONIA_SYNTHESIZER, AmmoniaSynthesizerEntity::tick);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof AmmoniaSynthesiserEntity) {
-            ItemScatterer.spawn(world, pos, ((AmmoniaSynthesiserEntity) blockEntity).inventory);
+        if (blockEntity instanceof AmmoniaSynthesizerEntity) {
+            ItemScatterer.spawn(world, pos, ((AmmoniaSynthesizerEntity) blockEntity).inventory);
             world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);

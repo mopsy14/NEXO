@@ -1,10 +1,12 @@
 package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
+import mopsy.productions.nucleartech.enums.SlotIO;
+import mopsy.productions.nucleartech.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
+import mopsy.productions.nucleartech.recipes.AmmoniaSynthesizerRecipe;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
-import mopsy.productions.nucleartech.registry.ModdedFluids;
 import mopsy.productions.nucleartech.screen.ammoniaSynth.AmmoniaSynthesiserScreenHandler;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.NTFluidStorage;
@@ -20,7 +22,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -41,7 +45,7 @@ import static mopsy.productions.nucleartech.util.InvUtils.readInv;
 import static mopsy.productions.nucleartech.util.InvUtils.writeInv;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage {
+public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage, SidedInventory, IBlockEntityRecipeCompat {
 
     public final Inventory inventory = new SimpleInventory(6);
     public final List<SingleVariantStorage<FluidVariant>> fluidStorages = new ArrayList<>();
@@ -55,12 +59,9 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
             markDirty();
         }
     };
-    public static final AmmoniaSynthesiserRecipe[] recipes = {
-            new AmmoniaSynthesiserRecipe(FluidVariant.of(ModdedFluids.stillFluids.get("nitrogen")), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("hydrogen")), 4050, FluidVariant.of(ModdedFluids.stillFluids.get("ammonia")), 2025, 25)
-    };
 
-    public AmmoniaSynthesiserEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.AMMONIA_SYNTHESISER, pos, state);
+    public AmmoniaSynthesizerEntity(BlockPos pos, BlockState state) {
+        super(ModdedBlockEntities.AMMONIA_SYNTHESIZER, pos, state);
         fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, true , 0));
         fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, true, 1));
         fluidStorages.add(new NTFluidStorage(16*FluidConstants.BUCKET,this, false, 2));
@@ -68,7 +69,7 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Ammonia Synthesiser");
+        return Text.literal("Ammonia Synthesizer");
     }
 
     @Nullable
@@ -115,12 +116,16 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
         }
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, AmmoniaSynthesiserEntity entity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, AmmoniaSynthesizerEntity entity) {
         if(world.isClient)return;
 
-        if(tryProduce(entity)){
-            markDirty(world,blockPos,blockState);
+        AmmoniaSynthesizerRecipe recipe = getFirstRecipeMatch(entity);
 
+        if(recipe!=null&&entity.energyStorage.amount>20){
+            entity.energyStorage.amount-=10;
+            recipe.craft(entity,true,true);
+
+            markDirty(world,blockPos,blockState);
             for (int i = 0; i < entity.fluidStorages.size(); i++){
                 var buf = PacketByteBufs.create();
                 buf.writeBlockPos(blockPos);
@@ -158,7 +163,7 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
         }
     }
 
-    private static boolean tryFabricTransactions(AmmoniaSynthesiserEntity entity) {
+    private static boolean tryFabricTransactions(AmmoniaSynthesizerEntity entity) {
         boolean didSomething = FluidTransactionUtils.doFabricImportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0));
         if(FluidTransactionUtils.doFabricExportTransaction(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
             didSomething = true;
@@ -173,7 +178,7 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
     }
 
     //Slots: 0=FluidInputInput, 1=FluidInputOutput, 2=FluidOutput1Input, 3=FluidOutput1Output, 4=FluidOutput2Input, 5=FluidOutput2Output,
-    private static boolean tryTransactions(AmmoniaSynthesiserEntity entity){
+    private static boolean tryTransactions(AmmoniaSynthesizerEntity entity){
         boolean didSomething = FluidTransactionUtils.tryImportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0));
         if(FluidTransactionUtils.tryExportFluid(entity.inventory, 0, 1, entity.fluidStorages.get(0)))
             didSomething = true;
@@ -187,35 +192,10 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
         return didSomething;
     }
 
-    private static boolean tryProduce(AmmoniaSynthesiserEntity entity){
-        AmmoniaSynthesiserRecipe recipe = canProduce(entity);
-        if(recipe!=null){
-            entity.energyStorage.amount -= recipe.requiredPower;
-            entity.fluidStorages.get(0).amount -= recipe.inputAmount;
-            entity.fluidStorages.get(1).amount -= recipe.input2Amount;
-            entity.fluidStorages.get(2).variant = recipe.output1;
-            entity.fluidStorages.get(2).amount += recipe.output1Amount;
-            return true;
-        }
-        return false;
-    }
-
-    private static AmmoniaSynthesiserRecipe canProduce(AmmoniaSynthesiserEntity entity){
-        for (AmmoniaSynthesiserRecipe recipe: recipes) {
-            if(entity.energyStorage.amount >= recipe.requiredPower) {
-                if (entity.fluidStorages.get(0).variant.equals(recipe.input)) {
-                    if (entity.fluidStorages.get(0).amount >= recipe.inputAmount) {
-                        if (entity.fluidStorages.get(1).variant.equals(recipe.input2)) {
-                            if (entity.fluidStorages.get(1).amount >= recipe.input2Amount) {
-                                if (entity.fluidStorages.get(2).variant.isBlank() || entity.fluidStorages.get(2).variant.equals(recipe.output1)) {
-                                    if (entity.fluidStorages.get(2).getCapacity() - entity.fluidStorages.get(2).amount >= recipe.output1Amount) {
-                                        return recipe;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+    private static AmmoniaSynthesizerRecipe getFirstRecipeMatch(AmmoniaSynthesizerEntity entity){
+        for(AmmoniaSynthesizerRecipe ammoniaSynthesizerRecipe : entity.getWorld().getRecipeManager().listAllOfType(AmmoniaSynthesizerRecipe.Type.INSTANCE)){
+            if(ammoniaSynthesizerRecipe.hasRecipe(entity)) {
+                return ammoniaSynthesizerRecipe;
             }
         }
         return null;
@@ -264,24 +244,70 @@ public class AmmoniaSynthesiserEntity extends BlockEntity implements ExtendedScr
         return fluidStorages;
     }
 
-    @SuppressWarnings("UnstableApiUsage")
-    private static class AmmoniaSynthesiserRecipe {
-        public final FluidVariant input;
-        public final long inputAmount;
-        public final FluidVariant input2;
-        public final long input2Amount;
-        public final FluidVariant output1;
-        public final long output1Amount;
-        public final long requiredPower;
+    @Override
+    public SlotIO[] getFluidSlotIOs() {
+        return new SlotIO[]{SlotIO.INPUT,SlotIO.INPUT,SlotIO.OUTPUT};
+    }
 
-        public AmmoniaSynthesiserRecipe(FluidVariant input, long inputAmount, FluidVariant input2, long input2Amount, FluidVariant output1, long output1Amount, long requiredPower){
-            this.input = input;
-            this.inputAmount = inputAmount;
-            this.input2 =input2;
-            this.input2Amount = input2Amount;
-            this.output1 = output1;
-            this.output1Amount = output1Amount;
-            this.requiredPower = requiredPower;
-        }
+    @Override
+    public SlotIO[] getItemSlotIOs() {
+        return new SlotIO[]{SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE,SlotIO.NONE};
+    }
+
+    @Override
+    public int[] getAvailableSlots(Direction side) {
+        return new int[0];
+    }
+
+
+    //Inventory Code:
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return false;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return inventory.getStack(slot);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int amount) {
+        return inventory.removeStack(slot,amount);
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        return inventory.removeStack(slot);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setStack(slot,stack);
+    }
+
+    @Override
+    public boolean canPlayerUse(PlayerEntity player) {
+        return inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void clear() {
+        inventory.clear();
     }
 }
