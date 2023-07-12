@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "nucleartech:sodium_metavanadate"
+  },
+  "result": "nucleartech:vanadium",
+  "experience": 2
+}
