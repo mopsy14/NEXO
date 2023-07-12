@@ -1,11 +1,11 @@
 {
   "type": "nucleartech:ammonia_synthesizer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:hydrogen","fluid_amount": 81000},
-    {"fluid_type": "nucleartech:nitrogen","fluid_amount": 81000}
+    {"fluid_type": "nucleartech:hydrogen","fluid_amount": 405},
+    {"fluid_type": "nucleartech:nitrogen","fluid_amount": 405}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:ammonia","fluid_amount": 81000}
+    {"fluid_type": "nucleartech:ammonia","fluid_amount": 810}
   ],
   "item_inputs": [
   ],
