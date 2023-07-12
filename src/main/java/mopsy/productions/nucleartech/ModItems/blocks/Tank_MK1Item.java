@@ -13,12 +13,15 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +33,18 @@ import static mopsy.productions.nucleartech.Main.CREATIVE_BLOCK_TAB;
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     @Override public String getID() {return "Tank_MK1";}
     public Tank_MK1Item(Block block) {
-        super(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB).maxCount(1));
+        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_BLOCK_TAB));
+    }
+
+    @Override
+    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
+        if(isIn(group)){
+            ItemStack res = new ItemStack(this);
+            NbtCompound nbt = new NbtCompound();
+            FluidDataUtils.creNbtIfNeeded(nbt);
+            res.setNbt(nbt);
+            stacks.add(res);
+        }
     }
 
     public static final long MAX_CAPACITY = 8* FluidConstants.BUCKET;
