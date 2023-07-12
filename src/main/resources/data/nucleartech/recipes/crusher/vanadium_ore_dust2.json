@@ -1,0 +1,9 @@
+{
+  "type": "nucleartech:crusher",
+  "item_inputs": [
+    {"item": "minecraft:deepslate_vanadium_ore"}
+  ],
+  "item_outputs": [
+    {"item": "nucleartech:vanadium_ore_dust","count": 1}
+  ]
+}

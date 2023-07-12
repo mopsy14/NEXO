@@ -1,0 +1,16 @@
+{
+  "type": "nucleartech:mixer",
+  "fluid_inputs": [
+  ],
+  "item_inputs": [
+    {"item": "nucleartech:vanadium_ore_dust"},
+    {"item": "nucleartech:salt"}
+  ],
+  "item_outputs": [
+    {"item":"nucleartech:sodium_metavanadate","count":1}
+  ],
+  "additional_info":[
+    "800",
+    "1000"
+  ]
+}
