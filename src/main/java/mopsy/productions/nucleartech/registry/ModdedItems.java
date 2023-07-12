@@ -53,7 +53,6 @@ public class ModdedItems {
             new ItemInfo("vanadium"),
             new ItemInfo("gypsum"),
             new ItemInfo("potassium_fluoride"),
-            new ItemInfo("potassium"),
             new ItemInfo("uranyl_fluoride"),
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("uranium_dioxide", 1),
