@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
@@ -62,11 +63,10 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
             player.sendMessage(Text.of("Coolers: "+((AirSeparatorEntity)world.getBlockEntity(pos)).coolerAmount+" Air Pump Amount: "+((AirSeparatorEntity)world.getBlockEntity(pos)).pumpAmount));
-            /*NamedScreenHandlerFactory screenHandlerFactory = (AirSeparatorEntity)world.getBlockEntity(pos);
+            NamedScreenHandlerFactory screenHandlerFactory = (AirSeparatorEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
             }
-            */
         }
         return ActionResult.SUCCESS;
     }

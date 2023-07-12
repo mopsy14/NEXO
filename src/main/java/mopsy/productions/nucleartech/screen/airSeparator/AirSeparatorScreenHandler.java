@@ -1,6 +1,7 @@
 package mopsy.productions.nucleartech.screen.airSeparator;
 
 import mopsy.productions.nucleartech.screen.ScreenHandlers;
+import mopsy.productions.nucleartech.util.slots.ReturnSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -19,23 +20,21 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
     private final BlockPos blockPos;
 
     public AirSeparatorScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(4), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(4), new ArrayPropertyDelegate(4), buf.readBlockPos());
     }
     public AirSeparatorScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.AIR_SEPARATOR, syncId);
-        checkSize(inventory, 2);
+        checkSize(inventory, 4);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.delegate = delegate;
         this.blockPos = blockPos;
 
-        this.addSlot(new Slot(inventory, 0,48,35));
-        this.addSlot(new Slot(inventory, 1,116,35){
-            @Override
-            public boolean canInsert(ItemStack itemStack){
-                return false;
-            }
-        });
+        this.addSlot(new Slot(inventory, 0,68,19));
+        this.addSlot(new ReturnSlot(inventory, 1,68,50));
+        //FluidOutput1
+        this.addSlot(new Slot(inventory, 2,127,19));
+        this.addSlot(new ReturnSlot(inventory, 3,127,50));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
@@ -50,7 +49,7 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
     public int getScaledProgress(){
         int progress = this.delegate.get(0);
         int max = this.delegate.get(1);
-        int barSize = 26;
+        int barSize = 21;
 
         return max!=0 && progress!=0 ? progress*barSize/max : 0;
     }

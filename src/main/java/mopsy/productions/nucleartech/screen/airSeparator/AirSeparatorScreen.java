@@ -3,9 +3,12 @@ package mopsy.productions.nucleartech.screen.airSeparator;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nucleartech.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nucleartech.interfaces.IEnergyStorage;
+import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.util.DisplayUtils;
+import mopsy.productions.nucleartech.util.FluidUtils;
 import mopsy.productions.nucleartech.util.IntCords2D;
 import mopsy.productions.nucleartech.util.ScreenUtils;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -50,7 +53,9 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderProgress(matrices, x, y);
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+147, y+11, getPower(), AirSeparatorEntity.POWER_CAPACITY);
+        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+43, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+102, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), AirSeparatorEntity.POWER_CAPACITY);
     }
 
     @Override
@@ -59,6 +64,16 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
             renderEnergyTooltip(hasShiftDown(), matrices, mouse);
+        if (renderFluidStorageTooltipPredicate1.test(mouse)) {
+            renderFluidTooltip(0, hasShiftDown(), matrices, mouse);
+        }
+        if (renderFluidStorageTooltipPredicate2.test(mouse)) {
+            renderFluidTooltip(1, hasShiftDown(), matrices, mouse);
+        }
+    }
+
+    private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
     }
 
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
@@ -71,7 +86,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
 
     private void renderProgress(MatrixStack matrices, int x, int y){
         if(handler.isCrafting()){
-            drawTexture(matrices, x+76, y+24, 176, 0, handler.getScaledProgress(), 37);
+            drawTexture(matrices, x+15, y+35, 176, 0, handler.getScaledProgress(), 12);
         }
     }
 
@@ -89,4 +104,32 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         }
         return 0;
     }
+    private FluidVariant getFluidType(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).variant;
+        }
+        return FluidVariant.blank();
+    }
+    private long getFluidAmount(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).amount;
+        }
+        return 0;
+    }
+    private long getMaxFluidAmount(int index){
+        BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
+        if(blockEntity instanceof IFluidStorage) {
+            return ((IFluidStorage) blockEntity).getFluidStorages().get(index).getCapacity();
+        }
+        return 0;
+    }
+    private long getFluidAmountmB(int index){
+        return FluidUtils.dropletsTomB(getFluidAmount(index));
+    }
+    private long getCapacitymB(int index){
+        return FluidUtils.dropletsTomB(getMaxFluidAmount(index));
+    }
+
 }
