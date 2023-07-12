@@ -27,6 +27,7 @@
     "nucleartech:deepslate_lead_ore",
     "nucleartech:carobbiite_ore",
     "nucleartech:deepslate_vanadium_ore",
-    "nucleartech:vanadium_ore"
+    "nucleartech:vanadium_ore",
+    "nucleartech:salt_ore"
   ]
 }
