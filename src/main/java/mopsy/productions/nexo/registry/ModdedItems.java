@@ -42,7 +42,7 @@ public class ModdedItems {
             new ItemInfo("crushing_wheel"),
             new ItemInfo("electric_motor"),
             new ItemInfo("control_rod"),
-            new ItemInfo("reaction_chamber"),
+            new ItemInfo("nuclear_reaction_chamber"),
             new ItemInfo("rod_holder"),
             new ItemInfo("reactor_boiler"),
             new ItemInfo("heat_resistant_glass"),
@@ -65,6 +65,8 @@ public class ModdedItems {
             new ItemInfo("compressor"),
             new ItemInfo("heating_coil"),
             new ItemInfo("heat_pump"),
+            new ItemInfo("reaction_chamber"),
+            new ItemInfo("gas_valve"),
 
 
             //plates

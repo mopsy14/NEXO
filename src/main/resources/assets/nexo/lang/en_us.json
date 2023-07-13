@@ -108,6 +108,7 @@
   "item.nexo.compressor": "Compressor",
   "item.nexo.heating_coil": "Heating Coil",
   "item.nexo.heat_pump": "Heat Pump",
+  "item.nexo.gas_valve": "Gas Valve",
 
   "block.nexo.uranium_ore": "Uranium Ore",
   "block.nexo.deepslate_uranium_ore": "Deepslate Uranium Ore",

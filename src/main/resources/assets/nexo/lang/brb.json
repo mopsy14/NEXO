@@ -159,5 +159,6 @@
   "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore",
   "item.nexo.compressor": "Compressor",
   "item.nexo.heating_coil": "Heating Coil",
-  "item.nexo.heat_pump": "Heat Pump"
+  "item.nexo.heat_pump": "Heat Pump",
+  "item.nexo.gas_valve": "Gas Valve"
 }

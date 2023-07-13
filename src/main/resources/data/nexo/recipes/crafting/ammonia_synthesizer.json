@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "PRC",
+    "HHH"
+  ],
+  "key": {
+    "C": {
+      "item": "nexo:compressor"
+    },
+    "H": {
+      "item": "nexo:heating_coil"
+    },
+    "P": {
+      "item": "nexo:heat_pump"
+    },
+    "R": {
+      "item": "nexo:reaction_chamber"
+    },
+    "I": {
+      "item": "nexo:iron_plate"
+    }
+  },
+  "result": {
+    "item": "nexo:ammonia_synthesizer"
+  }
+}

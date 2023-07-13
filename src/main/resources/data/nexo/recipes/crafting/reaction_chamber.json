@@ -1,16 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "CCC",
-    "CRC",
-    "CCC"
+    "SSS",
+    "S S",
+    "SSS"
   ],
   "key": {
-    "R": {
-      "item": "nexo:rod_holder"
-    },
-    "C": {
-      "item": "nexo:cooling_pipe"
+    "S": {
+      "item": "nexo:steel_plate"
     }
   },
   "result": {

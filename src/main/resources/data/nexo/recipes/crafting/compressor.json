@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "V V",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "nexo:iron_plate"
+    },
+    "M": {
+      "item": "nexo:piston"
+    },
+    "V": {
+      "item": "nexo:gas_valve"
+    }
+  },
+  "result": {
+    "item": "nexo:compressor"
+  }
+}
