@@ -150,5 +150,11 @@
   "block.nexo.salt.ore": "Salt Ore",
   "item.nexo.raw_carobbiite": "Raw Carobbiite",
   "item.nexo.empty_geiger_tube": "Empty Geiger Tube",
-  "item.nexo.filled_geiger_tube": "Filled Geiger Tube"
+  "item.nexo.filled_geiger_tube": "Filled Geiger Tube",
+  "item.nexo.gold_wire": "Gold Wire",
+  "item.nexo.raw_nickel": "Raw Nickel",
+  "item.nexo.nickel_ingot": "Nickel Ingot",
+  "block.nexo.salt_ore": "Salt Ore",
+  "block.nexo.nickel_ore": "Nickel Ore",
+  "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore"
 }
