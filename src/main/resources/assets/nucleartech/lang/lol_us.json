@@ -147,5 +147,6 @@
   "item.nucleartech.vanadium_ore_dust": "Vanadium Ore Dust",
   "block.nucleartech.deepslate_vanadium_ore": "Deepslate Vanadium Ore",
   "block.nucleartech.vanadium_ore": "Vanadium Ore",
-  "block.nucleartech.salt.ore": "Salt Ore"
+  "block.nucleartech.salt.ore": "Salt Ore",
+  "item.nucleartech.raw_carobbiite": "Raw Carobbiite"
 }
