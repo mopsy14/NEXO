@@ -100,6 +100,8 @@
   "item.nucleartech.salt": "Salt",
   "item.nucleartech.vanadium_ore_dust": "Vanadium Ore Dust",
   "item.nucleartech.raw_carobbiite": "Raw Carobbiite",
+  "item.nucleartech.empty_geiger_tube": "Empty Geiger Tube",
+  "item.nucleartech.filled_geiger_tube": "Filled Geiger Tube",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",

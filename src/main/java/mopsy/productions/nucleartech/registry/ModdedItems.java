@@ -59,6 +59,8 @@ public class ModdedItems {
             new ItemInfo("uranium_tetrafluoride"),
             new ItemInfo("uranium_fuel_pellet"),
             new ItemInfo("sodium_metavanadate"),
+            new ItemInfo("empty_geiger_tube"),
+            new ItemInfo("filled_geiger_tube"),
 
 
             //plates
