@@ -32,14 +32,14 @@ public abstract class Data implements IData {
     @Inject(method = "writeNbt", at = @At("HEAD"))
     protected void injectWriteMethod(NbtCompound nbt, CallbackInfoReturnable info){
         if(persistentData != null){
-            nbt.put("nucleartech.entitydata", persistentData);
+            nbt.put("nexo.entitydata", persistentData);
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     protected void injectReadMethod(NbtCompound nbt, CallbackInfo info){
-        if(nbt.contains("nucleartech.entitydata", 10)){
-            persistentData = nbt.getCompound("nucleartech.entitydata");
+        if(nbt.contains("nexo.entitydata", 10)){
+            persistentData = nbt.getCompound("nexo.entitydata");
         }
     }
 }
