@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nucleartech:items/raw_uranium"
+    "layer0": "nexo:items/raw_uranium"
   }
 }

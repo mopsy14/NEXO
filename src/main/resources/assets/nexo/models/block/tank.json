@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/tank",
-		"particle": "nucleartech:blocks/tank"
+		"0": "nexo:blocks/tank",
+		"particle": "nexo:blocks/tank"
 	},
 	"elements": [
 		{

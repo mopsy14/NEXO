@@ -1,5 +1,5 @@
 {
-  "parent": "nucleartech:block/tank",
+  "parent": "nexo:block/tank",
   "display": {
     "firstperson_righthand": {
       "rotation": [ 0, 135, 0 ],

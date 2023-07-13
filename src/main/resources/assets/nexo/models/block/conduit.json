@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/conduit",
-		"particle": "nucleartech:blocks/conduit"
+		"0": "nexo:blocks/conduit",
+		"particle": "nexo:blocks/conduit"
 	},
 	"display": {
 		"firstperson_righthand": {

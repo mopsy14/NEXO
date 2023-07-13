@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "nucleartech:blocks/centrifuge",
-		"particle": "nucleartech:blocks/centrifuge"
+		"0": "nexo:blocks/centrifuge",
+		"particle": "nexo:blocks/centrifuge"
 	},
 	"display": {
 		"firstperson_righthand": {

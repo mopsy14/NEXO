@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "nucleartech:blocks/deepslate_uranium_ore",
-    "particle": "nucleartech:blocks/deepslate_uranium_ore"
+    "all": "nexo:blocks/deepslate_uranium_ore",
+    "particle": "nexo:blocks/deepslate_uranium_ore"
   }
 }

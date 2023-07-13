@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nucleartech:items/geiger_counter"
+    "layer0": "nexo:items/geiger_counter"
   }
 }

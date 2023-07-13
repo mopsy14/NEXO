@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/air_pump",
-		"particle": "nucleartech:blocks/air_pump"
+		"0": "nexo:blocks/air_pump",
+		"particle": "nexo:blocks/air_pump"
 	},
 	"display": {
 		"firstperson_righthand": {

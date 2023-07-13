@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/air_separator",
-		"particle": "nucleartech:blocks/air_separator"
+		"0": "nexo:blocks/air_separator",
+		"particle": "nexo:blocks/air_separator"
 	},
 	"display": {
 		"firstperson_righthand": {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "nucleartech",
+  "id": "nexo",
   "version": "${version}",
 
   "name": "NEXO Tech Mod",
@@ -9,33 +9,33 @@
     "Mopsy"
   ],
   "contact": {
-    "homepage": "https://github.com/mopsy14/Nuclear-Tech-Mod",
-    "sources": "https://github.com/mopsy14/Nuclear-Tech-Mod"
+    "homepage": "https://github.com/mopsy14/NEXO",
+    "sources": "https://github.com/mopsy14/NEXO"
   },
 
   "license": "MIT",
-  "icon": "assets/nucleartech/icon.png",
+  "icon": "assets/nexo/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mopsy.productions.nucleartech.Main"
+      "mopsy.productions.nexo.Main"
     ],
     "client": [
-      "mopsy.productions.nucleartech.ClientMain"
+      "mopsy.productions.nexo.ClientMain"
     ],
     "rei_client": [
-      "mopsy.productions.nucleartech.REICompat.REIClientCompat"
+      "mopsy.productions.nexo.REICompat.REIClientCompat"
     ],
     "rei_common": [
-      "mopsy.productions.nucleartech.REICompat.REIServerCompat"
+      "mopsy.productions.nexo.REICompat.REIServerCompat"
     ],
     "rei_server": [
-      "mopsy.productions.nucleartech.REICompat.REIServerCompat"
+      "mopsy.productions.nexo.REICompat.REIServerCompat"
     ]
   },
   "mixins": [
-    "nucleartech.mixins.json"
+    "nexo.mixins.json"
   ],
 
   "depends": {

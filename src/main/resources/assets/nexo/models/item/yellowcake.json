@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nucleartech:items/yellowcake"
+    "layer0": "nexo:items/yellowcake"
   }
 }

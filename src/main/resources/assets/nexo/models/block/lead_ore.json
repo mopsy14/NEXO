@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nucleartech:blocks/lead_ore",
-		"particle": "nucleartech:blocks/lead_ore"
+		"all": "nexo:blocks/lead_ore",
+		"particle": "nexo:blocks/lead_ore"
 	}
 }

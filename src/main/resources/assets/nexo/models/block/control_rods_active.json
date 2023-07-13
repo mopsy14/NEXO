@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/control_rods_inactive",
-		"particle": "nucleartech:blocks/control_rods_inactive"
+		"0": "nexo:blocks/control_rods_inactive",
+		"particle": "nexo:blocks/control_rods_inactive"
 	},
 	"display": {
 		"firstperson_righthand": {

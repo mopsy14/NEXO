@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/electrolyzer",
-		"particle": "nucleartech:blocks/electrolyzer"
+		"0": "nexo:blocks/electrolyzer",
+		"particle": "nexo:blocks/electrolyzer"
 	},
 	"display": {
 		"firstperson_righthand": {

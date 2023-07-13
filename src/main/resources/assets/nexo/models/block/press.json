@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nucleartech:blocks/press",
-		"particle": "nucleartech:blocks/press"
+		"0": "nexo:blocks/press",
+		"particle": "nexo:blocks/press"
 	},
 	"display": {
 		"firstperson_righthand": {

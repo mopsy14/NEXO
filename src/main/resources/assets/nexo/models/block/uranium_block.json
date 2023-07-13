@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "nucleartech:blocks/uranium_block",
-    "particle": "nucleartech:blocks/uranium_block"
+    "all": "nexo:blocks/uranium_block",
+    "particle": "nexo:blocks/uranium_block"
   }
 }
