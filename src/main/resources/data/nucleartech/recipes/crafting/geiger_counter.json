@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "TCP",
+    "III"
+  ],
+  "key": {
+    "P": {
+      "item": "nucleartech:piezoelectric_element"
+    },
+    "I": {
+      "item": "nucleartech:iron_plate"
+    },
+    "T": {
+      "item": "nucleartech:filled_geiger_tube"
+    },
+    "C": {
+      "item": "nucleartech:copper_wire"
+    }
+  },
+  "result": {
+    "item": "nucleartech:geiger_counter"
+  }
+}
