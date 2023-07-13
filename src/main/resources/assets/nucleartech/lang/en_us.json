@@ -102,6 +102,9 @@
   "item.nucleartech.raw_carobbiite": "Raw Carobbiite",
   "item.nucleartech.empty_geiger_tube": "Empty Geiger Tube",
   "item.nucleartech.filled_geiger_tube": "Filled Geiger Tube",
+  "item.nucleartech.gold_wire": "Gold Wire",
+  "item.nucleartech.raw_nickel": "Raw Nickel",
+  "item.nucleartech.nickel_ingot": "Nickel Ingot",
 
   "block.nucleartech.uranium_ore": "Uranium Ore",
   "block.nucleartech.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -149,5 +152,8 @@
   "block.nucleartech.steam": "Steam",
   "block.nucleartech.hf_kf": "HF-KF Solution",
   "block.nucleartech.depleted_uranium_tails": "Depleted Uranium Tails",
-  "block.nucleartech.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)"
+  "block.nucleartech.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)",
+  "block.nucleartech.salt_ore": "Salt Ore",
+  "block.nucleartech.nickel_ore": "Nickel Ore",
+  "block.nucleartech.deepslate_nickel_ore": "Deepslate Nickel Ore"
 }
