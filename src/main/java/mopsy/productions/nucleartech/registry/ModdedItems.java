@@ -16,6 +16,7 @@ import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveH
 import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatHelmet;
 import mopsy.productions.nucleartech.ModItems.armor.protectiveHazmat.ProtectiveHazmatLeggings;
 import mopsy.productions.nucleartech.ModItems.components.CopperWireItem;
+import mopsy.productions.nucleartech.ModItems.components.GoldWireItem;
 import mopsy.productions.nucleartech.ModItems.tools.DebugItem;
 import mopsy.productions.nucleartech.ModItems.tools.GeigerCounterItem;
 import mopsy.productions.nucleartech.interfaces.IModID;
@@ -80,6 +81,7 @@ public class ModdedItems {
             new ItemInfo("raw_lead"),
             new ItemInfo("salt"),
             new ItemInfo("raw_carobbiite"),
+            new ItemInfo("raw_nickel"),
 
             //ingots
             new ItemInfo("uranium_ingot", 1),
@@ -87,6 +89,7 @@ public class ModdedItems {
             new ItemInfo("graphite_ingot"),
             new ItemInfo("lead_ingot"),
             new ItemInfo("steel_ingot"),
+            new ItemInfo("nickel_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
@@ -127,6 +130,7 @@ public class ModdedItems {
 
         //components
         regItem(new CopperWireItem());
+        regItem(new GoldWireItem());
 
         //raw's
 

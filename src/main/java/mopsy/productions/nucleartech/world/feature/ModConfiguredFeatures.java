@@ -35,6 +35,10 @@ public class ModConfiguredFeatures {
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("vanadium_ore").getDefaultState()),
             OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_vanadium_ore").getDefaultState())
     );
+    public static final List<OreFeatureConfig.Target> OVERWORLD_NICKEL_ORES = List.of(
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("nickel_ore").getDefaultState()),
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_nickel_ore").getDefaultState())
+    );
 
 
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_URANIUM_ORES_REG_ENTRY =
@@ -52,7 +56,9 @@ public class ModConfiguredFeatures {
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_SALT_ORES_REG_ENTRY =
             ConfiguredFeatures.register("salt_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_SALT_ORES, 40));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_VANADIUM_ORES_REG_ENTRY =
-            ConfiguredFeatures.register("vanadium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_VANADIUM_ORES, 5));
+            ConfiguredFeatures.register("vanadium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_VANADIUM_ORES, 4));
+    public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_NICKEL_ORES_REG_ENTRY =
+            ConfiguredFeatures.register("nickel_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_NICKEL_ORES, 4));
 
     public static void regConfiguredFeatures(){
 

@@ -50,6 +50,11 @@ public class ModPlacedFeatures {
             ModConfiguredFeatures.OVERWORLD_VANADIUM_ORES_REG_ENTRY,
             modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
     );
+    public static final RegistryEntry<PlacedFeature> NICKEL_ORE_PLACED = PlacedFeatures.register(
+            "nickel_ore_placed",
+            ModConfiguredFeatures.OVERWORLD_NICKEL_ORES_REG_ENTRY,
+            modifiersWithCount(15, HeightRangePlacementModifier.uniform(YOffset.BOTTOM, YOffset.TOP))
+    );
 
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier) {
         return List.of(countModifier, SquarePlacementModifier.of(), heightModifier, BiomePlacementModifier.of());

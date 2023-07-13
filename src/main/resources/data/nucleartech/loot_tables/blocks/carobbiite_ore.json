@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_carobbite",
+          "name": "nucleartech:raw_carobbiite",
           "functions": [
             {
               "function": "minecraft:set_count",
