@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "S C",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "C": {
+      "item": "nucleartech:gold_wire"
+    },
+    "S": {
+      "item": "nucleartech:nickel_ingot"
+    }
+  },
+  "result": {
+    "item": "nucleartech:geiger_tube"
+  }
+}

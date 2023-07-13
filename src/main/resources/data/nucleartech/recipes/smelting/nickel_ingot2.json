@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "nucleartech:nickel_ore"
+  },
+  "result": "nucleartech:nickel_ingot",
+  "experience": 3
+}
