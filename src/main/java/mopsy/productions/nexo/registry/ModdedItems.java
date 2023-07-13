@@ -64,6 +64,7 @@ public class ModdedItems {
             new ItemInfo("filled_geiger_tube"),
             new ItemInfo("compressor"),
             new ItemInfo("heating_coil"),
+            new ItemInfo("heat_pump"),
 
 
             //plates
