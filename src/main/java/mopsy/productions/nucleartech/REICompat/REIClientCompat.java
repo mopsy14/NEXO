@@ -15,6 +15,8 @@ import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingCatego
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerCategory;
 import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.filling.FillingCategory;
+import mopsy.productions.nucleartech.REICompat.categories.filling.FillingDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerCategory;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressCategory;
@@ -41,6 +43,8 @@ public class REIClientCompat implements REIClientPlugin {
         registry.addWorkstations(CategoryIdentifier.of(modid,"air_separator"), EntryStacks.of(ModdedBlocks.BlockItems.get("air_separator")));
         registry.add(new AmmoniaSynthesizerCategory());
         registry.addWorkstations(CategoryIdentifier.of(modid,"ammonia_synthesizer"), EntryStacks.of(ModdedBlocks.BlockItems.get("ammonia_synthesizer")));
+        registry.add(new FillingCategory());
+        registry.addWorkstations(CategoryIdentifier.of(modid,"filling"), EntryStacks.of(ModdedBlocks.BlockItems.get("tank_mk1")));
     }
 
     @Override
@@ -52,5 +56,6 @@ public class REIClientCompat implements REIClientPlugin {
         registry.registerRecipeFiller(ElectrolyzerRecipe.class, ElectrolyzerRecipe.Type.INSTANCE, ElectrolyzerDisplay::new);
         registry.registerRecipeFiller(AirSeparatorRecipe.class, AirSeparatorRecipe.Type.INSTANCE, AirSeparatorDisplay::new);
         registry.registerRecipeFiller(AmmoniaSynthesizerRecipe.class, AmmoniaSynthesizerRecipe.Type.INSTANCE, AmmoniaSynthesizerDisplay::new);
+        registry.registerRecipeFiller(FillingRecipe.class, FillingRecipe.Type.INSTANCE, FillingDisplay::new);
     }
 }

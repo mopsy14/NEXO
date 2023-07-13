@@ -13,6 +13,8 @@ import mopsy.productions.nucleartech.REICompat.categories.crusher.CrusherMenuInf
 import mopsy.productions.nucleartech.REICompat.categories.crusher.CrushingDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.electrolyzer.ElectrolyzerMenuInfo;
+import mopsy.productions.nucleartech.REICompat.categories.filling.FillingDisplay;
+import mopsy.productions.nucleartech.REICompat.categories.filling.FillingMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerDisplay;
 import mopsy.productions.nucleartech.REICompat.categories.mixer.MixerMenuInfo;
 import mopsy.productions.nucleartech.REICompat.categories.press.PressDisplay;
@@ -23,6 +25,7 @@ import mopsy.productions.nucleartech.screen.crusher.CrusherScreenHandler;
 import mopsy.productions.nucleartech.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nucleartech.screen.mixer.MixerScreenHandler;
 import mopsy.productions.nucleartech.screen.press.PressScreenHandler;
+import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 
 import static mopsy.productions.nucleartech.Main.modid;
 
@@ -47,6 +50,9 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"air_separator"), AirSeparatorScreenHandler.class,
                 SimpleMenuInfoProvider.of(AirSeparatorMenuInfo::new)
         );
+        registry.register(CategoryIdentifier.of(modid,"filling"), TankScreenHandler_MK1.class,
+                SimpleMenuInfoProvider.of(FillingMenuInfo::new)
+        );
     }
 
     @Override
@@ -57,5 +63,6 @@ public class REIServerCompat implements REIServerPlugin {
         registry.register(CategoryIdentifier.of(modid,"centrifuge"), new DefaultDisplaySerializer(CentrifugeDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"electrolyzer"), new DefaultDisplaySerializer(ElectrolyzerDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"air_separator"), new DefaultDisplaySerializer(AirSeparatorDisplay::new));
+        registry.register(CategoryIdentifier.of(modid,"filling"), new DefaultDisplaySerializer(FillingDisplay::new));
     }
 }

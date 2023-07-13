@@ -17,6 +17,7 @@ public class ModdedRecipes {
         regRecipe(MixerRecipe.Type.ID, MixerRecipe.Serializer.INSTANCE, MixerRecipe.Type.INSTANCE);
         regRecipe(AirSeparatorRecipe.Type.ID, AirSeparatorRecipe.Serializer.INSTANCE, AirSeparatorRecipe.Type.INSTANCE);
         regRecipe(AmmoniaSynthesizerRecipe.Type.ID, AmmoniaSynthesizerRecipe.Serializer.INSTANCE, AmmoniaSynthesizerRecipe.Type.INSTANCE);
+        regRecipe(FillingRecipe.Type.ID, FillingRecipe.Serializer.INSTANCE, FillingRecipe.Type.INSTANCE);
     }
     private static void regRecipe(String ID, RecipeSerializer<?> recipeSerializer, RecipeType<?> recipeType){
         Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(modid, ID), recipeSerializer);
