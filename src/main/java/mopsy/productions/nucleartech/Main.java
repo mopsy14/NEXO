@@ -18,18 +18,18 @@ import org.slf4j.LoggerFactory;
 import static mopsy.productions.nucleartech.networking.PacketManager.registerC2SPackets;
 
 public class Main implements ModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("nucleartech");
-	public static final String modid = "nucleartech";
+	public static final Logger LOGGER = LoggerFactory.getLogger("NEXO");
+	public static final String modid = "nexo";
 	public static final ItemGroup CREATIVE_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nucleartech_items"), () -> new ItemStack(ModdedItems.Items.get("uranium_ingot")));
+			new Identifier(modid, "nexo_items"), () -> new ItemStack(ModdedItems.Items.get("uranium_ingot")));
 	public static final ItemGroup CREATIVE_BLOCK_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nucleartech_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
+			new Identifier(modid, "nexo_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
 
 	public static MinecraftServer server = null;
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Nuclear Tech starting");
+		LOGGER.info("NEXO starting");
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			Main.server = server;
 		});
