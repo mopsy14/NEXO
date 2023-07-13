@@ -2,6 +2,8 @@ package mopsy.productions.nucleartech.ModBlocks.entities.machines;
 
 import mopsy.productions.nucleartech.interfaces.IFluidStorage;
 import mopsy.productions.nucleartech.registry.ModdedBlockEntities;
+import mopsy.productions.nucleartech.registry.ModdedFluids;
+import mopsy.productions.nucleartech.registry.ModdedItems;
 import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.util.FluidTransactionUtils;
 import mopsy.productions.nucleartech.util.FluidUtils;
@@ -133,6 +135,18 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                 if(FluidTransactionUtils.tryImportFluid(tankEntity.inventory, 0, 1, tankEntity.fluidStorage))
                     return true;
                 return FluidTransactionUtils.tryExportFluid(tankEntity.inventory, 0, 1, tankEntity.fluidStorage);
+            }
+        }
+        if (outputStack.isEmpty()){
+            if(inputStack.getItem().equals(ModdedItems.Items.get("empty_geiger_tube"))){
+                if(tankEntity.fluidStorage.variant.equals(FluidVariant.of(ModdedFluids.stillFluids.get("nitrogen")))){
+                    if(tankEntity.fluidStorage.amount>8100){
+                        tankEntity.fluidStorage.amount -= 8100;
+                        tankEntity.inventory.setStack(0, ItemStack.EMPTY);
+                        tankEntity.inventory.setStack(1, new ItemStack(ModdedItems.Items.get("filled_geiger_tube")));
+                        return true;
+                    }
+                }
             }
         }
         return false;

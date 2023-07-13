@@ -1,5 +1,7 @@
 package mopsy.productions.nucleartech.util.slots;
 
+import mopsy.productions.nucleartech.registry.ModdedItems;
+import mopsy.productions.nucleartech.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nucleartech.util.FluidUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -18,6 +20,8 @@ public class FluidSlot extends Slot {
 
     @Override
     public boolean canInsert(ItemStack itemStack) {
-        return FluidUtils.containsItemStackFluidStorage(itemStack) && super.canInsert(itemStack);
+        return (FluidUtils.containsItemStackFluidStorage(itemStack)
+                || (ModdedItems.Items.get("empty_geiger_tube").equals(itemStack.getItem())&&screenHandler instanceof TankScreenHandler_MK1))
+                && super.canInsert(itemStack);
     }
 }
