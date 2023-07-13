@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "nucleartech:uranium_ingot"
+      "item": "nexo:uranium_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:uranium_block",
+    "item": "nexo:uranium_block",
     "count": 1
   }
 }

@@ -1,13 +1,13 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000}
+    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:sulfur_dioxide","fluid_amount": 81000}
+    {"fluid_type": "nexo:sulfur_dioxide","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:sulfur"}
+    {"item": "nexo:sulfur"}
   ],
   "additional_info":[
     "115",

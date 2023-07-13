@@ -10,13 +10,13 @@
       "item": "minecraft:glass_pane"
     },
     "C": {
-      "item": "nucleartech:gold_wire"
+      "item": "nexo:gold_wire"
     },
     "S": {
-      "item": "nucleartech:nickel_ingot"
+      "item": "nexo:nickel_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:empty_geiger_tube"
+    "item": "nexo:empty_geiger_tube"
   }
 }

@@ -7,19 +7,19 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:titanium_ingot"
+      "item": "nexo:titanium_ingot"
     },
     "G": {
-      "item": "nucleartech:graphite_ingot"
+      "item": "nexo:graphite_ingot"
     },
     "R": {
-      "item": "nucleartech:reaction_chamber"
+      "item": "nexo:reaction_chamber"
     },
     "B": {
-      "item": "nucleartech:reactor_boiler"
+      "item": "nexo:reactor_boiler"
     }
   },
   "result": {
-    "item": "nucleartech:small_reactor"
+    "item": "nexo:small_reactor"
   }
 }

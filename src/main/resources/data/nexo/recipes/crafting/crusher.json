@@ -10,13 +10,13 @@
       "item": "minecraft:iron_ingot"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "W": {
-      "item": "nucleartech:crushing_wheel"
+      "item": "nexo:crushing_wheel"
     }
   },
   "result": {
-    "item": "nucleartech:crusher"
+    "item": "nexo:crusher"
   }
 }

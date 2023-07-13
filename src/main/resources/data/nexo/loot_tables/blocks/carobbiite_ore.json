@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_carobbiite",
+          "name": "nexo:raw_carobbiite",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:carobbiite_ore"
+          "name": "nexo:carobbiite_ore"
         }
       ],
       "conditions": [

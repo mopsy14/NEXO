@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:raw_lead"
+    "item": "nexo:raw_lead"
   },
-  "result": "nucleartech:lead_ingot",
+  "result": "nexo:lead_ingot",
   "experience": 3
 }

@@ -7,19 +7,19 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:titanium_ingot"
+      "item": "nexo:titanium_ingot"
     },
     "F": {
-      "item": "nucleartech:fan"
+      "item": "nexo:fan"
     },
     "E": {
-      "item": "nucleartech:electric_motor"
+      "item": "nexo:electric_motor"
     },
     "C": {
-      "item": "nucleartech:cooling_pipe"
+      "item": "nexo:cooling_pipe"
     }
   },
   "result": {
-    "item": "nucleartech:cooler"
+    "item": "nexo:cooler"
   }
 }

@@ -1,11 +1,11 @@
 {
-  "type": "nucleartech:centrifuge",
+  "type": "nexo:centrifuge",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:uranium_hexafluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:uranium_hexafluoride","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:enriched_uranium_hexafluoride","fluid_amount": 9000},
-    {"fluid_type": "nucleartech:depleted_uranium_tails","fluid_amount": 72000}
+    {"fluid_type": "nexo:enriched_uranium_hexafluoride","fluid_amount": 9000},
+    {"fluid_type": "nexo:depleted_uranium_tails","fluid_amount": 72000}
   ],
   "additional_info": [
     "false"

@@ -1,17 +1,17 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000},
-    {"fluid_type": "nucleartech:sulfur_dioxide","fluid_amount": 81000}
+    {"fluid_type": "nexo:oxygen","fluid_amount": 81000},
+    {"fluid_type": "nexo:sulfur_dioxide","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:sulfur_trioxide","fluid_amount": 81000}
+    {"fluid_type": "nexo:sulfur_trioxide","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:vanadium"}
+    {"item": "nexo:vanadium"}
   ],
   "item_outputs": [
-    {"item":"nucleartech:vanadium","count":1}
+    {"item":"nexo:vanadium","count":1}
   ],
   "additional_info":[
     "400",

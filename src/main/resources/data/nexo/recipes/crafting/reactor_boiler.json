@@ -7,13 +7,13 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:titanium_plate"
+      "item": "nexo:titanium_plate"
     },
     "C": {
       "item": "minecraft:cauldron"
     }
   },
   "result": {
-    "item": "nucleartech:reactor_boiler"
+    "item": "nexo:reactor_boiler"
   }
 }

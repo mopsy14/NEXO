@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:lead_ingot"
+      "item": "nexo:lead_ingot"
     }
   ],
   "result": {
-    "item": "nucleartech:lead_nugget",
+    "item": "nexo:lead_nugget",
     "count": 9
   }
 }

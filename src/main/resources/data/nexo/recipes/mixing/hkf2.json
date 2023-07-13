@@ -1,13 +1,13 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:hf_kf","fluid_amount": 81000}
+    {"fluid_type": "nexo:hf_kf","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:potassium_fluoride"}
+    {"item": "nexo:potassium_fluoride"}
   ],
   "additional_info":[
     "10",

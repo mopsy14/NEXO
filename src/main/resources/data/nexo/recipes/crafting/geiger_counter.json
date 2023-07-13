@@ -7,19 +7,19 @@
   ],
   "key": {
     "P": {
-      "item": "nucleartech:piezoelectric_element"
+      "item": "nexo:piezoelectric_element"
     },
     "I": {
-      "item": "nucleartech:iron_plate"
+      "item": "nexo:iron_plate"
     },
     "T": {
-      "item": "nucleartech:filled_geiger_tube"
+      "item": "nexo:filled_geiger_tube"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     }
   },
   "result": {
-    "item": "nucleartech:geiger_counter"
+    "item": "nexo:geiger_counter"
   }
 }

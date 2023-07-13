@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_uranium",
+          "name": "nexo:raw_uranium",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:uranium_ore"
+          "name": "nexo:uranium_ore"
         }
       ],
       "conditions": [

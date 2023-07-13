@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "nucleartech:block/centrifuge",
+      "model": "nexo:block/centrifuge",
       "y": 90
     },
     "facing=north": {
-      "model": "nucleartech:block/centrifuge"
+      "model": "nexo:block/centrifuge"
     },
     "facing=south": {
-      "model": "nucleartech:block/centrifuge",
+      "model": "nexo:block/centrifuge",
       "y": 180
     },
     "facing=west": {
-      "model": "nucleartech:block/centrifuge",
+      "model": "nexo:block/centrifuge",
       "y": 270
     }
   }

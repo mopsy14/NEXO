@@ -10,17 +10,17 @@
       "item": "minecraft:iron_ingot"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "P": {
       "item": "minecraft:piston"
     },
     "T": {
-      "item": "nucleartech:titanium_ingot"
+      "item": "nexo:titanium_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:press"
+    "item": "nexo:press"
   }
 }
 

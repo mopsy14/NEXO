@@ -10,10 +10,10 @@
       "item": "minecraft:iron_block"
     },
     "T": {
-      "item": "nucleartech:titanium_turbine_blade"
+      "item": "nexo:titanium_turbine_blade"
     }
   },
   "result": {
-    "item": "nucleartech:titanium_turbine"
+    "item": "nexo:titanium_turbine"
   }
 }

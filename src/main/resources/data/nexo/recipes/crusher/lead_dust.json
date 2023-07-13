@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:crusher",
+  "type": "nexo:crusher",
   "item_inputs": [
-    {"item": "nucleartech:lead_ingot"}
+    {"item": "nexo:lead_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:lead_dust","count": 1}
+    {"item": "nexo:lead_dust","count": 1}
   ]
 }

@@ -7,13 +7,13 @@
   ],
   "key": {
     "G": {
-      "item": "nucleartech:heat_resistant_glass"
+      "item": "nexo:heat_resistant_glass"
     },
     "W": {
-      "item": "nucleartech:steel_nugget"
+      "item": "nexo:steel_nugget"
     }
   },
   "result": {
-    "item": "nucleartech:heat_resistant_test_tube"
+    "item": "nexo:heat_resistant_test_tube"
   }
 }

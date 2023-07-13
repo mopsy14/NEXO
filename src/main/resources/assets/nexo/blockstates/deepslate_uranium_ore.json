@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/deepslate_uranium_ore"}
+    "": { "model": "nexo:block/deepslate_uranium_ore"}
   }
 }

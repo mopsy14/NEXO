@@ -1,14 +1,14 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
     {"fluid_type": "minecraft:water","fluid_amount": 81000},
-    {"fluid_type": "nucleartech:enriched_uranium_hexafluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:enriched_uranium_hexafluoride","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
   ],
   "item_outputs": [
-    {"item":"nucleartech:uranyl_fluoride","count":1}
+    {"item":"nexo:uranyl_fluoride","count":1}
   ],
   "additional_info":[
     "500",

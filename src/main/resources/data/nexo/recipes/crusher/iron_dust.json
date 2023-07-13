@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:crusher",
+  "type": "nexo:crusher",
   "item_inputs": [
     {"item": "minecraft:iron_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:iron_dust","count": 1}
+    {"item": "nexo:iron_dust","count": 1}
   ]
 }

@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/sulfur_ore"}
+    "": { "model": "nexo:block/sulfur_ore"}
   }
 }

@@ -7,13 +7,13 @@
   ],
   "key": {
     "P": {
-      "item": "nucleartech:iron_plate"
+      "item": "nexo:iron_plate"
     },
     "I": {
       "item": "minecraft:iron_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:fan"
+    "item": "nexo:fan"
   }
 }

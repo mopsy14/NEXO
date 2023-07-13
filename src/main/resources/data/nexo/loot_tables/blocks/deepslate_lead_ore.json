@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_lead",
+          "name": "nexo:raw_lead",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:deepslate_lead_ore"
+          "name": "nexo:deepslate_lead_ore"
         }
       ],
       "conditions": [

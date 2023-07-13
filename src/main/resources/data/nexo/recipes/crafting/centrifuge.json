@@ -7,19 +7,19 @@
   ],
   "key": {
     "S": {
-      "item": "nucleartech:steel_plate"
+      "item": "nexo:steel_plate"
     },
     "E": {
-      "item": "nucleartech:electric_motor"
+      "item": "nexo:electric_motor"
     },
     "I": {
       "item": "minecraft:iron_block"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     }
   },
   "result": {
-    "item": "nucleartech:centrifuge"
+    "item": "nexo:centrifuge"
   }
 }

@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:ammonia_synthesizer"
+          "name": "nexo:ammonia_synthesizer"
         }
       ]
     }

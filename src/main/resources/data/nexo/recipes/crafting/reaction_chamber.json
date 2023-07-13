@@ -7,13 +7,13 @@
   ],
   "key": {
     "R": {
-      "item": "nucleartech:rod_holder"
+      "item": "nexo:rod_holder"
     },
     "C": {
-      "item": "nucleartech:cooling_pipe"
+      "item": "nexo:cooling_pipe"
     }
   },
   "result": {
-    "item": "nucleartech:reaction_chamber"
+    "item": "nexo:reaction_chamber"
   }
 }

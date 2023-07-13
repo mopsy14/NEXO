@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:raw_carobbiite"
+    "item": "nexo:raw_carobbiite"
   },
-  "result": "nucleartech:potassium_fluoride",
+  "result": "nexo:potassium_fluoride",
   "experience": 3
 }

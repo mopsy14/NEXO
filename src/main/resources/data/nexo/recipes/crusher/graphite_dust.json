@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:crusher",
+  "type": "nexo:crusher",
   "item_inputs": [
-    {"item": "nucleartech:graphite_ingot"}
+    {"item": "nexo:graphite_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:graphite_dust","count": 1}
+    {"item": "nexo:graphite_dust","count": 1}
   ]
 }

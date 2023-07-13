@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:empty_fuel_rod"
+      "item": "nexo:empty_fuel_rod"
     },
     {
-      "item": "nucleartech:empty_fuel_rod"
+      "item": "nexo:empty_fuel_rod"
     }
   ],
   "result": {
-    "item": "nucleartech:empty_dual_fuel_rod"
+    "item": "nexo:empty_dual_fuel_rod"
   }
 }

@@ -7,16 +7,16 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:titanium_turbine"
+      "item": "nexo:titanium_turbine"
     },
     "E": {
-      "item": "nucleartech:electric_motor"
+      "item": "nexo:electric_motor"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     }
   },
   "result": {
-    "item": "nucleartech:steam_turbine"
+    "item": "nexo:steam_turbine"
   }
 }

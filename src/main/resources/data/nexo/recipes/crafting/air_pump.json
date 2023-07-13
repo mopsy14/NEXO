@@ -7,13 +7,13 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:tank_mk1"
+      "item": "nexo:tank_mk1"
     },
     "F": {
-      "item": "nucleartech:fan"
+      "item": "nexo:fan"
     }
   },
   "result": {
-    "item": "nucleartech:air_pump"
+    "item": "nexo:air_pump"
   }
 }

@@ -10,10 +10,10 @@
       "item": "minecraft:iron_ingot"
     },
     "T": {
-      "item": "nucleartech:titanium_plate"
+      "item": "nexo:titanium_plate"
     }
   },
   "result": {
-    "item": "nucleartech:titanium_turbine_blade"
+    "item": "nexo:titanium_turbine_blade"
   }
 }

@@ -7,10 +7,10 @@
   ],
   "key": {
     "G": {
-      "item": "nucleartech:graphite_ingot"
+      "item": "nexo:graphite_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:control_rod"
+    "item": "nexo:control_rod"
   }
 }

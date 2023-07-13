@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:iron_dust"
+      "item": "nexo:iron_dust"
     },
     {
-      "item": "nucleartech:coal_dust"
+      "item": "nexo:coal_dust"
     }
   ],
   "result": {
-    "item": "nucleartech:steel_dust"
+    "item": "nexo:steel_dust"
   }
 }

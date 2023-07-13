@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "nucleartech:steel_nugget"
+      "item": "nexo:steel_nugget"
     }
   },
   "result": {
-    "item": "nucleartech:steel_ingot",
+    "item": "nexo:steel_ingot",
     "count": 1
   }
 }

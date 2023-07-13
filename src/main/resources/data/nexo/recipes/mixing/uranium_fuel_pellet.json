@@ -1,17 +1,17 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:ammonia","fluid_amount": 81000}
+    {"fluid_type": "nexo:ammonia","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:ammonia","fluid_amount": 81000},
-    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000}
+    {"fluid_type": "nexo:ammonia","fluid_amount": 81000},
+    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:triuranium_octoxide"}
+    {"item": "nexo:triuranium_octoxide"}
   ],
   "item_outputs": [
-    {"item":"nucleartech:uranium_fuel_pellet","count":1}
+    {"item":"nexo:uranium_fuel_pellet","count":1}
   ],
   "additional_info":[
     "500",

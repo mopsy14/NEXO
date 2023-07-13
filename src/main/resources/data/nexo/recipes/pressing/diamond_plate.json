@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
     {"item": "minecraft:diamond"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:diamond_plate","count": 1}
+    {"item": "nexo:diamond_plate","count": 1}
   ]
 }

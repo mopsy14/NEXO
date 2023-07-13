@@ -7,10 +7,10 @@
   ],
   "key": {
     "L": {
-      "item": "nucleartech:lead_plate"
+      "item": "nexo:lead_plate"
     }
   },
   "result": {
-    "item": "nucleartech:empty_fuel_rod"
+    "item": "nexo:empty_fuel_rod"
   }
 }

@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:uranium_block"
+          "name": "nexo:uranium_block"
         }
       ]
     }

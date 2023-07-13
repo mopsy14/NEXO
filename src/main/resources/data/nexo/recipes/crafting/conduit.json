@@ -7,16 +7,16 @@
   ],
   "key": {
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "T": {
-      "item": "nucleartech:tank_mk1"
+      "item": "nexo:tank_mk1"
     },
     "B": {
       "item": "minecraft:iron_block"
     }
   },
   "result": {
-    "item": "nucleartech:conduit"
+    "item": "nexo:conduit"
   }
 }

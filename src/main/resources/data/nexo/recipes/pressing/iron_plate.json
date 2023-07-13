@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
     {"item": "minecraft:iron_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:iron_plate","count": 1}
+    {"item": "nexo:iron_plate","count": 1}
   ]
 }

@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
-    {"item": "nucleartech:titanium_ingot"}
+    {"item": "nexo:titanium_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:titanium_plate","count": 1}
+    {"item": "nexo:titanium_plate","count": 1}
   ]
 }

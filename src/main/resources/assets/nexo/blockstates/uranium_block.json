@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/uranium_block"}
+    "": { "model": "nexo:block/uranium_block"}
   }
 }

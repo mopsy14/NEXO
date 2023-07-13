@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
-    {"item": "nucleartech:lead_ingot"}
+    {"item": "nexo:lead_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:lead_plate","count": 1}
+    {"item": "nexo:lead_plate","count": 1}
   ]
 }

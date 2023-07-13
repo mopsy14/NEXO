@@ -10,10 +10,10 @@
       "item": "minecraft:bucket"
     },
     "S": {
-      "item": "nucleartech:steel_ingot"
+      "item": "nexo:steel_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:tank_mk1"
+    "item": "nexo:tank_mk1"
   }
 }

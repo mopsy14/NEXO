@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:uranium_ore"
+    "item": "nexo:uranium_ore"
   },
-  "result": "nucleartech:uranium_ingot",
+  "result": "nexo:uranium_ingot",
   "experience": 3
 }

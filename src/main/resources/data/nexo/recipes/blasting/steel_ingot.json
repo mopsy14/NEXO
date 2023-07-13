@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "nucleartech:steel_dust"
+    "item": "nexo:steel_dust"
   },
-  "result": "nucleartech:steel_ingot"
+  "result": "nexo:steel_ingot"
 }

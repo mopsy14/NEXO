@@ -7,13 +7,13 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:tank_mk1"
+      "item": "nexo:tank_mk1"
     },
     "S": {
-      "item": "nucleartech:steel_plate"
+      "item": "nexo:steel_plate"
     }
   },
   "result": {
-    "item": "nucleartech:small_reactor_hatches"
+    "item": "nexo:small_reactor_hatches"
   }
 }

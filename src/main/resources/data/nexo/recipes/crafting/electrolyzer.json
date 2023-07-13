@@ -7,16 +7,16 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:test_tube"
+      "item": "nexo:test_tube"
     },
     "W": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "B": {
       "item": "minecraft:iron_block"
     }
   },
   "result": {
-    "item": "nucleartech:electrolyzer"
+    "item": "nexo:electrolyzer"
   }
 }

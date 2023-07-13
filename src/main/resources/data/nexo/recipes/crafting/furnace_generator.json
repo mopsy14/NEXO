@@ -13,13 +13,13 @@
       "item": "minecraft:furnace"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "L": {
       "item": "minecraft:bucket"
     }
   },
   "result": {
-    "item": "nucleartech:furnace_generator"
+    "item": "nexo:furnace_generator"
   }
 }

@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
-    {"item": "nucleartech:steel_ingot"}
+    {"item": "nexo:steel_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:steel_plate","count": 1}
+    {"item": "nexo:steel_plate","count": 1}
   ]
 }

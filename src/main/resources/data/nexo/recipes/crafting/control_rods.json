@@ -7,13 +7,13 @@
   ],
   "key": {
     "R": {
-      "item": "nucleartech:control_rod"
+      "item": "nexo:control_rod"
     },
     "E": {
-      "item": "nucleartech:electric_motor"
+      "item": "nexo:electric_motor"
     }
   },
   "result": {
-    "item": "nucleartech:control_rods"
+    "item": "nexo:control_rods"
   }
 }

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:raw_nickel"
+    "item": "nexo:raw_nickel"
   },
-  "result": "nucleartech:nickel_ingot",
+  "result": "nexo:nickel_ingot",
   "experience": 3
 }

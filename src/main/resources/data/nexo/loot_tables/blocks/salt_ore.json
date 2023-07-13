@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:salt",
+          "name": "nexo:salt",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:salt_ore"
+          "name": "nexo:salt_ore"
         }
       ],
       "conditions": [

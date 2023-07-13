@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "nucleartech:block/tank",
+      "model": "nexo:block/tank",
       "y": 90
     },
     "facing=north": {
-      "model": "nucleartech:block/tank"
+      "model": "nexo:block/tank"
     },
     "facing=south": {
-      "model": "nucleartech:block/tank",
+      "model": "nexo:block/tank",
       "y": 180
     },
     "facing=west": {
-      "model": "nucleartech:block/tank",
+      "model": "nexo:block/tank",
       "y": 270
     }
   }

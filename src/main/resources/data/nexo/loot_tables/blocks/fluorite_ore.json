@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:fluorite",
+          "name": "nexo:fluorite",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:fluorite_ore"
+          "name": "nexo:fluorite_ore"
         }
       ],
       "conditions": [

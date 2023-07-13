@@ -7,10 +7,10 @@
   ],
   "key": {
     "T": {
-      "item": "nucleartech:titanium_plate"
+      "item": "nexo:titanium_plate"
     }
   },
   "result": {
-    "item": "nucleartech:cooling_pipe"
+    "item": "nexo:cooling_pipe"
   }
 }

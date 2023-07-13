@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:uranium_ingot"
+      "item": "nexo:uranium_ingot"
     }
   ],
   "result": {
-    "item": "nucleartech:uranium_nugget",
+    "item": "nexo:uranium_nugget",
     "count": 9
   }
 }

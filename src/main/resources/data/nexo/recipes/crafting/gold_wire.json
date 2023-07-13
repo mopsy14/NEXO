@@ -10,11 +10,11 @@
       "item": "minecraft:gold_ingot"
     },
     "A": {
-      "item": "nucleartech:wire_casing"
+      "item": "nexo:wire_casing"
     }
   },
   "result": {
-    "item": "nucleartech:gold_wire",
+    "item": "nexo:gold_wire",
 
     "count": 1
   }

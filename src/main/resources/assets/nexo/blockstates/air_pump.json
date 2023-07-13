@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "nucleartech:block/air_pump"}
+    "": { "model": "nexo:block/air_pump"}
   }
 }

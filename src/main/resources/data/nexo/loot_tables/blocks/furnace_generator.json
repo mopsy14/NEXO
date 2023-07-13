@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:furnace_generator"
+          "name": "nexo:furnace_generator"
         }
       ]
     }

@@ -10,10 +10,10 @@
       "item": "minecraft:iron_block"
     },
     "T": {
-      "item": "nucleartech:titanium_ingot"
+      "item": "nexo:titanium_ingot"
     }
   },
   "result": {
-    "item": "nucleartech:crushing_wheel"
+    "item": "nexo:crushing_wheel"
   }
 }

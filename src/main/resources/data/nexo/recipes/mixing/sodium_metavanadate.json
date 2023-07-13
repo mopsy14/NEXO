@@ -1,13 +1,13 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
   ],
   "item_inputs": [
-    {"item": "nucleartech:vanadium_ore_dust"},
-    {"item": "nucleartech:salt"}
+    {"item": "nexo:vanadium_ore_dust"},
+    {"item": "nexo:salt"}
   ],
   "item_outputs": [
-    {"item":"nucleartech:sodium_metavanadate","count":1}
+    {"item":"nexo:sodium_metavanadate","count":1}
   ],
   "additional_info":[
     "800",

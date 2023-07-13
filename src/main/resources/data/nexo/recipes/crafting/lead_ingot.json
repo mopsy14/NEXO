@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "nucleartech:lead_nugget"
+      "item": "nexo:lead_nugget"
     }
   },
   "result": {
-    "item": "nucleartech:lead_ingot",
+    "item": "nexo:lead_ingot",
     "count": 1
   }
 }

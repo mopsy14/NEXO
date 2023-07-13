@@ -1,8 +1,8 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "nucleartech:deepslate_uranium_ore"
+    "item": "nexo:deepslate_uranium_ore"
   },
-  "result": "nucleartech:uranium_ingot",
+  "result": "nexo:uranium_ingot",
   "experience": 3
 }

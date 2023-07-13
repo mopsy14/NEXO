@@ -1,16 +1,16 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:sulfuric_acid","fluid_amount": 81000}
+    {"fluid_type": "nexo:sulfuric_acid","fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:fluorite"}
+    {"item": "nexo:fluorite"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:gypsum","count": 1}
+    {"item": "nexo:gypsum","count": 1}
   ],
   "additional_info":[
     "0",

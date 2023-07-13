@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:sulfur",
+          "name": "nexo:sulfur",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:sulfur_ore"
+          "name": "nexo:sulfur_ore"
         }
       ],
       "conditions": [

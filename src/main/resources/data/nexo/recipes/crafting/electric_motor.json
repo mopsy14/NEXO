@@ -10,13 +10,13 @@
       "item": "minecraft:iron_ingot"
     },
     "C": {
-      "item": "nucleartech:copper_wire"
+      "item": "nexo:copper_wire"
     },
     "P": {
-      "item": "nucleartech:iron_plate"
+      "item": "nexo:iron_plate"
     }
   },
   "result": {
-    "item": "nucleartech:electric_motor"
+    "item": "nexo:electric_motor"
   }
 }

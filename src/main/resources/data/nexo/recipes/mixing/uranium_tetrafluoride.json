@@ -1,17 +1,17 @@
 {
-  "type": "nucleartech:mixer",
+  "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nucleartech:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
   ],
   "fluid_outputs": [
     {"fluid_type": "minecraft:water","fluid_amount": 81000},
-    {"fluid_type": "nucleartech:oxygen","fluid_amount": 81000}
+    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"item": "nucleartech:yellowcake"}
+    {"item": "nexo:yellowcake"}
   ],
   "item_outputs": [
-    {"item":"nucleartech:uranium_tetrafluoride","count":1}
+    {"item":"nexo:uranium_tetrafluoride","count":1}
   ],
   "additional_info":[
     "200",

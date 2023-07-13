@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "nucleartech:uranium_fuel_pellet"
+      "item": "nexo:uranium_fuel_pellet"
     },
     {
-      "item": "nucleartech:uranium_fuel_pellet"
+      "item": "nexo:uranium_fuel_pellet"
     },
     {
-      "item": "nucleartech:uranium_fuel_pellet"
+      "item": "nexo:uranium_fuel_pellet"
     },
     {
-      "item": "nucleartech:empty_fuel_rod"
+      "item": "nexo:empty_fuel_rod"
     }
   ],
   "result": {
-    "item": "nucleartech:uranium_fuel_rod"
+    "item": "nexo:uranium_fuel_rod"
   }
 }

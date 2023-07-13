@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "nucleartech:titanium_ore"
+    "item": "nexo:titanium_ore"
   },
-  "result": "nucleartech:titanium_ingot",
+  "result": "nexo:titanium_ingot",
   "experience": 3
 }

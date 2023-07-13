@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:raw_titanium",
+          "name": "nexo:raw_titanium",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -97,7 +97,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:titanium_ore"
+          "name": "nexo:titanium_ore"
         }
       ],
       "conditions": [

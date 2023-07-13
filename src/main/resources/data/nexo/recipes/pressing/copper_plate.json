@@ -1,9 +1,9 @@
 {
-  "type": "nucleartech:press",
+  "type": "nexo:press",
   "item_inputs": [
     {"item": "minecraft:copper_ingot"}
   ],
   "item_outputs": [
-    {"item": "nucleartech:copper_plate","count": 1}
+    {"item": "nexo:copper_plate","count": 1}
   ]
 }

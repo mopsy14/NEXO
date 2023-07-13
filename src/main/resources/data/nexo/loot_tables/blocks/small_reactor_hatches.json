@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:small_reactor_hatches"
+          "name": "nexo:small_reactor_hatches"
         }
       ]
     }

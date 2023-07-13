@@ -7,14 +7,14 @@
   ],
   "key": {
     "G": {
-      "item": "nucleartech:gold_plate"
+      "item": "nexo:gold_plate"
     },
     "Q": {
-      "item": "nucleartech:quartz_dust"
+      "item": "nexo:quartz_dust"
     }
   },
   "result": {
-    "item": "nucleartech:piezoelectric_element",
+    "item": "nexo:piezoelectric_element",
     "count": 1
   }
 }

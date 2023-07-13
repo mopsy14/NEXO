@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "nucleartech:titanium_nugget"
+      "item": "nexo:titanium_nugget"
     }
   },
   "result": {
-    "item": "nucleartech:titanium_ingot",
+    "item": "nexo:titanium_ingot",
     "count": 1
   }
 }

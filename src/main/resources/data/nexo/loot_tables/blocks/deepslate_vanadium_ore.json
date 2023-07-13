@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nucleartech:deepslate_vanadium_ore"
+          "name": "nexo:deepslate_vanadium_ore"
         }
       ]
     }
