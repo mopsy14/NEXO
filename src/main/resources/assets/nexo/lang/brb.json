@@ -157,5 +157,6 @@
   "block.nexo.salt_ore": "Salt Ore",
   "block.nexo.nickel_ore": "Nickel Ore",
   "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore",
-  "item.nexo.compressor": "Compressor"
+  "item.nexo.compressor": "Compressor",
+  "item.nexo.heating_coil": "Heating Coil"
 }
