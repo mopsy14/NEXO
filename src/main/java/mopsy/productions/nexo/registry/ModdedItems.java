@@ -62,6 +62,7 @@ public class ModdedItems {
             new ItemInfo("sodium_metavanadate"),
             new ItemInfo("empty_geiger_tube"),
             new ItemInfo("filled_geiger_tube"),
+            new ItemInfo("compressor"),
 
 
             //plates
