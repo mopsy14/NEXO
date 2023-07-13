@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CAC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:gold_ingot"
+    },
+    "A": {
+      "item": "nucleartech:wire_casing"
+    }
+  },
+  "result": {
+    "item": "nucleartech:gold_wire",
+
+    "count": 1
+  }
+}
