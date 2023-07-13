@@ -1,0 +1,14 @@
+{
+  "type": "nucleartech:filling",
+  "fluid_inputs": [
+    {"fluid_type": "nucleartech:nitrogen","fluid_amount": 8100}
+  ],
+  "item_inputs": [
+    {"item": "nucleartech:empty_geiger_tube"}
+  ],
+  "item_outputs": [
+    {"item":"nucleartech:filled_geiger_tube","count":1}
+  ],
+  "additional_info":[
+  ]
+}
