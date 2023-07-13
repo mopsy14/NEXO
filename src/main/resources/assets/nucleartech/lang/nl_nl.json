@@ -140,5 +140,12 @@
   "block.nucleartech.steam": "Steam",
   "block.nucleartech.hf_kf": "HF-KF Solution",
   "block.nucleartech.depleted_uranium_tails": "Depleted Uranium Tails",
-  "block.nucleartech.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)"
+  "block.nucleartech.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)",
+  "item.nucleartech.uranium_fuel_pellet": "Uranium Fuel Pellet",
+  "item.nucleartech.sodium_metavanadate": "Sodium Metavanadate",
+  "item.nucleartech.salt": "Salt",
+  "item.nucleartech.vanadium_ore_dust": "Vanadium Ore Dust",
+  "block.nucleartech.deepslate_vanadium_ore": "Deepslate Vanadium Ore",
+  "block.nucleartech.vanadium_ore": "Vanadium Ore",
+  "block.nucleartech.salt.ore": "Salt Ore"
 }
