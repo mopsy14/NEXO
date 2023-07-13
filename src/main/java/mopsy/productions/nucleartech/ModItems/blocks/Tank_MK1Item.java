@@ -16,7 +16,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
@@ -37,15 +36,19 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     }
 
     @Override
+    public ItemStack getDefaultStack() {
+        ItemStack res = super.getDefaultStack();
+        FluidDataUtils.creNbtIfNeeded(res.getOrCreateNbt());
+        return res;
+    }
+
+    @Override
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        if(isIn(group)){
-            ItemStack res = new ItemStack(this);
-            NbtCompound nbt = new NbtCompound();
-            FluidDataUtils.creNbtIfNeeded(nbt);
-            res.setNbt(nbt);
-            stacks.add(res);
+        if(isIn(group)) {
+            stacks.add(getDefaultStack());
         }
     }
+
 
     public static final long MAX_CAPACITY = 8* FluidConstants.BUCKET;
     @Override
@@ -85,6 +88,7 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     @Override
     protected boolean place(ItemPlacementContext context, BlockState state) {
         boolean res = super.place(context, state);
+        FluidDataUtils.creNbtIfNeeded(context.getStack().getOrCreateNbt());
         if(FluidDataUtils.getFluidAmount(context.getStack().getNbt()) > 0) {
             TankEntity_MK1 tank = (TankEntity_MK1)context.getWorld().getBlockEntity(context.getBlockPos());
             tank.fluidStorage.amount = FluidDataUtils.getFluidAmount(context.getStack().getNbt());
