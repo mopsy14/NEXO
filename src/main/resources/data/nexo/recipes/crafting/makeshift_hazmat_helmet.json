@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LDL",
+    "LGL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "D": {
+      "item": "nexo:lead_dust"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "item": "nexo:makeshift_hazmat_helmet"
+  }
+}

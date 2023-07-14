@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L L",
+    "LDL",
+    "LDL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "D": {
+      "item": "nexo:lead_dust"
+    }
+  },
+  "result": {
+    "item": "nexo:makeshift_hazmat_chestplate"
+  }
+}
