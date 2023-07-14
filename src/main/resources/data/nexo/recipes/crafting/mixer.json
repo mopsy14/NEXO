@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IHI",
+    "CRC",
+    "IMI"
+  ],
+  "key": {
+    "H": {
+      "item": "nexo:heat_pump"
+    },
+    "C": {
+      "item": "nexo:heating_coil"
+    },
+    "M": {
+      "item": "nexo:electric_motor"
+    },
+    "R": {
+      "item": "nexo:reaction_chamber"
+    },
+    "I": {
+      "item": "nexo:iron_plate"
+    }
+  },
+  "result": {
+    "item": "nexo:mixer"
+  }
+}
