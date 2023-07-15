@@ -39,6 +39,9 @@ public class ModConfiguredFeatures {
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("nickel_ore").getDefaultState()),
             OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_nickel_ore").getDefaultState())
     );
+    public static final List<OreFeatureConfig.Target> OVERWORLD_OIL_ORES = List.of(
+            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_oil_ore").getDefaultState())
+    );
 
 
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_URANIUM_ORES_REG_ENTRY =
@@ -59,6 +62,9 @@ public class ModConfiguredFeatures {
             ConfiguredFeatures.register("vanadium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_VANADIUM_ORES, 4));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_NICKEL_ORES_REG_ENTRY =
             ConfiguredFeatures.register("nickel_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_NICKEL_ORES, 4));
+    public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_OIL_ORES_REG_ENTRY =
+            ConfiguredFeatures.register("oil_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_OIL_ORES, 64));
+
 
     public static void regConfiguredFeatures(){
 
