@@ -24,6 +24,8 @@ public class ModdedBlockEntities {
     public static BlockEntityType<SmallReactorEntity> SMALL_REACTOR;
     public static BlockEntityType<AmmoniaSynthesizerEntity> AMMONIA_SYNTHESIZER;
     public static BlockEntityType<MixerEntity> MIXER;
+    public static BlockEntityType<OilRefineryEntity> OIL_REFINERY;
+    public static BlockEntityType<OilDistillationTrayEntity> OIL_DISTILLATION_TRAY;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -59,6 +61,12 @@ public class ModdedBlockEntities {
         MIXER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "mixer"),
                 FabricBlockEntityTypeBuilder.create(MixerEntity::new, ModdedBlocks.Blocks.get("mixer")).build(null));
 
+        OIL_REFINERY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "oil_refinery"),
+                FabricBlockEntityTypeBuilder.create(OilRefineryEntity::new, ModdedBlocks.Blocks.get("oil_refinery")).build(null));
+
+        OIL_DISTILLATION_TRAY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "oil_distillation_tray"),
+                FabricBlockEntityTypeBuilder.create(OilDistillationTrayEntity::new, ModdedBlocks.Blocks.get("oil_distillation_tray")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
@@ -69,6 +77,7 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, STEAM_TURBINE);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AMMONIA_SYNTHESIZER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, MIXER);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, OIL_REFINERY);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);
