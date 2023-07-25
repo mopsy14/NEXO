@@ -1,5 +1,6 @@
 package mopsy.productions.nexo;
 
+import mopsy.productions.nexo.CableNetworks.CNetworkManager;
 import mopsy.productions.nexo.mechanics.radiation.RadiationEvents;
 import mopsy.productions.nexo.registry.*;
 import mopsy.productions.nexo.screen.ScreenHandlers;
@@ -30,7 +31,7 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("NEXO starting");
-		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+		ServerLifecycleEvents.SERVER_STARTING.register(server -> {
 			Main.server = server;
 		});
 
@@ -49,5 +50,7 @@ public class Main implements ModInitializer {
 		ModdedFluids.regFluids();
 
 		ModdedBlockEntities.regBlockEntities();
+
+		new CNetworkManager();
 	}
 }

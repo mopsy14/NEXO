@@ -1,16 +1,15 @@
 package mopsy.productions.nexo.CableNetworks;
 
-import net.minecraft.world.World;
-
-import java.util.HashMap;
-import java.util.List;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 public class CNetworkManager {
-    public static CNetworkManager INSTANCE;
-    public static HashMap<World, List<CNetwork>> networks = new HashMap<>();
     public static boolean isLoaded = false;
 
-    CNetworkManager(){
-        INSTANCE = this;
+    public void regEvents(){
+        ServerLifecycleEvents.SERVER_STARTING.register(NetworksData::getNetworkData);
+        ServerLifecycleEvents.SERVER_STOPPING.register((server -> {
+            NetworksData
+            NetworksData.removeData();
+        }));
     }
 }
