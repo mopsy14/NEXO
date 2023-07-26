@@ -51,6 +51,6 @@ public class Main implements ModInitializer {
 
 		ModdedBlockEntities.regBlockEntities();
 
-		new CNetworkManager();
+		CNetworkManager.regEvents();
 	}
 }
