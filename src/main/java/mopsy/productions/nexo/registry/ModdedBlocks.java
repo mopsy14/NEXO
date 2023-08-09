@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.registry;
 
+import mopsy.productions.nexo.ModBlocks.blocks.InsulatedCopperCableBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.compressed.UraniumBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.machines.*;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.ConduitBlock;
@@ -44,6 +45,8 @@ public class ModdedBlocks {
         regBlock(new DeepslateNickelOreBlock());
         //compressed
         regBlock(new UraniumBlock());
+        //cables
+        regBlock(new InsulatedCopperCableBlock());
         //machines
         regBlock(new CrusherBlock());
         regBlock(new Tank_MK1());

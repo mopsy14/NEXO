@@ -31,7 +31,7 @@ public class Main implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("NEXO starting");
-		ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+		ServerLifecycleEvents.SERVER_STARTING.register(new Identifier(modid,"set_server") ,server -> {
 			Main.server = server;
 		});
 

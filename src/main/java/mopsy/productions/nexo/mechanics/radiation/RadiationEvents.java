@@ -21,7 +21,7 @@ public class RadiationEvents {
         }
     });
     ServerTickEvents.START_SERVER_TICK.register((server) -> {
-        if(taskCounter == 1000) {
+        if(taskCounter == 1200) {
             taskCounter=0;
         }else
             taskCounter++;
