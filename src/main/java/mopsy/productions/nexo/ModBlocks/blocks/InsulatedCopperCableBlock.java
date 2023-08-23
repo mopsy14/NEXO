@@ -107,10 +107,47 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
         return res;
     }
 
-    public void createCNetworksFromCables(World world, BlockPos pos){
+    private void createCNetworksFromCables(World world, BlockPos pos){
         InsulatedCopperCableEntity entity = (InsulatedCopperCableEntity)world.getBlockEntity(pos);
         if(entity!=null && entity.networkID==null){
-            //world.getBlock
+            entity.networkID = new CNetworkID(world, -2);
+            //giving connected cables a networkID index of -1
+            for(InsulatedCopperCableEntity connectedEntity : getConnectedCables(world,pos))
+                connectedEntity.networkID = new CNetworkID(world, -1);
+
+            List<BlockPos> connectedCablePosses = new ArrayList<>(getSurroundingBlocks(world, pos,
+                            ((lambdaWorld, lambdaPos) -> lambdaWorld.getBlockState(lambdaPos).getBlock() instanceof InsulatedCopperCableBlock)));
+
+            List<BlockPos> iteratorConnectedCablePosses = new ArrayList<>(connectedCablePosses);
+            while (iteratorConnectedCablePosses.size() > 0){
+                BlockPos originPos = iteratorConnectedCablePosses.get(0);
+                List<BlockPos> res = new ArrayList<>();
+                List<BlockPos> todo = new ArrayList<>(List.of(originPos));
+                while (todo.size() > 0){
+                    BlockPos currentPos = todo.get(todo.size()-1);
+                    todo.remove(todo.size()-1);
+
+                    for (BlockPos surroundingPos : getSurroundingBlocks(world, currentPos, ((lambdaWorld, lambdaPos) -> {
+                        if(lambdaWorld.getBlockState(lambdaPos).getBlock() instanceof InsulatedCopperCableBlock) {
+                            if (lambdaWorld.getBlockEntity(lambdaPos) instanceof InsulatedCopperCableEntity lambdaEntity){
+                                 if (lambdaEntity.networkID.index() == -2)
+                                     return false;
+                            }
+                            return !todo.contains(lambdaPos) && !res.contains(lambdaPos);
+                        }else
+                            return false;
+                    }))) {
+                        if(world.getBlockEntity(surroundingPos) instanceof InsulatedCopperCableEntity surroundingEntity) {
+                            if (surroundingEntity.networkID.index() == -1) {
+                                connectedCablePosses.remove(surroundingPos);
+                            }else{
+
+                            }
+                        }
+                    }
+
+                }
+            }
         }
     }
 
