@@ -90,6 +90,7 @@ public class MixerRecipe extends NEXORecipe{
 
         @Override
         public void write(PacketByteBuf buf, MixerRecipe recipe) {
+            buf.writeString(MixerRecipe.Type.ID);
             NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
         }
     }

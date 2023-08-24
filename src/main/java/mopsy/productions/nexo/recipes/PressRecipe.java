@@ -20,6 +20,10 @@ public class PressRecipe extends NEXORecipe{
     }
 
     @Override
+    public String getTypeID(){
+        return Type.ID;
+    }
+    @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
     }

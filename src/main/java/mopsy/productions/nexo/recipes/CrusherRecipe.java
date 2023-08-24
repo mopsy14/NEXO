@@ -20,6 +20,10 @@ public class CrusherRecipe extends NEXORecipe{
     }
 
     @Override
+    public String getTypeID(){
+        return PressRecipe.Type.ID;
+    }
+    @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
     }

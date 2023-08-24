@@ -18,6 +18,11 @@ public class FillingRecipe extends NEXORecipe{
     public FillingRecipe(NEXORecipe recipe){
         super(recipe.id,recipe.inputs,recipe.outputs,recipe.inputFluids,recipe.outputFluids,recipe.additionalInfo);
     }
+
+    @Override
+    public String getTypeID(){
+        return PressRecipe.Type.ID;
+    }
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
