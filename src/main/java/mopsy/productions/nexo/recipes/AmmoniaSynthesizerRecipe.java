@@ -20,7 +20,12 @@ public class AmmoniaSynthesizerRecipe extends NEXORecipe{
     }
     @Override
     public String getTypeID(){
-        return PressRecipe.Type.ID;
+        return AmmoniaSynthesizerRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return AmmoniaSynthesizerRecipe.Serializer.INSTANCE;
     }
     @Override
     public RecipeType<?> getType() {

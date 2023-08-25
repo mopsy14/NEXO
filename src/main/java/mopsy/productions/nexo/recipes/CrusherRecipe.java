@@ -21,7 +21,12 @@ public class CrusherRecipe extends NEXORecipe{
 
     @Override
     public String getTypeID(){
-        return PressRecipe.Type.ID;
+        return CrusherRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return CrusherRecipe.Serializer.INSTANCE;
     }
     @Override
     public RecipeType<?> getType() {

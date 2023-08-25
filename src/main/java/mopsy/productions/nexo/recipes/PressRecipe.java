@@ -23,6 +23,12 @@ public class PressRecipe extends NEXORecipe{
     public String getTypeID(){
         return Type.ID;
     }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return Serializer.INSTANCE;
+    }
+
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;

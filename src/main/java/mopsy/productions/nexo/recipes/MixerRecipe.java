@@ -27,6 +27,15 @@ public class MixerRecipe extends NEXORecipe{
     }
 
     @Override
+    public String getTypeID(){
+        return MixerRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return MixerRecipe.Serializer.INSTANCE;
+    }
+    @Override
     public boolean hasRecipe(BlockEntity blockEntity) {
         if(blockEntity instanceof MixerEntity mixer) {
             return super.hasRecipe(blockEntity) && mixer.heat>=getMinHeat() && mixer.heat<=getMaxHeat();
@@ -90,7 +99,6 @@ public class MixerRecipe extends NEXORecipe{
 
         @Override
         public void write(PacketByteBuf buf, MixerRecipe recipe) {
-            buf.writeString(MixerRecipe.Type.ID);
             NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
         }
     }

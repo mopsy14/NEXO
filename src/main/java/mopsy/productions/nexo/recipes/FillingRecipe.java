@@ -21,7 +21,12 @@ public class FillingRecipe extends NEXORecipe{
 
     @Override
     public String getTypeID(){
-        return PressRecipe.Type.ID;
+        return FillingRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return FillingRecipe.Serializer.INSTANCE;
     }
     @Override
     public RecipeType<?> getType() {

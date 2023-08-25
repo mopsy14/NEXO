@@ -21,7 +21,12 @@ public class ElectrolyzerRecipe extends NEXORecipe{
 
     @Override
     public String getTypeID(){
-        return PressRecipe.Type.ID;
+        return ElectrolyzerRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ElectrolyzerRecipe.Serializer.INSTANCE;
     }
     @Override
     public RecipeType<?> getType() {
