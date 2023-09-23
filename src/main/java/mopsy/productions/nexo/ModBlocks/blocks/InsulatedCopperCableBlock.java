@@ -47,10 +47,17 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if(!state.isOf(newState.getBlock())){
-            if(getConnectedCables(world,pos).size()==0)
-                CNetworkManager.networks.get(world).remove(CNetworkManager.getNetworkIndexFromID(((InsulatedCopperCableEntity)world.getBlockEntity(pos)).networkID));
-            else
-                createCNetworksFromCables(world, pos);
+            if(world.getBlockEntity(pos) instanceof InsulatedCopperCableEntity entity) {
+                CNetworkID originalID = entity.networkID;
+                if (getConnectedCables(world, pos).size() == 0);
+
+                else {
+                    createCNetworksFromCables(world, pos);
+                }
+                System.out.println("1: "+CNetworkManager.networks.toString());
+                CNetworkManager.networks.get(world).remove(CNetworkManager.getNetworkIndexFromID(originalID));
+                System.out.println("2: "+CNetworkManager.networks.toString());
+            }
         }
         super.onStateReplaced(state, world, pos, newState, moved);
     }
@@ -68,11 +75,12 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
             CNetworkManager.getNetworkFromID(connectedCables.get(0).networkID).cableEntities.put(pos,((InsulatedCopperCableEntity) world.getBlockEntity(pos)));
         } else {
             Set<CNetworkID> connectedIDs = getAllConnectedNetworkIDs(world, connectedCables);
-            if(connectedIDs.size()==1)
-                ((InsulatedCopperCableEntity)world.getBlockEntity(pos)).networkID = connectedCables.get(0).networkID;
+            if(connectedIDs.size()==1) {
+            }
             else{
                 CNetworkManager.mergeNetworks(networkIDsToNetworks(connectedIDs),true);
             }
+            ((InsulatedCopperCableEntity)world.getBlockEntity(pos)).networkID = connectedCables.get(0).networkID;
         }
         //Probable best way of checking block type   world.getBlockState(pos).getBlock() instanceof InsulatedCopperCableBlock;
     }
@@ -109,7 +117,7 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
 
     private void createCNetworksFromCables(World world, BlockPos pos){
         InsulatedCopperCableEntity entity = (InsulatedCopperCableEntity)world.getBlockEntity(pos);
-        if(entity!=null && entity.networkID==null){
+        if(entity!=null && entity.networkID!=null){
             //giving the removed cable a networkID index of -2
             entity.networkID = new CNetworkID(world, -2);
             //giving connected cables a networkID index of -1
@@ -125,6 +133,12 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
             while (!iteratorConnectedCablePosses.isEmpty()){
                 //Getting the first CablePos of the iterator since index 0 will later be removed.
                 BlockPos originPos = iteratorConnectedCablePosses.get(0);
+
+                //Creating a network from the originating cable
+                CNetwork network =  CNetworkManager.createNetworkFromCable((InsulatedCopperCableEntity)world.getBlockEntity(originPos));
+                //
+                ((InsulatedCopperCableEntity)world.getBlockEntity(originPos)).networkID = network.id;
+
                 //List that is going to contain all blocks which are in the network.
                 List<BlockPos> res = new ArrayList<>();
                 //List that will contain all cables that are found and whose connected cables aren't detected yet.
@@ -157,11 +171,18 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
                             }
                             //Adding the block that was found to the
                             todo.add(surroundingPos);
+                            surroundingEntity.networkID = network.id;
                             //TODO: Adding code to add input and output storages to the network.
                         }
                     }
 
                 }
+
+                //Adding all the cables to the network (except for the cable that was used to create the network)
+                for (int i = 1; i < res.size(); i++)
+                    network.cableEntities.put(res.get(i), (InsulatedCopperCableEntity)world.getBlockEntity(res.get(i)));
+
+
 
                 //removing the iterator pos at index 0 so the next iteration will get the next pos.
                 iteratorConnectedCablePosses.remove(0);

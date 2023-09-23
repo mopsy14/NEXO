@@ -136,6 +136,8 @@ public class CNetworkManager {
         if(!n1.id.world().equals(n2.id.world()))return;
         for (InsulatedCopperCableEntity entity : n2.cableEntities.values()) {
             n1.cableEntities.put(entity.getPos(),entity);
+            entity.networkID = n1.id;
+            System.out.println(n1);
         }
         if(withRemoval)
             networks.get(n2.id.world()).remove(n2);
