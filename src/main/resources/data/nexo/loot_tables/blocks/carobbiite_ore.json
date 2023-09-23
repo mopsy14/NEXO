@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "nexo:raw_carobbiite",
+          "name": "nexo:potassium_fluorite",
           "functions": [
             {
               "function": "minecraft:set_count",

@@ -85,7 +85,6 @@ public class ModdedItems {
             new ItemInfo("raw_titanium"),
             new ItemInfo("raw_lead"),
             new ItemInfo("salt"),
-            new ItemInfo("raw_carobbiite"),
             new ItemInfo("raw_nickel"),
 
             //ingots
