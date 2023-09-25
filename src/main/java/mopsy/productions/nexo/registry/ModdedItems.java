@@ -53,7 +53,7 @@ public class ModdedItems {
             new ItemInfo("wire_casing"),
             new ItemInfo("vanadium"),
             new ItemInfo("gypsum"),
-            new ItemInfo("potassium_fluorite"),
+            new ItemInfo("potassium_fluoride"),
             new ItemInfo("uranyl_fluoride"),
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("yellowcake", 3),
