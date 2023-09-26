@@ -1,6 +1,7 @@
 package mopsy.productions.nexo.ModBlocks.entities;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -8,18 +9,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.EnergyStorageUtil;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class InsulatedCopperCableEntity extends BlockEntity{
-
     public static final long POWER_CAPACITY = 10000;
-    public static final long MAX_POWER_INSERT = 10000;
-    public static final long MAX_POWER_EXTRACT = 0;
+    public static final long POWER_RATE = 8;
 
-    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY,MAX_POWER_INSERT,MAX_POWER_EXTRACT){
+    public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY,POWER_RATE,POWER_RATE){
         @Override
         protected void onFinalCommit() {
         }
@@ -33,10 +33,12 @@ public class InsulatedCopperCableEntity extends BlockEntity{
     @Override
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
+        nbt.putLong("power", energyStorage.amount);
     }
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
+        energyStorage.amount = nbt.getLong("power");
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, InsulatedCopperCableEntity entity) {
@@ -46,17 +48,29 @@ public class InsulatedCopperCableEntity extends BlockEntity{
 
         if(entity.energyStorage.amount > 0){
 
-            List<InsulatedCopperCableEntity> cables = new ArrayList<>(entity.getConnectedCables());
+            List<EnergyStorage> cables = new ArrayList<>(entity.getAllOutputStorages());
             Collections.shuffle(cables);
 
-
+            long totalExchanged = 0;
+            while(!cables.isEmpty() && entity.energyStorage.amount>0){
+                try (Transaction transaction = Transaction.openOuter()) {
+                    totalExchanged += EnergyStorageUtil.move(
+                            entity.energyStorage,
+                            cables.get(cables.size()-1),
+                            POWER_RATE-totalExchanged,
+                            transaction
+                    );
+                    transaction.commit();
+                }
+                cables.remove(cables.size()-1);
+            }
         }
     }
     private Set<EnergyStorage> getAllOutputStorages(){
 
         Set<EnergyStorage> res = new HashSet<>();
 
-        for(InsulatedCopperCableEntity cable : getConnectedCables()){
+        for(InsulatedCopperCableEntity cable : getAllConnectedCables()){
             res.addAll(cable.connectedStorages);
         }
 

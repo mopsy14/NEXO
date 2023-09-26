@@ -4,8 +4,7 @@
   "package": "mopsy.productions.nexo.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "Data",
-    "WorldLoadMixin"
+    "Data"
   ],
   "client": [
   ],

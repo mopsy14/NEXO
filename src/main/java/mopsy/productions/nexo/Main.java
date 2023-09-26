@@ -1,6 +1,5 @@
 package mopsy.productions.nexo;
 
-import mopsy.productions.nexo.CableNetworks.CNetworkManager;
 import mopsy.productions.nexo.mechanics.radiation.RadiationEvents;
 import mopsy.productions.nexo.registry.*;
 import mopsy.productions.nexo.screen.ScreenHandlers;
@@ -50,7 +49,5 @@ public class Main implements ModInitializer {
 		ModdedFluids.regFluids();
 
 		ModdedBlockEntities.regBlockEntities();
-
-		CNetworkManager.regEvents();
 	}
 }
