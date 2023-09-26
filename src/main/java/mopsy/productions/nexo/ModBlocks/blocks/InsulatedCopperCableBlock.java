@@ -2,9 +2,12 @@ package mopsy.productions.nexo.ModBlocks.blocks;
 
 import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
 import mopsy.productions.nexo.interfaces.IModID;
+import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -12,6 +15,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +30,7 @@ import java.util.function.BiPredicate;
 import static net.minecraft.state.property.Properties.*;
 
 @SuppressWarnings("deprecation")
-public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID {
+public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     @Override
     public String getID(){return "insulated_copper_cable";}
 
@@ -36,9 +40,27 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
                         .strength(5.0F, 5.0F)
                         .sounds(BlockSoundGroup.COPPER)
                         .requiresTool()
+                        .nonOpaque()
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
     }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return checkType(type, ModdedBlockEntities.INSULATED_COPPER_CABLE, InsulatedCopperCableEntity::tick);
+    }
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+        return 1f;
+    }
+
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState res = this.getDefaultState();

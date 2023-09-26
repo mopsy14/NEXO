@@ -48,21 +48,21 @@ public class InsulatedCopperCableEntity extends BlockEntity{
 
         if(entity.energyStorage.amount > 0){
 
-            List<EnergyStorage> cables = new ArrayList<>(entity.getAllOutputStorages());
-            Collections.shuffle(cables);
+            List<EnergyStorage> storages = new ArrayList<>(entity.getAllOutputStorages());
+            Collections.shuffle(storages);
 
             long totalExchanged = 0;
-            while(!cables.isEmpty() && entity.energyStorage.amount>0){
+            while(!storages.isEmpty() && entity.energyStorage.amount>0){
                 try (Transaction transaction = Transaction.openOuter()) {
                     totalExchanged += EnergyStorageUtil.move(
                             entity.energyStorage,
-                            cables.get(cables.size()-1),
+                            storages.get(storages.size()-1),
                             POWER_RATE-totalExchanged,
                             transaction
                     );
                     transaction.commit();
                 }
-                cables.remove(cables.size()-1);
+                storages.remove(storages.size()-1);
             }
         }
     }
@@ -84,7 +84,10 @@ public class InsulatedCopperCableEntity extends BlockEntity{
         toCheck.add(this);
 
         while(!toCheck.isEmpty()){
-            getSurroundingCablePosses(toCheck.get(toCheck.size()-1).pos, shouldIgnore);
+            int index = toCheck.size()-1;
+            res.add(toCheck.get(index));
+            toCheck.addAll(getSurroundingCablePosses(toCheck.get(toCheck.size()-1).pos, shouldIgnore));
+            toCheck.remove(index);
         }
 
         return res;
@@ -92,7 +95,7 @@ public class InsulatedCopperCableEntity extends BlockEntity{
     private List<InsulatedCopperCableEntity> getSurroundingCablePosses(BlockPos pos, List<BlockPos> shouldIgnore){
         List<InsulatedCopperCableEntity> res = new ArrayList<>(6);
         for(Direction direction : Direction.values()){
-             BlockPos iteratorPos = pos.add(direction.getVector());
+             BlockPos iteratorPos = pos.offset(direction);
              if(!shouldIgnore.contains(iteratorPos))
                 if(world.getBlockEntity(iteratorPos) instanceof InsulatedCopperCableEntity cable) {
                     res.add(cable);
@@ -128,9 +131,12 @@ public class InsulatedCopperCableEntity extends BlockEntity{
     private Set<EnergyStorage> getSurroundingStorages(World world, BlockPos pos){
         Set<EnergyStorage> res = new HashSet<>();
         for(Direction direction : Direction.values()){
-            EnergyStorage storage = EnergyStorage.SIDED.find(world,pos.add(direction.getVector()),direction);
-            if(storage!=null)
-                res.add(storage);
+            BlockPos calculatedPos = pos.offset(direction);
+            if(!(world.getBlockEntity(calculatedPos) instanceof InsulatedCopperCableEntity)) {
+                EnergyStorage storage = EnergyStorage.SIDED.find(world, calculatedPos, direction);
+                if (storage != null)
+                    res.add(storage);
+            }
         }
         return res;
     }
