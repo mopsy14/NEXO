@@ -1,5 +1,4 @@
 {
-	"ambientocclusion": false,
 	"credit": "Made with Blockbench",
 	"textures": {
 		"texture": "nexo:blocks/insulated_copper_cable",
@@ -16,8 +15,7 @@
 				"west": {"uv": [0, 0, 4, 4], "texture": "#texture"},
 				"up": {"uv": [4, 4, 0, 0], "texture": "#texture"},
 				"down": {"uv": [4, 0, 0, 4], "texture": "#texture"}
-			},
-			"shade": false
+			}
 		}
 	]
 }

@@ -1,5 +1,4 @@
 {
-	"ambientocclusion": false,
 	"credit": "Made with Blockbench",
 	"textures": {
 		"texture": "nexo:blocks/insulated_copper_cable",
@@ -14,10 +13,29 @@
 				"east": {"uv": [8, 0, 14, 4], "texture": "#texture"},
 				"south": {"uv": [4, 0, 8, 4], "rotation": 90, "texture": "#texture"},
 				"west": {"uv": [8, 0, 14, 4], "texture": "#texture"},
-				"up": {"uv": [8, 0, 14, 4], "texture": "#texture"},
-				"down": {"uv": [8, 0, 14, 4], "texture": "#texture"}
-			},
-			"shade": false
+				"up": {"uv": [0, 4, 4, 10], "texture": "#texture"},
+				"down": {"uv": [0, 4, 4, 10], "texture": "#texture"}
+			}
 		}
-	]
+	],
+	"gui_light": "side",
+	"display": {
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [-5.5, 2.5, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"ground": {
+			"translation": [0, 3, 5]
+		},
+		"fixed": {
+			"translation": [0, 0, 9.5],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [1.75, 0, 0.5],
+			"scale": [0.605, 0.605, 0.605]
+		}
+	}
 }
