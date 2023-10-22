@@ -8,6 +8,8 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -24,7 +26,7 @@ import team.reborn.energy.api.EnergyStorage;
 import static net.minecraft.state.property.Properties.*;
 
 @SuppressWarnings("deprecation")
-public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
+public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID, BlockEntityProvider, Waterloggable {
     private static final VoxelShape MID_SHAPE = VoxelShapes.cuboid(0.375, 0.375, 0.375, 0.625, 0.625, 0.625);
     private static final VoxelShape UP_SHAPE = VoxelShapes.cuboid(0.375, 0.625, 0.375, 0.625, 1, 0.625);
     private static final VoxelShape DOWN_SHAPE = VoxelShapes.cuboid(0.375, 0, 0.375, 0.625, 0.375, 0.625);
@@ -43,7 +45,7 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
                         .requiresTool()
                         .nonOpaque()
         );
-        this.setDefaultState(this.stateManager.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(WATERLOGGED,false));
     }
 
     @Override
@@ -83,7 +85,7 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState res = this.getDefaultState();
+        BlockState res = this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
         if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().up(),Direction.UP))
             res = res.with(UP,true);
         if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().down(),Direction.DOWN))
@@ -101,6 +103,9 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
 
     @Override
     public BlockState getStateForNeighborUpdate(BlockState originalState, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        if (originalState.get(WATERLOGGED)) {
+            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
         switch (direction){
             case UP -> {return originalState.with(UP, isEnergyBlock(world, neighborPos, Direction.UP));}
             case DOWN -> {return originalState.with(DOWN, isEnergyBlock(world, neighborPos, Direction.DOWN));}
@@ -127,6 +132,10 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(UP, DOWN, NORTH, EAST, WEST, SOUTH);
+        builder.add(UP, DOWN, NORTH, EAST, WEST, SOUTH, WATERLOGGED);
+    }
+
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 }
