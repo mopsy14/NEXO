@@ -9,8 +9,8 @@
     "I": {
       "item": "nexo:iron_plate"
     },
-    "M": {
-      "item": "nexo:piston"
+    "P": {
+      "item": "minecraft:piston"
     },
     "V": {
       "item": "nexo:gas_valve"
