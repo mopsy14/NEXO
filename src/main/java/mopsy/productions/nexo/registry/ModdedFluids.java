@@ -1,9 +1,10 @@
 package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModFluids.NTFluid;
+import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.client.FluidRenderers;
-import mopsy.productions.nexo.util.NTBucketItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.fluid.FlowableFluid;
@@ -26,18 +27,18 @@ public class ModdedFluids {
     public static void registerGas(String ID){
         flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
         stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), new NTFluid.Still(ID)));
-        fluidItems.put(ID, Registry.register(Registry.ITEM, new Identifier(modid, ID+"_bucket"), new NTBucketItem(stillFluids.get(ID), false)));
         fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
         if(isClient)
             FluidRenderers.regFluidRenderer(stillFluids.get(ID), 0xA1FFFFFF);
+        Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
     }
     public static void registerGas(String ID, int color){
         flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
         stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), new NTFluid.Still(ID)));
-        fluidItems.put(ID, Registry.register(Registry.ITEM, new Identifier(modid, ID+"_bucket"), new NTBucketItem(stillFluids.get(ID), false)));
         fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
         if(isClient)
             FluidRenderers.regFluidRenderer(stillFluids.get(ID), color);
+        Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
     }
 
     public static void regFluids(){

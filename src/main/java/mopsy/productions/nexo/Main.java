@@ -24,6 +24,8 @@ public class Main implements ModInitializer {
 			new Identifier(modid, "nexo_items"), () -> new ItemStack(ModdedItems.Items.get("uranium_ingot")));
 	public static final ItemGroup CREATIVE_BLOCK_TAB = FabricItemGroupBuilder.build(
 			new Identifier(modid, "nexo_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
+	public static final ItemGroup FLUIDS_TAB = FabricItemGroupBuilder.build(
+			new Identifier(modid, "nexo_fluids"), () -> new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1")));
 
 	public static MinecraftServer server = null;
 

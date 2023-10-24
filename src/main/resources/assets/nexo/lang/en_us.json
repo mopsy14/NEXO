@@ -1,6 +1,7 @@
 {
-  "itemGroup.nexo.nexo_items": "Nuclear Tech Items",
-  "itemGroup.nexo.nexo_blocks": "Nuclear Tech Blocks",
+  "itemGroup.nexo.nexo_items": "NEXO Items",
+  "itemGroup.nexo.nexo_blocks": "NEXO Blocks",
+  "itemGroup.nexo.nexo_fluids": "NEXO Fluids",
 
   "item.nexo.debug_item": "Debug Item",
   "item.nexo.raw_uranium": "Raw Uranium",
