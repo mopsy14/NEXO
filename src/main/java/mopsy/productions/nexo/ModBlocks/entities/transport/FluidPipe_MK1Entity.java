@@ -1,7 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.entities.transport;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -9,34 +8,36 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.api.EnergyStorage;
-import team.reborn.energy.api.EnergyStorageUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FluidPipe_MK1 extends BlockEntity{
+public class FluidPipe_MK1Entity extends BlockEntity {
 
     public Set<EnergyStorage> connectedStorages = new HashSet<>(6);
 
-    public FluidPipe_MK1(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.INSULATED_COPPER_CABLE, pos, state);
+    public FluidPipe_MK1Entity(BlockPos pos, BlockState state) {
+        super(ModdedBlockEntities.FLUID_PIPE_MK1, pos, state);
     }
     @Override
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
-        nbt.putLong("power", energyStorage.amount);
+        //nbt.putLong("power", energyStorage.amount);
     }
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        energyStorage.amount = nbt.getLong("power");
+        //energyStorage.amount = nbt.getLong("power");
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, FluidPipe_MK1 entity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, FluidPipe_MK1Entity entity) {
         if(world.isClient)return;
 
         updateStorages(world,blockPos,entity);
-
+/*
         if(entity.energyStorage.amount > 0){
 
             List<EnergyStorage> storages = new ArrayList<>(entity.getAllOutputStorages());
@@ -56,20 +57,21 @@ public class FluidPipe_MK1 extends BlockEntity{
                 storages.remove(storages.size()-1);
             }
         }
+ */
     }
     private Set<EnergyStorage> getAllOutputStorages(){
 
         Set<EnergyStorage> res = new HashSet<>();
 
-        for(FluidPipe_MK1 cable : getAllConnectedCables()){
+        for(FluidPipe_MK1Entity cable : getAllConnectedCables()){
             res.addAll(cable.connectedStorages);
         }
 
         return res;
     }
-    private List<FluidPipe_MK1> getAllConnectedCables(){
-        List<FluidPipe_MK1> res = new ArrayList<>();
-        List<FluidPipe_MK1> toCheck = new ArrayList<>();
+    private List<FluidPipe_MK1Entity> getAllConnectedCables(){
+        List<FluidPipe_MK1Entity> res = new ArrayList<>();
+        List<FluidPipe_MK1Entity> toCheck = new ArrayList<>();
         List<BlockPos> shouldIgnore = new ArrayList<>();
         shouldIgnore.add(this.pos);
         toCheck.add(this);
@@ -83,35 +85,35 @@ public class FluidPipe_MK1 extends BlockEntity{
 
         return res;
     }
-    private List<FluidPipe_MK1> getSurroundingCablePosses(BlockPos pos, List<BlockPos> shouldIgnore){
-        List<FluidPipe_MK1> res = new ArrayList<>(6);
+    private List<FluidPipe_MK1Entity> getSurroundingCablePosses(BlockPos pos, List<BlockPos> shouldIgnore){
+        List<FluidPipe_MK1Entity> res = new ArrayList<>(6);
         for(Direction direction : Direction.values()){
              BlockPos iteratorPos = pos.offset(direction);
              if(!shouldIgnore.contains(iteratorPos))
-                if(world.getBlockEntity(iteratorPos) instanceof FluidPipe_MK1 cable) {
+                if(world.getBlockEntity(iteratorPos) instanceof FluidPipe_MK1Entity cable) {
                     res.add(cable);
                     shouldIgnore.add(iteratorPos);
                 }
         }
         return res;
     }
-    private Set<FluidPipe_MK1> getConnectedCables(){
-        Set<FluidPipe_MK1> res = new HashSet<>(6);
-        if(world.getBlockEntity(pos.up())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.up()));
-        if(world.getBlockEntity(pos.down())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.down()));
-        if(world.getBlockEntity(pos.north())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.north()));
-        if(world.getBlockEntity(pos.east())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.east()));
-        if(world.getBlockEntity(pos.south())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.south()));
-        if(world.getBlockEntity(pos.west())instanceof FluidPipe_MK1)
-            res.add((FluidPipe_MK1) world.getBlockEntity(pos.west()));
+    private Set<FluidPipe_MK1Entity> getConnectedCables(){
+        Set<FluidPipe_MK1Entity> res = new HashSet<>(6);
+        if(world.getBlockEntity(pos.up())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.up()));
+        if(world.getBlockEntity(pos.down())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.down()));
+        if(world.getBlockEntity(pos.north())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.north()));
+        if(world.getBlockEntity(pos.east())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.east()));
+        if(world.getBlockEntity(pos.south())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.south()));
+        if(world.getBlockEntity(pos.west())instanceof FluidPipe_MK1Entity)
+            res.add((FluidPipe_MK1Entity) world.getBlockEntity(pos.west()));
         return res;
     }
-    private static boolean updateStorages(World world, BlockPos pos, FluidPipe_MK1 entity){
+    private static boolean updateStorages(World world, BlockPos pos, FluidPipe_MK1Entity entity){
         Set<EnergyStorage> storages = entity.getSurroundingStorages(world,pos);
         if(!entity.connectedStorages.equals(storages)){
             entity.connectedStorages = storages;
@@ -123,7 +125,7 @@ public class FluidPipe_MK1 extends BlockEntity{
         Set<EnergyStorage> res = new HashSet<>();
         for(Direction direction : Direction.values()){
             BlockPos calculatedPos = pos.offset(direction);
-            if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1)) {
+            if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1Entity)) {
                 EnergyStorage storage = EnergyStorage.SIDED.find(world, calculatedPos, direction);
                 if (storage != null)
                     res.add(storage);

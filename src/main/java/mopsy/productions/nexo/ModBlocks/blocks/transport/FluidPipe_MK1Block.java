@@ -1,6 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.transport;
 
-import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
+import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -26,7 +26,7 @@ import team.reborn.energy.api.EnergyStorage;
 import static net.minecraft.state.property.Properties.*;
 
 @SuppressWarnings("deprecation")
-public class FluidPipe_MK1 extends BlockWithEntity implements IModID, BlockEntityProvider, Waterloggable {
+public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, BlockEntityProvider, Waterloggable {
     private static final VoxelShape MID_SHAPE = VoxelShapes.cuboid(0.375, 0.375, 0.375, 0.625, 0.625, 0.625);
     private static final VoxelShape UP_SHAPE = VoxelShapes.cuboid(0.375, 0.625, 0.375, 0.625, 1, 0.625);
     private static final VoxelShape DOWN_SHAPE = VoxelShapes.cuboid(0.375, 0, 0.375, 0.625, 0.375, 0.625);
@@ -37,7 +37,7 @@ public class FluidPipe_MK1 extends BlockWithEntity implements IModID, BlockEntit
     @Override
     public String getID(){return "fluid_pipe_mk1";}
 
-    public FluidPipe_MK1() {
+    public FluidPipe_MK1Block() {
         super(FabricBlockSettings
                         .of(Material.METAL, MapColor.GRAY)
                         .strength(5.0F, 5.0F)
@@ -70,7 +70,7 @@ public class FluidPipe_MK1 extends BlockWithEntity implements IModID, BlockEntit
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.INSULATED_COPPER_CABLE, InsulatedCopperCableEntity::tick);
+        return checkType(type, ModdedBlockEntities.FLUID_PIPE_MK1, FluidPipe_MK1Entity::tick);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class FluidPipe_MK1 extends BlockWithEntity implements IModID, BlockEntit
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new InsulatedCopperCableEntity(pos, state);
+        return new FluidPipe_MK1Entity(pos, state);
     }
 
     @Override

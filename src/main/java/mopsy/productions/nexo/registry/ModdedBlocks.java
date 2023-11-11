@@ -10,6 +10,7 @@ import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.airSeparator.CoolerBl
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.SmallReactorBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.ores.*;
+import mopsy.productions.nexo.ModBlocks.blocks.transport.FluidPipe_MK1Block;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nexo.interfaces.IModID;
@@ -47,6 +48,8 @@ public class ModdedBlocks {
         regBlock(new UraniumBlock());
         //cables
         regBlock(new InsulatedCopperCableBlock());
+        //pipes
+        regBlock(new FluidPipe_MK1Block());
         //machines
         regBlock(new CrusherBlock());
         regBlock(new Tank_MK1());
