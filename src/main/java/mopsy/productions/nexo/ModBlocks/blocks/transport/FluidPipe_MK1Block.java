@@ -13,6 +13,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -23,6 +24,7 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
+import static mopsy.productions.nexo.util.NEXOStateProperties.*;
 import static net.minecraft.state.property.Properties.*;
 
 @SuppressWarnings("deprecation")
@@ -45,7 +47,15 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                         .requiresTool()
                         .nonOpaque()
         );
-        this.setDefaultState(this.stateManager.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(WATERLOGGED,false));
+        this.setDefaultState(this.stateManager.getDefaultState()
+                .with(UP, false).with(UP_IS_IN, false)
+                .with(DOWN, false).with(DOWN_IS_IN, false)
+                .with(NORTH, false).with(NORTH_IS_IN, false)
+                .with(EAST, false).with(EAST_IS_IN, false)
+                .with(SOUTH, false).with(SOUTH_IS_IN, false)
+                .with(WEST, false).with(WEST_IS_IN, false)
+                .with(WATERLOGGED,false)
+        );
     }
 
     @Override
@@ -132,7 +142,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(UP, DOWN, NORTH, EAST, WEST, SOUTH, WATERLOGGED);
+        builder.add(UP, UP_IS_IN, DOWN, DOWN_IS_IN, NORTH, NORTH_IS_IN, EAST, EAST_IS_IN, SOUTH, SOUTH_IS_IN, WEST, WEST_IS_IN, WATERLOGGED, BooleanProperty.of("test"), BooleanProperty.of("test_2"));
     }
 
     public FluidState getFluidState(BlockState state) {

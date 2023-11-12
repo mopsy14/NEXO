@@ -5,10 +5,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
+import net.minecraft.client.render.model.BakedModelManager;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nexo.Main.modid;
 
@@ -22,7 +27,13 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         matrices.push();
 
 
-        MinecraftClient.getInstance().getBlockRenderManager().getModels().getModelManager().getModel(new ModelIdentifier(modid,"fluid_pipe_mk1",""));
+        BlockRenderManager blockRenderManager = MinecraftClient.getInstance().getBlockRenderManager();
+        EntityModelLoader entityModelLoader = MinecraftClient.getInstance().getEntityModelLoader();
+        BakedModelManager bakedModelManager = MinecraftClient.getInstance().getBakedModelManager();
+        Identifier blockAtlasTexture = SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE;
+        SpriteIdentifier spriteIdentifier = new SpriteIdentifier(blockAtlasTexture, new Identifier(modid,"block/insulated_copper_cable"));
+
+        //blockRenderManager.getModels().getModel(entity.getWorld().getBlockState(entity.getPos()).with());
 
 
 
