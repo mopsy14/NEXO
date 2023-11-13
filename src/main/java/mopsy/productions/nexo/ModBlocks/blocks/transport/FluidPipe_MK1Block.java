@@ -13,7 +13,6 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -24,7 +23,6 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
-import static mopsy.productions.nexo.util.NEXOStateProperties.*;
 import static net.minecraft.state.property.Properties.*;
 
 @SuppressWarnings("deprecation")
@@ -47,20 +45,13 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                         .requiresTool()
                         .nonOpaque()
         );
-        this.setDefaultState(this.stateManager.getDefaultState()
-                .with(UP, false).with(UP_IS_IN, false)
-                .with(DOWN, false).with(DOWN_IS_IN, false)
-                .with(NORTH, false).with(NORTH_IS_IN, false)
-                .with(EAST, false).with(EAST_IS_IN, false)
-                .with(SOUTH, false).with(SOUTH_IS_IN, false)
-                .with(WEST, false).with(WEST_IS_IN, false)
-                .with(WATERLOGGED,false)
-        );
+        this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED,false));
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape res = MID_SHAPE;
+        /*
         if(state.get(UP))
             res = VoxelShapes.union(res, UP_SHAPE);
         if(state.get(DOWN))
@@ -73,7 +64,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
             res = VoxelShapes.union(res, SOUTH_SHAPE);
         if(state.get(WEST))
             res = VoxelShapes.union(res, WEST_SHAPE);
-
+        */
         return res;
     }
 
@@ -85,7 +76,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -142,7 +133,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(UP, UP_IS_IN, DOWN, DOWN_IS_IN, NORTH, NORTH_IS_IN, EAST, EAST_IS_IN, SOUTH, SOUTH_IS_IN, WEST, WEST_IS_IN, WATERLOGGED, BooleanProperty.of("test"), BooleanProperty.of("test_2"));
+        builder.add(WATERLOGGED);
     }
 
     public FluidState getFluidState(BlockState state) {
