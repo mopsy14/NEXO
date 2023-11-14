@@ -1,6 +1,8 @@
 package mopsy.productions.nexo.ModBlocks.entities.transport;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.util.NEXORotation;
+import mopsy.productions.nexo.util.PipeEndState;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -9,18 +11,26 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.api.EnergyStorage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipe_MK1Entity extends BlockEntity {
 
     public Set<EnergyStorage> connectedStorages = new HashSet<>(6);
+    public Map<NEXORotation,PipeEndState> endStates = new HashMap<>();
+
+
 
     public FluidPipe_MK1Entity(BlockPos pos, BlockState state) {
         super(ModdedBlockEntities.FLUID_PIPE_MK1, pos, state);
+        endStates.putAll(Map.of(
+                NEXORotation.UP,PipeEndState.NONE,
+                NEXORotation.DOWN,PipeEndState.NONE,
+                NEXORotation.NORTH,PipeEndState.NONE,
+                NEXORotation.EAST,PipeEndState.NONE,
+                NEXORotation.SOUTH,PipeEndState.NONE,
+                NEXORotation.WEST,PipeEndState.NONE
+        ));
     }
     @Override
     public void writeNbt(NbtCompound nbt){

@@ -3,14 +3,19 @@ package mopsy.productions.nexo.ModBlocks.blocks.transport;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.util.NEXORotation;
+import mopsy.productions.nexo.util.PipeEndState;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
@@ -23,9 +28,9 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
-import static net.minecraft.state.property.Properties.*;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "UnstableApiUsage"})
 public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, BlockEntityProvider, Waterloggable {
     private static final VoxelShape MID_SHAPE = VoxelShapes.cuboid(0.375, 0.375, 0.375, 0.625, 0.625, 0.625);
     private static final VoxelShape UP_SHAPE = VoxelShapes.cuboid(0.375, 0.625, 0.375, 0.625, 1, 0.625);
@@ -46,6 +51,15 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                         .nonOpaque()
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED,false));
+    }
+
+    private FluidPipe_MK1Entity getBlockEntity(World world, BlockPos pos){
+        BlockEntity entity = world.getBlockEntity(pos);
+        return entity instanceof FluidPipe_MK1Entity? (FluidPipe_MK1Entity) entity : null;
+    }
+    private FluidPipe_MK1Entity getBlockEntity(BlockView world, BlockPos pos){
+        BlockEntity entity = world.getBlockEntity(pos);
+        return entity instanceof FluidPipe_MK1Entity? (FluidPipe_MK1Entity) entity : null;
     }
 
     @Override
@@ -86,20 +100,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        BlockState res = this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().up(),Direction.UP))
-            res = res.with(UP,true);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().down(),Direction.DOWN))
-            res = res.with(DOWN,true);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().north(),Direction.NORTH))
-            res = res.with(NORTH,true);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().east(),Direction.EAST))
-            res = res.with(EAST,true);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().south(),Direction.SOUTH))
-            res = res.with(SOUTH,true);
-        if(isEnergyBlock(ctx.getWorld(),ctx.getBlockPos().west(),Direction.WEST))
-            res = res.with(WEST,true);
-        return res;
+        return getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
     @Override
@@ -107,28 +108,38 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
         if (originalState.get(WATERLOGGED)) {
             world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
-        switch (direction){
-            case UP -> {return originalState.with(UP, isEnergyBlock(world, neighborPos, Direction.UP));}
-            case DOWN -> {return originalState.with(DOWN, isEnergyBlock(world, neighborPos, Direction.DOWN));}
-            case NORTH -> {return originalState.with(NORTH, isEnergyBlock(world, neighborPos, Direction.NORTH));}
-            case EAST -> {return originalState.with(EAST, isEnergyBlock(world, neighborPos, Direction.EAST));}
-            case SOUTH -> {return originalState.with(SOUTH, isEnergyBlock(world, neighborPos, Direction.SOUTH));}
-            case WEST -> {return originalState.with(WEST, isEnergyBlock(world, neighborPos, Direction.WEST));}
-        }
-        return originalState;
-    }
 
-    private boolean isEnergyBlock(World world, BlockPos pos, Direction direction){
-        return EnergyStorage.SIDED.find(world, pos, direction) != null;
+        if(neighborState.isOf(this))
+            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.PIPE);
+        else if(isFluidBlock(world, pos, direction))
+            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.IN_OUT);
+        else
+            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.NONE);
+
+        return originalState;
     }
     private boolean isEnergyBlock(WorldAccess world, BlockPos pos, Direction direction){
         return EnergyStorage.SIDED.find((World)world, pos, direction) != null;
     }
-
+    private boolean isFluidBlock(WorldAccess world, BlockPos pos, Direction direction){
+        return FluidStorage.SIDED.find((World) world, pos.add(direction.getVector()), direction)!=null;
+    }
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new FluidPipe_MK1Entity(pos, state);
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        for (NEXORotation rotation : NEXORotation.values()){
+            if(world.getBlockState(pos.add(rotation.transformToVec3i())).isOf(this))
+                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.PIPE);
+            else if(isFluidBlock(world, pos, rotation.direction))
+                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.IN_OUT);
+            else
+                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.NONE);
+        }
     }
 
     @Override

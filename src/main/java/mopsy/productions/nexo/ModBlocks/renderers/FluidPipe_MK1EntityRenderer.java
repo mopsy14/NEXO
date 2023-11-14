@@ -44,25 +44,32 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         BASE_MODEL.render(matrices,vertexConsumer,light,overlay,1f,1f,1f,1f);
 
 
-        final VertexConsumer vertexConsumerInput = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(INPUT_TEXTURE));
-        //final VertexConsumer vertexConsumerOutput = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(OUTPUT_TEXTURE));
-        //final VertexConsumer vertexConsumerIO = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(IO_TEXTURE));
-        final VertexConsumer vertexConsumerPipe = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(PIPE_TEXTURE));
-
         //rendering all end textures
         for (NEXORotation rotation : NEXORotation.values()) {
-            PIPE_MODEL.mainPart.setAngles(rotation.x,rotation.y,rotation.z);
-            //fun code:
-            //END_MODEL.mainPart.rotate(rotation.getVec3f());
-            PIPE_MODEL.render(matrices, vertexConsumerPipe, light, overlay, 1f, 1f, 1f, 1f);
+            switch (entity.endStates.get(rotation)) {
+                case IN -> render(END_MODEL,rotation,matrices,vertexConsumers, INPUT_TEXTURE,light,overlay);
+                case OUT -> render(END_MODEL,rotation,matrices,vertexConsumers, OUTPUT_TEXTURE,light,overlay);
+                case IN_OUT -> render(END_MODEL,rotation,matrices,vertexConsumers, IO_TEXTURE,light,overlay);
+                case PIPE -> render(PIPE_MODEL,rotation,matrices,vertexConsumers, PIPE_TEXTURE,light,overlay);
+            }
         }
 
 
 
         matrices.pop();
     }
+    private void render(Model model, NEXORotation rotation, MatrixStack matrices, VertexConsumerProvider vertexProvider, Identifier identifier, int light, int overlay){
+        ((INEXOFluidPipeModel)model).getMainPart().setAngles(rotation.x, rotation.y+1.5708f, rotation.z);
+        //fun code:
+        //PIPE_MODEL.mainPart.rotate(rotation.getVec3f());
+        model.render(matrices, vertexProvider.getBuffer(RenderLayer.getEntitySolid(identifier)), light, overlay, 1f, 1f, 1f, 1f);
+    }
 
-    private static class FluidPipe_MK1BaseModel extends Model {
+    private interface INEXOFluidPipeModel{
+        public ModelPart getMainPart();
+    }
+
+    private static class FluidPipe_MK1BaseModel extends Model implements INEXOFluidPipeModel{
 
         private final ModelPart mainPart;
 
@@ -76,8 +83,13 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
             mainPart.render(matrices, vertices, light, overlay);
         }
+
+        @Override
+        public ModelPart getMainPart() {
+            return mainPart;
+        }
     }
-    private static class FluidPipe_MK1EndModel extends Model {
+    private static class FluidPipe_MK1EndModel extends Model implements INEXOFluidPipeModel{
 
         private final ModelPart mainPart;
 
@@ -97,8 +109,13 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
             mainPart.render(matrices, vertices, light, overlay);
         }
+
+        @Override
+        public ModelPart getMainPart() {
+            return mainPart;
+        }
     }
-    private static class FluidPipe_MK1PipeModel extends Model {
+    private static class FluidPipe_MK1PipeModel extends Model implements INEXOFluidPipeModel{
 
         private final ModelPart mainPart;
 
@@ -113,6 +130,11 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         @Override
         public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
             mainPart.render(matrices, vertices, light, overlay);
+        }
+
+        @Override
+        public ModelPart getMainPart() {
+            return mainPart;
         }
     }
 }
