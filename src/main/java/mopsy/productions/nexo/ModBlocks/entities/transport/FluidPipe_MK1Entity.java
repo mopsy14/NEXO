@@ -1,14 +1,17 @@
 package mopsy.productions.nexo.ModBlocks.entities.transport;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.registry.ModdedBlocks;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import team.reborn.energy.api.EnergyStorage;
 
 import java.util.*;
@@ -18,6 +21,7 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
     public Set<EnergyStorage> connectedStorages = new HashSet<>(6);
     public Map<NEXORotation,PipeEndState> endStates = new HashMap<>();
+    private boolean initializedStates = false;
 
 
 
@@ -42,8 +46,25 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         super.readNbt(nbt);
         //energyStorage.amount = nbt.getLong("power");
     }
+    private static PipeEndState getStateForRotation(WorldAccess world, BlockPos pos, NEXORotation rotation){
+        if(world.getBlockState(pos.add(rotation.transformToVec3i())).isOf(ModdedBlocks.Blocks.get("fluid_pipe_mk1")))
+            return PipeEndState.PIPE;
+        else if (FluidStorage.SIDED.find((World)world,pos.add(rotation.transformToVec3i()),rotation.direction)!=null)
+            return PipeEndState.IN_OUT;
+        else
+            return PipeEndState.NONE;
+
+    }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, FluidPipe_MK1Entity entity) {
+        if(!entity.initializedStates){
+            for(NEXORotation rotation : NEXORotation.values()){
+                entity.endStates.put(rotation,getStateForRotation(world,entity.pos,rotation));
+            }
+            entity.initializedStates = true;
+        }
+
+
         if(world.isClient)return;
 
         updateStorages(world,blockPos,entity);

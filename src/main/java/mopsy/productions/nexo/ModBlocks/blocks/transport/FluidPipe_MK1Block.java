@@ -39,6 +39,33 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     private static final VoxelShape EAST_SHAPE = VoxelShapes.cuboid(0.625, 0.375, 0.375, 1, 0.625, 0.625);
     private static final VoxelShape SOUTH_SHAPE = VoxelShapes.cuboid(0.375, 0.375, 0.625, 0.625, 0.625, 1);
     private static final VoxelShape WEST_SHAPE = VoxelShapes.cuboid(0, 0.375, 0.375, 0.375, 0.625, 0.625);
+
+    private static final VoxelShape UP_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.375, 0.625, 0.375, 0.625, 0.875, 0.625),
+            VoxelShapes.cuboid(0.3125, 0.875, 0.3125, 0.6875, 0.9375, 0.6875),
+            VoxelShapes.cuboid(0.25, 0.9375, 0.25, 0.75, 1, 0.75));
+    private static final VoxelShape DOWN_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.375, 0.125, 0.375, 0.625, 0.375, 0.625),
+            VoxelShapes.cuboid(0.3125, 0.0625, 0.3125, 0.6875, 0.125, 0.6875),
+            VoxelShapes.cuboid(0.25, 0, 0.25, 0.75, 0.0625, 0.75));
+    private static final VoxelShape NORTH_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.375, 0.375, 0.125, 0.625, 0.625, 0.375),
+            VoxelShapes.cuboid(0.3125, 0.3125, 0.0625, 0.6875, 0.6875, 0.125),
+            VoxelShapes.cuboid(0.25, 0.25, 0, 0.75, 0.75, 0.0625));
+    private static final VoxelShape EAST_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.625, 0.375, 0.375, 0.875, 0.625, 0.625),
+            VoxelShapes.cuboid(0.875, 0.3125, 0.3125, 0.9375, 0.6875, 0.6875),
+            VoxelShapes.cuboid(0.9375, 0.25, 0.25, 1, 0.75, 0.75));
+    private static final VoxelShape SOUTH_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.375, 0.375, 0.625, 0.625, 0.625, 0.875),
+            VoxelShapes.cuboid(0.3125, 0.3125, 0.875, 0.6875, 0.6875, 0.9375),
+            VoxelShapes.cuboid(0.25, 0.25, 0.9375, 0.75, 0.75, 1));
+    private static final VoxelShape WEST_END_SHAPE = VoxelShapes.union(
+            VoxelShapes.cuboid(0.125, 0.375, 0.375, 0.375, 0.625, 0.625),
+            VoxelShapes.cuboid(0.0625, 0.3125, 0.3125, 0.125, 0.6875, 0.6875),
+            VoxelShapes.cuboid(0, 0.25, 0.25, 0.0625, 0.75, 0.75));
+
+
     @Override
     public String getID(){return "fluid_pipe_mk1";}
 
@@ -65,23 +92,37 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         VoxelShape res = MID_SHAPE;
-        /*
-        if(state.get(UP))
-            res = VoxelShapes.union(res, UP_SHAPE);
-        if(state.get(DOWN))
-            res = VoxelShapes.union(res, DOWN_SHAPE);
-        if(state.get(NORTH))
-            res = VoxelShapes.union(res, NORTH_SHAPE);
-        if(state.get(EAST))
-            res = VoxelShapes.union(res, EAST_SHAPE);
-        if(state.get(SOUTH))
-            res = VoxelShapes.union(res, SOUTH_SHAPE);
-        if(state.get(WEST))
-            res = VoxelShapes.union(res, WEST_SHAPE);
-        */
+        FluidPipe_MK1Entity entity = getBlockEntity(world,pos);
+        if(entity!=null) {
+            //PIPE
+            if (entity.endStates.get(NEXORotation.UP).isPipe())
+                res = VoxelShapes.union(res, UP_SHAPE);
+            if (entity.endStates.get(NEXORotation.DOWN).isPipe())
+                res = VoxelShapes.union(res, DOWN_SHAPE);
+            if (entity.endStates.get(NEXORotation.NORTH).isPipe())
+                res = VoxelShapes.union(res, NORTH_SHAPE);
+            if (entity.endStates.get(NEXORotation.EAST).isPipe())
+                res = VoxelShapes.union(res, EAST_SHAPE);
+            if (entity.endStates.get(NEXORotation.SOUTH).isPipe())
+                res = VoxelShapes.union(res, SOUTH_SHAPE);
+            if (entity.endStates.get(NEXORotation.WEST).isPipe())
+                res = VoxelShapes.union(res, WEST_SHAPE);
+            //END
+            if (entity.endStates.get(NEXORotation.UP).isEnd())
+                res = VoxelShapes.union(res, UP_END_SHAPE);
+            if (entity.endStates.get(NEXORotation.DOWN).isEnd())
+                res = VoxelShapes.union(res, DOWN_END_SHAPE);
+            if (entity.endStates.get(NEXORotation.NORTH).isEnd())
+                res = VoxelShapes.union(res, NORTH_END_SHAPE);
+            if (entity.endStates.get(NEXORotation.EAST).isEnd())
+                res = VoxelShapes.union(res, EAST_END_SHAPE);
+            if (entity.endStates.get(NEXORotation.SOUTH).isEnd())
+                res = VoxelShapes.union(res, SOUTH_END_SHAPE);
+            if (entity.endStates.get(NEXORotation.WEST).isEnd())
+                res = VoxelShapes.union(res, WEST_END_SHAPE);
+        }
         return res;
     }
-
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
