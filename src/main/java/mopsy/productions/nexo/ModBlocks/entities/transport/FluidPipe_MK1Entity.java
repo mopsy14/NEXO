@@ -17,7 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import team.reborn.energy.api.EnergyStorage;
 
 import java.util.*;
 
@@ -79,14 +78,19 @@ public class FluidPipe_MK1Entity extends BlockEntity {
             for (Storage<FluidVariant> inputStorage : entity.connectedInputStorages) {
                 for(StorageView<FluidVariant> inputStorageView : inputStorage){
                     try (Transaction inputTransaction = transaction.openNested()) {
-                        long inputted = inputStorageView.extract(inputStorageView.getResource(), 405,inputTransaction);
+                        long inputted;
+                        try (Transaction simInputTrans = inputTransaction.openNested()) {
+                            inputted = inputStorageView.extract(inputStorageView.getResource(), 405, inputTransaction);
+                            simInputTrans.abort();
+                        }
+
                         if (inputted > 0) {
 
-                            List<EnergyStorage> storages = new ArrayList<>(entity.getAllOutputStorages());
+                            List<Storage<FluidVariant>> storages = new ArrayList<>(entity.getAllOutputStorages());
                             Collections.shuffle(storages);
 
                             long totalExchanged = 0;
-                            while (!storages.isEmpty() && entity.energyStorage.amount > 0) {
+                            while (!storages.isEmpty() && inputted > 0) {
                                 try (Transaction transaction = Transaction.openOuter()) {
                                     totalExchanged += EnergyStorageUtil.move(
                                             entity.energyStorage,
