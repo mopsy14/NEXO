@@ -89,8 +89,8 @@ public class FluidPipe_MK1Entity extends BlockEntity {
                             List<Storage<FluidVariant>> storages = new ArrayList<>(entity.getAllOutputStorages());
                             Collections.shuffle(storages);
 
-                            long totalExchanged = 0;
-                            while (!storages.isEmpty() && inputted > 0) {
+                            long toBeOutputted = inputted;
+                            while (!storages.isEmpty() && toBeOutputted > 0) {
                                 try (Transaction transaction = Transaction.openOuter()) {
                                     totalExchanged += EnergyStorageUtil.move(
                                             entity.energyStorage,
@@ -109,6 +109,11 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         }
 
     }
+
+    private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<StorageView<FluidVariant>> outputStorages, ){
+
+    }
+
     private Set<Storage<FluidVariant>> getAllOutputStorages(){
 
         Set<Storage<FluidVariant>> res = new HashSet<>();
