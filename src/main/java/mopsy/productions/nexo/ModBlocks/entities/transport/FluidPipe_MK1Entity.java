@@ -8,6 +8,7 @@ import mopsy.productions.nexo.util.PipeEndState;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
@@ -110,8 +111,12 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
     }
 
-    private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<StorageView<FluidVariant>> outputStorages, ){
-
+    private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<StorageView<FluidVariant>> outputStorages, long movePerStorage){
+        long res = 0;
+        try(Transaction moveTransaction = transaction.openNested()){
+            StorageUtil.move()
+        }
+        return res;
     }
 
     private Set<Storage<FluidVariant>> getAllOutputStorages(){
