@@ -12,12 +12,16 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -153,7 +157,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
         if(neighborState.isOf(this))
             getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.PIPE);
         else if(isFluidBlock(world, pos, direction))
-            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.IN_OUT);
+            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.OUT);
         else
             getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.NONE);
 
@@ -177,7 +181,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
             if(world.getBlockState(pos.add(rotation.transformToVec3i())).isOf(this))
                 getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.PIPE);
             else if(isFluidBlock(world, pos, rotation.direction))
-                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.IN_OUT);
+                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.OUT);
             else
                 getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.NONE);
         }
@@ -190,5 +194,16 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        for(NEXORotation rotation : NEXORotation.values()) {
+            if(getBlockEntity(world,pos).endStates.get(rotation) == PipeEndState.IN)
+                getBlockEntity(world, pos).endStates.put(rotation,PipeEndState.OUT);
+            else if (getBlockEntity(world, pos).endStates.get(rotation)==PipeEndState.OUT)
+                getBlockEntity(world,pos).endStates.put(rotation,PipeEndState.IN);
+        }
+        return ActionResult.SUCCESS;
     }
 }

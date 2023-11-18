@@ -28,6 +28,7 @@ public class FluidPipe_MK1Entity extends BlockEntity {
     public Set<Storage<FluidVariant>> connectedInputStorages = new HashSet<>(6);
     public Map<NEXORotation,PipeEndState> endStates = new HashMap<>();
     private boolean initializedStates = false;
+    private int counter = 0;
 
 
 
@@ -56,7 +57,7 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         if(world.getBlockState(pos.add(rotation.transformToVec3i())).isOf(ModdedBlocks.Blocks.get("fluid_pipe_mk1")))
             return PipeEndState.PIPE;
         else if (FluidStorage.SIDED.find((World)world,pos.add(rotation.transformToVec3i()),rotation.direction)!=null)
-            return PipeEndState.IN_OUT;
+            return PipeEndState.OUT;
         else
             return PipeEndState.NONE;
 
@@ -73,45 +74,56 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
         if(world.isClient)return;
 
-        updateStorages(world,blockPos,entity);
+        if(entity.counter==20) {
+            entity.counter=0;
+            updateStorages(world, blockPos, entity);
 
-        try (Transaction transaction = Transaction.openOuter()) {
-            for (Storage<FluidVariant> inputStorage : entity.connectedInputStorages) {
-                for(StorageView<FluidVariant> inputStorageView : inputStorage){
-                    try (Transaction inputTransaction = transaction.openNested()) {
-                        long inputted;
-                        try (Transaction simInputTrans = inputTransaction.openNested()) {
-                            inputted = inputStorageView.extract(inputStorageView.getResource(), 405, inputTransaction);
-                            simInputTrans.abort();
-                        }
-
-                        if (inputted > 0) {
-
-                            List<Storage<FluidVariant>> storages = new ArrayList<>(entity.getAllOutputStorages());
-                            Collections.shuffle(storages);
-
-                            long toBeOutputted = inputted;
-                            while (!storages.isEmpty() && toBeOutputted > 0) {
-                                try (Transaction transaction = Transaction.openOuter()) {
-                                    totalExchanged += EnergyStorageUtil.move(
-                                            entity.energyStorage,
-                                            storages.get(storages.size() - 1),
-                                            POWER_RATE - totalExchanged,
-                                            transaction
-                                    );
-                                    transaction.commit();
-                                }
-                                storages.remove(storages.size() - 1);
+            try (Transaction transaction = Transaction.openOuter()) {
+                for (Storage<FluidVariant> inputStorage : entity.connectedInputStorages) {
+                    for (StorageView<FluidVariant> inputStorageView : inputStorage) {
+                        try (Transaction inputTransaction = transaction.openNested()) {
+                            long inputted;
+                            if (inputStorageView.isResourceBlank() || inputStorageView.getAmount() == 0)
+                                continue;
+                            try (Transaction simInputTrans = inputTransaction.openNested()) {
+                                inputted = inputStorageView.extract(inputStorageView.getResource(), 16200, simInputTrans);
+                                simInputTrans.abort();
                             }
-                        }else inputTransaction.abort();
+
+                            if (inputted > 0) {
+                                long toBeOutputted = inputted;
+
+                                List<Storage<FluidVariant>> storages = new ArrayList<>(entity.getAllOutputStorages());
+                                while (storages.contains(inputStorage))
+                                    storages.remove(inputStorage);
+                                Collections.shuffle(storages);
+
+                                if (!storages.isEmpty()) {
+                                    long lastTrans = exportToStorages(inputTransaction, inputStorageView, storages, toBeOutputted / storages.size());
+                                    toBeOutputted -= lastTrans;
+                                    while (lastTrans > 0 && !storages.isEmpty() && toBeOutputted > 0) {
+                                        lastTrans = exportToStorages(inputTransaction, inputStorageView, storages, toBeOutputted / storages.size());
+                                        toBeOutputted -= lastTrans;
+                                    }
+                                    if(toBeOutputted>0 && !storages.isEmpty())
+                                        exportToStorages(inputTransaction,inputStorageView,storages,1);
+
+                                    inputTransaction.commit();
+                                }
+                            }
+                        }
                     }
                 }
+                transaction.commit();
             }
-        }
+        }else
+            entity.counter++;
 
     }
 
     private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<Storage<FluidVariant>> outputStorages, long movePerStorage){
+        if (movePerStorage<1)
+            return 0;
         long res = 0;
         for (int i = outputStorages.size()-1; i >= 0; i--) {
             try (Transaction moveTransaction = transaction.openNested()) {
@@ -190,7 +202,7 @@ public class FluidPipe_MK1Entity extends BlockEntity {
     private Set<DualType<NEXORotation,Storage<FluidVariant>>> getSurroundingStorages(World world, BlockPos pos){
         Set<DualType<NEXORotation,Storage<FluidVariant>>> res = new HashSet<>();
         for(NEXORotation rotation : NEXORotation.values()){
-            BlockPos calculatedPos = pos.offset(rotation.direction);
+            BlockPos calculatedPos = pos.add(rotation.transformToVec3i());
             if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1Entity)) {
                 Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction);
                 if (storage != null)

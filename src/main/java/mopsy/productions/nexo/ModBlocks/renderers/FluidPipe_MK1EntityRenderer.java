@@ -25,7 +25,7 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
     private static final Identifier MAIN_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1.png");
     private static final Identifier INPUT_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1_input.png");
     private static final Identifier OUTPUT_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1_output.png");
-    private static final Identifier IO_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1_io.png");
+    //private static final Identifier IO_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1_io.png");
     private static final Identifier PIPE_TEXTURE = new Identifier(modid,"textures/blocks/fluid_pipe_mk1_pipe.png");
 
     private static final FluidPipe_MK1BaseModel BASE_MODEL = new FluidPipe_MK1BaseModel();
@@ -49,7 +49,7 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
             switch (entity.endStates.get(rotation)) {
                 case IN -> render(END_MODEL,rotation,matrices,vertexConsumers, INPUT_TEXTURE,light,overlay);
                 case OUT -> render(END_MODEL,rotation,matrices,vertexConsumers, OUTPUT_TEXTURE,light,overlay);
-                case IN_OUT -> render(END_MODEL,rotation,matrices,vertexConsumers, IO_TEXTURE,light,overlay);
+                //case IN_OUT -> render(END_MODEL,rotation,matrices,vertexConsumers, IO_TEXTURE,light,overlay);
                 case PIPE -> render(PIPE_MODEL,rotation,matrices,vertexConsumers, PIPE_TEXTURE,light,overlay);
             }
         }
