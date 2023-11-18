@@ -3,12 +3,12 @@ package mopsy.productions.nexo.ModBlocks.entities.transport;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedBlocks;
 import mopsy.productions.nexo.util.DualType;
+import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
@@ -111,10 +111,17 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
     }
 
-    private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<StorageView<FluidVariant>> outputStorages, long movePerStorage){
+    private static long exportToStorages(Transaction transaction, StorageView<FluidVariant> inputStorage, List<Storage<FluidVariant>> outputStorages, long movePerStorage){
         long res = 0;
-        try(Transaction moveTransaction = transaction.openNested()){
-            StorageUtil.move()
+        for (int i = outputStorages.size()-1; i >= 0; i--) {
+            try (Transaction moveTransaction = transaction.openNested()) {
+                long moved = FluidTransactionUtils.move(inputStorage, outputStorages.get(i), movePerStorage, moveTransaction);
+                if(moved<movePerStorage)
+                    outputStorages.remove(i);
+                res+=moved;
+                if(moved>0)
+                    moveTransaction.commit();
+            }
         }
         return res;
     }
