@@ -2,10 +2,10 @@ package mopsy.productions.nexo.ModBlocks.entities.transport;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedBlocks;
-import mopsy.productions.nexo.util.DualType;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
+import mopsy.productions.nexo.util.TriType;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -177,15 +177,15 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         return res;
     }
     private static boolean updateStorages(World world, BlockPos pos, FluidPipe_MK1Entity entity){
-        Set<DualType<NEXORotation,Storage<FluidVariant>>> storages = entity.getSurroundingStorages(world,pos);
+        Set<TriType<NEXORotation,Storage<FluidVariant>,Boolean>> storages = entity.getSurroundingStorages(world,pos);
         Set<Storage<FluidVariant>> inputStorages = new HashSet<>(6);
         Set<Storage<FluidVariant>> outputStorages = new HashSet<>(6);
-        for (DualType<NEXORotation,Storage<FluidVariant>> dualType : storages) {
-            if(entity.endStates.get(dualType.var1).isInput()){
-                inputStorages.add(dualType.var2);
+        for (TriType<NEXORotation,Storage<FluidVariant>,Boolean> triType : storages) {
+            if(entity.endStates.get(triType.var1).isInput() && !triType.var3){
+                inputStorages.add(triType.var2);
             }
-            if(entity.endStates.get(dualType.var1).isOutput()){
-                outputStorages.add(dualType.var2);
+            if(entity.endStates.get(triType.var1).isOutput() && triType.var3){
+                outputStorages.add(triType.var2);
             }
         }
         boolean changed = false;
@@ -199,14 +199,18 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         }
         return changed;
     }
-    private Set<DualType<NEXORotation,Storage<FluidVariant>>> getSurroundingStorages(World world, BlockPos pos){
-        Set<DualType<NEXORotation,Storage<FluidVariant>>> res = new HashSet<>();
+    private Set<TriType<NEXORotation,Storage<FluidVariant>,Boolean>> getSurroundingStorages(World world, BlockPos pos){
+        Set<TriType<NEXORotation,Storage<FluidVariant>,Boolean>> res = new HashSet<>();
         for(NEXORotation rotation : NEXORotation.values()){
             BlockPos calculatedPos = pos.add(rotation.transformToVec3i());
             if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1Entity)) {
                 Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction);
-                if (storage != null)
-                    res.add(new DualType<>(rotation,storage));
+                if (storage != null) {
+                    if(storage.supportsExtraction())
+                        res.add(new TriType<>(rotation, storage, false));
+                    if(storage.supportsInsertion())
+                        res.add(new TriType<>(rotation, storage, true));
+                }
             }
         }
         return res;
