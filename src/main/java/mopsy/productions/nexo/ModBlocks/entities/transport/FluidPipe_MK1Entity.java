@@ -204,7 +204,7 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         for(NEXORotation rotation : NEXORotation.values()){
             BlockPos calculatedPos = pos.add(rotation.transformToVec3i());
             if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1Entity)) {
-                Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction);
+                Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction.getOpposite());
                 if (storage != null) {
                     if(storage.supportsExtraction())
                         res.add(new TriType<>(rotation, storage, false));
