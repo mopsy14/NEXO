@@ -6,6 +6,9 @@ import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import mopsy.productions.nexo.util.TriType;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -14,12 +17,15 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import java.util.*;
+
+import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipe_MK1Entity extends BlockEntity {
@@ -46,18 +52,23 @@ public class FluidPipe_MK1Entity extends BlockEntity {
     @Override
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
-        //nbt.putLong("power", energyStorage.amount);
+        for(NEXORotation rotation : NEXORotation.values()){
+            PipeEndState.write(nbt,endStates.get(rotation),rotation.id);
+        }
     }
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
-        //energyStorage.amount = nbt.getLong("power");
+        for(NEXORotation rotation : NEXORotation.values()){
+            endStates.put(rotation,PipeEndState.read(nbt,rotation.id));
+        }
     }
-    private static PipeEndState getStateForRotation(WorldAccess world, BlockPos pos, NEXORotation rotation){
+    private static PipeEndState getStateForRotation(WorldAccess world, BlockPos pos, NEXORotation rotation, PipeEndState defState){
         if(world.getBlockState(pos.add(rotation.transformToVec3i())).isOf(ModdedBlocks.Blocks.get("fluid_pipe_mk1")))
             return PipeEndState.PIPE;
-        else if (FluidStorage.SIDED.find((World)world,pos.add(rotation.transformToVec3i()),rotation.direction)!=null)
-            return PipeEndState.OUT;
+        else if (FluidStorage.SIDED.find((World)world,pos.add(rotation.transformToVec3i()),rotation.direction)!=null) {
+                return defState.isEnd()?defState:PipeEndState.OUT;
+        }
         else
             return PipeEndState.NONE;
 
@@ -65,10 +76,15 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, FluidPipe_MK1Entity entity) {
         if(!entity.initializedStates){
+            PacketByteBuf buf = PacketByteBufs.create();
             for(NEXORotation rotation : NEXORotation.values()){
-                entity.endStates.put(rotation,getStateForRotation(world,entity.pos,rotation));
+                entity.endStates.put(rotation,getStateForRotation(world,entity.pos,rotation,entity.endStates.get(rotation)));
+                rotation.writeToPacket(buf);
+                entity.endStates.get(rotation).writeToPacket(buf);
             }
             entity.initializedStates = true;
+            if(!world.isClient)
+                PlayerLookup.all(world.getServer()).forEach(serverPlayerEntity -> ServerPlayNetworking.send(serverPlayerEntity,FLUID_PIPE_STATE_CHANGE_PACKET,buf));
         }
 
 

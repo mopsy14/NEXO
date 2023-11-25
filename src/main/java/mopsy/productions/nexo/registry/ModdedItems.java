@@ -19,6 +19,7 @@ import mopsy.productions.nexo.ModItems.components.CopperWireItem;
 import mopsy.productions.nexo.ModItems.components.GoldWireItem;
 import mopsy.productions.nexo.ModItems.tools.DebugItem;
 import mopsy.productions.nexo.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nexo.ModItems.tools.PipeWrench;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -131,6 +132,7 @@ public class ModdedItems {
         //tools
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
+        regItem(new PipeWrench());
 
         //components
         regItem(new CopperWireItem());

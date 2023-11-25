@@ -3,6 +3,7 @@ package mopsy.productions.nexo.ModBlocks.blocks.transport;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.registry.ModdedItems;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -204,6 +205,10 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
             else if (getBlockEntity(world, pos).endStates.get(rotation)==PipeEndState.OUT)
                 getBlockEntity(world,pos).endStates.put(rotation,PipeEndState.IN);
         }
-        return ActionResult.SUCCESS;
+        if(player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))){
+
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS;
     }
 }

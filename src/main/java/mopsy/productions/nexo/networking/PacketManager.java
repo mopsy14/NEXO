@@ -20,6 +20,7 @@ public class PacketManager {
     public static final Identifier START_MIXER_PACKET = new Identifier(modid, "start_mixer");
 
     public static final Identifier CHANGE_MIXER_SLIDER_PACKET = new Identifier(modid, "change_mixer_slider");
+    public static final Identifier FLUID_PIPE_STATE_CHANGE_PACKET = new Identifier(modid, "fluid_pipe_state_change");
     public static void registerC2SPackets(){
         ServerPlayNetworking.registerGlobalReceiver(SWITCH_REACTOR_POWER_PACKET, C2SPackets::receiveSwitchReactorPower);
         ServerPlayNetworking.registerGlobalReceiver(START_MIXER_PACKET, C2SPackets::receiveStartMixer);
@@ -31,6 +32,7 @@ public class PacketManager {
         ClientPlayNetworking.registerGlobalReceiver(ENERGY_CHANGE_PACKET, S2CPackets::receiveEnergyChange);
         ClientPlayNetworking.registerGlobalReceiver(FLUID_CHANGE_PACKET, S2CPackets::receiveFluidChange);
         ClientPlayNetworking.registerGlobalReceiver(ADVANCED_FLUID_CHANGE_PACKET, S2CPackets::receiveAdvancedFluidChange);
+        ClientPlayNetworking.registerGlobalReceiver(FLUID_PIPE_STATE_CHANGE_PACKET, S2CPackets::receiveFluidPipeStateChange);
     }
 
 }
