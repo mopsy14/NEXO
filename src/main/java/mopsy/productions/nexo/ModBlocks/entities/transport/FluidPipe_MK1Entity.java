@@ -6,9 +6,8 @@ import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import mopsy.productions.nexo.util.TriType;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -17,7 +16,6 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -25,7 +23,7 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.*;
 
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
+import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_REQUEST_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
 public class FluidPipe_MK1Entity extends BlockEntity {
@@ -76,15 +74,12 @@ public class FluidPipe_MK1Entity extends BlockEntity {
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, FluidPipe_MK1Entity entity) {
         if(!entity.initializedStates){
-            PacketByteBuf buf = PacketByteBufs.create();
             for(NEXORotation rotation : NEXORotation.values()){
                 entity.endStates.put(rotation,getStateForRotation(world,entity.pos,rotation,entity.endStates.get(rotation)));
-                rotation.writeToPacket(buf);
-                entity.endStates.get(rotation).writeToPacket(buf);
             }
+            if(world.isClient)
+                ClientPlayNetworking.send(FLUID_PIPE_STATE_REQUEST_PACKET, PacketByteBufs.create().writeBlockPos(blockPos));
             entity.initializedStates = true;
-            if(!world.isClient)
-                PlayerLookup.all(world.getServer()).forEach(serverPlayerEntity -> ServerPlayNetworking.send(serverPlayerEntity,FLUID_PIPE_STATE_CHANGE_PACKET,buf));
         }
 
 
