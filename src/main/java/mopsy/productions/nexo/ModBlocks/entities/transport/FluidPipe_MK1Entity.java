@@ -2,12 +2,15 @@ package mopsy.productions.nexo.ModBlocks.entities.transport;
 
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedBlocks;
+import mopsy.productions.nexo.screen.fluidPipe.FluidPipeScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import mopsy.productions.nexo.util.TriType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -15,18 +18,26 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
 import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_REQUEST_PACKET;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FluidPipe_MK1Entity extends BlockEntity {
+public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHandlerFactory {
 
     public Set<Storage<FluidVariant>> connectedOutputStorages = new HashSet<>(6);
     public Set<Storage<FluidVariant>> connectedInputStorages = new HashSet<>(6);
@@ -226,4 +237,29 @@ public class FluidPipe_MK1Entity extends BlockEntity {
         }
         return res;
     }
+
+    //Screen handler:
+    @Override
+    public Text getDisplayName() {
+        return Text.literal("Fluid Pipe I/O Settings");
+    }
+    @Nullable
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+        if(player instanceof  ServerPlayerEntity serverPlayerEntity){
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeBlockPos(pos);
+            for(NEXORotation rotation : NEXORotation.values()){
+                rotation.writeToPacket(buf);
+                endStates.get(rotation).writeToPacket(buf);
+            }
+            ServerPlayNetworking.send(serverPlayerEntity, FLUID_PIPE_STATE_CHANGE_PACKET, buf);
+        }
+        return new FluidPipeScreenHandler(syncId, inv, pos);
+    }
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        buf.writeBlockPos(this.pos);
+    }
+
 }

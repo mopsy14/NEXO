@@ -22,6 +22,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
@@ -219,6 +220,10 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                     getBlockEntity(world, pos).endStates.get(rotation).writeToPacket(buf);
                 }
                 PlayerLookup.all(world.getServer()).forEach(serverPlayerEntity -> ServerPlayNetworking.send(serverPlayerEntity, FLUID_PIPE_STATE_CHANGE_PACKET, buf));
+                NamedScreenHandlerFactory screenHandlerFactory = getBlockEntity(world, pos);
+                if(screenHandlerFactory != null){
+                    player.openHandledScreen(screenHandlerFactory);
+                }
                 return ActionResult.SUCCESS;
             }
         }
