@@ -204,15 +204,14 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-
-        if (player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
-            for (NEXORotation rotation : NEXORotation.values()) {
-                if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.IN)
-                    getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.OUT);
-                else if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.OUT)
-                    getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.IN);
-            }
-            if (!world.isClient) {
+        if (!world.isClient) {
+            if (player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
+                for (NEXORotation rotation : NEXORotation.values()) {
+                    if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.IN)
+                        getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.OUT);
+                    else if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.OUT)
+                        getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.IN);
+                }
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(pos);
                 for (NEXORotation rotation : NEXORotation.values()) {
@@ -220,8 +219,8 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                     getBlockEntity(world, pos).endStates.get(rotation).writeToPacket(buf);
                 }
                 PlayerLookup.all(world.getServer()).forEach(serverPlayerEntity -> ServerPlayNetworking.send(serverPlayerEntity, FLUID_PIPE_STATE_CHANGE_PACKET, buf));
+                return ActionResult.SUCCESS;
             }
-            return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
     }
