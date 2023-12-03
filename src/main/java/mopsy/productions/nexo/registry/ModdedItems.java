@@ -58,7 +58,7 @@ public class ModdedItems {
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("yellowcake", 3),
             new ItemInfo("uranium_tetrafluoride"),
-            new ItemInfo("uranium_fuel_pellet"),
+            new ItemInfo("uranium_fuel_pellet",3),
             new ItemInfo("sodium_metavanadate"),
             new ItemInfo("empty_geiger_tube"),
             new ItemInfo("filled_geiger_tube"),
