@@ -6,9 +6,6 @@ import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedItems;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.*;
@@ -21,7 +18,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -38,7 +34,6 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 @SuppressWarnings({"deprecation", "UnstableApiUsage"})
@@ -207,19 +202,6 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             if (player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
-                for (NEXORotation rotation : NEXORotation.values()) {
-                    if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.IN)
-                        getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.OUT);
-                    else if (getBlockEntity(world, pos).endStates.get(rotation) == PipeEndState.OUT)
-                        getBlockEntity(world, pos).endStates.put(rotation, PipeEndState.IN);
-                }
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeBlockPos(pos);
-                for (NEXORotation rotation : NEXORotation.values()) {
-                    rotation.writeToPacket(buf);
-                    getBlockEntity(world, pos).endStates.get(rotation).writeToPacket(buf);
-                }
-                PlayerLookup.all(world.getServer()).forEach(serverPlayerEntity -> ServerPlayNetworking.send(serverPlayerEntity, FLUID_PIPE_STATE_CHANGE_PACKET, buf));
                 NamedScreenHandlerFactory screenHandlerFactory = getBlockEntity(world, pos);
                 if(screenHandlerFactory != null){
                     player.openHandledScreen(screenHandlerFactory);

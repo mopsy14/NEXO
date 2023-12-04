@@ -59,4 +59,12 @@ public enum PipeEndState {
             case OUT -> nbt.putBoolean(key, false);
         }
     }
+
+    public PipeEndState invertIfEnd(){
+        switch (this){
+            case OUT -> {return IN;}
+            case IN -> {return OUT;}
+            default -> {return this;}
+        }
+    }
 }

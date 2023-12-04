@@ -4,11 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import mopsy.productions.nexo.util.IntCords2D;
 import mopsy.productions.nexo.util.NEXORotation;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static mopsy.productions.nexo.Main.modid;
+import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_INVERT_STATE_PACKET;
 import static mopsy.productions.nexo.util.NEXORotation.*;
 
 public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
@@ -126,5 +130,53 @@ public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+
+        IntCords2D ic2d = new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY)));
+        if(renderUpTooltipPredicate.test(ic2d)){
+            if(MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(UP).isEnd())
+                    sendInvertStatePacket(UP);
+            }
+        }else if(renderDownTooltipPredicate.test(ic2d)) {
+            if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(DOWN).isEnd())
+                    sendInvertStatePacket(DOWN);
+            }
+        }else if(renderNorthTooltipPredicate.test(ic2d)) {
+            if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(NORTH).isEnd())
+                    sendInvertStatePacket(NORTH);
+            }
+        }else if(renderEastTooltipPredicate.test(ic2d)) {
+            if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(EAST).isEnd())
+                    sendInvertStatePacket(EAST);
+            }
+        }else if(renderSouthTooltipPredicate.test(ic2d)) {
+            if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(SOUTH).isEnd())
+                    sendInvertStatePacket(SOUTH);
+            }
+        }else if(renderWestTooltipPredicate.test(ic2d)) {
+            if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
+                if (entity.endStates.get(WEST).isEnd())
+                    sendInvertStatePacket(WEST);
+            }
+        }
+
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+    private void sendInvertStatePacket(NEXORotation rotation){
+        PacketByteBuf buf = PacketByteBufs.create();
+
+        buf.writeBlockPos(handler.getBlockPos());
+        rotation.writeToPacket(buf);
+
+        ClientPlayNetworking.send(FLUID_PIPE_INVERT_STATE_PACKET,buf);
     }
 }
