@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -112,16 +113,18 @@ public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
 
     private void renderSlotTooltip(MatrixStack matrices, IntCords2D mouseCords, FluidPipe_MK1Entity entity, NEXORotation rotation){
         List<Text> text = new ArrayList<>();
-        text.add(Text.of("Side: "+rotation.id.toUpperCase()));
-        text.add(Text.of("Block name:"));
+        text.add(Text.of(Formatting.GOLD+"Side: "));
+        text.add(Text.of(rotation.id.toUpperCase()));
+        text.add(Text.of(Formatting.GOLD+"Block name:"));
         text.add(Text.translatable(entity.getWorld().getBlockState(entity.getPos().add(rotation.transformToVec3i())).getBlock().getTranslationKey()));
-        text.add(Text.of("Current mode: "+entity.endStates.get(rotation).toString()));
+        text.add(Text.of(Formatting.GOLD+"Current mode: "));
+        text.add(Text.of(entity.endStates.get(rotation).toString()));
         if(entity.endStates.get(rotation).isEnd())
-            text.add(Text.of("Click to switch input and output"));
+            text.add(Text.of(Formatting.ITALIC+"Click to switch mode"));
         if(entity.endStates.get(rotation).isPipe())
-            text.add(Text.of("Another pipe is connected here"));
+            text.add(Text.of(Formatting.ITALIC+"Connected to other pipe"));
         if(entity.endStates.get(rotation).isNone())
-            text.add(Text.of("No fluid storage was found on this side"));
+            text.add(Text.of(Formatting.ITALIC+"No fluid storage found"));
         renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
     }
 
