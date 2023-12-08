@@ -2,6 +2,7 @@ package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
 import mopsy.productions.nexo.ModBlocks.entities.machines.*;
+import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
@@ -26,6 +27,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<AmmoniaSynthesizerEntity> AMMONIA_SYNTHESIZER;
     public static BlockEntityType<MixerEntity> MIXER;
     public static BlockEntityType<InsulatedCopperCableEntity> INSULATED_COPPER_CABLE;
+    public static BlockEntityType<FluidPipe_MK1Entity> FLUID_PIPE_MK1;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -63,6 +65,9 @@ public class ModdedBlockEntities {
 
         INSULATED_COPPER_CABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "insulated_copper_cable"),
                 FabricBlockEntityTypeBuilder.create(InsulatedCopperCableEntity::new, ModdedBlocks.Blocks.get("insulated_copper_cable")).build(null));
+
+        FLUID_PIPE_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "fluid_pipe_mk1"),
+                FabricBlockEntityTypeBuilder.create(FluidPipe_MK1Entity::new, ModdedBlocks.Blocks.get("fluid_pipe_mk1")).build(null));
 
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);

@@ -104,22 +104,7 @@ public class InsulatedCopperCableEntity extends BlockEntity{
         }
         return res;
     }
-    private Set<InsulatedCopperCableEntity> getConnectedCables(){
-        Set<InsulatedCopperCableEntity> res = new HashSet<>(6);
-        if(world.getBlockEntity(pos.up())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.up()));
-        if(world.getBlockEntity(pos.down())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.down()));
-        if(world.getBlockEntity(pos.north())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.north()));
-        if(world.getBlockEntity(pos.east())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.east()));
-        if(world.getBlockEntity(pos.south())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.south()));
-        if(world.getBlockEntity(pos.west())instanceof InsulatedCopperCableEntity)
-            res.add((InsulatedCopperCableEntity) world.getBlockEntity(pos.west()));
-        return res;
-    }
+
     private static boolean updateStorages(World world, BlockPos pos, InsulatedCopperCableEntity entity){
         Set<EnergyStorage> storages = entity.getSurroundingStorages(world,pos);
         if(!entity.connectedStorages.equals(storages)){
