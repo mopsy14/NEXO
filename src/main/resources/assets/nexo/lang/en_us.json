@@ -111,6 +111,7 @@
   "item.nexo.heat_pump": "Heat Pump",
   "item.nexo.gas_valve": "Gas Valve",
   "item.nexo.nuclear_reaction_chamber": "Nuclear Reaction Chamber",
+  "item.nexo.pipe_wrench": "Pipe Wrench",
 
   "block.nexo.uranium_ore": "Uranium Ore",
   "block.nexo.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -144,6 +145,7 @@
   "block.nexo.salt_ore": "Salt Ore",
   "block.nexo.nickel_ore": "Nickel Ore",
   "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore",
+  "block.nexo.fluid_pipe_mk1": "Fluid Pipe MK1",
 
   "block.nexo.nitrogen": "Nitrogen",
   "block.nexo.oxygen": "Oxygen",
