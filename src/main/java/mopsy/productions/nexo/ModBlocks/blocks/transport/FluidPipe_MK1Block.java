@@ -114,17 +114,17 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
             if (entity.endStates.get(NEXORotation.WEST).isPipe())
                 res = VoxelShapes.union(res, WEST_SHAPE);
             //END
-            if (entity.endStates.get(NEXORotation.UP).isEnd())
+            if (entity.endStates.get(NEXORotation.UP).isIO())
                 res = VoxelShapes.union(res, UP_END_SHAPE);
-            if (entity.endStates.get(NEXORotation.DOWN).isEnd())
+            if (entity.endStates.get(NEXORotation.DOWN).isIO())
                 res = VoxelShapes.union(res, DOWN_END_SHAPE);
-            if (entity.endStates.get(NEXORotation.NORTH).isEnd())
+            if (entity.endStates.get(NEXORotation.NORTH).isIO())
                 res = VoxelShapes.union(res, NORTH_END_SHAPE);
-            if (entity.endStates.get(NEXORotation.EAST).isEnd())
+            if (entity.endStates.get(NEXORotation.EAST).isIO())
                 res = VoxelShapes.union(res, EAST_END_SHAPE);
-            if (entity.endStates.get(NEXORotation.SOUTH).isEnd())
+            if (entity.endStates.get(NEXORotation.SOUTH).isIO())
                 res = VoxelShapes.union(res, SOUTH_END_SHAPE);
-            if (entity.endStates.get(NEXORotation.WEST).isEnd())
+            if (entity.endStates.get(NEXORotation.WEST).isIO())
                 res = VoxelShapes.union(res, WEST_END_SHAPE);
         }
         return res;

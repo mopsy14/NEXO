@@ -65,7 +65,7 @@ public class C2SPackets {
             }
         });
     }
-    public static void receivePipeStateInvert(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender packetSender) {
+    public static void receivePipeStateCycle(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender packetSender) {
         BlockPos pos = buf.readBlockPos();
         NEXORotation rotation = NEXORotation.readPacket(buf);
 
@@ -73,7 +73,7 @@ public class C2SPackets {
             if(player.currentScreenHandler instanceof FluidPipeScreenHandler sh && sh.getBlockPos().equals(pos)){
                 if (player.getWorld().getBlockEntity(pos) instanceof FluidPipe_MK1Entity entity){
 
-                    entity.endStates.put(rotation, entity.endStates.get(rotation).invertIfEnd());
+                    entity.endStates.put(rotation, entity.endStates.get(rotation).cycleIfEnd());
 
                     PacketByteBuf sendBuf = PacketByteBufs.create();
                     sendBuf.writeBlockPos(pos);

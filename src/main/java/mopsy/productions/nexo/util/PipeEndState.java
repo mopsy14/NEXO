@@ -5,6 +5,7 @@ import net.minecraft.network.PacketByteBuf;
 
 public enum PipeEndState {
     NONE,
+    DISCONNECTED,
     IN,
     OUT,
     PIPE;
@@ -12,8 +13,11 @@ public enum PipeEndState {
     public boolean isPipe(){
         return this == PIPE;
     }
-    public boolean isEnd(){
+    public boolean isIO(){
         return this == IN || this == OUT;
+    }
+    public boolean isEnd(){
+        return this == IN || this == OUT || this == DISCONNECTED;
     }
     public boolean isNone(){
         return this == NONE;
@@ -24,46 +28,56 @@ public enum PipeEndState {
     public boolean isOutput(){
         return this == OUT;
     }
+    public boolean isDisconnected(){
+        return this == DISCONNECTED;
+    }
     public static PipeEndState read(NbtCompound nbt, String key){
         if(nbt.contains(key)) {
-            if (nbt.getBoolean(key))
-                return PipeEndState.IN;
-            else
-                return PipeEndState.OUT;
+            switch (nbt.getInt(key)){
+                default -> {return PipeEndState.NONE;} //Both 0 and >3 will return NONE
+                case 1 -> {return PipeEndState.DISCONNECTED;}
+                case 2 -> {return PipeEndState.IN;}
+                case 3 -> {return PipeEndState.OUT;}
+            }
         }
         else
             return PipeEndState.NONE;
     }
+    public static void write(NbtCompound nbt, PipeEndState pipeEndState, String key){
+        switch (pipeEndState){
+            case DISCONNECTED -> nbt.putInt(key, 1);
+            case IN -> nbt.putInt(key, 2);
+            case OUT -> nbt.putInt(key, 3);
+        }
+    }
+
     public static PipeEndState readPacket(PacketByteBuf buf){
         switch (buf.readInt()){
-            case 0 -> {return NONE;}
-            case 1 -> {return IN;}
-            case 2 -> {return OUT;}
-            case 3 -> {return PIPE;}
+            default -> {return NONE;}
+            case 1 -> {return DISCONNECTED;}
+            case 2 -> {return IN;}
+            case 3 -> {return OUT;}
+            case 4 -> {return PIPE;}
         }
-        return NONE;
     }
     public void writeToPacket(PacketByteBuf buf){
         if(this.isNone())
             buf.writeInt(0);
-        if(this.isInput())
+        if(this.isDisconnected())
             buf.writeInt(1);
-        if(this.isOutput())
+        if(this.isInput())
             buf.writeInt(2);
-        if(this.isPipe())
+        if(this.isOutput())
             buf.writeInt(3);
-    }
-    public static void write(NbtCompound nbt, PipeEndState pipeEndState, String key){
-        switch (pipeEndState){
-            case IN -> nbt.putBoolean(key, true);
-            case OUT -> nbt.putBoolean(key, false);
-        }
+        if(this.isPipe())
+            buf.writeInt(4);
     }
 
-    public PipeEndState invertIfEnd(){
+    public PipeEndState cycleIfEnd(){
         switch (this){
+            case DISCONNECTED -> {return OUT;}
             case OUT -> {return IN;}
-            case IN -> {return OUT;}
+            case IN -> {return DISCONNECTED;}
             default -> {return this;}
         }
     }

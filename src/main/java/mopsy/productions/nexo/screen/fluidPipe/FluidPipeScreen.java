@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static mopsy.productions.nexo.Main.modid;
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_INVERT_STATE_PACKET;
+import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_CYCLE_STATE_PACKET;
 import static mopsy.productions.nexo.util.NEXORotation.*;
 
 public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
@@ -120,7 +120,7 @@ public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
         text.add(Text.of(Formatting.GOLD+"Current mode: "));
         text.add(Text.of(entity.endStates.get(rotation).toString()));
         if(entity.endStates.get(rotation).isEnd())
-            text.add(Text.of(Formatting.ITALIC+"Click to switch mode"));
+            text.add(Text.of(Formatting.ITALIC+"Click to cycle mode"));
         if(entity.endStates.get(rotation).isPipe())
             text.add(Text.of(Formatting.ITALIC+"Connected to other pipe"));
         if(entity.endStates.get(rotation).isNone())
@@ -142,44 +142,44 @@ public class FluidPipeScreen extends HandledScreen<FluidPipeScreenHandler> {
         if(renderUpTooltipPredicate.test(ic2d)){
             if(MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(UP).isEnd())
-                    sendInvertStatePacket(UP);
+                    sendCycleStatePacket(UP);
             }
         }else if(renderDownTooltipPredicate.test(ic2d)) {
             if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(DOWN).isEnd())
-                    sendInvertStatePacket(DOWN);
+                    sendCycleStatePacket(DOWN);
             }
         }else if(renderNorthTooltipPredicate.test(ic2d)) {
             if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(NORTH).isEnd())
-                    sendInvertStatePacket(NORTH);
+                    sendCycleStatePacket(NORTH);
             }
         }else if(renderEastTooltipPredicate.test(ic2d)) {
             if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(EAST).isEnd())
-                    sendInvertStatePacket(EAST);
+                    sendCycleStatePacket(EAST);
             }
         }else if(renderSouthTooltipPredicate.test(ic2d)) {
             if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(SOUTH).isEnd())
-                    sendInvertStatePacket(SOUTH);
+                    sendCycleStatePacket(SOUTH);
             }
         }else if(renderWestTooltipPredicate.test(ic2d)) {
             if (MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos()) instanceof FluidPipe_MK1Entity entity) {
                 if (entity.endStates.get(WEST).isEnd())
-                    sendInvertStatePacket(WEST);
+                    sendCycleStatePacket(WEST);
             }
         }
 
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
-    private void sendInvertStatePacket(NEXORotation rotation){
+    private void sendCycleStatePacket(NEXORotation rotation){
         PacketByteBuf buf = PacketByteBufs.create();
 
         buf.writeBlockPos(handler.getBlockPos());
         rotation.writeToPacket(buf);
 
-        ClientPlayNetworking.send(FLUID_PIPE_INVERT_STATE_PACKET,buf);
+        ClientPlayNetworking.send(FLUID_PIPE_CYCLE_STATE_PACKET,buf);
     }
 }
