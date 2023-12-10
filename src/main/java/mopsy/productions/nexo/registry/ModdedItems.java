@@ -91,7 +91,7 @@ public class ModdedItems {
             //ingots
             new ItemInfo("uranium_ingot", 1),
             new ItemInfo("titanium_ingot"),
-            new ItemInfo("graphite_ingot"),
+            new ItemInfo("graphite_rod"),
             new ItemInfo("lead_ingot"),
             new ItemInfo("steel_ingot"),
             new ItemInfo("nickel_ingot"),
