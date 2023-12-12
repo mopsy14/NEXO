@@ -17,12 +17,25 @@ public class DisplayUtils {
     }
     public static String getFluidBarText(long amount, long maxAmount, boolean exact){
         if(exact) {
-            return Formatting.GOLD + getExactStringFromLong(amount) + "mB/" + getExactStringFromLong(maxAmount) + "mB";
+            return Formatting.GOLD + getExactStringFromLong(amount/81) + getDivisionRemainderText(amount) + "mB/" + getExactStringFromLong(maxAmount) + "mB";
         }
+        amount /= 81;
         if (amount < 10000)
             return Formatting.GOLD.toString() + amount + "mB/" + maxAmount + "mB";
         return Formatting.GOLD + getStringFromLong(amount / 1000) + "B/" + getStringFromLong(maxAmount / 1000) + "B";
     }
+
+    private static String getDivisionRemainderText(long amount) {
+        long dropletsLeft = amount % 81;
+        if(dropletsLeft != 0){
+            if(dropletsLeft % 27 == 0) return " " + dropletsLeft / 3 + "/27 ";
+            if (dropletsLeft % 9 == 0) return " " + dropletsLeft / 9 + "/9";
+            if (dropletsLeft % 3 == 0) return " " + dropletsLeft / 27 + "/3";
+            return " " + dropletsLeft + "/81";
+        }
+        return "";
+    }
+
     public static String getStringFromLong(long input){
         //10G+
         if(input>9999999999L){
