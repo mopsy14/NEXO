@@ -28,6 +28,11 @@
     "nexo:carobbiite_ore",
     "nexo:deepslate_vanadium_ore",
     "nexo:vanadium_ore",
-    "nexo:salt_ore"
+    "nexo:salt_ore",
+    "nexo:insulated_copper_cable",
+    "nexo:fluid_pipe_mk1",
+    "nexo:ammonia_synthesizer",
+    "nexo:deepslate_nickel_ore",
+    "nexo:nickel_ore"
   ]
 }

@@ -1,0 +1,14 @@
+{
+	"parent": "block/cube",
+	"texture_size": [32, 32],
+	"textures": {
+		"particle": "nexo:blocks/fluid_pipe_mk1"
+	},
+	"display": {
+		"firstperson_righthand": {
+			"rotation": [ 0, 135, 0 ],
+			"translation": [ 0, 0, 0 ],
+			"scale": [ 0.40, 0.40, 0.40 ]
+		}
+	}
+}

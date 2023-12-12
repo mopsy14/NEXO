@@ -3,6 +3,6 @@
   "ingredient": {
     "item": "minecraft:coal"
   },
-  "result": "nexo:graphite_ingot",
+  "result": "nexo:graphite_rod",
   "experience": 3
 }

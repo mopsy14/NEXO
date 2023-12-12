@@ -19,6 +19,7 @@ import mopsy.productions.nexo.ModItems.components.CopperWireItem;
 import mopsy.productions.nexo.ModItems.components.GoldWireItem;
 import mopsy.productions.nexo.ModItems.tools.DebugItem;
 import mopsy.productions.nexo.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nexo.ModItems.tools.PipeWrench;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -58,7 +59,7 @@ public class ModdedItems {
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("yellowcake", 3),
             new ItemInfo("uranium_tetrafluoride"),
-            new ItemInfo("uranium_fuel_pellet"),
+            new ItemInfo("uranium_fuel_pellet",3),
             new ItemInfo("sodium_metavanadate"),
             new ItemInfo("empty_geiger_tube"),
             new ItemInfo("filled_geiger_tube"),
@@ -90,7 +91,7 @@ public class ModdedItems {
             //ingots
             new ItemInfo("uranium_ingot", 1),
             new ItemInfo("titanium_ingot"),
-            new ItemInfo("graphite_ingot"),
+            new ItemInfo("graphite_rod"),
             new ItemInfo("lead_ingot"),
             new ItemInfo("steel_ingot"),
             new ItemInfo("nickel_ingot"),
@@ -131,6 +132,7 @@ public class ModdedItems {
         //tools
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
+        regItem(new PipeWrench());
 
         //components
         regItem(new CopperWireItem());

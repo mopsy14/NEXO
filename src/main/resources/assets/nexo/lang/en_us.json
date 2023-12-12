@@ -32,7 +32,7 @@
   "item.nexo.Iron_dust": "Iron Dust",
   "item.nexo.control_rod": "Control Rod",
   "item.nexo.rod_holder": "Rod Holder",
-  "item.nexo.graphite_ingot": "Graphite",
+  "item.nexo.graphite_rod": "Graphite Rod",
   "item.nexo.uranium_dust": "Uranium Dust",
   "item.nexo.reaction_chamber": "Reaction Chamber",
   "item.nexo.reactor_boiler": "Reactor Boiler",
@@ -110,6 +110,8 @@
   "item.nexo.heating_coil": "Heating Coil",
   "item.nexo.heat_pump": "Heat Pump",
   "item.nexo.gas_valve": "Gas Valve",
+  "item.nexo.nuclear_reaction_chamber": "Nuclear Reaction Chamber",
+  "item.nexo.pipe_wrench": "Pipe Wrench",
 
   "block.nexo.uranium_ore": "Uranium Ore",
   "block.nexo.deepslate_uranium_ore": "Deepslate Uranium Ore",
@@ -140,7 +142,10 @@
   "block.nexo.carobbiite_ore": "Carobbiite Ore",
   "block.nexo.deepslate_vanadium_ore": "Deepslate Vanadium Ore",
   "block.nexo.vanadium_ore": "Vanadium Ore",
-  "block.nexo.salt.ore": "Salt Ore",
+  "block.nexo.salt_ore": "Salt Ore",
+  "block.nexo.nickel_ore": "Nickel Ore",
+  "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore",
+  "block.nexo.fluid_pipe_mk1": "Fluid Pipe MK1",
 
   "block.nexo.nitrogen": "Nitrogen",
   "block.nexo.oxygen": "Oxygen",
@@ -157,8 +162,5 @@
   "block.nexo.steam": "Steam",
   "block.nexo.hf_kf": "HF-KF Solution",
   "block.nexo.depleted_uranium_tails": "Depleted Uranium Tails",
-  "block.nexo.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)",
-  "block.nexo.salt_ore": "Salt Ore",
-  "block.nexo.nickel_ore": "Nickel Ore",
-  "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore"
+  "block.nexo.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)"
 }
