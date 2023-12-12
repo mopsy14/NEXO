@@ -28,12 +28,12 @@ public class DisplayUtils {
     private static String getDivisionRemainderText(long amount) {
         long dropletsLeft = amount % 81;
         if(dropletsLeft != 0){
-            if(dropletsLeft % 27 == 0) return " " + dropletsLeft / 3 + "/27 ";
-            if (dropletsLeft % 9 == 0) return " " + dropletsLeft / 9 + "/9";
-            if (dropletsLeft % 3 == 0) return " " + dropletsLeft / 27 + "/3";
-            return " " + dropletsLeft + "/81";
+            if (dropletsLeft % 27 == 0) return " " + dropletsLeft / 3 + "/27 ";
+            if (dropletsLeft % 9 == 0) return " " + dropletsLeft / 9 + "/9 ";
+            if (dropletsLeft % 3 == 0) return " " + dropletsLeft / 27 + "/3 ";
+            return " " + dropletsLeft + "/81 ";
         }
-        return "";
+        return " ";
     }
 
     public static String getStringFromLong(long input){
