@@ -13,6 +13,7 @@ public class CrushingDisplay extends NEXODisplay {
 
     public CrushingDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (CrusherRecipe) recipe;
     }
 
     @Override

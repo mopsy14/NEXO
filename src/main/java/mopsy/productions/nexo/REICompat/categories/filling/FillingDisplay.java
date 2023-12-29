@@ -14,6 +14,7 @@ public class FillingDisplay extends NEXODisplay {
 
     public FillingDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (FillingRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {

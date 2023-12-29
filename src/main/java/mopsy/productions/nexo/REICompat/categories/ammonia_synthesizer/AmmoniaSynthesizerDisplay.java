@@ -14,6 +14,7 @@ public class AmmoniaSynthesizerDisplay extends NEXODisplay {
 
     public AmmoniaSynthesizerDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (AmmoniaSynthesizerRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
