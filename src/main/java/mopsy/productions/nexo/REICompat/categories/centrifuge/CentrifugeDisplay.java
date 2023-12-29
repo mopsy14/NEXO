@@ -14,6 +14,7 @@ public class CentrifugeDisplay extends NEXODisplay {
 
     public CentrifugeDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe = (CentrifugeRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {
