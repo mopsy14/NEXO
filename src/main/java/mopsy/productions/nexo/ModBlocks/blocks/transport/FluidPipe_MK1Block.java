@@ -158,9 +158,10 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
 
         if(neighborState.isOf(this))
             getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.PIPE);
-        else if(isFluidBlock(world, pos, direction))
-            getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.OUT);
-        else
+        else if(isFluidBlock(world, pos, direction)) {
+            if(getBlockEntity(world,pos).endStates.get(NEXORotation.ofDirection(direction)).isNone())
+                getBlockEntity(world, pos).endStates.put(NEXORotation.ofDirection(direction), PipeEndState.OUT);
+        }else
             getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.NONE);
 
         return originalState;

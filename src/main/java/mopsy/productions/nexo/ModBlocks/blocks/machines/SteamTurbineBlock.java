@@ -21,6 +21,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import static mopsy.productions.nexo.util.NEXOBlockStates.ACTIVE;
+
 public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
     @Override
@@ -33,10 +35,10 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
         );
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE,false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(ACTIVE,false);
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -47,7 +49,7 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING).add(ACTIVE);
     }
 
     @Override
