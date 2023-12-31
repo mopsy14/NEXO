@@ -25,6 +25,6 @@ public class ClientMain implements ClientModInitializer {
         registerS2CPackets();
 
         BlockEntityRendererFactories.register(FLUID_PIPE_MK1, FluidPipe_MK1EntityRenderer::new);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModdedBlocks.Blocks.get("steam_turbine"),RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModdedBlocks.Blocks.get("steam_turbine"), RenderLayer.getCutout());
     }
 }
