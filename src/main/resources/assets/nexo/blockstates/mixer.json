@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nexo:block/mixer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nexo:block/mixer"
+    },
+    "facing=south": {
+      "model": "nexo:block/mixer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nexo:block/mixer",
+      "y": 270
+    }
+  }
+}
