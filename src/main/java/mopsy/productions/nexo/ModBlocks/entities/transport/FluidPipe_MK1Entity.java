@@ -9,6 +9,7 @@ import mopsy.productions.nexo.util.PipeEndState;
 import mopsy.productions.nexo.util.TriType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -90,6 +91,16 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
             }
             if(world.isClient)
                 ClientPlayNetworking.send(FLUID_PIPE_STATE_REQUEST_PACKET, PacketByteBufs.create().writeBlockPos(blockPos));
+            else
+                for(ServerPlayerEntity player : PlayerLookup.tracking(entity)){
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeBlockPos(blockPos);
+                    for(NEXORotation rotation : NEXORotation.values()){
+                        rotation.writeToPacket(buf);
+                        entity.endStates.get(rotation).writeToPacket(buf);
+                    }
+                    ServerPlayNetworking.send(player,FLUID_PIPE_STATE_CHANGE_PACKET, buf);
+                }
             entity.initializedStates = true;
         }
 
