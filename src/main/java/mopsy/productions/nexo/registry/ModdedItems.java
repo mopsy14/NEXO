@@ -19,7 +19,10 @@ import mopsy.productions.nexo.ModItems.components.CopperWireItem;
 import mopsy.productions.nexo.ModItems.components.GoldWireItem;
 import mopsy.productions.nexo.ModItems.tools.DebugItem;
 import mopsy.productions.nexo.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nexo.ModItems.tools.NPickaxeItem;
 import mopsy.productions.nexo.ModItems.tools.PipeWrench;
+import mopsy.productions.nexo.ModItems.tools.steel.SteelToolMaterial;
+import mopsy.productions.nexo.ModItems.tools.titanium.TitaniumToolMaterial;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -133,6 +136,10 @@ public class ModdedItems {
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
         regItem(new PipeWrench());
+            //titanium
+        regItem(new NPickaxeItem("titanium_pickaxe", TitaniumToolMaterial.INSTANCE, 1, -2.8f));
+            //steel
+        regItem(new NPickaxeItem("steel_pickaxe", SteelToolMaterial.INSTANCE, 1, -2.8f));
 
         //components
         regItem(new CopperWireItem());
@@ -178,6 +185,6 @@ public class ModdedItems {
             String name = ((IModID) item).getID();
             Items.put(name, Registry.register(Registry.ITEM, new Identifier(modid, name),item));
         }else
-            LOGGER.error("Block doesn't implement IModID!");
+            LOGGER.error("Item doesn't implement IModID!");
     }
 }
