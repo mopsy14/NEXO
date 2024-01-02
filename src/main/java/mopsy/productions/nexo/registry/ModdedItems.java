@@ -17,10 +17,7 @@ import mopsy.productions.nexo.ModItems.armor.protectiveHazmat.ProtectiveHazmatHe
 import mopsy.productions.nexo.ModItems.armor.protectiveHazmat.ProtectiveHazmatLeggings;
 import mopsy.productions.nexo.ModItems.components.CopperWireItem;
 import mopsy.productions.nexo.ModItems.components.GoldWireItem;
-import mopsy.productions.nexo.ModItems.tools.DebugItem;
-import mopsy.productions.nexo.ModItems.tools.GeigerCounterItem;
-import mopsy.productions.nexo.ModItems.tools.NPickaxeItem;
-import mopsy.productions.nexo.ModItems.tools.PipeWrench;
+import mopsy.productions.nexo.ModItems.tools.*;
 import mopsy.productions.nexo.ModItems.tools.steel.SteelToolMaterial;
 import mopsy.productions.nexo.ModItems.tools.titanium.TitaniumToolMaterial;
 import mopsy.productions.nexo.interfaces.IModID;
@@ -137,9 +134,17 @@ public class ModdedItems {
         regItem(new GeigerCounterItem());
         regItem(new PipeWrench());
             //titanium
-        regItem(new NPickaxeItem("titanium_pickaxe", TitaniumToolMaterial.INSTANCE, 1, -2.8f));
+        regItem(new NSwordItem  ("titanium_sword",   TitaniumToolMaterial.INSTANCE,3,   -2.4f));
+        regItem(new NAxeItem    ("titanium_axe",     TitaniumToolMaterial.INSTANCE,5.5f,-3.1f));
+        regItem(new NPickaxeItem("titanium_pickaxe", TitaniumToolMaterial.INSTANCE,1,   -2.8f));
+        regItem(new NShovelItem ("titanium_shovel",  TitaniumToolMaterial.INSTANCE,1.5f,-3.0f));
+        regItem(new NHoeItem    ("titanium_hoe",     TitaniumToolMaterial.INSTANCE,-2,  -1.0f));
             //steel
-        regItem(new NPickaxeItem("steel_pickaxe", SteelToolMaterial.INSTANCE, 1, -2.8f));
+        regItem(new NSwordItem  ("steel_sword",   SteelToolMaterial.INSTANCE,3,   -2.4f));
+        regItem(new NAxeItem    ("steel_axe",     SteelToolMaterial.INSTANCE,5.0f,-3.0f));
+        regItem(new NPickaxeItem("steel_pickaxe", SteelToolMaterial.INSTANCE,1,   -2.8f));
+        regItem(new NShovelItem ("steel_shovel",  SteelToolMaterial.INSTANCE,1.5f,-3.0f));
+        regItem(new NHoeItem    ("steel_hoe",     SteelToolMaterial.INSTANCE,-2,  -1.0f));
 
         //components
         regItem(new CopperWireItem());

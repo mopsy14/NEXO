@@ -4,7 +4,7 @@ import mopsy.productions.nexo.interfaces.IModID;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 
-import static mopsy.productions.nexo.Main.CREATIVE_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB;
 
 public class PipeWrench extends Item implements IModID {
 
@@ -14,7 +14,7 @@ public class PipeWrench extends Item implements IModID {
         return "pipe_wrench";
     }
     public PipeWrench() {
-        super(new FabricItemSettings().group(CREATIVE_TAB).maxCount(1));
+        super(new FabricItemSettings().group(CREATIVE_TOOLS_TAB).maxCount(1));
     }
 
 }

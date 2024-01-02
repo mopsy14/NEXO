@@ -10,13 +10,13 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ClickType;
 
-import static mopsy.productions.nexo.Main.CREATIVE_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB;
 import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRadiationPerSecondUpdatePackage;
 import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRadiationUpdatePackage;
 
 public class GeigerCounterItem extends Item implements IModID  {
     public GeigerCounterItem() {
-        super(new FabricItemSettings().group(CREATIVE_TAB).maxCount(1));
+        super(new FabricItemSettings().group(CREATIVE_TOOLS_TAB).maxCount(1));
     }
 
     @Override

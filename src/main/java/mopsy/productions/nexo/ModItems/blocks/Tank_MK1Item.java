@@ -24,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.Main.FLUIDS_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_FLUIDS_TAB;
 
 @SuppressWarnings("UnstableApiUsage")
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     public static List<FluidVariant> fluidGroupVariants = new ArrayList<>();
     @Override public String getID() {return "tank_mk1";}
     public Tank_MK1Item(Block block) {
-        super(block, new FabricItemSettings().maxCount(1).group(FLUIDS_TAB));
+        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_FLUIDS_TAB));
     }
 
     @Override
