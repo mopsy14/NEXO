@@ -8,6 +8,8 @@ import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreen;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nexo.screen.crusher.CrusherScreen;
 import mopsy.productions.nexo.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nexo.screen.deconShower.DeconShowerScreen;
+import mopsy.productions.nexo.screen.deconShower.DeconShowerScreenHandler;
 import mopsy.productions.nexo.screen.electrolyzer.ElectrolyzerScreen;
 import mopsy.productions.nexo.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nexo.screen.fluidPipe.FluidPipeScreen;
@@ -44,6 +46,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<AmmoniaSynthesiserScreenHandler> AMMONIA_SYNTHESISER = new ExtendedScreenHandlerType<>(AmmoniaSynthesiserScreenHandler::new);
     public static final ExtendedScreenHandlerType<MixerScreenHandler> MIXER = new ExtendedScreenHandlerType<>(MixerScreenHandler::new);
     public static final ExtendedScreenHandlerType<FluidPipeScreenHandler> FLUID_PIPE = new ExtendedScreenHandlerType<>(FluidPipeScreenHandler::new);
+    public static final ExtendedScreenHandlerType<DeconShowerScreenHandler> DECON_SHOWER = new ExtendedScreenHandlerType<>(DeconShowerScreenHandler::new);
 
     public static void regScreenHandlers(){
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
@@ -58,6 +61,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "ammonia_synthesiser"), AMMONIA_SYNTHESISER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "mixer"), MIXER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "fluid_pipe"), FLUID_PIPE);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower"), DECON_SHOWER);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -72,5 +76,6 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.AMMONIA_SYNTHESISER, AmmoniaSynthesiserScreen::new);
         HandledScreens.register(ScreenHandlers.MIXER, MixerScreen::new);
         HandledScreens.register(ScreenHandlers.FLUID_PIPE, FluidPipeScreen::new);
+        HandledScreens.register(ScreenHandlers.DECON_SHOWER, DeconShowerScreen::new);
     }
 }
