@@ -133,6 +133,7 @@ public class ModdedItems {
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
         regItem(new PipeWrench());
+        regItem(new PortableCraftingTableItem());
             //titanium
         regItem(new NSwordItem  ("titanium_sword",   TitaniumToolMaterial.INSTANCE,3,   -2.4f));
         regItem(new NAxeItem    ("titanium_axe",     TitaniumToolMaterial.INSTANCE,5.5f,-3.1f));
