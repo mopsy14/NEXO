@@ -34,6 +34,9 @@ public class RadiationHelper {
             }
         }
     }
+    public static float getPlayerRadiation(ServerPlayerEntity player){
+        return getRadiation((IData) player);
+    }
     public static void addPlayerRadiation(ServerPlayerEntity player, float radiation){
         if(radiation != 0) {
             radiation = getRadiation((IData) player) + radiation;
@@ -124,7 +127,7 @@ public class RadiationHelper {
         if(!player.isCreative()){
             float rads = getRadiation((IData) player);
             if(rads>149) {
-                player.damage(DamageSource.GENERIC, 20);
+                player.damage(new DamageSource("radiation").setBypassesArmor().setUnblockable(), 100);
             }else if(rads>125) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3, true, false, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));

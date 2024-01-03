@@ -2,6 +2,7 @@ package mopsy.productions.nexo.mechanics.radiation;
 
 import mopsy.productions.nexo.Main;
 import mopsy.productions.nexo.interfaces.IData;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,10 @@ public class RadiationEvents {
             sendRadiationPerSecondUpdatePackage(handler.getPlayer());
         }
     });
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive)->{
+            sendRadiationUpdatePackage(newPlayer);
+            sendRadiationPerSecondUpdatePackage(newPlayer);
+        });
     ServerTickEvents.START_SERVER_TICK.register((server) -> {
         if(taskCounter == 1200) {
             taskCounter=0;

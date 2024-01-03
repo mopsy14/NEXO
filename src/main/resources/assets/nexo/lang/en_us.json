@@ -3,6 +3,8 @@
   "itemGroup.nexo.nexo_blocks": "NEXO Blocks",
   "itemGroup.nexo.nexo_fluids": "NEXO Fluids",
 
+  "death.attack.radiation": "%1$s died of radiation",
+
   "item.nexo.raw_uranium": "Raw Uranium",
   "item.nexo.uranium_ingot": "Uranium Ingot",
   "item.nexo.uranium_nugget": "Uranium Nugget",

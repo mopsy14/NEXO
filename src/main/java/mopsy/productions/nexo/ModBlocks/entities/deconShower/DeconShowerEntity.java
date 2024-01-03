@@ -89,23 +89,24 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, DeconShowerEntity entity) {
         if(world.isClient)return;
-
-        if(entity.fluidStorage.amount>0 && world.getBlockEntity(blockPos.add(0,-2,0)) instanceof DeconShowerEntity drainEntity){
-            if(drainEntity.fluidStorage.amount<drainEntity.fluidStorage.getCapacity()){
+        if(entity.fluidStorage.amount>=81 && world.getBlockEntity(blockPos.add(0,-3,0)) instanceof DeconShowerEntity drainEntity){
+            if(drainEntity.fluidStorage.amount+81<=drainEntity.fluidStorage.getCapacity()){
                 try(Transaction transaction = Transaction.openOuter()){
-                    long extracted = entity.fluidStorage.extract(FluidVariant.of(Fluids.WATER),1,transaction);
-                    if(extracted == 1 && drainEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER),1,transaction) == 1){
-                        PlayerEntity player = world.getClosestPlayer(blockPos.getX()+0.5, blockPos.getY()+0.5, blockPos.getZ()+0.5, 0.5, false);
-                        if(player instanceof ServerPlayerEntity serverPlayer){
-                            RadiationHelper.addPlayerRadiation(serverPlayer,-1.0f);
-                            transaction.commit();
-                        }else{
+                    if(entity.fluidStorage.extract(FluidVariant.of(Fluids.WATER),81,transaction) == 81) {
+                        if (drainEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER), 81, transaction) == 81) {
+                            PlayerEntity player = world.getClosestPlayer(blockPos.getX() + 0.5f, blockPos.getY() - 2.0f, blockPos.getZ() + 0.5f, 0.5f, false);
+                            if (player instanceof ServerPlayerEntity serverPlayer) {
+                                if (RadiationHelper.getPlayerRadiation(serverPlayer) > 0) {
+                                    RadiationHelper.addPlayerRadiation(serverPlayer, -1.0f);
+                                    transaction.commit();
+                                } else
+                                    transaction.abort();
+                            } else
+                                transaction.abort();
+                        } else
                             transaction.abort();
-                        }
-                    }else{
+                    } else
                         transaction.abort();
-                    }
-
                 }
             }
         }

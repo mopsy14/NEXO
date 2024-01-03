@@ -17,7 +17,9 @@ import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRad
 public class GeigerCounterItem extends Item implements IModID  {
     public GeigerCounterItem() {
         super(new FabricItemSettings().group(CREATIVE_TOOLS_TAB).maxCount(1));
+        INSTANCE = this;
     }
+    public static GeigerCounterItem INSTANCE;
 
     @Override
     public String getID() {

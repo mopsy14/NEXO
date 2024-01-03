@@ -9,6 +9,7 @@
   "client": [
   ],
   "server": [
+    "PlayerAddItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

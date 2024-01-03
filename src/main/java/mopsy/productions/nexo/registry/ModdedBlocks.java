@@ -7,6 +7,7 @@ import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.ConduitBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.airSeparator.AirPumpBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.airSeparator.CoolerBlock;
+import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.deconShower.DeconShowerBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.ControlRodsBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.SmallReactorBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.ores.*;
@@ -58,6 +59,7 @@ public class ModdedBlocks {
         regBlock(new CentrifugeBlock());
         regBlock(new AmmoniaSynthesizerBlock());
         regBlock(new MixerBlock());
+        regBlock(new DeconShowerBlock());
         //generators
         regBlock(new FurnaceGeneratorBlock());
         regBlock(new SteamTurbineBlock());
