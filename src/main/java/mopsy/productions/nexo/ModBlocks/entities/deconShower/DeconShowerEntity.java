@@ -3,6 +3,7 @@ package mopsy.productions.nexo.ModBlocks.entities.deconShower;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.mechanics.radiation.RadiationHelper;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.registry.ModdedFluids;
 import mopsy.productions.nexo.screen.deconShower.DeconShowerScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
@@ -93,7 +94,7 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
             if(drainEntity.fluidStorage.amount+81<=drainEntity.fluidStorage.getCapacity()){
                 try(Transaction transaction = Transaction.openOuter()){
                     if(entity.fluidStorage.extract(FluidVariant.of(Fluids.WATER),81,transaction) == 81) {
-                        if (drainEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER), 81, transaction) == 81) {
+                        if (drainEntity.fluidStorage.insert(FluidVariant.of(ModdedFluids.stillFluids.get("radiated_water")), 81, transaction) == 81) {
                             PlayerEntity player = world.getClosestPlayer(blockPos.getX() + 0.5f, blockPos.getY() - 2.0f, blockPos.getZ() + 0.5f, 0.5f, false);
                             if (player instanceof ServerPlayerEntity serverPlayer) {
                                 if (RadiationHelper.getPlayerRadiation(serverPlayer) > 0) {
