@@ -1,6 +1,7 @@
 package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
+import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerDrainEntity;
 import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerEntity;
 import mopsy.productions.nexo.ModBlocks.entities.machines.*;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
@@ -30,6 +31,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<InsulatedCopperCableEntity> INSULATED_COPPER_CABLE;
     public static BlockEntityType<FluidPipe_MK1Entity> FLUID_PIPE_MK1;
     public static BlockEntityType<DeconShowerEntity> DECON_SHOWER;
+    public static BlockEntityType<DeconShowerDrainEntity> DECON_SHOWER_DRAIN;
 
     public static void regBlockEntities() {
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
@@ -74,6 +76,9 @@ public class ModdedBlockEntities {
         DECON_SHOWER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower"),
                 FabricBlockEntityTypeBuilder.create(DeconShowerEntity::new, ModdedBlocks.Blocks.get("decon_shower")).build(null));
 
+        DECON_SHOWER_DRAIN = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower_drain"),
+                FabricBlockEntityTypeBuilder.create(DeconShowerDrainEntity::new, ModdedBlocks.Blocks.get("decon_shower_drain")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
@@ -92,5 +97,6 @@ public class ModdedBlockEntities {
         FluidStorage.SIDED.registerForBlockEntity((SteamTurbineEntity::getFluidStorageFromDirection), STEAM_TURBINE);
         FluidStorage.SIDED.registerForBlockEntity((AmmoniaSynthesizerEntity::getFluidStorageFromDirection), AMMONIA_SYNTHESIZER);
         FluidStorage.SIDED.registerForBlockEntity((DeconShowerEntity::getFluidStorageFromDirection), DECON_SHOWER);
+        FluidStorage.SIDED.registerForBlockEntity((DeconShowerDrainEntity::getFluidStorageFromDirection), DECON_SHOWER_DRAIN);
     }
 }

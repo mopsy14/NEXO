@@ -1,8 +1,12 @@
 package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModFluids.NTFluid;
+import mopsy.productions.nexo.ModFluids.RadiatedWaterFluid;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.client.FluidRenderers;
+import mopsy.productions.nexo.interfaces.IModID;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.FluidBlock;
@@ -58,5 +62,21 @@ public class ModdedFluids {
         registerGas("uranium_hexafluoride");
         registerGas("enriched_uranium_hexafluoride");
         registerGas("depleted_uranium_tails");
+
+        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), SimpleFluidRenderHandler.coloredWater(0x3F76E4));
+    }
+
+    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, FluidRenderHandler fluidRenderHandler){
+        if(flowingFluid instanceof IModID iModID) {
+            String ID = iModID.getID();
+            flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID + "_flowing"), flowingFluid));
+            stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), stillFluid));
+            fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
+            Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
+
+            if(isClient){
+                FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidRenderHandler);
+            }
+        }
     }
 }

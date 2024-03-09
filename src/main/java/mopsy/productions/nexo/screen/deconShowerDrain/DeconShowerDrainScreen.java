@@ -1,7 +1,7 @@
-package mopsy.productions.nexo.screen.deconShower;
+package mopsy.productions.nexo.screen.deconShowerDrain;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerEntity;
+import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerDrainEntity;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.util.DisplayUtils;
 import mopsy.productions.nexo.util.FluidUtils;
@@ -22,11 +22,11 @@ import java.util.function.Predicate;
 import static mopsy.productions.nexo.Main.modid;
 
 @SuppressWarnings("UnstableApiUsage")
-public class DeconShowerScreen extends HandledScreen<DeconShowerScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/decon_shower.png");
+public class DeconShowerDrainScreen extends HandledScreen<DeconShowerDrainScreenHandler> {
+    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/decon_shower_drain.png");
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate;
 
-    public DeconShowerScreen(DeconShowerScreenHandler handler, PlayerInventory inventory, Text title) {
+    public DeconShowerDrainScreen(DeconShowerDrainScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     @Override
@@ -86,7 +86,7 @@ public class DeconShowerScreen extends HandledScreen<DeconShowerScreenHandler> {
     }
     private long getMaxFluidAmount(){
         BlockEntity blockEntity = MinecraftClient.getInstance().world.getBlockEntity(handler.getBlockPos());
-        if(blockEntity instanceof DeconShowerEntity entity) {
+        if(blockEntity instanceof DeconShowerDrainEntity entity) {
             return entity.fluidStorage.getCapacity();
         }
         return 0;
