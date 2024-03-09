@@ -162,6 +162,8 @@
   "block.nexo.deepslate_nickel_ore": "Deepslate Nickel Ore",
   "block.nexo.fluid_pipe_mk1": "Fluid Pipe MK1",
   "block.nexo.insulated_copper_cable": "Insulated Copper Cable",
+  "block.nexo.decon_shower": "Decon Shower",
+  "block.nexo.decon_shower_drain": "Decon Shower Drain",
 
   "block.nexo.nitrogen": "Nitrogen",
   "block.nexo.oxygen": "Oxygen",
@@ -178,5 +180,6 @@
   "block.nexo.steam": "Steam",
   "block.nexo.hf_kf": "HF-KF Solution",
   "block.nexo.depleted_uranium_tails": "Depleted Uranium Tails",
-  "block.nexo.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)"
+  "block.nexo.enriched_uranium_hexafluoride": "Uranium Hexafluoride (Enriched)",
+  "block.nexo.radiated_water": "Radiated Water"
 }
