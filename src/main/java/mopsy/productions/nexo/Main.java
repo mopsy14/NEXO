@@ -53,5 +53,6 @@ public class Main implements ModInitializer {
 		ModdedFluids.regFluids();
 
 		ModdedBlockEntities.regBlockEntities();
+		LOGGER.info("NEXO successfully started");
 	}
 }

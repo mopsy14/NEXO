@@ -8,10 +8,12 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.function.Function;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 public class ModdedRecipes {
     public static void regRecipes(){
+        LOGGER.info("Registering recipe types");
         regRecipe(CrusherRecipe.Type.ID, CrusherRecipe.Serializer.INSTANCE, CrusherRecipe.Type.INSTANCE, CrusherRecipe::new);
         regRecipe(PressRecipe.Type.ID, PressRecipe.Serializer.INSTANCE, PressRecipe.Type.INSTANCE, CrusherRecipe::new);
         regRecipe(CentrifugeRecipe.Type.ID, CentrifugeRecipe.Serializer.INSTANCE, CentrifugeRecipe.Type.INSTANCE, CrusherRecipe::new);

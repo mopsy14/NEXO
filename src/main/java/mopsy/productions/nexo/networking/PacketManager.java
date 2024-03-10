@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 public class PacketManager {
@@ -24,6 +25,7 @@ public class PacketManager {
     public static final Identifier FLUID_PIPE_STATE_REQUEST_PACKET = new Identifier(modid, "fluid_pipe_state_request");
     public static final Identifier FLUID_PIPE_CYCLE_STATE_PACKET = new Identifier(modid, "fluid_pipe_invert_state");
     public static void registerC2SPackets(){
+        LOGGER.info("Registering server bound packets");
         ServerPlayNetworking.registerGlobalReceiver(SWITCH_REACTOR_POWER_PACKET, C2SPackets::receiveSwitchReactorPower);
         ServerPlayNetworking.registerGlobalReceiver(START_MIXER_PACKET, C2SPackets::receiveStartMixer);
         ServerPlayNetworking.registerGlobalReceiver(CHANGE_MIXER_SLIDER_PACKET, C2SPackets::receiveChangeMixerHeat);

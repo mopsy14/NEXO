@@ -31,6 +31,7 @@ public class ModdedBlocks {
     public static final HashMap<String, Block> Blocks = new HashMap<>();
 
     public static void regBlocks(){
+        LOGGER.info("Registering blocks");
         //ores
         regBlock(new UraniumOreBlock());
         regBlock(new DeepslateUraniumOreBlock());

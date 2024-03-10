@@ -12,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import team.reborn.energy.api.EnergyStorage;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -34,6 +35,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<DeconShowerDrainEntity> DECON_SHOWER_DRAIN;
 
     public static void regBlockEntities() {
+        LOGGER.info("Registering block entities");
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
                 FabricBlockEntityTypeBuilder.create(CrusherEntity::new, ModdedBlocks.Blocks.get("crusher")).build(null));
 

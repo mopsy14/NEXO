@@ -6,6 +6,8 @@ import net.minecraft.world.gen.feature.*;
 
 import java.util.List;
 
+import static mopsy.productions.nexo.Main.LOGGER;
+
 public class ModConfiguredFeatures {
     public static final List<OreFeatureConfig.Target> OVERWORLD_URANIUM_ORES = List.of(
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("uranium_ore").getDefaultState()),
@@ -61,6 +63,7 @@ public class ModConfiguredFeatures {
             ConfiguredFeatures.register("nickel_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_NICKEL_ORES, 4));
 
     public static void regConfiguredFeatures(){
+        LOGGER.info("Registering ore registries");
 
     }
 }

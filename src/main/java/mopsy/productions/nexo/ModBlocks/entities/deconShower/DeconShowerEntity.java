@@ -146,8 +146,8 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
         PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, FLUID_CHANGE_PACKET, buf));
     }
 
-    public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
-        return fluidStorage;
+    public SingleVariantStorage<FluidVariant> getFluidStorageFromDirection(Direction direction){
+        return direction==Direction.DOWN ? fluidStorage : null;
     }
 
     //Inventory code:

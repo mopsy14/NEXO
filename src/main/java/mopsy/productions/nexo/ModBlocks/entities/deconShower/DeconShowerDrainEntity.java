@@ -115,7 +115,7 @@ public class DeconShowerDrainEntity extends BlockEntity implements ExtendedScree
     }
 
     public Storage<FluidVariant> getFluidStorageFromDirection(Direction direction){
-        return exposedFluidStorage;
+        return direction==Direction.DOWN ? null : exposedFluidStorage;
     }
 
     //Inventory code:

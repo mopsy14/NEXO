@@ -129,6 +129,7 @@ public class ModdedItems {
 
 
     public static void regItems(){
+        LOGGER.info("Registering items");
         //tools
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());

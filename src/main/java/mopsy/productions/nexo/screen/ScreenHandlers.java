@@ -33,6 +33,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 public class ScreenHandlers {
@@ -52,6 +53,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<DeconShowerDrainScreenHandler> DECON_SHOWER_DRAIN = new ExtendedScreenHandlerType<>(DeconShowerDrainScreenHandler::new);
 
     public static void regScreenHandlers(){
+        LOGGER.info("Registering screen handlers");
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "press"), PRESS);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "tank_mk1"), Tank_MK1);

@@ -18,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 import static mopsy.productions.nexo.client.ClientUtils.isClient;
 
@@ -46,6 +47,7 @@ public class ModdedFluids {
     }
 
     public static void regFluids(){
+        LOGGER.info("Registering fluids");
         registerGas("nitrogen");
         registerGas("oxygen");
         registerGas("hydrogen");
