@@ -102,16 +102,16 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
     public void writeNbt(NbtCompound nbt){
         super.writeNbt(nbt);
         InvUtils.writeInv(inventory,nbt);
-        nbt.putInt("press.progress", progress);
-        nbt.putLong("press.power", energyStorage.amount);
+        nbt.putInt("progress", progress);
+        nbt.putLong("power", energyStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt){
         super.readNbt(nbt);
         InvUtils.readInv(inventory,nbt);
-        progress = nbt.getInt("press.progress");
-        energyStorage.amount = nbt.getLong("press.power");
+        progress = nbt.getInt("progress");
+        energyStorage.amount = nbt.getLong("power");
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectricFurnaceEntity pressEntity) {
