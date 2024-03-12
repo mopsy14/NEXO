@@ -33,6 +33,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<FluidPipe_MK1Entity> FLUID_PIPE_MK1;
     public static BlockEntityType<DeconShowerEntity> DECON_SHOWER;
     public static BlockEntityType<DeconShowerDrainEntity> DECON_SHOWER_DRAIN;
+    public static BlockEntityType<ElectricFurnaceEntity> ELECTRIC_FURNACE;
 
     public static void regBlockEntities() {
         LOGGER.info("Registering block entities");
@@ -81,6 +82,9 @@ public class ModdedBlockEntities {
         DECON_SHOWER_DRAIN = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower_drain"),
                 FabricBlockEntityTypeBuilder.create(DeconShowerDrainEntity::new, ModdedBlocks.Blocks.get("decon_shower_drain")).build(null));
 
+        ELECTRIC_FURNACE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electric_furnace"),
+                FabricBlockEntityTypeBuilder.create(ElectricFurnaceEntity::new, ModdedBlocks.Blocks.get("electric_furnace")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
@@ -92,6 +96,7 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AMMONIA_SYNTHESIZER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, MIXER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, INSULATED_COPPER_CABLE);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTRIC_FURNACE);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity((TankEntity_MK1::getFluidStorageFromDirection), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);

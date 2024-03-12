@@ -3,9 +3,8 @@ package mopsy.productions.nexo.ModBlocks.entities.machines;
 import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
-import mopsy.productions.nexo.recipes.PressRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import mopsy.productions.nexo.screen.press.PressScreenHandler;
+import mopsy.productions.nexo.screen.electricFurnace.ElectricFurnaceScreenHandler;
 import mopsy.productions.nexo.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -21,6 +20,8 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -30,6 +31,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
+
+import java.util.Optional;
 
 import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
@@ -52,7 +55,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
     };
 
     public ElectricFurnaceEntity(BlockPos pos, BlockState state) {
-        super(ModdedBlockEntities.PRESS, pos, state);
+        super(ModdedBlockEntities.ELECTRIC_FURNACE, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -80,7 +83,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
 
     @Override
     public Text getDisplayName() {
-        return Text.literal("Press");
+        return Text.literal("Electric Furnace");
     }
 
     @Nullable
@@ -90,7 +93,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
         buf.writeBlockPos(this.pos);
         buf.writeLong(getPower());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
-        return new PressScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
+        return new ElectricFurnaceScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
     @Override
@@ -114,43 +117,46 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
         energyStorage.amount = nbt.getLong("power");
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectricFurnaceEntity pressEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectricFurnaceEntity entity) {
         if(world.isClient)return;
 
-        PressRecipe recipe = getRecipe(pressEntity);
-
-        if(recipe!=null && recipe.canOutput(pressEntity) && pressEntity.energyStorage.amount >= 5){
-            pressEntity.progress++;
-            pressEntity.energyStorage.amount -= 5;
-            if(pressEntity.progress >= pressEntity.maxProgress){
-                recipe.craft(pressEntity,true,true);
-                pressEntity.progress = 0;
-            }
-        }else{
-            pressEntity.progress = 0;
+        Optional<SmeltingRecipe> foundRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, entity.inventory, world);
+        if(foundRecipe.isPresent()){
+            SmeltingRecipe recipe = foundRecipe.get();
         }
 
         markDirty(world,blockPos,blockState);
 
-        if(pressEntity.energyStorage.amount!=pressEntity.previousPower){
-            pressEntity.previousPower = pressEntity.energyStorage.amount;
+        if(entity.energyStorage.amount!=entity.previousPower){
+            entity.previousPower = entity.energyStorage.amount;
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
-            buf.writeLong(pressEntity.getPower());
-            PlayerLookup.tracking(pressEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+            buf.writeLong(entity.getPower());
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
         }
     }
 
-    private static PressRecipe getRecipe(ElectricFurnaceEntity entity) {
-        for(PressRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(PressRecipe.Type.INSTANCE)){
-            if(recipe.hasRecipe(entity)) {
-                return recipe;
+    private static boolean canAcceptRecipeOutput(SmeltingRecipe recipe, Inventory inventory, int count) {
+        if (!inventory.getStack(0).isEmpty() && recipe != null) {
+            ItemStack itemStack = recipe.getOutput();
+            if (itemStack.isEmpty()) {
+                return false;
+            } else {
+                ItemStack itemStack2 = inventory.getStack(1);
+                if (itemStack2.isEmpty()) {
+                    return true;
+                } else if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
+                    return false;
+                } else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
+                    return true;
+                } else {
+                    return itemStack2.getCount() < itemStack.getMaxCount();
+                }
             }
+        } else {
+            return false;
         }
-        return null;
     }
-
-
 
     @Override
     public long getPower() {

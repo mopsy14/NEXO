@@ -63,6 +63,7 @@ public class ModdedBlocks {
         regBlock(new MixerBlock());
         regBlock(new DeconShowerBlock());
         regBlock(new DeconShowerDrainBlock());
+        regBlock(new ElectricFurnaceBlock());
         //generators
         regBlock(new FurnaceGeneratorBlock());
         regBlock(new SteamTurbineBlock());

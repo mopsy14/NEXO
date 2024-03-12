@@ -1,6 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.machines;
 
-import mopsy.productions.nexo.ModBlocks.entities.machines.PressEntity;
+import mopsy.productions.nexo.ModBlocks.entities.machines.ElectricFurnaceEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -58,7 +58,7 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            NamedScreenHandlerFactory screenHandlerFactory = (PressEntity)world.getBlockEntity(pos);
+            NamedScreenHandlerFactory screenHandlerFactory = (ElectricFurnaceEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
                 player.openHandledScreen(screenHandlerFactory);
             }
@@ -69,20 +69,20 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new PressEntity(pos, state);
+        return new ElectricFurnaceEntity(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.PRESS, PressEntity::tick);
+        return checkType(type, ModdedBlockEntities.ELECTRIC_FURNACE, ElectricFurnaceEntity::tick);
     }
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof PressEntity) {
-            ItemScatterer.spawn(world, pos, (PressEntity) blockEntity);
+        if (blockEntity instanceof ElectricFurnaceEntity electricFurnaceEntity) {
+            ItemScatterer.spawn(world, pos, electricFurnaceEntity);
             world.updateComparators(pos, this);
         }
         super.onBreak(world, pos, state, player);
