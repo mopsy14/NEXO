@@ -19,7 +19,7 @@ public class ElectricFurnaceScreenHandler extends ScreenHandler {
     private final BlockPos blockPos;
 
     public ElectricFurnaceScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(2), buf.readBlockPos());
+        this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(3), buf.readBlockPos());
     }
     public ElectricFurnaceScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.ELECTRIC_FURNACE, syncId);
@@ -45,6 +45,9 @@ public class ElectricFurnaceScreenHandler extends ScreenHandler {
 
     public boolean isCrafting(){
         return delegate.get(0)>0;
+    }
+    public boolean isHeating(){
+        return delegate.get(2)==1;
     }
 
     public int getScaledProgress(){

@@ -28,6 +28,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
@@ -41,9 +42,13 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
 
     private final Inventory inventory = new SimpleInventory(2);
     protected final PropertyDelegate propertyDelegate;
+    private int isHeating=0;
     private int progress;
     private int maxProgress = 200;
     public long previousPower = 0;
+    public long powerUsagePerTick = 2;
+    public int normalizedProgressPerTick = 1;
+    public SmeltingRecipe lastRecipe = null;
     public static final long POWER_CAPACITY = 1000;
     public static final long POWER_MAX_INSERT = 10;
     public static final long POWER_MAX_EXTRACT = 0;
@@ -62,6 +67,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
                 switch (index){
                     case 0: return ElectricFurnaceEntity.this.progress;
                     case 1: return ElectricFurnaceEntity.this.maxProgress;
+                    case 2: return ElectricFurnaceEntity.this.isHeating;
                     default: return 0;
                 }
             }
@@ -71,12 +77,13 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
                 switch (index){
                     case 0: ElectricFurnaceEntity.this.progress = value; break;
                     case 1: ElectricFurnaceEntity.this.maxProgress = value; break;
+                    case 2: ElectricFurnaceEntity.this.isHeating = value; break;
                 }
             }
 
             @Override
             public int size() {
-                return 2;
+                return 3;
             }
         };
     }
@@ -117,15 +124,45 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
         energyStorage.amount = nbt.getLong("power");
     }
 
+    public boolean hasPower(){
+        return energyStorage.amount >= powerUsagePerTick;
+    }
+
     public static void tick(World world, BlockPos blockPos, BlockState blockState, ElectricFurnaceEntity entity) {
         if(world.isClient)return;
+
+        boolean shouldUpdate = false;
 
         Optional<SmeltingRecipe> foundRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, entity.inventory, world);
         if(foundRecipe.isPresent()){
             SmeltingRecipe recipe = foundRecipe.get();
+
+            if(canAcceptRecipeOutput(recipe, entity.inventory, entity.getMaxCountPerStack()) && entity.hasPower()){
+                entity.isHeating =1;
+                entity.energyStorage.amount -= entity.powerUsagePerTick;
+                if(recipe==entity.lastRecipe){
+                    entity.progress += entity.normalizedProgressPerTick*2;//compensate for the normalized version.
+                }else{
+                    entity.progress=0;
+                    entity.lastRecipe=recipe;
+                    entity.maxProgress= recipe.getCookTime()*2;//compensate for the normalized version.
+                }
+                if(entity.progress>entity.maxProgress){
+                    craftRecipe(recipe, entity.inventory, entity.getMaxCountPerStack());
+                    entity.progress=0;
+                }
+                shouldUpdate=true;//Mark dirty when the machine has done something with progress and the recipe.
+            }else{
+                entity.isHeating =0;
+                if(entity.progress>0) {
+                    entity.progress = MathHelper.clamp(entity.progress - 1, 0, entity.maxProgress);
+                    shouldUpdate=true;//Mark dirty when progress has decreased.
+                }
+            }
         }
 
-        markDirty(world,blockPos,blockState);
+        if(shouldUpdate)
+            markDirty(world,blockPos,blockState);
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
@@ -137,25 +174,41 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
     }
 
     private static boolean canAcceptRecipeOutput(SmeltingRecipe recipe, Inventory inventory, int count) {
-        if (!inventory.getStack(0).isEmpty() && recipe != null) {
-            ItemStack itemStack = recipe.getOutput();
-            if (itemStack.isEmpty()) {
+        if (!inventory.getStack(0).isEmpty()) {
+            ItemStack recipeOutputStack = recipe.getOutput();
+            if (recipeOutputStack.isEmpty()) {
                 return false;
             } else {
-                ItemStack itemStack2 = inventory.getStack(1);
-                if (itemStack2.isEmpty()) {
+                ItemStack outputSlotStack = inventory.getStack(1);
+                if (outputSlotStack.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
+                } else if (!outputSlotStack.isItemEqualIgnoreDamage(recipeOutputStack)) {
                     return false;
-                } else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
+                } else if (outputSlotStack.getCount() < count && outputSlotStack.getCount() < outputSlotStack.getMaxCount()) {
                     return true;
                 } else {
-                    return itemStack2.getCount() < itemStack.getMaxCount();
+                    return outputSlotStack.getCount() < recipeOutputStack.getMaxCount();
                 }
             }
         } else {
             return false;
         }
+    }
+
+    private static boolean craftRecipe(SmeltingRecipe recipe, Inventory inventory, int count) {
+        if (recipe == null || !canAcceptRecipeOutput(recipe, inventory, count)) {
+            return false;
+        }
+        ItemStack inputStack = inventory.getStack(0);
+        ItemStack recipeOutputStack = recipe.getOutput();
+        ItemStack outputStack = inventory.getStack(1);
+        if (outputStack.isEmpty()) {
+            inventory.setStack(1, recipeOutputStack.copy());
+        } else if (outputStack.isOf(recipeOutputStack.getItem())) {
+            outputStack.increment(1);
+        }
+        inputStack.decrement(1);
+        return true;
     }
 
     @Override

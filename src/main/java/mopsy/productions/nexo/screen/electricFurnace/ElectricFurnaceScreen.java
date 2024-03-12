@@ -70,7 +70,10 @@ public class ElectricFurnaceScreen extends HandledScreen<ElectricFurnaceScreenHa
         if(handler.isCrafting()){
             RenderSystem.setShaderTexture(0, TEXTURE);
             drawTexture(matrices, x+77, y+34, 192, 14, handler.getScaledProgress(), 16);
-            drawTexture(matrices, x+48, y+54, 192, 0, 13, 13);
+        }
+        if(handler.isHeating()) {
+            RenderSystem.setShaderTexture(0, TEXTURE);
+            drawTexture(matrices, x + 48, y + 54, 192, 0, 13, 13);
         }
     }
 
