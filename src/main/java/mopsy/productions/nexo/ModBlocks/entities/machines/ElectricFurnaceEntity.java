@@ -138,7 +138,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
             SmeltingRecipe recipe = foundRecipe.get();
 
             if(canAcceptRecipeOutput(recipe, entity.inventory, entity.getMaxCountPerStack()) && entity.hasPower()){
-                entity.isHeating =1;
+                entity.isHeating=1;
                 entity.energyStorage.amount -= entity.powerUsagePerTick;
                 if(recipe==entity.lastRecipe){
                     entity.progress += entity.normalizedProgressPerTick*2;//compensate for the normalized version.
@@ -153,12 +153,15 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
                 }
                 shouldUpdate=true;//Mark dirty when the machine has done something with progress and the recipe.
             }else{
-                entity.isHeating =0;
+                entity.isHeating=0;
                 if(entity.progress>0) {
                     entity.progress = MathHelper.clamp(entity.progress - 1, 0, entity.maxProgress);
                     shouldUpdate=true;//Mark dirty when progress has decreased.
                 }
             }
+        }else {
+            entity.isHeating = 0;
+            entity.progress = 0;
         }
 
         if(shouldUpdate)
