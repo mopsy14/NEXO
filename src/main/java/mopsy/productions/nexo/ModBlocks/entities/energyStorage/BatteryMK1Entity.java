@@ -21,6 +21,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -29,8 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
-
-import java.util.ArrayList;
 
 import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
@@ -98,8 +97,8 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         importLeft -= tryItemEnergyCollectTransaction(entity.getStack(0), entity.energyStorage, importLeft);
         exportLeft -= tryItemEnergyExportTransaction(entity.getStack(1), entity.energyStorage, exportLeft);
 
-        //Try block export transactions
-        exportLeft -= tryExportPowerToBlocks(entity,exportLeft);
+        //Try block export transaction
+        exportLeft -= tryExportPowerToBlock(entity, exportLeft, blockState, blockPos, world);
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
@@ -137,54 +136,23 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         return 0;
     }
 
-    protected static long tryExportPowerToBlocks(BatteryMK1Entity entity, long maxMove) {
+    protected static long tryExportPowerToBlock(BatteryMK1Entity entity, long maxMove, BlockState state, BlockPos pos, World world) {
         if(entity.energyStorage.amount==0) return 0;
 
-        ArrayList<EnergyStorage> adjacentStorages = new ArrayList<>();
-        Direction direction = Direction.NORTH;
-        for (int i = 0; i < 6; i++) {
-            EnergyStorage storage;
-            direction = direction.rotateYClockwise();
-            if (i < 4) {
-                storage = EnergyStorage.SIDED.find(entity.world, entity.pos.offset(direction), direction.getOpposite());
-            } else if (i == 4) {
-                storage = EnergyStorage.SIDED.find(entity.world, entity.pos.offset(Direction.UP), Direction.DOWN);
-            } else {
-                storage = EnergyStorage.SIDED.find(entity.world, entity.pos.offset(Direction.DOWN), Direction.UP);
+
+        EnergyStorage targetStorage = EnergyStorage.SIDED.find(world, pos.offset(state.get(Properties.FACING)), state.get(Properties.FACING).getOpposite());
+
+        if(targetStorage==null || !targetStorage.supportsInsertion()) return 0;
+
+        try(Transaction transaction = Transaction.openOuter()){
+            long moved = EnergyStorageUtil.move(entity.energyStorage,targetStorage, maxMove, transaction);
+            if(moved > 0 && moved <= maxMove){
+                transaction.commit();
+                return moved;
             }
-            if (storage != null) adjacentStorages.add(storage);
+            transaction.abort();
         }
-        for (int i = 0; i < adjacentStorages.size();) {
-            if(!adjacentStorages.get(i).supportsInsertion()||adjacentStorages.get(i).getCapacity()-adjacentStorages.get(i).getAmount()==0)
-                adjacentStorages.remove(adjacentStorages.get(i));
-            else i++;
-        }
-        return doExportPowerTransactions(adjacentStorages, entity, maxMove);
-    }
-    private static long doExportPowerTransactions(ArrayList<EnergyStorage> adjacentStorages, BatteryMK1Entity entity, long maxMove){
-        long totalMoved = 0;
-        while (totalMoved<maxMove){
-            if(adjacentStorages.isEmpty()) return totalMoved;
-            int divider = adjacentStorages.size();
-            int maxTransaction = Math.round(((maxMove-totalMoved)/(float)divider));
-            ArrayList<EnergyStorage> toRemove = new ArrayList<>();
-            for(EnergyStorage storage : adjacentStorages) {
-                long amountMoved = EnergyStorageUtil.move(
-                        entity.energyStorage,
-                        storage,
-                        maxTransaction==0&&maxTransaction<(maxMove-totalMoved)/(float)divider?1:maxTransaction,
-                        null
-                );
-                totalMoved +=amountMoved;
-                if(amountMoved<maxTransaction)
-                    toRemove.add(storage);
-                if(totalMoved>=maxMove)
-                    return totalMoved;
-            }
-            for(EnergyStorage storage : toRemove)
-                adjacentStorages.remove(storage);
-        }
-        return totalMoved;
+        return 0;
     }
 
     @Override
