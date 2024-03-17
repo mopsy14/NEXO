@@ -36,15 +36,17 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate3;
     public Predicate<IntCords2D> buttonCordPredicate;
-    public Predicate<IntCords2D> sliderCordPredicate =
+    /*public Predicate<IntCords2D> sliderCordPredicate =
             ic2d -> (
                 ic2d.x>x+38+handler.getSliderPos() && ic2d.x<x+42+handler.getSliderPos() &&
                 ic2d.y>y+72 && ic2d.y<y+78
             );
+
+     */
     public Predicate<IntCords2D> sliderTooltipPredicate =
             ic2d -> (
-                ic2d.x>x+38 && ic2d.x<x+140 &&
-                ic2d.y>y+72 && ic2d.y<y+77
+                ic2d.x>x+45 && ic2d.x<x+113 &&
+                ic2d.y>y+71 && ic2d.y<y+78
     );
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     private boolean isDragging = false;
@@ -80,14 +82,14 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
         buttonCordPredicate = ScreenUtils.renderSmallButton(this, matrices, x+4, y+5, handler.isActive());
         renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+156, y+11, getPower(), MixerEntity.POWER_CAPACITY);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        drawTexture(matrices, x+38+handler.getSliderPos(), y+72, 224, 0, 4, 6);
+        drawTexture(matrices, x+46+handler.getSliderPos(), y+72, 224, 0, 4, 6);
 
         if(isDragging){
             if(prevDrag!=mouseX){
                 prevDrag = mouseX;
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeBlockPos(handler.getBlockPos());
-                buf.writeInt(handler.getHeatFromSliderPos(mouseX-40-x));
+                buf.writeInt(handler.getHeatFromSliderPos(mouseX-48-x));
                 ClientPlayNetworking.send(CHANGE_MIXER_SLIDER_PACKET, buf);
             }
         }
@@ -109,7 +111,7 @@ public class MixerScreen extends HandledScreen<MixerScreenHandler>{
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        isDragging = sliderCordPredicate.test(new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY))));
+        isDragging = sliderTooltipPredicate.test(new IntCords2D(Math.toIntExact(Math.round(mouseX)),Math.toIntExact(Math.round(mouseY))));
         return super.mouseClicked(mouseX, mouseY, button);
     }
 

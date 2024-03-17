@@ -40,7 +40,7 @@ public class C2SPackets {
     }
     public static void receiveChangeMixerHeat(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler serverPlayNetworkHandler, PacketByteBuf buf, PacketSender packetSender) {
         BlockPos pos = buf.readBlockPos();
-        int heat = Math.max(Math.min(buf.readInt(), 1000), -1000);
+        int heat = Math.max(Math.min(buf.readInt(), 1000), -260);
         server.execute(()->{
             if(player.currentScreenHandler instanceof MixerScreenHandler sh && sh.getBlockPos().equals(pos)){
                 if (player.getWorld().getBlockEntity(pos) instanceof MixerEntity entity){
