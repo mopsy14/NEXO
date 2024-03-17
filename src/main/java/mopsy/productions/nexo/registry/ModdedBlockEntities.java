@@ -102,7 +102,7 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, MIXER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, INSULATED_COPPER_CABLE);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTRIC_FURNACE);
-        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, BATTERY_MK1);
+        EnergyStorage.SIDED.registerForBlockEntity(BatteryMK1Entity::getEnergyStorageFromDirection, BATTERY_MK1);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity((TankEntity_MK1::getFluidStorageFromDirection), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);

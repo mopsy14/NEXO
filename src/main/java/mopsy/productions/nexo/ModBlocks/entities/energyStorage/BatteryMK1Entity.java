@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -45,6 +46,32 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         @Override
         protected void onFinalCommit() {
             markDirty();
+        }
+    };
+    public final EnergyStorage outputEnergyStorage = new EnergyStorage() {
+        @Override
+        public long insert(long maxAmount, TransactionContext transaction) {
+            return 0;
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return false;
+        }
+
+        @Override
+        public long extract(long maxAmount, TransactionContext transaction) {
+            return energyStorage.extract(maxAmount, transaction);
+        }
+
+        @Override
+        public long getAmount() {
+            return energyStorage.getAmount();
+        }
+
+        @Override
+        public long getCapacity() {
+            return energyStorage.getCapacity();
         }
     };
 
@@ -140,7 +167,7 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         if(entity.energyStorage.amount==0) return 0;
 
 
-        EnergyStorage targetStorage = EnergyStorage.SIDED.find(world, pos.offset(state.get(Properties.FACING)), state.get(Properties.FACING).getOpposite());
+        EnergyStorage targetStorage = EnergyStorage.SIDED.find(world, pos.offset(state.get(Properties.FACING)), state.get(Properties.FACING));
 
         if(targetStorage==null || !targetStorage.supportsInsertion()) return 0;
 
@@ -153,6 +180,12 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
             transaction.abort();
         }
         return 0;
+    }
+
+    public EnergyStorage getEnergyStorageFromDirection(Direction direction){
+        if(direction==getCachedState().get(Properties.FACING).getOpposite())
+            return outputEnergyStorage;
+        return energyStorage;
     }
 
     @Override

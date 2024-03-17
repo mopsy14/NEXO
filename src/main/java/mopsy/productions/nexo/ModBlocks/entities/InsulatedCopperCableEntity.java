@@ -44,6 +44,8 @@ public class InsulatedCopperCableEntity extends BlockEntity{
     public static void tick(World world, BlockPos blockPos, BlockState blockState, InsulatedCopperCableEntity entity) {
         if(world.isClient)return;
 
+        System.out.println(entity.energyStorage.amount);
+
         updateStorages(world,blockPos,entity);
 
         if(entity.energyStorage.amount > 0){
@@ -119,7 +121,7 @@ public class InsulatedCopperCableEntity extends BlockEntity{
             BlockPos calculatedPos = pos.offset(direction);
             if(!(world.getBlockEntity(calculatedPos) instanceof InsulatedCopperCableEntity)) {
                 EnergyStorage storage = EnergyStorage.SIDED.find(world, calculatedPos, direction);
-                if (storage != null)
+                if (storage != null && storage.supportsInsertion())
                     res.add(storage);
             }
         }
