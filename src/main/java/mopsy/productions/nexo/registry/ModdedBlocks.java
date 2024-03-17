@@ -2,6 +2,7 @@ package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModBlocks.blocks.InsulatedCopperCableBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.compressed.UraniumBlock;
+import mopsy.productions.nexo.ModBlocks.blocks.energyStorage.BatteryMK1Block;
 import mopsy.productions.nexo.ModBlocks.blocks.machines.*;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.ConduitBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
@@ -64,6 +65,8 @@ public class ModdedBlocks {
         regBlock(new DeconShowerBlock());
         regBlock(new DeconShowerDrainBlock());
         regBlock(new ElectricFurnaceBlock());
+        //energy storage
+        regBlock(new BatteryMK1Block());
         //generators
         regBlock(new FurnaceGeneratorBlock());
         regBlock(new SteamTurbineBlock());

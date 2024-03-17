@@ -4,6 +4,8 @@ import mopsy.productions.nexo.screen.airSeparator.AirSeparatorScreen;
 import mopsy.productions.nexo.screen.airSeparator.AirSeparatorScreenHandler;
 import mopsy.productions.nexo.screen.ammoniaSynth.AmmoniaSynthesiserScreen;
 import mopsy.productions.nexo.screen.ammoniaSynth.AmmoniaSynthesiserScreenHandler;
+import mopsy.productions.nexo.screen.battery.BatteryMK1Screen;
+import mopsy.productions.nexo.screen.battery.BatteryMK1ScreenHandler;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreen;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nexo.screen.crusher.CrusherScreen;
@@ -54,6 +56,7 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<DeconShowerScreenHandler> DECON_SHOWER = new ExtendedScreenHandlerType<>(DeconShowerScreenHandler::new);
     public static final ExtendedScreenHandlerType<DeconShowerDrainScreenHandler> DECON_SHOWER_DRAIN = new ExtendedScreenHandlerType<>(DeconShowerDrainScreenHandler::new);
     public static final ExtendedScreenHandlerType<ElectricFurnaceScreenHandler> ELECTRIC_FURNACE = new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new);
+    public static final ExtendedScreenHandlerType<BatteryMK1ScreenHandler> BATTERY = new ExtendedScreenHandlerType<>(BatteryMK1ScreenHandler::new);
 
     public static void regScreenHandlers(){
         LOGGER.info("Registering screen handlers");
@@ -72,6 +75,7 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower"), DECON_SHOWER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower_drain"), DECON_SHOWER_DRAIN);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electric_furnace"), ELECTRIC_FURNACE);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "battery"), BATTERY);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -89,5 +93,6 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.DECON_SHOWER, DeconShowerScreen::new);
         HandledScreens.register(ScreenHandlers.DECON_SHOWER_DRAIN, DeconShowerDrainScreen::new);
         HandledScreens.register(ScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
+        HandledScreens.register(ScreenHandlers.BATTERY, BatteryMK1Screen::new);
     }
 }

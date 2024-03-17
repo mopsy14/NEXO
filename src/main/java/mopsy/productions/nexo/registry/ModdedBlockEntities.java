@@ -3,6 +3,7 @@ package mopsy.productions.nexo.registry;
 import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
 import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerDrainEntity;
 import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerEntity;
+import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.ModBlocks.entities.machines.*;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -34,6 +35,7 @@ public class ModdedBlockEntities {
     public static BlockEntityType<DeconShowerEntity> DECON_SHOWER;
     public static BlockEntityType<DeconShowerDrainEntity> DECON_SHOWER_DRAIN;
     public static BlockEntityType<ElectricFurnaceEntity> ELECTRIC_FURNACE;
+    public static BlockEntityType<BatteryMK1Entity> BATTERY_MK1;
 
     public static void regBlockEntities() {
         LOGGER.info("Registering block entities");
@@ -85,6 +87,9 @@ public class ModdedBlockEntities {
         ELECTRIC_FURNACE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electric_furnace"),
                 FabricBlockEntityTypeBuilder.create(ElectricFurnaceEntity::new, ModdedBlocks.Blocks.get("electric_furnace")).build(null));
 
+        BATTERY_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "battery_mk1"),
+                FabricBlockEntityTypeBuilder.create(BatteryMK1Entity::new, ModdedBlocks.Blocks.get("battery_mk1")).build(null));
+
         //Power
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, CRUSHER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, PRESS);
@@ -97,6 +102,7 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, MIXER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, INSULATED_COPPER_CABLE);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTRIC_FURNACE);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, BATTERY_MK1);
         //Fluids
         FluidStorage.SIDED.registerForBlockEntity((TankEntity_MK1::getFluidStorageFromDirection), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);
