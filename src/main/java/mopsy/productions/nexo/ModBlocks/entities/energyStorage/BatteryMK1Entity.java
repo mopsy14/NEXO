@@ -8,6 +8,8 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockState;
@@ -39,7 +41,7 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
 
     private final Inventory inventory = new SimpleInventory(2);
     public long previousPower = 0;
-    public static final long POWER_CAPACITY = 1000;
+    public static final long POWER_CAPACITY = 10000;
     public static final long POWER_MAX_INSERT = 10;
     public static final long POWER_MAX_EXTRACT = 20;
     public final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(POWER_CAPACITY, POWER_MAX_INSERT, POWER_MAX_EXTRACT) {
@@ -121,8 +123,8 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         long exportLeft = POWER_MAX_EXTRACT;
 
         //Try item energy transactions
-        importLeft -= tryItemEnergyCollectTransaction(entity.getStack(0), entity.energyStorage, importLeft);
-        exportLeft -= tryItemEnergyExportTransaction(entity.getStack(1), entity.energyStorage, exportLeft);
+        importLeft -= tryItemEnergyCollectTransaction(entity.inventory, 0, entity.energyStorage, importLeft);
+        exportLeft -= tryItemEnergyExportTransaction(entity.inventory, 1, entity.energyStorage, exportLeft);
 
         //Try block export transaction
         exportLeft -= tryExportPowerToBlock(entity, exportLeft, blockState, blockPos, world);
@@ -136,28 +138,30 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
         }
     }
 
-    private static long tryItemEnergyCollectTransaction(ItemStack stack, EnergyStorage storage, long limit){
-        EnergyStorage itemStorage = EnergyStorage.ITEM.find(stack, null);
-        if(itemStorage!=null){
-            try (Transaction transaction = Transaction.openOuter()) {
-                long moved = EnergyStorageUtil.move(itemStorage,storage,limit,transaction);
-                if(moved>0){
-                    transaction.commit();
-                    return moved;
-                }
+    private static long tryItemEnergyCollectTransaction(Inventory inventory, int slotIndex, EnergyStorage storage, long limit){
+        try (Transaction transaction = Transaction.openOuter()) {
+            long moved = EnergyStorageUtil.move(
+                    ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory,null).getSlot(slotIndex)).find(EnergyStorage.ITEM),
+                    storage,
+                    limit,
+                    transaction);
+            if (moved > 0) {
+                transaction.commit();
+                return moved;
             }
         }
         return 0;
     }
-    private static long tryItemEnergyExportTransaction(ItemStack stack, EnergyStorage storage, long limit){
-        EnergyStorage itemStorage = EnergyStorage.ITEM.find(stack, null);
-        if(itemStorage!=null){
-            try (Transaction transaction = Transaction.openOuter()) {
-                long moved = EnergyStorageUtil.move(storage,itemStorage,limit,transaction);
-                if(moved>0){
-                    transaction.commit();
-                    return moved;
-                }
+    private static long tryItemEnergyExportTransaction(Inventory inventory, int slotIndex, EnergyStorage storage, long limit){
+        try (Transaction transaction = Transaction.openOuter()) {
+            long moved = EnergyStorageUtil.move(
+                    storage,
+                    ContainerItemContext.ofSingleSlot(InventoryStorage.of(inventory,null).getSlot(slotIndex)).find(EnergyStorage.ITEM),
+                    limit,
+                    transaction);
+            if (moved > 0) {
+                transaction.commit();
+                return moved;
             }
         }
         return 0;

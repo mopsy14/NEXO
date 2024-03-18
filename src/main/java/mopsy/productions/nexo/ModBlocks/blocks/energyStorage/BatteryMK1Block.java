@@ -3,6 +3,7 @@ package mopsy.productions.nexo.ModBlocks.blocks.energyStorage;
 import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.registry.ModdedBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,6 +11,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -19,8 +21,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.base.SimpleEnergyItem;
 
 public class BatteryMK1Block extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
@@ -81,12 +85,30 @@ public class BatteryMK1Block extends BlockWithEntity implements IModID, BlockEnt
 
     @Override
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof BatteryMK1Entity) {
-            ItemScatterer.spawn(world, pos, (BatteryMK1Entity) blockEntity);
-            world.updateComparators(pos, this);
+        if(player.isCreative()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof BatteryMK1Entity) {
+                ItemScatterer.spawn(world, pos, (BatteryMK1Entity) blockEntity);
+                world.updateComparators(pos, this);
+            }
+        }else{
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof BatteryMK1Entity entity) {
+                ItemScatterer.spawn(world, pos, (BatteryMK1Entity) blockEntity);
+                ItemStack batteryStack = new ItemStack(ModdedBlocks.BlockItems.get("battery_mk1"));
+                ((SimpleEnergyItem) batteryStack.getItem()).setStoredEnergy(batteryStack, entity.energyStorage.amount);
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), batteryStack);
+                world.updateComparators(pos, this);
+            }
         }
         super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        ItemStack res = super.getPickStack(world, pos, state);
+        ((SimpleEnergyItem) res.getItem()).setStoredEnergy(res, ((BatteryMK1Entity)world.getBlockEntity(pos)).energyStorage.amount);
+        return res;
     }
 
     static {

@@ -14,6 +14,7 @@ import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.ControlR
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.SmallReactorBlock;
 import mopsy.productions.nexo.ModBlocks.blocks.ores.*;
 import mopsy.productions.nexo.ModBlocks.blocks.transport.FluidPipe_MK1Block;
+import mopsy.productions.nexo.ModItems.blocks.BatteryMK1Item;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nexo.interfaces.IModID;
@@ -26,7 +27,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.HashMap;
 
 import static mopsy.productions.nexo.Main.*;
-
+@SuppressWarnings("UnstableApiUsage")
 public class ModdedBlocks {
     public static final HashMap<String, BlockItem> BlockItems = new HashMap<>();
     public static final HashMap<String, Block> Blocks = new HashMap<>();
@@ -91,6 +92,11 @@ public class ModdedBlocks {
                 default -> Registry.register(Registry.ITEM, new Identifier(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
                 case "uranium_block" -> Registry.register(Registry.ITEM, new Identifier(modid, name), new UraniumBlockItem(block));
                 case "tank_mk1" -> Registry.register(Registry.ITEM, new Identifier(modid, name), new Tank_MK1Item(block));
+                case "battery_mk1" -> {
+                    BlockItem item = Registry.register(Registry.ITEM, new Identifier(modid, name), new BatteryMK1Item(block));
+                    //EnergyStorage.ITEM.reg(item);
+                    yield item;
+                }
             };
             BlockItems.put(name, bi);
         }else
