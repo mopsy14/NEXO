@@ -20,7 +20,7 @@ import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB;
 public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyItem{
     private final long capacity = 10000;
     private final long maxInput = 10;
-    private final long maxOutput= 10;
+    private final long maxOutput= 20;
 
     @Override public String getID() {return "battery_mk1";}
     public BatteryMK1Item(Block block) {
