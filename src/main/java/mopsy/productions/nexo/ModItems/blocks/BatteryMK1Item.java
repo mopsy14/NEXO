@@ -4,7 +4,6 @@ import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.DisplayUtils;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +17,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
 import java.util.List;
@@ -65,7 +63,7 @@ public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyIte
     protected boolean place(ItemPlacementContext context, BlockState state) {
         boolean res = super.place(context, state);
         BatteryMK1Entity entity = (BatteryMK1Entity) context.getWorld().getBlockEntity(context.getBlockPos());
-        entity.energyStorage.amount = EnergyStorage.ITEM.find(context.getStack(), ContainerItemContext.ofPlayerHand(context.getPlayer(), context.getHand())).getAmount();
+        entity.energyStorage.amount = ((SimpleEnergyItem)context.getStack().getItem()).getStoredEnergy(context.getStack());
         return res;
     }
 
