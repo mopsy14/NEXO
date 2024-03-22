@@ -13,7 +13,9 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
+    public static final BooleanProperty LIT;
     @Override
     public String getID(){return "electric_furnace";}
 
@@ -32,8 +35,9 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .luminance((state) -> (Boolean)state.get(Properties.LIT) ? 13 : 0)
         );
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
@@ -47,7 +51,7 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, LIT);
     }
 
     @Override
@@ -90,6 +94,7 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
 
     static {
         FACING = HorizontalFacingBlock.FACING;
+        LIT = Properties.LIT;
     }
 
 }

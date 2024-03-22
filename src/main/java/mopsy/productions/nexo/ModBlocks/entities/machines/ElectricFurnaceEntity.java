@@ -25,6 +25,7 @@ import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -42,6 +43,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
 
     private final Inventory inventory = new SimpleInventory(2);
     protected final PropertyDelegate propertyDelegate;
+    private int wasHeating=0;
     private int isHeating=0;
     private int progress;
     private int maxProgress = 200;
@@ -164,10 +166,16 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
             entity.progress = 0;
         }
 
+        if(entity.wasHeating!=entity.isHeating){
+            entity.wasHeating=entity.isHeating;
+            shouldUpdate=true;
+            world.setBlockState(blockPos,blockState.with(Properties.LIT,entity.isHeating==1),3);
+        }
+
         if(shouldUpdate)
             markDirty(world,blockPos,blockState);
 
-        if(entity.energyStorage.amount!=entity.previousPower){
+        if(entity.energyStorage.amount!=entity.previousPower) {
             entity.previousPower = entity.energyStorage.amount;
             PacketByteBuf buf = PacketByteBufs.create();
             buf.writeBlockPos(blockPos);
