@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CWC",
+    "LBL",
+    "WWW"
+  ],
+  "key": {
+    "B": {
+      "item": "nexo:sulfuric_acid_bucket"
+    },
+    "L": {
+      "item": "nexo:lead_sulfate_ingot"
+    },
+    "C": {
+      "item": "nexo:copper_wire"
+    },
+    "W": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "nexo:battery_mk1"
+  }
+}
