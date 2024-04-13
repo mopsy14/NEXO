@@ -10,7 +10,7 @@
     {"item": "nexo:lead_dust"}
   ],
   "item_outputs": [
-    {"item":"nexo:lead_sulfate_ingot","count":1}
+    {"item":"nexo:lead_sulfate","count":1}
   ],
   "additional_info":[
     "20",

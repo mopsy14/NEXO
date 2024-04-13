@@ -68,6 +68,7 @@ public class ModdedItems {
             new ItemInfo("heat_pump"),
             new ItemInfo("reaction_chamber"),
             new ItemInfo("gas_valve"),
+            new ItemInfo("lead_sulfate"),
 
 
             //plates
@@ -95,7 +96,6 @@ public class ModdedItems {
             new ItemInfo("lead_ingot"),
             new ItemInfo("steel_ingot"),
             new ItemInfo("nickel_ingot"),
-            new ItemInfo("lead_sulfate_ingot"),
 
             //nuggets
             new ItemInfo("uranium_nugget", 0.2F),
