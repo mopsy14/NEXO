@@ -2,7 +2,6 @@ package mopsy.productions.nexo.ModFluids;
 
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedFluids;
-import mopsy.productions.nexo.registry.ModdedItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -106,7 +105,7 @@ public abstract class SuluricAcidFluid extends FlowableFluid implements IModID {
 
     @Override
     public Item getBucketItem() {
-        return ModdedItems.Items.get("tank_mk1");
+        return ModdedFluids.buckets.get(getID());
     }
 
     @Override
