@@ -2,6 +2,7 @@ package mopsy.productions.nexo.registry;
 
 import mopsy.productions.nexo.ModFluids.NTFluid;
 import mopsy.productions.nexo.ModFluids.RadiatedWaterFluid;
+import mopsy.productions.nexo.ModFluids.SuluricAcidFluid;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.client.FluidRenderers;
 import mopsy.productions.nexo.interfaces.IModID;
@@ -12,6 +13,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -28,6 +30,7 @@ public class ModdedFluids {
     public static HashMap<String,FlowableFluid> stillFluids = new HashMap<>();
     public static HashMap<String,FluidBlock> fluidBlocks = new HashMap<>();
     public static HashMap<String,Item> fluidItems = new HashMap<>();
+    public static HashMap<String,BucketItem> buckets = new HashMap<>();
 
     public static void registerGas(String ID){
         flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
@@ -59,22 +62,27 @@ public class ModdedFluids {
         registerGas("hf_kf");
         registerGas("hydrogen_fluoride");
         registerGas("sulfur_dioxide");
-        registerGas("sulfuric_acid");
+        //registerGas("sulfuric_acid");
         registerGas("sulfur_trioxide");
         registerGas("uranium_hexafluoride");
         registerGas("enriched_uranium_hexafluoride");
         registerGas("depleted_uranium_tails");
 
-        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), SimpleFluidRenderHandler.coloredWater(0x3F76E4));
+        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), SimpleFluidRenderHandler.coloredWater(0x3F76E4),false);
+        regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), SimpleFluidRenderHandler.coloredWater(0xA1FFFFFF),true);
     }
 
-    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, FluidRenderHandler fluidRenderHandler){
+    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, FluidRenderHandler fluidRenderHandler, boolean hasBucket){
         if(flowingFluid instanceof IModID iModID) {
             String ID = iModID.getID();
             flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID + "_flowing"), flowingFluid));
             stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), stillFluid));
             fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
             Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
+
+            if(hasBucket){
+                buckets.put(ID,Registry.register(Registry.ITEM, new Identifier(modid,ID+"_bucket"), new BucketItem(stillFluid, new Item.Settings())));
+            }
 
             if(isClient){
                 FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidRenderHandler);
