@@ -6,8 +6,6 @@ import mopsy.productions.nexo.ModFluids.SuluricAcidFluid;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.client.FluidRenderers;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
-import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.FluidBlock;
@@ -68,11 +66,11 @@ public class ModdedFluids {
         registerGas("enriched_uranium_hexafluoride");
         registerGas("depleted_uranium_tails");
 
-        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), SimpleFluidRenderHandler.coloredWater(0x3F76E4),false);
-        regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), SimpleFluidRenderHandler.coloredWater(0xA1FFFFFF),true);
+        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), 0x3F76E4,false);
+        regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), 0xA1FFFFFF,true);
     }
 
-    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, FluidRenderHandler fluidRenderHandler, boolean hasBucket){
+    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, int fluidColor, boolean hasBucket){
         if(flowingFluid instanceof IModID iModID) {
             String ID = iModID.getID();
             flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID + "_flowing"), flowingFluid));
@@ -85,7 +83,7 @@ public class ModdedFluids {
             }
 
             if(isClient){
-                FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidRenderHandler);
+                FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidColor);
             }
         }
     }
