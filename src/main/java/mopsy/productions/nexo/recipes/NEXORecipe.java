@@ -237,17 +237,18 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     }
     private void removeInputFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages,SlotIO[] fluidSlotIOs){
         for(NFluidStack stack : inputFluids){
+            long toExtract = stack.fluidAmount;
             for (int i = 0; i < fluidStorages.size(); i++) {
                 if(fluidSlotIOs[i]==SlotIO.INPUT||fluidSlotIOs[i]==SlotIO.BOTH){
                     if(fluidStorages.get(i).variant.equals(stack.fluidVariant)){
-                        long extractAmount = Math.min(stack.fluidAmount,fluidStorages.get(i).amount);
-                        if(extractAmount < stack.fluidAmount)
-                            LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for: "+id);
+                        long extractAmount = Math.min(toExtract,fluidStorages.get(i).amount);
                         fluidStorages.get(i).amount -= extractAmount;
-                        break;
+                        toExtract-=extractAmount;
                     }
                 }
             }
+            if(toExtract > 0)
+                LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for: "+id);
         }
     }
     private void craftItems(Inventory blockInventory, SlotIO[] slotIOs){

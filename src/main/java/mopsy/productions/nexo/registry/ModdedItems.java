@@ -68,7 +68,6 @@ public class ModdedItems {
             new ItemInfo("heat_pump"),
             new ItemInfo("reaction_chamber"),
             new ItemInfo("gas_valve"),
-            new ItemInfo("lead_sulfate"),
 
 
             //plates
@@ -117,6 +116,7 @@ public class ModdedItems {
             new ItemInfo("glass_dust"),
             new ItemInfo("steel_dust"),
             new ItemInfo("vanadium_ore_dust"),
+            new ItemInfo("lead_dioxide"),
 
             //nuclear fuels
             new ItemInfo("empty_fuel_rod"),

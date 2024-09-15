@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "CWC",
-    "LBL",
+    "DBL",
     "WWW"
   ],
   "key": {
@@ -10,7 +10,10 @@
       "item": "nexo:sulfuric_acid_bucket"
     },
     "L": {
-      "item": "nexo:lead_sulfate"
+      "item": "nexo:lead_ingot"
+    },
+    "D": {
+      "item": "nexo:lead_dioxide"
     },
     "C": {
       "item": "nexo:copper_wire"
