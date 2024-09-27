@@ -57,7 +57,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         renderProgress(matrices, x, y);
         renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+43, y+53, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
         renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+102, y+53, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+45, getPower(), AirSeparatorEntity.POWER_CAPACITY);
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+38, getPower(), AirSeparatorEntity.POWER_CAPACITY);
 
         textRenderer.draw(matrices, "Connected Coolers: "+handler.getCoolerAmount(), x+36, y+24, 16777215);
         textRenderer.draw(matrices, "Connected Pumps: "+handler.getPumpAmount(), x+36, y+34, 16777215);
