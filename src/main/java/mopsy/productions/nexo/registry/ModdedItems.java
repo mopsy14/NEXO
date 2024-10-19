@@ -17,8 +17,9 @@ import mopsy.productions.nexo.ModItems.armor.protectiveHazmat.ProtectiveHazmatHe
 import mopsy.productions.nexo.ModItems.armor.protectiveHazmat.ProtectiveHazmatLeggings;
 import mopsy.productions.nexo.ModItems.components.CopperWireItem;
 import mopsy.productions.nexo.ModItems.components.GoldWireItem;
-import mopsy.productions.nexo.ModItems.tools.DebugItem;
-import mopsy.productions.nexo.ModItems.tools.GeigerCounterItem;
+import mopsy.productions.nexo.ModItems.tools.*;
+import mopsy.productions.nexo.ModItems.tools.steel.SteelToolMaterial;
+import mopsy.productions.nexo.ModItems.tools.titanium.TitaniumToolMaterial;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.ItemInfo;
 import net.minecraft.item.Item;
@@ -58,7 +59,7 @@ public class ModdedItems {
             new ItemInfo("triuranium_octoxide", 1),
             new ItemInfo("yellowcake", 3),
             new ItemInfo("uranium_tetrafluoride"),
-            new ItemInfo("uranium_fuel_pellet"),
+            new ItemInfo("uranium_fuel_pellet",3),
             new ItemInfo("sodium_metavanadate"),
             new ItemInfo("empty_geiger_tube"),
             new ItemInfo("filled_geiger_tube"),
@@ -85,13 +86,12 @@ public class ModdedItems {
             new ItemInfo("raw_titanium"),
             new ItemInfo("raw_lead"),
             new ItemInfo("salt"),
-            new ItemInfo("raw_carobbiite"),
             new ItemInfo("raw_nickel"),
 
             //ingots
             new ItemInfo("uranium_ingot", 1),
             new ItemInfo("titanium_ingot"),
-            new ItemInfo("graphite_ingot"),
+            new ItemInfo("graphite_rod"),
             new ItemInfo("lead_ingot"),
             new ItemInfo("steel_ingot"),
             new ItemInfo("nickel_ingot"),
@@ -116,6 +116,7 @@ public class ModdedItems {
             new ItemInfo("glass_dust"),
             new ItemInfo("steel_dust"),
             new ItemInfo("vanadium_ore_dust"),
+            new ItemInfo("lead_dioxide"),
 
             //nuclear fuels
             new ItemInfo("empty_fuel_rod"),
@@ -129,9 +130,24 @@ public class ModdedItems {
 
 
     public static void regItems(){
+        LOGGER.info("Registering items");
         //tools
         regItem(new DebugItem());
         regItem(new GeigerCounterItem());
+        regItem(new PipeWrench());
+        regItem(new PortableCraftingTableItem());
+            //titanium
+        regItem(new NSwordItem  ("titanium_sword",   TitaniumToolMaterial.INSTANCE,3,   -2.4f));
+        regItem(new NAxeItem    ("titanium_axe",     TitaniumToolMaterial.INSTANCE,5.5f,-3.1f));
+        regItem(new NPickaxeItem("titanium_pickaxe", TitaniumToolMaterial.INSTANCE,1,   -2.8f));
+        regItem(new NShovelItem ("titanium_shovel",  TitaniumToolMaterial.INSTANCE,1.5f,-3.0f));
+        regItem(new NHoeItem    ("titanium_hoe",     TitaniumToolMaterial.INSTANCE,-2,  -1.0f));
+            //steel
+        regItem(new NSwordItem  ("steel_sword",   SteelToolMaterial.INSTANCE,3,   -2.4f));
+        regItem(new NAxeItem    ("steel_axe",     SteelToolMaterial.INSTANCE,5.0f,-3.0f));
+        regItem(new NPickaxeItem("steel_pickaxe", SteelToolMaterial.INSTANCE,1,   -2.8f));
+        regItem(new NShovelItem ("steel_shovel",  SteelToolMaterial.INSTANCE,1.5f,-3.0f));
+        regItem(new NHoeItem    ("steel_hoe",     SteelToolMaterial.INSTANCE,-2,  -1.0f));
 
         //components
         regItem(new CopperWireItem());
@@ -177,6 +193,6 @@ public class ModdedItems {
             String name = ((IModID) item).getID();
             Items.put(name, Registry.register(Registry.ITEM, new Identifier(modid, name),item));
         }else
-            LOGGER.error("Block doesn't implement IModID!");
+            LOGGER.error("Item doesn't implement IModID!");
     }
 }

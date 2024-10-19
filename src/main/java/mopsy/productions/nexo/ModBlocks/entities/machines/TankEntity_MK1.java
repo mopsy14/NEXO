@@ -158,6 +158,12 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         return inventory.getStack(1).getCount() < inventory.getStack(1).getMaxCount();
     }
 
+    public SingleVariantStorage<FluidVariant> getFluidStorageFromDirection(Direction direction){
+        if(direction==Direction.DOWN || direction==Direction.UP)
+            return fluidStorage;
+        return null;
+    }
+
 
     @Override
     public FluidVariant getFluidType() {

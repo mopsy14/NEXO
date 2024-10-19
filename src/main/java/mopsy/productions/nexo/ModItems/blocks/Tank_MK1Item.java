@@ -11,11 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.StackReference;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
@@ -24,15 +22,19 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_FLUIDS_TAB;
 
 @SuppressWarnings("UnstableApiUsage")
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
-    @Override public String getID() {return "Tank_MK1";}
+    public static List<FluidVariant> fluidGroupVariants = new ArrayList<>();
+    @Override public String getID() {return "tank_mk1";}
     public Tank_MK1Item(Block block) {
-        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_BLOCK_TAB));
+        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_FLUIDS_TAB));
+        fluidGroupVariants.add(0,FluidVariant.of(Fluids.WATER));
+        fluidGroupVariants.add(1, FluidVariant.of(Fluids.LAVA));
     }
 
     @Override
@@ -46,6 +48,15 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if(isIn(group)) {
             stacks.add(getDefaultStack());
+            for (int i = 0; i < 8; i++) {
+                stacks.add(new ItemStack(Items.AIR));
+            }
+            for (FluidVariant variant:fluidGroupVariants) {
+                ItemStack stack = super.getDefaultStack();
+                FluidDataUtils.setFluidType(stack.getOrCreateNbt(), variant);
+                FluidDataUtils.setFluidAmount(stack.getNbt(), 8000*81);
+                stacks.add(stack);
+            }
         }
     }
 

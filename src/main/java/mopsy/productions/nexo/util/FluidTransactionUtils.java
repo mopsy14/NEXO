@@ -2,7 +2,9 @@ package mopsy.productions.nexo.util;
 
 import mopsy.productions.nexo.interfaces.IItemFluidData;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.inventory.Inventory;
@@ -102,5 +104,32 @@ public class FluidTransactionUtils {
         if(inv.getStack(inputIndex).isEmpty())
             return false;
         return inv.getStack(outputIndex).getCount() < inv.getStack(outputIndex).getMaxCount();
+    }
+    public static long move(StorageView<FluidVariant> from, Storage<FluidVariant> to, long maxAmount, Transaction transaction){
+        long totalMoved = 0;
+        try(Transaction methodTrans = transaction.openNested()) {
+            if (from.isResourceBlank()) return 0;
+            FluidVariant resource = from.getResource();
+            long maxExtracted;
+
+            // check how much can be extracted
+            try (Transaction extractionTestTransaction = methodTrans.openNested()) {
+                maxExtracted = from.extract(resource, to.simulateInsert(resource,maxAmount,extractionTestTransaction), extractionTestTransaction);
+                extractionTestTransaction.abort();
+            }
+
+            try (Transaction transferTransaction = methodTrans.openNested()) {
+                // check how much can be inserted
+                long accepted = to.insert(resource, maxExtracted, transferTransaction);
+
+                // extract it, or rollback if the amounts don't match
+                if (from.extract(resource, accepted, transferTransaction) == accepted) {
+                    totalMoved += accepted;
+                    transferTransaction.commit();
+                }
+            }
+            methodTrans.commit();
+        }
+        return totalMoved;
     }
 }

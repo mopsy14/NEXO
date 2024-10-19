@@ -7,10 +7,10 @@
     "Data"
   ],
   "client": [
-
+    "RenderGuiItemOverlayMixin"
   ],
   "server": [
-
+    "PlayerAddItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

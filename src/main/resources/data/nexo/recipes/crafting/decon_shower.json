@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SFS",
+    "STS",
+    "SDS"
+  ],
+  "key": {
+    "S": {
+      "item": "nexo:steel_plate"
+    },
+    "F": {
+      "item": "nexo:fluid_pipe_mk1"
+    },
+    "T": {
+      "item": "nexo:tank_mk1"
+    },
+    "D": {
+      "item": "minecraft:dropper"
+    }
+  },
+  "result": {
+    "item": "nexo:decon_shower"
+  }
+}

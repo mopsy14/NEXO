@@ -79,7 +79,7 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         }
     }
     private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmount(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
     }
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();

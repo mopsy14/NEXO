@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.screen.smallReactor;
 
+import mopsy.productions.nexo.ModItems.NTFuelRodItem;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import mopsy.productions.nexo.util.slots.ReturnSlot;
 import mopsy.productions.nexo.util.slots.RodSlot;
@@ -66,14 +67,28 @@ public class SmallReactorScreenHandler extends ScreenHandler {
 
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasStack()) {
+            //Use different slots for rods
             ItemStack originalStack = slot.getStack();
             res = originalStack.copy();
+            //Check whether the item is in the block inventory
             if (index < this.inventory.size()) {
+                //Move to an index in the player inventory
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
+            } else{
+                //Check whether the item is a fuel rod
+                if(slot.getStack().getItem() instanceof NTFuelRodItem){
+                    //Move to an index for fuel rods in the block inventory
+                    if ((!this.insertItem(originalStack, 4, this.inventory.size(), false))) {
+                        return ItemStack.EMPTY;
+                    }
+                }else {
+                    //Move to an index in the block inventory
+                    if ((!this.insertItem(originalStack, 0, this.inventory.size(), false))) {
+                        return ItemStack.EMPTY;
+                    }
+                }
             }
 
             if (originalStack.isEmpty()) {
@@ -81,10 +96,13 @@ public class SmallReactorScreenHandler extends ScreenHandler {
             } else {
                 slot.markDirty();
             }
+
         }
 
         return res;
     }
+
+
 
     @Override
     public boolean canUse(PlayerEntity player) {

@@ -32,6 +32,8 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
 
     public AirSeparatorScreen(AirSeparatorScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
+        backgroundHeight = 191;
+        //playerInventoryTitleY = backgroundHeight - 94;
     }
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
@@ -53,9 +55,12 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderProgress(matrices, x, y);
-        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+43, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+102, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), AirSeparatorEntity.POWER_CAPACITY);
+        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+43, y+53, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+102, y+53, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+38, getPower(), AirSeparatorEntity.POWER_CAPACITY);
+
+        textRenderer.draw(matrices, "Connected Coolers: "+handler.getCoolerAmount(), x+36, y+24, 16777215);
+        textRenderer.draw(matrices, "Connected Pumps: "+handler.getPumpAmount(), x+36, y+34, 16777215);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
     }
 
     private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmount(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
     }
 
     private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
@@ -86,7 +91,7 @@ public class AirSeparatorScreen extends HandledScreen<AirSeparatorScreenHandler>
 
     private void renderProgress(MatrixStack matrices, int x, int y){
         if(handler.isCrafting()){
-            drawTexture(matrices, x+15, y+35, 176, 0, handler.getScaledProgress(), 12);
+            drawTexture(matrices, x+15, y+69, 176, 0, handler.getScaledProgress(), 12);
         }
     }
 

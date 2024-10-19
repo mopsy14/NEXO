@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "nexo:titanium_ingot",
+    "nexo:steel_ingot",
+    "nexo:uranium_ingot",
+    "nexo:graphite_rod",
+    "nexo:lead_ingot",
+    "nexo:nickel_ingot"
+  ]
+}

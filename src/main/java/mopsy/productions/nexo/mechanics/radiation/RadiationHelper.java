@@ -21,7 +21,7 @@ import static mopsy.productions.nexo.mechanics.radiation.Radiation.setRadiation;
 import static mopsy.productions.nexo.registry.ModdedItems.Items;
 
 public class RadiationHelper {
-    public static void changePlayerRadiation(ServerPlayerEntity player, float radiation){
+    public static void setPlayerRadiation(ServerPlayerEntity player, float radiation){
         if(radiation != getRadiation((IData) player)) {
             if (radiation < 0)
                 setRadiation((IData) player, 0);
@@ -31,6 +31,25 @@ public class RadiationHelper {
                 setRadiation((IData) player, radiation);
             if (player.getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
                 sendRadiationUpdatePackage(player);
+            }
+        }
+    }
+    public static float getPlayerRadiation(ServerPlayerEntity player){
+        return getRadiation((IData) player);
+    }
+    public static void addPlayerRadiation(ServerPlayerEntity player, float radiation){
+        if(radiation != 0) {
+            radiation = getRadiation((IData) player) + radiation;
+            if (radiation != getRadiation((IData) player)) {
+                if (radiation < 0)
+                    setRadiation((IData) player, 0);
+                else if (radiation > 150)
+                    setRadiation((IData) player, 150);
+                else
+                    setRadiation((IData) player, radiation);
+                if (player.getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
+                    sendRadiationUpdatePackage(player);
+                }
             }
         }
     }
@@ -97,7 +116,7 @@ public class RadiationHelper {
     private static void updatePlayerRadiation(ServerPlayerEntity player){
         float radPerSec = getRadiationPerSecond((IData) player);
         if(!(radPerSec<0.01&&radPerSec> -0.01))
-            changePlayerRadiation(player, getRadiation((IData) player)+(radPerSec/2));
+            setPlayerRadiation(player, getRadiation((IData) player)+(radPerSec/2));
     }
     public static void updateRadiationEffects(MinecraftServer server){
         for(ServerPlayerEntity serverPlayer: server.getPlayerManager().getPlayerList()){
@@ -108,7 +127,7 @@ public class RadiationHelper {
         if(!player.isCreative()){
             float rads = getRadiation((IData) player);
             if(rads>149) {
-                player.damage(DamageSource.GENERIC, 20);
+                player.damage(new DamageSource("radiation").setBypassesArmor().setUnblockable(), 100);
             }else if(rads>125) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3, true, false, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));

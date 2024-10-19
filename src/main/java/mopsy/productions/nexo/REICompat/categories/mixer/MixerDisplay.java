@@ -14,6 +14,7 @@ public class MixerDisplay extends NEXODisplay {
 
     public MixerDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe = (MixerRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {

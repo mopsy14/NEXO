@@ -14,6 +14,7 @@ public class ElectrolyzerDisplay extends NEXODisplay {
 
     public ElectrolyzerDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (ElectrolyzerRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {

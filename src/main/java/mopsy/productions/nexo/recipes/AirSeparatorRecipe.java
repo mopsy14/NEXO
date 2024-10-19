@@ -27,6 +27,15 @@ public class AirSeparatorRecipe extends NEXORecipe{
         return !(((AirSeparatorEntity)blockEntity).fluidStorages.get(0).amount == 648000 && ((AirSeparatorEntity)blockEntity).fluidStorages.get(1).amount == 648000);
     }
 
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return AirSeparatorRecipe.Serializer.INSTANCE;
+    }
+    @Override
+    public String getTypeID(){
+        return AirSeparatorRecipe.Type.ID;
+    }
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;

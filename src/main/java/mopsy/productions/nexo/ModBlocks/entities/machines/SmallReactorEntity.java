@@ -42,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mopsy.productions.nexo.Main.server;
 import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
@@ -181,7 +182,16 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
 
         if(entity.coreHeat>1000){
-            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20F, false, Explosion.DestructionType.DESTROY);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, false, Explosion.DestructionType.DESTROY);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 30f, false, Explosion.DestructionType.DESTROY);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, false, Explosion.DestructionType.DESTROY);
+            for(ServerPlayerEntity player : PlayerLookup.all(server)){
+                if(player.currentScreenHandler instanceof SmallReactorScreenHandler SRSH){
+                    if (SRSH.getBlockPos().equals(blockPos)){
+                        player.closeHandledScreen();
+                    }
+                }
+            }
         }
 
         markDirty(world,blockPos,blockState);

@@ -59,7 +59,7 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
         }
     }
     private void renderFluidTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmountmB(),getCapacitymB(), getFluid(), exact), mouseCords.x, mouseCords.y);
+        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmount(),getCapacitymB(), getFluid(), exact), mouseCords.x, mouseCords.y);
     }
 
     @Override

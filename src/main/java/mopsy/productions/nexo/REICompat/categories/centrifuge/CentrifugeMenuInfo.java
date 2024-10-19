@@ -9,7 +9,6 @@ import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
 import java.util.ArrayList;
 
 public class CentrifugeMenuInfo implements SimplePlayerInventoryMenuInfo<CentrifugeScreenHandler, CentrifugeDisplay> {
-    //TODO: Add REI support for the test tubes.
     CentrifugeDisplay display;
     public CentrifugeMenuInfo(Display display){
         this.display = (CentrifugeDisplay) display;

@@ -30,6 +30,15 @@ public class CentrifugeRecipe extends NEXORecipe{
     }
 
     @Override
+    public String getTypeID(){
+        return CentrifugeRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return CentrifugeRecipe.Serializer.INSTANCE;
+    }
+    @Override
     public RecipeType<?> getType() {
         return CentrifugeRecipe.Type.INSTANCE;
     }

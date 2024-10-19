@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nexo:block/ammonia_synthesizer",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "nexo:block/ammonia_synthesizer"
+    },
+    "facing=south": {
+      "model": "nexo:block/ammonia_synthesizer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "nexo:block/ammonia_synthesizer",
+      "y": 270
+    }
+  }
+}

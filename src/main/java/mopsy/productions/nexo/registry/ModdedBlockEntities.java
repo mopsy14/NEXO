@@ -1,6 +1,11 @@
 package mopsy.productions.nexo.registry;
 
+import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
+import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerDrainEntity;
+import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerEntity;
+import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.ModBlocks.entities.machines.*;
+import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
@@ -8,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import team.reborn.energy.api.EnergyStorage;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -24,10 +30,17 @@ public class ModdedBlockEntities {
     public static BlockEntityType<SmallReactorEntity> SMALL_REACTOR;
     public static BlockEntityType<AmmoniaSynthesizerEntity> AMMONIA_SYNTHESIZER;
     public static BlockEntityType<MixerEntity> MIXER;
+    public static BlockEntityType<InsulatedCopperCableEntity> INSULATED_COPPER_CABLE;
+    public static BlockEntityType<FluidPipe_MK1Entity> FLUID_PIPE_MK1;
+    public static BlockEntityType<DeconShowerEntity> DECON_SHOWER;
+    public static BlockEntityType<DeconShowerDrainEntity> DECON_SHOWER_DRAIN;
+    public static BlockEntityType<ElectricFurnaceEntity> ELECTRIC_FURNACE;
+    public static BlockEntityType<BatteryMK1Entity> BATTERY_MK1;
     public static BlockEntityType<OilRefineryEntity> OIL_REFINERY;
     public static BlockEntityType<OilDistillationTrayEntity> OIL_DISTILLATION_TRAY;
 
     public static void regBlockEntities() {
+        LOGGER.info("Registering block entities");
         CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
                 FabricBlockEntityTypeBuilder.create(CrusherEntity::new, ModdedBlocks.Blocks.get("crusher")).build(null));
 
@@ -61,6 +74,24 @@ public class ModdedBlockEntities {
         MIXER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "mixer"),
                 FabricBlockEntityTypeBuilder.create(MixerEntity::new, ModdedBlocks.Blocks.get("mixer")).build(null));
 
+        INSULATED_COPPER_CABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "insulated_copper_cable"),
+                FabricBlockEntityTypeBuilder.create(InsulatedCopperCableEntity::new, ModdedBlocks.Blocks.get("insulated_copper_cable")).build(null));
+
+        FLUID_PIPE_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "fluid_pipe_mk1"),
+                FabricBlockEntityTypeBuilder.create(FluidPipe_MK1Entity::new, ModdedBlocks.Blocks.get("fluid_pipe_mk1")).build(null));
+
+        DECON_SHOWER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower"),
+                FabricBlockEntityTypeBuilder.create(DeconShowerEntity::new, ModdedBlocks.Blocks.get("decon_shower")).build(null));
+
+        DECON_SHOWER_DRAIN = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower_drain"),
+                FabricBlockEntityTypeBuilder.create(DeconShowerDrainEntity::new, ModdedBlocks.Blocks.get("decon_shower_drain")).build(null));
+
+        ELECTRIC_FURNACE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electric_furnace"),
+                FabricBlockEntityTypeBuilder.create(ElectricFurnaceEntity::new, ModdedBlocks.Blocks.get("electric_furnace")).build(null));
+
+        BATTERY_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "battery_mk1"),
+                FabricBlockEntityTypeBuilder.create(BatteryMK1Entity::new, ModdedBlocks.Blocks.get("battery_mk1")).build(null));
+
         OIL_REFINERY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "oil_refinery"),
                 FabricBlockEntityTypeBuilder.create(OilRefineryEntity::new, ModdedBlocks.Blocks.get("oil_refinery")).build(null));
 
@@ -77,12 +108,17 @@ public class ModdedBlockEntities {
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, STEAM_TURBINE);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, AMMONIA_SYNTHESIZER);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, MIXER);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, INSULATED_COPPER_CABLE);
+        EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, ELECTRIC_FURNACE);
+        EnergyStorage.SIDED.registerForBlockEntity(BatteryMK1Entity::getEnergyStorageFromDirection, BATTERY_MK1);
         EnergyStorage.SIDED.registerForBlockEntity((entity, direction) -> entity.energyStorage, OIL_REFINERY);
         //Fluids
-        FluidStorage.SIDED.registerForBlockEntity(((entity, direction) -> entity.fluidStorage), TANK_MK1);
+        FluidStorage.SIDED.registerForBlockEntity((TankEntity_MK1::getFluidStorageFromDirection), TANK_MK1);
         FluidStorage.SIDED.registerForBlockEntity((ElectrolyzerEntity::getFluidStorageFromDirection), ELECTROLYZER);
         FluidStorage.SIDED.registerForBlockEntity((SmallReactorEntity::getFluidStorageFromDirection), SMALL_REACTOR);
         FluidStorage.SIDED.registerForBlockEntity((SteamTurbineEntity::getFluidStorageFromDirection), STEAM_TURBINE);
         FluidStorage.SIDED.registerForBlockEntity((AmmoniaSynthesizerEntity::getFluidStorageFromDirection), AMMONIA_SYNTHESIZER);
+        FluidStorage.SIDED.registerForBlockEntity((DeconShowerEntity::getFluidStorageFromDirection), DECON_SHOWER);
+        FluidStorage.SIDED.registerForBlockEntity((DeconShowerDrainEntity::getFluidStorageFromDirection), DECON_SHOWER_DRAIN);
     }
 }

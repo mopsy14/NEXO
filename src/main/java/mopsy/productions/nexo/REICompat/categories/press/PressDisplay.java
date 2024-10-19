@@ -13,6 +13,7 @@ public class PressDisplay extends NEXODisplay {
 
     public PressDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (PressRecipe) recipe;
     }
 
     @Override

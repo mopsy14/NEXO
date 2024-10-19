@@ -25,9 +25,12 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 
 import static mopsy.productions.nexo.Main.LOGGER;
+import static mopsy.productions.nexo.Main.modid;
 
 @SuppressWarnings("UnstableApiUsage")
 public class NEXORecipe implements Recipe<SimpleInventory> {
@@ -38,7 +41,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     public final List<NFluidStack> outputFluids;
     public final List<String> additionalInfo;
 
-
+    public static HashMap<Identifier, Function<NEXORecipe, ? extends NEXORecipe>> recipeConverters = new HashMap<>();
     public NEXORecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo){
         this.id= id;
         this.inputs = inputs;
@@ -234,17 +237,18 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
     }
     private void removeInputFluids(List<SingleVariantStorage<FluidVariant>> fluidStorages,SlotIO[] fluidSlotIOs){
         for(NFluidStack stack : inputFluids){
+            long toExtract = stack.fluidAmount;
             for (int i = 0; i < fluidStorages.size(); i++) {
                 if(fluidSlotIOs[i]==SlotIO.INPUT||fluidSlotIOs[i]==SlotIO.BOTH){
                     if(fluidStorages.get(i).variant.equals(stack.fluidVariant)){
-                        long extractAmount = Math.min(stack.fluidAmount,fluidStorages.get(i).amount);
-                        if(extractAmount < stack.fluidAmount)
-                            LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for: "+id);
+                        long extractAmount = Math.min(toExtract,fluidStorages.get(i).amount);
                         fluidStorages.get(i).amount -= extractAmount;
-                        break;
+                        toExtract-=extractAmount;
                     }
                 }
             }
+            if(toExtract > 0)
+                LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for: "+id);
         }
     }
     private void craftItems(Inventory blockInventory, SlotIO[] slotIOs){
@@ -345,6 +349,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
         @Override
         public NEXORecipe read(Identifier id, PacketByteBuf buf) {
+            Identifier type = Identifier.of(modid,buf.readString());
             List<Ingredient> inputs = new ArrayList<>();
             List<ItemStack> outputs = new ArrayList<>();
             List<NFluidStack> fluidInputs = new ArrayList<>();
@@ -371,11 +376,26 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
             for (int i = 0; i < length; i++) {
                 additionalInfo.add(buf.readString());
             }
-            return new NEXORecipe(id,inputs,outputs,fluidInputs,fluidOutputs,additionalInfo);
+
+            NEXORecipe recipe = new NEXORecipe(id,inputs,outputs,fluidInputs,fluidOutputs,additionalInfo);
+
+            if (recipeConverters.containsKey(type))
+                return recipeConverters.get(type).apply(recipe);
+            else {
+                LOGGER.error("Cannot find recipe converter!");
+                LOGGER.error("Report this and the following text to a dev of NEXO!");
+                throw new RuntimeException();
+            }
         }
 
         @Override
         public void write(PacketByteBuf buf, NEXORecipe recipe) {
+            if(recipe.getTypeID()==null){
+                LOGGER.error("Recipe does not override getTypeID!");
+                LOGGER.error("Report this and the following text to a dev of NEXO!");
+                throw new RuntimeException();
+            }
+            buf.writeString(recipe.getTypeID());
             buf.writeInt(recipe.inputs.size());
             for(Ingredient ingredient : recipe.inputs){
                 ingredient.write(buf);
@@ -406,6 +426,13 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
      */
     @Override
     public RecipeType<?> getType() {
+        return null;
+    }
+
+    /**
+     * OVERWRITE THIS METHOD!
+     */
+    public String getTypeID(){
         return null;
     }
 

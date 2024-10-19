@@ -4,12 +4,22 @@ import mopsy.productions.nexo.screen.airSeparator.AirSeparatorScreen;
 import mopsy.productions.nexo.screen.airSeparator.AirSeparatorScreenHandler;
 import mopsy.productions.nexo.screen.ammoniaSynth.AmmoniaSynthesiserScreen;
 import mopsy.productions.nexo.screen.ammoniaSynth.AmmoniaSynthesiserScreenHandler;
+import mopsy.productions.nexo.screen.battery.BatteryMK1Screen;
+import mopsy.productions.nexo.screen.battery.BatteryMK1ScreenHandler;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreen;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nexo.screen.crusher.CrusherScreen;
 import mopsy.productions.nexo.screen.crusher.CrusherScreenHandler;
+import mopsy.productions.nexo.screen.deconShower.DeconShowerScreen;
+import mopsy.productions.nexo.screen.deconShower.DeconShowerScreenHandler;
+import mopsy.productions.nexo.screen.deconShowerDrain.DeconShowerDrainScreen;
+import mopsy.productions.nexo.screen.deconShowerDrain.DeconShowerDrainScreenHandler;
+import mopsy.productions.nexo.screen.electricFurnace.ElectricFurnaceScreen;
+import mopsy.productions.nexo.screen.electricFurnace.ElectricFurnaceScreenHandler;
 import mopsy.productions.nexo.screen.electrolyzer.ElectrolyzerScreen;
 import mopsy.productions.nexo.screen.electrolyzer.ElectrolyzerScreenHandler;
+import mopsy.productions.nexo.screen.fluidPipe.FluidPipeScreen;
+import mopsy.productions.nexo.screen.fluidPipe.FluidPipeScreenHandler;
 import mopsy.productions.nexo.screen.furnaceGenerator.FurnaceGeneratorScreen;
 import mopsy.productions.nexo.screen.furnaceGenerator.FurnaceGeneratorScreenHandler;
 import mopsy.productions.nexo.screen.mixer.MixerScreen;
@@ -27,6 +37,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 public class ScreenHandlers {
@@ -41,8 +52,14 @@ public class ScreenHandlers {
     public static final ExtendedScreenHandlerType<SmallReactorScreenHandler> SMALL_REACTOR = new ExtendedScreenHandlerType<>(SmallReactorScreenHandler::new);
     public static final ExtendedScreenHandlerType<AmmoniaSynthesiserScreenHandler> AMMONIA_SYNTHESISER = new ExtendedScreenHandlerType<>(AmmoniaSynthesiserScreenHandler::new);
     public static final ExtendedScreenHandlerType<MixerScreenHandler> MIXER = new ExtendedScreenHandlerType<>(MixerScreenHandler::new);
+    public static final ExtendedScreenHandlerType<FluidPipeScreenHandler> FLUID_PIPE = new ExtendedScreenHandlerType<>(FluidPipeScreenHandler::new);
+    public static final ExtendedScreenHandlerType<DeconShowerScreenHandler> DECON_SHOWER = new ExtendedScreenHandlerType<>(DeconShowerScreenHandler::new);
+    public static final ExtendedScreenHandlerType<DeconShowerDrainScreenHandler> DECON_SHOWER_DRAIN = new ExtendedScreenHandlerType<>(DeconShowerDrainScreenHandler::new);
+    public static final ExtendedScreenHandlerType<ElectricFurnaceScreenHandler> ELECTRIC_FURNACE = new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new);
+    public static final ExtendedScreenHandlerType<BatteryMK1ScreenHandler> BATTERY = new ExtendedScreenHandlerType<>(BatteryMK1ScreenHandler::new);
 
     public static void regScreenHandlers(){
+        LOGGER.info("Registering screen handlers");
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "press"), PRESS);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "tank_mk1"), Tank_MK1);
@@ -54,6 +71,11 @@ public class ScreenHandlers {
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "small_reactor"), SMALL_REACTOR);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "ammonia_synthesiser"), AMMONIA_SYNTHESISER);
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "mixer"), MIXER);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "fluid_pipe"), FLUID_PIPE);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower"), DECON_SHOWER);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower_drain"), DECON_SHOWER_DRAIN);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electric_furnace"), ELECTRIC_FURNACE);
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "battery"), BATTERY);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
@@ -67,5 +89,10 @@ public class ScreenHandlers {
         HandledScreens.register(ScreenHandlers.SMALL_REACTOR, SmallReactorScreen::new);
         HandledScreens.register(ScreenHandlers.AMMONIA_SYNTHESISER, AmmoniaSynthesiserScreen::new);
         HandledScreens.register(ScreenHandlers.MIXER, MixerScreen::new);
+        HandledScreens.register(ScreenHandlers.FLUID_PIPE, FluidPipeScreen::new);
+        HandledScreens.register(ScreenHandlers.DECON_SHOWER, DeconShowerScreen::new);
+        HandledScreens.register(ScreenHandlers.DECON_SHOWER_DRAIN, DeconShowerDrainScreen::new);
+        HandledScreens.register(ScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
+        HandledScreens.register(ScreenHandlers.BATTERY, BatteryMK1Screen::new);
     }
 }

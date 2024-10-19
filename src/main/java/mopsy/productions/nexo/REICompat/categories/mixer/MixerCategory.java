@@ -11,6 +11,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import mopsy.productions.nexo.recipes.MixerRecipe;
 import mopsy.productions.nexo.registry.ModdedBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -60,10 +61,21 @@ public class MixerCategory implements DisplayCategory<MixerDisplay> {
         return res;
     }
 
+    private Text getMinTempText(MixerRecipe recipe){
+        return Text.of("Min: " + recipe.getMinHeat() + "°C");
+    }
+    private Text getMaxTempText(MixerRecipe recipe){
+        return Text.of("Max: " + recipe.getMaxHeat() + "°C");
+    }
+
     @Override
     public List<Widget> setupDisplay(MixerDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
+
+        widgets.add(Widgets.createLabel(new Point(75+ bounds.x,33+ bounds.y),Text.of("Temperature")));
+        widgets.add(Widgets.createLabel(new Point(75+ bounds.x,42+ bounds.y),getMinTempText(display.recipe)));
+        widgets.add(Widgets.createLabel(new Point(75+ bounds.x,51+ bounds.y),getMaxTempText(display.recipe)));
 
         //input fluids:
         List<EntryIngredient> entries = getFluidEntries(display.getInputEntries());
@@ -89,7 +101,7 @@ public class MixerCategory implements DisplayCategory<MixerDisplay> {
         widgets.add(Widgets.createSlot(new Point(110+ bounds.x,44+ bounds.y)).markOutput().entries(entries.get(2)));
         widgets.add(Widgets.createSlot(new Point(129+ bounds.x,44+ bounds.y)).markOutput().entries(entries.get(3)));
 
-        widgets.add(Widgets.createArrow(new Point(63+bounds.x,24+ bounds.y)).animationDurationMS(10000));
+        widgets.add(Widgets.createArrow(new Point(63+bounds.x,16+ bounds.y)).animationDurationMS(10000));
         return widgets;
     }
 }

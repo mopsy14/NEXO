@@ -18,8 +18,13 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.util.NEXOBlockStates.ACTIVE;
 
 public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final DirectionProperty FACING;
@@ -28,15 +33,18 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
 
     public SteamTurbineBlock() {
         super(FabricBlockSettings
-                .of(Material.METAL, MapColor.GRAY)
+                .of(Material.GLASS, MapColor.GRAY)
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .nonOpaque()
+                .solidBlock((state,world,pos)->false)
+                .blockVision((state,world,pos)->false)
         );
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE,false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(ACTIVE,false);
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -47,12 +55,24 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING).add(ACTIVE);
     }
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+    @Override
+    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+        return true;
+    }
+    @Override
+    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return VoxelShapes.empty();
+    }
+    @Override
+    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+        return 1.0F;
     }
 
     @Override

@@ -1,0 +1,31 @@
+{
+  "multipart": [
+    {
+      "apply": { "model": "nexo:block/insulated_copper_cable_middle" }
+    },
+    {
+      "when": { "north": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end" }
+    },
+    {
+      "when": { "east": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end", "y": 90 }
+    },
+    {
+      "when": { "south": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end", "y": 180 }
+    },
+    {
+      "when": { "west": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end", "y": 270 }
+    },
+    {
+      "when": { "up": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end", "x": 270}
+    },
+    {
+      "when": { "down": true },
+      "apply": { "model": "nexo:block/insulated_copper_cable_end", "x": 90 }
+    }
+  ]
+}

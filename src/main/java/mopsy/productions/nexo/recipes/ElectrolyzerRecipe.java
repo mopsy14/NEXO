@@ -18,6 +18,16 @@ public class ElectrolyzerRecipe extends NEXORecipe{
     public ElectrolyzerRecipe(NEXORecipe recipe){
         super(recipe.id,recipe.inputs,recipe.outputs,recipe.inputFluids,recipe.outputFluids,recipe.additionalInfo);
     }
+
+    @Override
+    public String getTypeID(){
+        return ElectrolyzerRecipe.Type.ID;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return ElectrolyzerRecipe.Serializer.INSTANCE;
+    }
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;

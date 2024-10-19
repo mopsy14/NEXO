@@ -14,6 +14,7 @@ public class AirSeparatorDisplay extends NEXODisplay {
 
     public AirSeparatorDisplay(NEXORecipe recipe) {
         super(recipe);
+        this.recipe= (AirSeparatorRecipe) recipe;
     }
     @Override
     public CategoryIdentifier<?> getCategoryIdentifier() {

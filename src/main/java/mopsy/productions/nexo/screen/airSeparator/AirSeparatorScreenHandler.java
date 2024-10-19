@@ -30,11 +30,11 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
         this.delegate = delegate;
         this.blockPos = blockPos;
 
-        this.addSlot(new Slot(inventory, 0,68,19));
-        this.addSlot(new ReturnSlot(inventory, 1,68,50));
+        this.addSlot(new Slot(inventory, 0,68,53));
+        this.addSlot(new ReturnSlot(inventory, 1,68,84));
         //FluidOutput1
-        this.addSlot(new Slot(inventory, 2,127,19));
-        this.addSlot(new ReturnSlot(inventory, 3,127,50));
+        this.addSlot(new Slot(inventory, 2,127,53));
+        this.addSlot(new ReturnSlot(inventory, 3,127,84));
 
         addPlayerInventory(playerInventory);
         addHotbar(playerInventory);
@@ -42,6 +42,8 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
         addProperties(delegate);
     }
 
+    public int getPumpAmount(){return delegate.get(2);}
+    public int getCoolerAmount(){return delegate.get(3);}
     public boolean isCrafting(){
         return delegate.get(0)>0;
     }
@@ -91,13 +93,13 @@ public class AirSeparatorScreenHandler extends ScreenHandler {
     private void addPlayerInventory(PlayerInventory playerInventory){
         for (int i = 0; i<3; i++){
             for(int i2 = 0; i2<9; i2++){
-                this.addSlot(new Slot(playerInventory, i2+i*9+9, 8+i2*18,84+i*18));
+                this.addSlot(new Slot(playerInventory, i2+i*9+9, 8+i2*18,111+i*18));
             }
         }
     }
     private void addHotbar(PlayerInventory playerInventory){
         for(int i = 0; i<9; i++){
-            this.addSlot(new Slot(playerInventory, i, 8+i*18, 142));
+            this.addSlot(new Slot(playerInventory, i, 8+i*18, 169));
         }
     }
 }

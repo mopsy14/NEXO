@@ -21,12 +21,15 @@ import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("UnstableApiUsage")
 public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProvider{
     public static final DirectionProperty FACING;
+    private static final VoxelShape SHAPE = Block.createCuboidShape(3,0,3,13,16,13);
     @Override
     public String getID(){return "tank_mk1";}
 
@@ -40,6 +43,12 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
+    }
+
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
     }
