@@ -40,8 +40,6 @@ public class Main implements ModInitializer {
 
 		ModdedItems.regItems();
 		ModdedBlocks.regBlocks();
-		ModConfiguredFeatures.regConfiguredFeatures();
-		ModOreGeneration.generateOres();
 
 		RadiationEvents.addEvents();
 
@@ -51,6 +49,9 @@ public class Main implements ModInitializer {
 		ModdedRecipes.regRecipes();
 
 		ModdedFluids.regFluids();
+
+		ModConfiguredFeatures.regConfiguredFeatures();
+		ModOreGeneration.generateOres();
 
 		ModdedBlockEntities.regBlockEntities();
 		LOGGER.info("NEXO successfully started");

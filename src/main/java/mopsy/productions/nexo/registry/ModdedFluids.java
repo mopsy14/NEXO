@@ -1,8 +1,6 @@
 package mopsy.productions.nexo.registry;
 
-import mopsy.productions.nexo.ModFluids.NTFluid;
-import mopsy.productions.nexo.ModFluids.RadiatedWaterFluid;
-import mopsy.productions.nexo.ModFluids.SuluricAcidFluid;
+import mopsy.productions.nexo.ModFluids.*;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.client.FluidRenderers;
 import mopsy.productions.nexo.interfaces.IModID;
@@ -65,17 +63,21 @@ public class ModdedFluids {
         registerGas("uranium_hexafluoride");
         registerGas("enriched_uranium_hexafluoride");
         registerGas("depleted_uranium_tails");
-
-        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), 0x3F76E4,false);
-        regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), 0xA1FFFFFF,true);
+        regFluid(new RadiatedWaterFluid.Flowing(),new RadiatedWaterFluid.Still(), 0x3F76E4,false,true,true);
+        regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), 0xA1FFFFFF,true,true,true);
+        regFluid(new CrudeOilFluid.Flowing(), new CrudeOilFluid.Still(), 0xA11B1511, true,false,true);
+        regFluid(new NaturalCrudeOilFluid.Flowing() , new NaturalCrudeOilFluid.Still(), 0xA11B1511, false,false,true);
     }
 
-    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, int fluidColor, boolean hasBucket){
+    private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, int fluidColor, boolean hasBucket, boolean transparent, boolean collides){
         if(flowingFluid instanceof IModID iModID) {
             String ID = iModID.getID();
             flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID + "_flowing"), flowingFluid));
             stillFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid, ID), stillFluid));
-            fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
+            if(collides)
+                fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER)){}));
+            else
+                fluidBlocks.put(ID, Registry.register(Registry.BLOCK, new Identifier(modid, ID), new FluidBlock(stillFluids.get(ID), FabricBlockSettings.of(Material.WATER).noCollision())));
             Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
 
             if(hasBucket){
@@ -83,7 +85,7 @@ public class ModdedFluids {
             }
 
             if(isClient){
-                FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidColor);
+                FluidRenderers.regFluidRenderer(flowingFluids.get(ID), stillFluids.get(ID), fluidColor, transparent);
             }
         }
     }

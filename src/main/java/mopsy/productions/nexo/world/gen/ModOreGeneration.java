@@ -29,6 +29,6 @@ public class ModOreGeneration {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
                 GenerationStep.Feature.UNDERGROUND_ORES, ModPlacedFeatures.NICKEL_ORE_PLACED.getKey().get());
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
-                GenerationStep.Feature.UNDERGROUND_ORES, ModPlacedFeatures.OIL_ORE_PLACED.getKey().get());
+                GenerationStep.Feature.LAKES, ModPlacedFeatures.OIL_LAKE_PLACED.getKey().get());
     }
 }

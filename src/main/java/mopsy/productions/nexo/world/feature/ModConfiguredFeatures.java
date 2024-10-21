@@ -1,8 +1,11 @@
 package mopsy.productions.nexo.world.feature;
 
 import mopsy.productions.nexo.registry.ModdedBlocks;
+import mopsy.productions.nexo.registry.ModdedFluids;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 
 import java.util.List;
 
@@ -41,9 +44,6 @@ public class ModConfiguredFeatures {
             OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("nickel_ore").getDefaultState()),
             OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_nickel_ore").getDefaultState())
     );
-    public static final List<OreFeatureConfig.Target> OVERWORLD_OIL_ORES = List.of(
-            OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, ModdedBlocks.Blocks.get("deepslate_oil_ore").getDefaultState())
-    );
 
 
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_URANIUM_ORES_REG_ENTRY =
@@ -64,8 +64,8 @@ public class ModConfiguredFeatures {
             ConfiguredFeatures.register("vanadium_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_VANADIUM_ORES, 4));
     public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_NICKEL_ORES_REG_ENTRY =
             ConfiguredFeatures.register("nickel_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_NICKEL_ORES, 4));
-    public static final RegistryEntry<ConfiguredFeature<OreFeatureConfig, ?>> OVERWORLD_OIL_ORES_REG_ENTRY =
-            ConfiguredFeatures.register("oil_ore", Feature.ORE, new OreFeatureConfig(OVERWORLD_OIL_ORES, 64));
+    public static final RegistryEntry<ConfiguredFeature<LakeFeature.Config, ?>> OVERWORLD_OIL_LAKE_REG_ENTRY =
+            ConfiguredFeatures.register("oil_ore", Feature.LAKE, new LakeFeature.Config(BlockStateProvider.of(ModdedFluids.fluidBlocks.get("natural_crude_oil")), BlockStateProvider.of(Blocks.AIR)));
 
 
     public static void regConfiguredFeatures(){

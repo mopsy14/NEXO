@@ -12,10 +12,10 @@ public class FluidRenderers {
         FluidRenderHandlerRegistry.INSTANCE.register(fluid, SimpleFluidRenderHandler.coloredWater(color));
         BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), fluid);
     }
-    public static void regFluidRenderer(FlowableFluid flowingFluid, FlowableFluid stillFluid, int color){
+    public static void regFluidRenderer(FlowableFluid flowingFluid, FlowableFluid stillFluid, int color, boolean transparent){
         FluidRenderHandlerRegistry.INSTANCE.register(flowingFluid, SimpleFluidRenderHandler.coloredWater(color));
         FluidRenderHandlerRegistry.INSTANCE.register(stillFluid, SimpleFluidRenderHandler.coloredWater(color));
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), flowingFluid, stillFluid);
+        if(transparent)BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), flowingFluid, stillFluid);
     }
     public static void regFluidRenderer(FlowableFluid flowingFluid, FlowableFluid stillFluid, FluidRenderHandler fluidRenderHandler){
         FluidRenderHandlerRegistry.INSTANCE.register(flowingFluid, fluidRenderHandler);
