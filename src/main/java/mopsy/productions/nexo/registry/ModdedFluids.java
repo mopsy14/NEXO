@@ -9,8 +9,10 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.Material;
 import net.minecraft.fluid.FlowableFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -27,6 +29,7 @@ public class ModdedFluids {
     public static HashMap<String,FluidBlock> fluidBlocks = new HashMap<>();
     public static HashMap<String,Item> fluidItems = new HashMap<>();
     public static HashMap<String,BucketItem> buckets = new HashMap<>();
+    public static TagKey<Fluid> OIL_TAG;
 
     public static void registerGas(String ID){
         flowingFluids.put(ID, Registry.register(Registry.FLUID, new Identifier(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
@@ -67,6 +70,8 @@ public class ModdedFluids {
         regFluid(new SuluricAcidFluid.Flowing(),new SuluricAcidFluid.Still(), 0xA1FFFFFF,true,true,true);
         regFluid(new CrudeOilFluid.Flowing(), new CrudeOilFluid.Still(), 0xA11B1511, true,false,true);
         regFluid(new NaturalCrudeOilFluid.Flowing() , new NaturalCrudeOilFluid.Still(), 0xA11B1511, false,false,true);
+
+        OIL_TAG = TagKey.of(Registry.FLUID_KEY,new Identifier(modid,"oil"));
     }
 
     private static void regFluid(FlowableFluid flowingFluid, FlowableFluid stillFluid, int fluidColor, boolean hasBucket, boolean transparent, boolean collides){
