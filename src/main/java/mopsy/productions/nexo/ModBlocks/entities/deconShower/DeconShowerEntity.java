@@ -2,12 +2,12 @@ package mopsy.productions.nexo.ModBlocks.entities.deconShower;
 
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.mechanics.radiation.RadiationHelper;
+import mopsy.productions.nexo.networking.payloads.FluidChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedFluids;
 import mopsy.productions.nexo.screen.deconShower.DeconShowerScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -36,11 +36,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IFluidStorage {
 
     private final Inventory inventory = new SimpleInventory(2);
@@ -58,11 +57,7 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(pos);
-        fluidStorage.variant.toPacket(buf);
-        buf.writeLong(fluidStorage.amount);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new FluidChangePayload(pos,fluidStorage.variant,fluidStorage.amount));
 
         return new DeconShowerScreenHandler(syncId, inv, this, pos);
     }
@@ -73,16 +68,16 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
         nbt.put("fluid_variant", fluidStorage.variant.toNbt());
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
@@ -139,11 +134,7 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
     }
 
     private static void sendFluidUpdate(DeconShowerEntity entity){
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(entity.pos);
-        entity.fluidStorage.variant.toPacket(buf);
-        buf.writeLong(entity.fluidStorage.amount);
-        PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, FLUID_CHANGE_PACKET, buf));
+        PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new FluidChangePayload(entity.pos,entity.fluidStorage.variant,entity.fluidStorage.amount)));
     }
 
     public SingleVariantStorage<FluidVariant> getFluidStorageFromDirection(Direction direction){

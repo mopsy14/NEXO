@@ -13,8 +13,11 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.*;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -27,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import static mopsy.productions.nexo.util.NEXOBlockStates.ACTIVE;
 
 public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
     @Override
     public String getID(){return "steam_turbine";}
 
@@ -76,7 +79,7 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = (SteamTurbineEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){

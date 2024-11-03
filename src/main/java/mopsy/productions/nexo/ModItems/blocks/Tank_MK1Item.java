@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.StackReference;
@@ -27,7 +26,7 @@ import java.util.List;
 
 import static mopsy.productions.nexo.Main.CREATIVE_FLUIDS_TAB;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     public static List<FluidVariant> fluidGroupVariants = new ArrayList<>();
     @Override public String getID() {return "tank_mk1";}

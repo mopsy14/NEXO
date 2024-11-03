@@ -22,7 +22,6 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -36,7 +35,7 @@ import team.reborn.energy.api.EnergyStorage;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-@SuppressWarnings({"deprecation", "UnstableApiUsage"})
+@SuppressWarnings("deprecation")
 public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, BlockEntityProvider, Waterloggable {
     private static final VoxelShape MID_SHAPE = VoxelShapes.cuboid(0.375, 0.375, 0.375, 0.625, 0.625, 0.625);
     private static final VoxelShape UP_SHAPE = VoxelShapes.cuboid(0.375, 0.625, 0.375, 0.625, 1, 0.625);
@@ -200,7 +199,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             if (player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
                 NamedScreenHandlerFactory screenHandlerFactory = getBlockEntity(world, pos);

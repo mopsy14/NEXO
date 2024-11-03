@@ -39,7 +39,7 @@ public class DeconShowerDrainScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMove(PlayerEntity player, int index) {
         ItemStack res = ItemStack.EMPTY;
 
         Slot slot = this.slots.get(index);

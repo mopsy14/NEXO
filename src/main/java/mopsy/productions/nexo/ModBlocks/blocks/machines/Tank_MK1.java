@@ -16,8 +16,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.*;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,9 +29,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProvider{
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
     private static final VoxelShape SHAPE = Block.createCuboidShape(3,0,3,13,16,13);
     @Override
     public String getID(){return "tank_mk1";}
@@ -50,7 +53,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -70,7 +73,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = (TankEntity_MK1)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
@@ -93,7 +96,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if(player.isCreative()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TankEntity_MK1) {
@@ -112,7 +115,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
                 world.updateComparators(pos, this);
             }
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
 

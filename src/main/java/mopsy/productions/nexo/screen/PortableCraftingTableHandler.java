@@ -26,7 +26,7 @@ public class PortableCraftingTableHandler extends CraftingScreenHandler {
                         new PortableCraftingTableHandler(
                                 syncId,
                                 inventory,
-                                ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())),
+                                ScreenHandlerContext.create(playerEntity.getWorld(), playerEntity.getBlockPos())),
                         Text.translatable("container.crafting")));
     }
 }

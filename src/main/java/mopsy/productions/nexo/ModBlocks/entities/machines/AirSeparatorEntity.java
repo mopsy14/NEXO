@@ -6,12 +6,13 @@ import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.interfaces.IMultiBlockController;
 import mopsy.productions.nexo.multiblock.AirSeparatorMultiBlock;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.AirSeparatorRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.airSeparator.AirSeparatorScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -42,10 +43,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
 public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory, IEnergyStorage, IMultiBlockController, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(4);
@@ -107,17 +105,9 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         for (int i = 0; i < fluidStorages.size(); i++){
-            buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            buf.writeInt(i);
-            fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(fluidStorages.get(i).amount);
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, new AdvancedFluidChangePayload(pos,i,fluidStorages.get(i).variant,fluidStorages.get(i).amount));
         }
         return new AirSeparatorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
@@ -156,8 +146,8 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(nbt);
         nbt.putInt("air_separator.progress", progress);
         nbt.putLong("air_separator.power", energyStorage.amount);
@@ -169,8 +159,8 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(nbt);
         progress = nbt.getInt("air_separator.progress");
         energyStorage.amount = nbt.getLong("air_separator.power");
@@ -182,37 +172,34 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity airSeparatorEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, AirSeparatorEntity entity) {
         if(world.isClient)return;
 
-        AirSeparatorRecipe recipe = getRecipe(airSeparatorEntity);
+        AirSeparatorRecipe recipe = getRecipe(entity);
 
-        if(airSeparatorEntity.energyStorage.amount >= 5 && recipe.canOutput(airSeparatorEntity)){
-            airSeparatorEntity.progress++;
-            airSeparatorEntity.energyStorage.amount -= 5;
-            if(airSeparatorEntity.progress >= airSeparatorEntity.maxProgress){
-                if (recipe.craft(airSeparatorEntity,true,false)) {
-                    sendFluidUpdate(airSeparatorEntity);
+        if(entity.energyStorage.amount >= 5 && recipe.canOutput(entity)){
+            entity.progress++;
+            entity.energyStorage.amount -= 5;
+            if(entity.progress >= entity.maxProgress){
+                if (recipe.craft(entity,true,false)) {
+                    sendFluidUpdate(entity);
                 }
-                airSeparatorEntity.progress = 0;
+                entity.progress = 0;
             }
         }else{
-            airSeparatorEntity.progress = 0;
+            entity.progress = 0;
         }
 
-        if(airSeparatorEntity.energyStorage.amount!=airSeparatorEntity.previousPower){
-            airSeparatorEntity.previousPower = airSeparatorEntity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(airSeparatorEntity.getPower());
-            PlayerLookup.tracking(airSeparatorEntity).forEach( player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+        if(entity.energyStorage.amount!= entity.previousPower){
+            entity.previousPower = entity.energyStorage.amount;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
 
-        if(tryFabricTransactions(airSeparatorEntity)){
+        if(tryFabricTransactions(entity)){
 
         }
-        if(tryTransactions(airSeparatorEntity)){
-            sendFluidUpdate(airSeparatorEntity);
+        if(tryTransactions(entity)){
+            sendFluidUpdate(entity);
         }
 
         markDirty(world,blockPos,blockState);
@@ -247,12 +234,10 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
 
     private static void sendFluidUpdate(AirSeparatorEntity entity){
         for (int i = 0; i < entity.fluidStorages.size(); i++) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(entity.pos);
-            buf.writeInt(i);
-            entity.fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(entity.fluidStorages.get(i).amount);
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+            SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+            int finalI = i;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                    new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
         }
     }
 

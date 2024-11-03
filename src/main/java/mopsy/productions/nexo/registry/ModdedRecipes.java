@@ -24,8 +24,8 @@ public class ModdedRecipes {
         regRecipe(FillingRecipe.Type.ID, FillingRecipe.Serializer.INSTANCE, FillingRecipe.Type.INSTANCE, CrusherRecipe::new);
     }
     private static void regRecipe(String ID, RecipeSerializer<?> recipeSerializer, RecipeType<?> recipeType, Function<NEXORecipe,? extends NEXORecipe> converter){
-        Registry.register(Registry.RECIPE_SERIALIZER, new Identifier(modid, ID), recipeSerializer);
-        Registry.register(Registry.RECIPE_TYPE, new Identifier(modid, ID), recipeType);
-        NEXORecipe.recipeConverters.put(new Identifier(modid, ID), converter);
+        Registry.register(Registry.RECIPE_SERIALIZER, Identifier.of(modid, ID), recipeSerializer);
+        Registry.register(Registry.RECIPE_TYPE, Identifier.of(modid, ID), recipeType);
+        NEXORecipe.recipeConverters.put(Identifier.of(modid, ID), converter);
     }
 }

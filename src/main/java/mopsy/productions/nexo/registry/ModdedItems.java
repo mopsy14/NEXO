@@ -191,7 +191,7 @@ public class ModdedItems {
     private static void regItem(Item item){
         if(item instanceof IModID){
             String name = ((IModID) item).getID();
-            Items.put(name, Registry.register(Registry.ITEM, new Identifier(modid, name),item));
+            Items.put(name, Registry.register(Registry.ITEM, Identifier.of(modid, name),item));
         }else
             LOGGER.error("Item doesn't implement IModID!");
     }

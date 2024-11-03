@@ -16,7 +16,7 @@ import team.reborn.energy.api.EnergyStorage;
 import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class ModdedBlockEntities {
 
     public static BlockEntityType<CrusherEntity> CRUSHER;
@@ -39,55 +39,55 @@ public class ModdedBlockEntities {
 
     public static void regBlockEntities() {
         LOGGER.info("Registering block entities");
-        CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "crusher"),
+        CRUSHER = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "crusher"),
                 FabricBlockEntityTypeBuilder.create(CrusherEntity::new, ModdedBlocks.Blocks.get("crusher")).build(null));
 
-        TANK_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "tank_mk1"),
+        TANK_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "tank_mk1"),
                 FabricBlockEntityTypeBuilder.create(TankEntity_MK1::new, ModdedBlocks.Blocks.get("tank_mk1")).build(null));
 
-        PRESS = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "press"),
+        PRESS = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "press"),
                 FabricBlockEntityTypeBuilder.create(PressEntity::new, ModdedBlocks.Blocks.get("press")).build(null));
 
-        ELECTROLYZER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electrolyzer"),
+        ELECTROLYZER = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "electrolyzer"),
                 FabricBlockEntityTypeBuilder.create(ElectrolyzerEntity::new, ModdedBlocks.Blocks.get("electrolyzer")).build(null));
 
-        CENTRIFUGE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "centrifuge"),
+        CENTRIFUGE = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "centrifuge"),
                 FabricBlockEntityTypeBuilder.create(CentrifugeEntity::new, ModdedBlocks.Blocks.get("centrifuge")).build(null));
 
-        AIR_SEPARATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "air_separator"),
+        AIR_SEPARATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "air_separator"),
                 FabricBlockEntityTypeBuilder.create(AirSeparatorEntity::new, ModdedBlocks.Blocks.get("air_separator")).build(null));
 
-        FURNACE_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "furnace_generator"),
+        FURNACE_GENERATOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "furnace_generator"),
                 FabricBlockEntityTypeBuilder.create(FurnaceGeneratorEntity::new, ModdedBlocks.Blocks.get("furnace_generator")).build(null));
 
-        STEAM_TURBINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "steam_turbine"),
+        STEAM_TURBINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "steam_turbine"),
                 FabricBlockEntityTypeBuilder.create(SteamTurbineEntity::new, ModdedBlocks.Blocks.get("steam_turbine")).build(null));
 
-        SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "small_reactor"),
+        SMALL_REACTOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "small_reactor"),
                 FabricBlockEntityTypeBuilder.create(SmallReactorEntity::new, ModdedBlocks.Blocks.get("small_reactor_hatches")).build(null));
 
-        AMMONIA_SYNTHESIZER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "ammonia_synthesizer"),
+        AMMONIA_SYNTHESIZER = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "ammonia_synthesizer"),
                 FabricBlockEntityTypeBuilder.create(AmmoniaSynthesizerEntity::new, ModdedBlocks.Blocks.get("ammonia_synthesizer")).build(null));
 
-        MIXER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "mixer"),
+        MIXER = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "mixer"),
                 FabricBlockEntityTypeBuilder.create(MixerEntity::new, ModdedBlocks.Blocks.get("mixer")).build(null));
 
-        INSULATED_COPPER_CABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "insulated_copper_cable"),
+        INSULATED_COPPER_CABLE = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "insulated_copper_cable"),
                 FabricBlockEntityTypeBuilder.create(InsulatedCopperCableEntity::new, ModdedBlocks.Blocks.get("insulated_copper_cable")).build(null));
 
-        FLUID_PIPE_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "fluid_pipe_mk1"),
+        FLUID_PIPE_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "fluid_pipe_mk1"),
                 FabricBlockEntityTypeBuilder.create(FluidPipe_MK1Entity::new, ModdedBlocks.Blocks.get("fluid_pipe_mk1")).build(null));
 
-        DECON_SHOWER = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower"),
+        DECON_SHOWER = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "decon_shower"),
                 FabricBlockEntityTypeBuilder.create(DeconShowerEntity::new, ModdedBlocks.Blocks.get("decon_shower")).build(null));
 
-        DECON_SHOWER_DRAIN = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "decon_shower_drain"),
+        DECON_SHOWER_DRAIN = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "decon_shower_drain"),
                 FabricBlockEntityTypeBuilder.create(DeconShowerDrainEntity::new, ModdedBlocks.Blocks.get("decon_shower_drain")).build(null));
 
-        ELECTRIC_FURNACE = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "electric_furnace"),
+        ELECTRIC_FURNACE = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "electric_furnace"),
                 FabricBlockEntityTypeBuilder.create(ElectricFurnaceEntity::new, ModdedBlocks.Blocks.get("electric_furnace")).build(null));
 
-        BATTERY_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(modid, "battery_mk1"),
+        BATTERY_MK1 = Registry.register(Registry.BLOCK_ENTITY_TYPE, Identifier.of(modid, "battery_mk1"),
                 FabricBlockEntityTypeBuilder.create(BatteryMK1Entity::new, ModdedBlocks.Blocks.get("battery_mk1")).build(null));
 
         //Power

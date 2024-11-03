@@ -4,6 +4,8 @@ import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.CentrifugeRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
@@ -26,6 +28,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -39,12 +42,10 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(7);
@@ -102,16 +103,9 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         for (int i = 0; i < fluidStorages.size(); i++){
-            buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            buf.writeInt(i);
-            fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(fluidStorages.get(i).amount);
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, new AdvancedFluidChangePayload(pos,i,fluidStorages.get(i).variant,fluidStorages.get(i).amount));
         }
         return new CentrifugeScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
@@ -122,8 +116,8 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(inventory, nbt);
         nbt.putInt("centrifuge.progress", progress);
         nbt.putLong("centrifuge.power", energyStorage.amount);
@@ -134,8 +128,8 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         progress = nbt.getInt("centrifuge.progress");
         energyStorage.amount = nbt.getLong("centrifuge.power");
@@ -145,38 +139,35 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
         }
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, CentrifugeEntity centrifugeEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, CentrifugeEntity entity) {
         if(world.isClient)return;
 
-        CentrifugeRecipe recipe = getFirstRecipeMatch(centrifugeEntity);
+        CentrifugeRecipe recipe = getFirstRecipeMatch(entity);
 
-        if(recipe!=null&& centrifugeEntity.energyStorage.amount >= 50){
-            centrifugeEntity.progress++;
-            centrifugeEntity.energyStorage.amount -= 50;
-            if(centrifugeEntity.progress >= centrifugeEntity.maxProgress){
-                recipe.craft(centrifugeEntity,true,true);
-                sendFluidUpdate(centrifugeEntity);
-                centrifugeEntity.progress=0;
+        if(recipe!=null&& entity.energyStorage.amount >= 50){
+            entity.progress++;
+            entity.energyStorage.amount -= 50;
+            if(entity.progress >= entity.maxProgress){
+                recipe.craft(entity,true,true);
+                sendFluidUpdate(entity);
+                entity.progress=0;
             }
         }else{
-            centrifugeEntity.progress = 0;
+            entity.progress = 0;
         }
 
         markDirty(world,blockPos,blockState);
 
-        if(centrifugeEntity.energyStorage.amount!=centrifugeEntity.previousPower){
-            centrifugeEntity.previousPower = centrifugeEntity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(centrifugeEntity.getPower());
-            PlayerLookup.tracking(centrifugeEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+        if(entity.energyStorage.amount!= entity.previousPower){
+            entity.previousPower = entity.energyStorage.amount;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
 
-        if(tryFabricTransactions(centrifugeEntity)){
+        if(tryFabricTransactions(entity)){
 
         }
-        if(tryTransactions(centrifugeEntity)){
-            sendFluidUpdate(centrifugeEntity);
+        if(tryTransactions(entity)){
+            sendFluidUpdate(entity);
         }
     }
 
@@ -215,12 +206,10 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
 
     private static void sendFluidUpdate(CentrifugeEntity entity){
         for (int i = 0; i < entity.fluidStorages.size(); i++) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(entity.pos);
-            buf.writeInt(i);
-            entity.fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(entity.fluidStorages.get(i).amount);
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+            SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+            int finalI = i;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                    new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
         }
     }
 

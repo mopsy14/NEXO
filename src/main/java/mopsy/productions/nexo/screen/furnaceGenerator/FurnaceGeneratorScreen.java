@@ -1,6 +1,5 @@
 package mopsy.productions.nexo.screen.furnaceGenerator;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nexo.ModBlocks.entities.machines.FurnaceGeneratorEntity;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.util.DisplayUtils;
@@ -8,9 +7,9 @@ import mopsy.productions.nexo.util.IntCords2D;
 import mopsy.productions.nexo.util.ScreenUtils;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -22,7 +21,7 @@ import java.util.function.Predicate;
 import static mopsy.productions.nexo.Main.modid;
 
 public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/furnace_generator.png");
+    private static final Identifier TEXTURE = Identifier.of(modid, "textures/gui/furnace_generator.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     public Predicate<IntCords2D> renderHeatTooltipPredicate;
 
@@ -30,8 +29,8 @@ public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreen
         super(handler, inventory, title);
     }
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        context.drawText(textRenderer, this.title, this.titleX, this.titleY, 0x404040,false);
     }
     @Override
     protected void init() {
@@ -40,43 +39,40 @@ public class FurnaceGeneratorScreen extends HandledScreen<FurnaceGeneratorScreen
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int x = (width - backgroundWidth)/2;
         int y = (height - backgroundHeight)/2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight,256,256);
 
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+155, y+11, getPower(), FurnaceGeneratorEntity.POWER_CAPACITY);
-        renderHeatTooltipPredicate = ScreenUtils.renderFurnaceHeatBar(this, matrices, x+138, y+11, handler.getTimeLeft(), handler.getTotalTime(), TEXTURE);
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, context, x+155, y+11, getPower(), FurnaceGeneratorEntity.POWER_CAPACITY);
+        renderHeatTooltipPredicate = ScreenUtils.renderFurnaceHeatBar(this, context, x+138, y+11, handler.getTimeLeft(), handler.getTotalTime(), TEXTURE);
     }
 
     @Override
-    protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
-        super.drawMouseoverTooltip(matrices, x, y);
+    protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
+        super.drawMouseoverTooltip(context, x, y);
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
-            renderEnergyTooltip(hasShiftDown(), matrices, mouse);
+            renderEnergyTooltip(hasShiftDown(), context, mouse);
         if (renderHeatTooltipPredicate.test(mouse))
-            renderHeatTooltip(matrices, mouse);
+            renderHeatTooltip(context, mouse);
     }
-    private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+    private void renderEnergyTooltip(boolean exact, DrawContext context, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
         text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), FurnaceGeneratorEntity.POWER_CAPACITY, hasShiftDown())));
         if(!exact)
             text.add(Text.of("Hold shift for advanced view"));
-        renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
+        context.drawTooltip(textRenderer, text, mouseCords.x, mouseCords.y);
     }
-    private void renderHeatTooltip(MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, Text.of(Math.round(handler.getTimeLeft()/20f)+"s"), mouseCords.x, mouseCords.y);
+    private void renderHeatTooltip(DrawContext context, IntCords2D mouseCords){
+        context.drawTooltip(textRenderer, Text.of(Math.round(handler.getTimeLeft()/20f)+"s"), mouseCords.x, mouseCords.y);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     private long getPower(){

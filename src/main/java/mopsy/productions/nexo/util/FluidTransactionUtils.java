@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class FluidTransactionUtils {
     public static boolean tryImportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);

@@ -1,6 +1,5 @@
 package mopsy.productions.nexo.screen.centrifuge;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nexo.ModBlocks.entities.machines.CentrifugeEntity;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
@@ -11,9 +10,9 @@ import mopsy.productions.nexo.util.ScreenUtils;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -24,9 +23,9 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nexo.Main.modid;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/centrifuge.png");
+    private static final Identifier TEXTURE = Identifier.of(modid, "textures/gui/centrifuge.png");
     public Predicate<IntCords2D> renderEnergyTooltipPredicate;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate1;
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate2;
@@ -36,8 +35,8 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
         super(handler, inventory, title);
     }
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        context.drawText(textRenderer, this.title, this.titleX, this.titleY, 0x404040,false);
     }
     @Override
     protected void init() {
@@ -46,61 +45,57 @@ public class CentrifugeScreen extends HandledScreen<CentrifugeScreenHandler> {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int x = (width - backgroundWidth)/2;
         int y = (height - backgroundHeight)/2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight,256,256);
 
-        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
-        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+73, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
-        renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, matrices, x+113, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
-        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, matrices, x+152, y+11, getPower(), CentrifugeEntity.POWER_CAPACITY);
+        renderFluidStorageTooltipPredicate1 = ScreenUtils.renderSmallFluidStorage(this, context, x+8, y+19, getFluidAmount(0), getMaxFluidAmount(0), getFluidType(0));
+        renderFluidStorageTooltipPredicate2 = ScreenUtils.renderSmallFluidStorage(this, context, x+73, y+19, getFluidAmount(1), getMaxFluidAmount(1), getFluidType(1));
+        renderFluidStorageTooltipPredicate3 = ScreenUtils.renderSmallFluidStorage(this, context, x+113, y+19, getFluidAmount(2), getMaxFluidAmount(2), getFluidType(2));
+        renderEnergyTooltipPredicate = ScreenUtils.renderEnergyStorage(this, context, x+152, y+11, getPower(), CentrifugeEntity.POWER_CAPACITY);
 
-        renderProgress(matrices, x, y);
+        renderProgress(context, x, y);
     }
 
     @Override
-    protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
-        super.drawMouseoverTooltip(matrices, x, y);
+    protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
+        super.drawMouseoverTooltip(context, x, y);
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderEnergyTooltipPredicate.test(mouse))
-            renderEnergyTooltip(hasShiftDown(), matrices, mouse);
+            renderEnergyTooltip(hasShiftDown(), context, mouse);
         if (renderFluidStorageTooltipPredicate1.test(mouse)) {
-            renderFluidTooltip(0, hasShiftDown(), matrices, mouse);
+            renderFluidTooltip(0, hasShiftDown(), context, mouse);
         }
         if (renderFluidStorageTooltipPredicate2.test(mouse)) {
-            renderFluidTooltip(1, hasShiftDown(), matrices, mouse);
+            renderFluidTooltip(1, hasShiftDown(), context, mouse);
         }
         if (renderFluidStorageTooltipPredicate3.test(mouse)) {
-            renderFluidTooltip(2, hasShiftDown(), matrices, mouse);
+            renderFluidTooltip(2, hasShiftDown(), context, mouse);
         }
     }
-    private void renderFluidTooltip(int fluidIndex, boolean exact, MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmount(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
+    private void renderFluidTooltip(int fluidIndex, boolean exact, DrawContext context, IntCords2D mouseCords){
+        context.drawTooltip(textRenderer, DisplayUtils.getFluidTooltipText(getFluidAmount(fluidIndex),getCapacitymB(fluidIndex), getFluidType(fluidIndex), exact), mouseCords.x, mouseCords.y);
     }
-    private void renderEnergyTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
+    private void renderEnergyTooltip(boolean exact, DrawContext context, IntCords2D mouseCords){
         List<Text> text = new ArrayList<>();
         text.add(Text.of(DisplayUtils.getEnergyBarText(getPower(), CentrifugeEntity.POWER_CAPACITY, hasShiftDown())));
         if(!exact)
             text.add(Text.of("Hold shift for advanced view"));
-        renderTooltip(matrices, text, mouseCords.x, mouseCords.y);
+        context.drawTooltip(textRenderer, text, mouseCords.x, mouseCords.y);
     }
 
-    private void renderProgress(MatrixStack matrices, int x, int y){
+    private void renderProgress(DrawContext context, int x, int y){
         if(handler.isCrafting()){
-            RenderSystem.setShaderTexture(0, TEXTURE);
-            drawTexture(matrices, x+48, y+24, 176, 0, handler.getScaledProgress(), 12);
+            context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x+48, y+24, 176, 0, handler.getScaledProgress(), 12,256,256);
         }
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context,mouseX,mouseY,delta);
+        super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     private long getPower(){

@@ -7,7 +7,7 @@ import mopsy.productions.nexo.recipes.NEXORecipe;
 
 import static mopsy.productions.nexo.Main.modid;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class MixerDisplay extends NEXODisplay {
 
     public MixerRecipe recipe;

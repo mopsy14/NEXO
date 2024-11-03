@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public interface IFluidStorage {
     FluidVariant getFluidType();
     void setFluidType(FluidVariant fluidType);

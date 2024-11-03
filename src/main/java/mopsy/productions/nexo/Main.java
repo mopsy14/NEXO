@@ -21,20 +21,20 @@ public class Main implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("NEXO");
 	public static final String modid = "nexo";
 	public static final ItemGroup CREATIVE_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nexo_items"), () -> new ItemStack(ModdedItems.Items.get("uranium_ingot")));
+			Identifier.of(modid, "nexo_items"), () -> new ItemStack(ModdedItems.Items.get("uranium_ingot")));
 	public static final ItemGroup CREATIVE_TOOLS_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nexo_tools"), () -> new ItemStack(ModdedItems.Items.get("titanium_pickaxe")));
+			Identifier.of(modid, "nexo_tools"), () -> new ItemStack(ModdedItems.Items.get("titanium_pickaxe")));
 	public static final ItemGroup CREATIVE_BLOCK_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nexo_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
+			Identifier.of(modid, "nexo_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
 	public static final ItemGroup CREATIVE_FLUIDS_TAB = FabricItemGroupBuilder.build(
-			new Identifier(modid, "nexo_fluids"), () -> new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1")));
+			Identifier.of(modid, "nexo_fluids"), () -> new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1")));
 
 	public static MinecraftServer server = null;
 
 	@Override
 	public void onInitialize() {
 		LOGGER.info("NEXO starting");
-		ServerLifecycleEvents.SERVER_STARTING.register(new Identifier(modid,"set_server") ,server -> {
+		ServerLifecycleEvents.SERVER_STARTING.register(Identifier.of(modid,"set_server") ,server -> {
 			Main.server = server;
 		});
 

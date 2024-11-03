@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class MixerRecipe extends NEXORecipe{
     public MixerRecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo) {
         super(id, inputs, outputs, inputFluids, outputFluids, additionalInfo);

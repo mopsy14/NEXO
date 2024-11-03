@@ -1,8 +1,7 @@
 package mopsy.productions.nexo.util;
 
-import net.minecraft.network.PacketByteBuf;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.math.Vec3i;
 
 public enum NEXORotation {
@@ -33,9 +32,6 @@ public enum NEXORotation {
         this.transformZ = transformZ;
         this.id= id;
     }
-    public Vec3f getVec3f(){
-        return new Vec3f(x,y,z);
-    }
     public static NEXORotation ofDirection(Direction direction){
         switch (direction){
             case UP -> {return UP;}
@@ -47,7 +43,7 @@ public enum NEXORotation {
             default -> {return null;}
         }
     }
-    public static NEXORotation readPacket(PacketByteBuf buf){
+    public static NEXORotation readPacket(ByteBuf buf){
         switch (buf.readInt()){
             case 0 -> {return NORTH;}
             case 1 -> {return EAST;}
@@ -58,7 +54,7 @@ public enum NEXORotation {
         }
         return NORTH;
     }
-    public void writeToPacket(PacketByteBuf buf){
+    public void writeToPacket(ByteBuf buf){
         if(this == NORTH)
             buf.writeInt(0);
         if(this == EAST)

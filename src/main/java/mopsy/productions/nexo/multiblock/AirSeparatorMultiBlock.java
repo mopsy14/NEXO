@@ -9,8 +9,8 @@ import static mopsy.productions.nexo.Main.modid;
 public class AirSeparatorMultiBlock extends MultiBlock implements IMultiBlock {
     public static final AirSeparatorMultiBlock INSTANCE = new AirSeparatorMultiBlock();
     public static final MultiBlockRequirement[] requirements = {
-            new MultiBlockRequirement(new Identifier(modid, "cooler"),1),
-            new MultiBlockRequirement(new Identifier(modid, "air_pump"),1)
+            new MultiBlockRequirement(Identifier.of(modid, "cooler"),1),
+            new MultiBlockRequirement(Identifier.of(modid, "air_pump"),1)
     };
     public int getCoolerAmount(BlockEntity controller){
         return MBUtils.getMBBlockAmount("cooler", controller.getPos(), controller.getWorld());

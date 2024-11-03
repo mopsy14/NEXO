@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
@@ -23,7 +22,7 @@ import java.util.List;
 
 import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyItem{
     private final long capacity = 10000;
     private final long maxInput = 10;

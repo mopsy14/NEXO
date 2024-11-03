@@ -1,10 +1,10 @@
 package mopsy.productions.nexo.ModBlocks.entities.energyStorage;
 
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.battery.BatteryMK1ScreenHandler;
 import mopsy.productions.nexo.util.InvUtils;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -34,9 +34,7 @@ import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
 public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage {
 
     private final Inventory inventory = new SimpleInventory(2);
@@ -89,10 +87,7 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         return new BatteryMK1ScreenHandler(syncId, inv, this, pos);
     }
 
@@ -103,15 +98,15 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
 
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         InvUtils.writeInv(inventory,nbt);
         nbt.putLong("power", energyStorage.amount);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         InvUtils.readInv(inventory,nbt);
         energyStorage.amount = nbt.getLong("power");
     }
@@ -131,10 +126,7 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(entity.getPower());
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
     }
 

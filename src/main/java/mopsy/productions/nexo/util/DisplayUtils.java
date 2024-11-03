@@ -8,7 +8,7 @@ import net.minecraft.util.Formatting;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class DisplayUtils {
     public static String getEnergyBarText(long power, long maxPower, boolean exact){
         if(exact)

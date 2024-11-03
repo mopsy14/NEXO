@@ -13,8 +13,11 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.util.*;
+import net.minecraft.state.property.EnumProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -24,9 +27,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class DeconShowerBlock extends BlockWithEntity implements IModID, BlockEntityProvider{
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
     private static final VoxelShape SHAPE = VoxelShapes.union(Block.createCuboidShape(1,0,1,15,2,15),Block.createCuboidShape(0,2,0,16,16,16));
     @Override
     public String getID(){return "decon_shower";}
@@ -65,7 +68,7 @@ public class DeconShowerBlock extends BlockWithEntity implements IModID, BlockEn
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = (DeconShowerEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){

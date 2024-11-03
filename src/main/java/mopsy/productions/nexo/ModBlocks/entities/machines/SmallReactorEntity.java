@@ -5,12 +5,12 @@ import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor.ControlR
 import mopsy.productions.nexo.ModItems.NTFuelRodItem;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.interfaces.IItemRadiation;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedFluids;
 import mopsy.productions.nexo.screen.smallReactor.SmallReactorScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -29,6 +29,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -43,11 +44,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static mopsy.productions.nexo.Main.server;
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IFluidStorage {
     public static String ID = "small_reactor";
     private final Inventory inventory = new SimpleInventory(8);
@@ -98,12 +98,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         for (int i = 0; i < fluidStorages.size(); i++){
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            buf.writeInt(i);
-            fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(fluidStorages.get(i).amount);
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, new AdvancedFluidChangePayload(pos,i,fluidStorages.get(i).variant,fluidStorages.get(i).amount));
         }
         return new SmallReactorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
@@ -114,8 +109,8 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(inventory, nbt);
         nbt.putInt(ID+".core_heat", coreHeat);
         nbt.putInt(ID+".water_heat", waterHeat);
@@ -127,8 +122,8 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         coreHeat = nbt.getInt(ID+".core_heat");
         waterHeat = nbt.getInt(ID+".water_heat");
@@ -254,12 +249,10 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
 
     private static void sendFluidUpdate(SmallReactorEntity entity){
         for (int i = 0; i < entity.fluidStorages.size(); i++) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(entity.pos);
-            buf.writeInt(i);
-            entity.fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(entity.fluidStorages.get(i).amount);
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+            SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+            int finalI = i;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                    new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
         }
     }
 

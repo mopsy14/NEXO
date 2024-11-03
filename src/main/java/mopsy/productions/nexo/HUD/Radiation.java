@@ -13,9 +13,9 @@ import static mopsy.productions.nexo.Main.modid;
 import static mopsy.productions.nexo.registry.ModdedItems.Items;
 
 public class Radiation implements HudRenderCallback {
-    private static final Identifier RADIATION_BACKGROUND_TEXTURE = new Identifier(modid, "textures/hud/radiation/radiation_background.png");
-    private static final Identifier RADIATION_BACKGROUND_TEXT_TEXTURE = new Identifier(modid, "textures/hud/radiation/radiation_background_text.png");
-    private static final Identifier RADIATION_BAR_PIECE = new Identifier(modid, "textures/hud/radiation/radiation_bar_piece.png");
+    private static final Identifier RADIATION_BACKGROUND_TEXTURE = Identifier.of(modid, "textures/hud/radiation/radiation_background.png");
+    private static final Identifier RADIATION_BACKGROUND_TEXT_TEXTURE = Identifier.of(modid, "textures/hud/radiation/radiation_background_text.png");
+    private static final Identifier RADIATION_BAR_PIECE = Identifier.of(modid, "textures/hud/radiation/radiation_bar_piece.png");
     public static float radiation = 0;
     public static float radiationPerTick = 0;
 

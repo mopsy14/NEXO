@@ -1,12 +1,11 @@
 package mopsy.productions.nexo.ModBlocks.entities.machines;
 
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.furnaceGenerator.FurnaceGeneratorScreenHandler;
 import mopsy.productions.nexo.util.InvUtils;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -27,9 +25,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
 public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements ExtendedScreenHandlerFactory, SidedInventory{
 
     private final Inventory inventory = new SimpleInventory(1);
@@ -76,10 +72,7 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         return new FurnaceGeneratorScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
@@ -89,8 +82,8 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         InvUtils.writeInv(inventory, nbt);
         nbt.putInt("furnace_generator.burn_time_left", burnTimeLeft);
         nbt.putInt("furnace_generator.burn_time", burnTime);
@@ -98,8 +91,8 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         InvUtils.readInv(inventory, nbt);
         burnTimeLeft = nbt.getInt("furnace_generator.burn_time_left");
         burnTime = nbt.getInt("furnace_generator.burn_time");
@@ -110,16 +103,16 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
         if(world.isClient)return;
 
         if(entity.burnTimeLeft ==0&&entity.energyStorage.capacity-entity.energyStorage.amount!=0){
-             Integer burnTime = FuelRegistry.INSTANCE.get(entity.inventory.getStack(0).getItem());
-             if(burnTime!=null && burnTime>1){
+             int burnTime =  world.getFuelRegistry().getFuelTicks(entity.inventory.getStack(0));
+             if(burnTime>1){
                  burnTime = Math.round(burnTime/2.0f);
                  entity.burnTime = burnTime;
                  entity.burnTimeLeft = burnTime;
                  Inventory inv = entity.inventory;
-                 Item remainder = inv.getStack(0).getItem().getRecipeRemainder();
+                 ItemStack remainder = inv.getStack(0).getItem().getRecipeRemainder();
                  inv.getStack(0).decrement(1);
                  if (entity.inventory.getStack(0).isEmpty()) {
-                     inv.setStack(0, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
+                     inv.setStack(0, remainder == null ? ItemStack.EMPTY : remainder.copy());
                  }
              }
         }
@@ -135,10 +128,7 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(entity.getPower());
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
     }
 

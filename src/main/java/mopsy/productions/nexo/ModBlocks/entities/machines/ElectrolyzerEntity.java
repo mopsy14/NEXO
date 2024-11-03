@@ -5,12 +5,13 @@ import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.ElectrolyzerRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.electrolyzer.ElectrolyzerScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -38,12 +39,10 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat, Inventory{
 
     public final Inventory inventory = new SimpleInventory(6);
@@ -74,17 +73,9 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         for (int i = 0; i < fluidStorages.size(); i++){
-            buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            buf.writeInt(i);
-            fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(fluidStorages.get(i).amount);
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, new AdvancedFluidChangePayload(pos,i,fluidStorages.get(i).variant,fluidStorages.get(i).amount));
         }
         return new ElectrolyzerScreenHandler(syncId, inv, this.inventory, pos);
     }
@@ -95,8 +86,8 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(inventory, nbt);
         nbt.putLong("electrolyzer.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
@@ -105,8 +96,8 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         }
     }
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         energyStorage.amount = nbt.getLong("electrolyzer.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
@@ -126,12 +117,10 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
                 markDirty(world,blockPos,blockState);
 
                 for (int i = 0; i < entity.fluidStorages.size(); i++){
-                    var buf = PacketByteBufs.create();
-                    buf.writeBlockPos(blockPos);
-                    buf.writeInt(i);
-                    entity.fluidStorages.get(i).variant.toPacket(buf);
-                    buf.writeLong(entity.fluidStorages.get(i).amount);
-                    PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+                    SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+                    int finalI = i;
+                    PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                            new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
                 }
             }
         }
@@ -144,22 +133,17 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
             markDirty(world,blockPos,blockState);
 
             for (int i = 0; i < entity.fluidStorages.size(); i++){
-                var buf = PacketByteBufs.create();
-                buf.writeBlockPos(blockPos);
-                buf.writeInt(i);
-                entity.fluidStorages.get(i).variant.toPacket(buf);
-                buf.writeLong(entity.fluidStorages.get(i).amount);
-                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+                SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+                int finalI = i;
+                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                        new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
             }
         }
 
         //Send PowerChange package
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(entity.getPower());
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
     }
 

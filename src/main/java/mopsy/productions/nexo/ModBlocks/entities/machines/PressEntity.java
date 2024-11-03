@@ -3,11 +3,11 @@ package mopsy.productions.nexo.ModBlocks.entities.machines;
 import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.PressRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.press.PressScreenHandler;
 import mopsy.productions.nexo.util.InvUtils;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -31,9 +31,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
 public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(2);
@@ -86,10 +84,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         return new PressScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
 
@@ -99,45 +94,42 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         InvUtils.writeInv(inventory,nbt);
         nbt.putInt("press.progress", progress);
         nbt.putLong("press.power", energyStorage.amount);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         InvUtils.readInv(inventory,nbt);
         progress = nbt.getInt("press.progress");
         energyStorage.amount = nbt.getLong("press.power");
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, PressEntity pressEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, PressEntity entity) {
         if(world.isClient)return;
 
-        PressRecipe recipe = getRecipe(pressEntity);
+        PressRecipe recipe = getRecipe(entity);
 
-        if(recipe!=null && recipe.canOutput(pressEntity) && pressEntity.energyStorage.amount >= 5){
-            pressEntity.progress++;
-            pressEntity.energyStorage.amount -= 5;
-            if(pressEntity.progress >= pressEntity.maxProgress){
-                recipe.craft(pressEntity,true,true);
-                pressEntity.progress = 0;
+        if(recipe!=null && recipe.canOutput(entity) && entity.energyStorage.amount >= 5){
+            entity.progress++;
+            entity.energyStorage.amount -= 5;
+            if(entity.progress >= entity.maxProgress){
+                recipe.craft(entity,true,true);
+                entity.progress = 0;
             }
         }else{
-            pressEntity.progress = 0;
+            entity.progress = 0;
         }
 
         markDirty(world,blockPos,blockState);
 
-        if(pressEntity.energyStorage.amount!=pressEntity.previousPower){
-            pressEntity.previousPower = pressEntity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(pressEntity.getPower());
-            PlayerLookup.tracking(pressEntity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+        if(entity.energyStorage.amount!= entity.previousPower){
+            entity.previousPower = entity.energyStorage.amount;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
     }
 

@@ -4,12 +4,13 @@ import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
+import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.MixerRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.screen.mixer.MixerScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -39,12 +40,10 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.ENERGY_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IFluidStorage, IBlockEntityRecipeCompat {
 
     private final Inventory inventory = new SimpleInventory(10);
@@ -105,17 +104,9 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        buf.writeLong(getPower());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ENERGY_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new EnergyChangePayload(pos,getPower()));
         for (int i = 0; i < fluidStorages.size(); i++){
-            buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            buf.writeInt(i);
-            fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(fluidStorages.get(i).amount);
-            ServerPlayNetworking.send((ServerPlayerEntity) player, ADVANCED_FLUID_CHANGE_PACKET, buf);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, new AdvancedFluidChangePayload(pos,i,fluidStorages.get(i).variant,fluidStorages.get(i).amount));
         }
         return new MixerScreenHandler(syncId, inv, this, this.propertyDelegate, pos);
     }
@@ -126,8 +117,8 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         writeInv(inventory, nbt);
         nbt.putInt("mixer.progress", progress);
         nbt.putLong("mixer.power", energyStorage.amount);
@@ -138,8 +129,8 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         progress = nbt.getInt("mixer.progress");
         energyStorage.amount = nbt.getLong("mixer.power");
@@ -190,10 +181,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
 
         if(entity.energyStorage.amount!=entity.previousPower){
             entity.previousPower = entity.energyStorage.amount;
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            buf.writeLong(entity.getPower());
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ENERGY_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new EnergyChangePayload(blockPos,entity.getPower())));
         }
     }
 
@@ -239,12 +227,10 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
 
     private static void sendFluidUpdate(MixerEntity entity){
         for (int i = 0; i < entity.fluidStorages.size(); i++) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(entity.pos);
-            buf.writeInt(i);
-            entity.fluidStorages.get(i).variant.toPacket(buf);
-            buf.writeLong(entity.fluidStorages.get(i).amount);
-            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+            SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+            int finalI = i;
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                    new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
         }
     }
 

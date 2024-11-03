@@ -1,6 +1,5 @@
 package mopsy.productions.nexo.screen.tank;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nexo.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
 import mopsy.productions.nexo.util.DisplayUtils;
@@ -9,9 +8,9 @@ import mopsy.productions.nexo.util.ScreenUtils;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -20,17 +19,17 @@ import java.util.function.Predicate;
 
 import static mopsy.productions.nexo.Main.modid;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
-    private static final Identifier TEXTURE = new Identifier(modid, "textures/gui/tank.png");
+    private static final Identifier TEXTURE = Identifier.of(modid, "textures/gui/tank.png");
     public Predicate<IntCords2D> renderFluidStorageTooltipPredicate;
 
     public TankScreen_MK1(TankScreenHandler_MK1 handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        this.textRenderer.draw(matrices, this.title, (float)this.titleX, (float)this.titleY, 4210752);
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        context.drawText(textRenderer, this.title, this.titleX, this.titleY, 0x404040,false);
     }
     @Override
     protected void init() {
@@ -39,34 +38,31 @@ public class TankScreen_MK1 extends HandledScreen<TankScreenHandler_MK1> {
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int x = (width - backgroundWidth)/2;
         int y = (height - backgroundHeight)/2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight,256,256);
 
-        renderFluidStorageTooltipPredicate = ScreenUtils.renderBigFluidStorage(this, matrices, x+25, y+11, getFluidAmount(), getCapacity(), getFluid());
+        renderFluidStorageTooltipPredicate = ScreenUtils.renderBigFluidStorage(this, context, x+25, y+11, getFluidAmount(), getCapacity(), getFluid());
     }
 
     @Override
-    protected void drawMouseoverTooltip(MatrixStack matrices, int x, int y) {
-        super.drawMouseoverTooltip(matrices, x, y);
+    protected void drawMouseoverTooltip(DrawContext context, int x, int y) {
+        super.drawMouseoverTooltip(context, x, y);
         IntCords2D mouse = new IntCords2D(x,y);
         if (renderFluidStorageTooltipPredicate.test(mouse)) {
-            renderFluidTooltip(hasShiftDown(), matrices, mouse);
+            renderFluidTooltip(hasShiftDown(), context, mouse);
         }
     }
-    private void renderFluidTooltip(boolean exact, MatrixStack matrices, IntCords2D mouseCords){
-        renderTooltip(matrices, DisplayUtils.getFluidTooltipText(getFluidAmount(),getCapacitymB(), getFluid(), exact), mouseCords.x, mouseCords.y);
+    private void renderFluidTooltip(boolean exact, DrawContext context, IntCords2D mouseCords){
+        context.drawTooltip(textRenderer, DisplayUtils.getFluidTooltipText(getFluidAmount(),getCapacitymB(), getFluid(), exact), mouseCords.x, mouseCords.y);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        renderBackground(context, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     private FluidVariant getFluid(){

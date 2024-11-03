@@ -19,7 +19,7 @@ import java.util.List;
 import static mopsy.productions.nexo.Main.modid;
 
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class FluidUtils{
 
     public static Storage<FluidVariant> getItemFluidStorage(Inventory inv, int inputIndex, int outputIndex){
@@ -54,7 +54,7 @@ public class FluidUtils{
     public static boolean isTank(Item item){
         String[] tankNames = {"tank_mk1","tank_mk2","tank_mk3","tank_mk4"};
         for(String name: tankNames){
-            if(Registry.ITEM.getId(item).equals(new Identifier(modid,name)))
+            if(Registry.ITEM.getId(item).equals(Identifier.of(modid,name)))
                 return true;
         }
         return false;

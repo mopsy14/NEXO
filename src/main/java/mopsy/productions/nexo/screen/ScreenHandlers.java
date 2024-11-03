@@ -34,8 +34,9 @@ import mopsy.productions.nexo.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nexo.screen.tank.TankScreen_MK1;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
@@ -60,22 +61,22 @@ public class ScreenHandlers {
 
     public static void regScreenHandlers(){
         LOGGER.info("Registering screen handlers");
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "crusher"), CRUSHER);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "press"), PRESS);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "tank_mk1"), Tank_MK1);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "air_separator"), AIR_SEPARATOR);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electrolyzer"), ELECTROLYZER);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "centrifuge"), CENTRIFUGE);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "furnace_generator"), FURNACE_GENERATOR);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "steam_turbine"), STEAM_TURBINE);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "small_reactor"), SMALL_REACTOR);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "ammonia_synthesiser"), AMMONIA_SYNTHESISER);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "mixer"), MIXER);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "fluid_pipe"), FLUID_PIPE);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower"), DECON_SHOWER);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "decon_shower_drain"), DECON_SHOWER_DRAIN);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "electric_furnace"), ELECTRIC_FURNACE);
-        Registry.register(Registry.SCREEN_HANDLER, new Identifier(modid, "battery"), BATTERY);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "crusher"), CRUSHER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "press"), PRESS);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "tank_mk1"), Tank_MK1);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "air_separator"), AIR_SEPARATOR);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "electrolyzer"), ELECTROLYZER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "centrifuge"), CENTRIFUGE);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "furnace_generator"), FURNACE_GENERATOR);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "steam_turbine"), STEAM_TURBINE);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "small_reactor"), SMALL_REACTOR);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "ammonia_synthesiser"), AMMONIA_SYNTHESISER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "mixer"), MIXER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "fluid_pipe"), FLUID_PIPE);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "decon_shower"), DECON_SHOWER);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "decon_shower_drain"), DECON_SHOWER_DRAIN);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "electric_furnace"), ELECTRIC_FURNACE);
+        Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "battery"), BATTERY);
     }
     public static void regClientScreens(){
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);

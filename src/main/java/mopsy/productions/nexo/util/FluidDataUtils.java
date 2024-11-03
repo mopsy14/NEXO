@@ -2,7 +2,7 @@ package mopsy.productions.nexo.util;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.nbt.NbtCompound;
-@SuppressWarnings("UnstableApiUsage")
+
 public class FluidDataUtils {
     public static long getFluidAmount(NbtCompound nbt){
         return nbt.getLong("fluid_amount");

@@ -37,7 +37,7 @@ import java.util.*;
 import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
 import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_REQUEST_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHandlerFactory {
 
     public Set<Storage<FluidVariant>> connectedOutputStorages = new HashSet<>(6);
@@ -60,15 +60,15 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
         ));
     }
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         for(NEXORotation rotation : NEXORotation.values()){
             PipeEndState.write(nbt,endStates.get(rotation),rotation.id);
         }
     }
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         for(NEXORotation rotation : NEXORotation.values()){
             endStates.put(rotation,PipeEndState.read(nbt,rotation.id));
         }

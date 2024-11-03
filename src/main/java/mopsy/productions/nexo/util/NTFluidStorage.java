@@ -10,7 +10,7 @@ import net.minecraft.block.entity.BlockEntity;
 import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.networking.PacketManager.FLUID_CHANGE_PACKET;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
     final long MAX_CAPACITY;
     final BlockEntity blockEntity;

@@ -14,7 +14,7 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.*;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class InsulatedCopperCableEntity extends BlockEntity{
     public static final long POWER_CAPACITY = 10000;
     public static final long POWER_RATE = 8;
@@ -31,13 +31,13 @@ public class InsulatedCopperCableEntity extends BlockEntity{
         super(ModdedBlockEntities.INSULATED_COPPER_CABLE, pos, state);
     }
     @Override
-    public void writeNbt(NbtCompound nbt){
-        super.writeNbt(nbt);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.writeNbt(nbt,registries);
         nbt.putLong("power", energyStorage.amount);
     }
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         energyStorage.amount = nbt.getLong("power");
     }
 

@@ -1,7 +1,7 @@
 package mopsy.productions.nexo.util;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 
 public enum PipeEndState {
     NONE,
@@ -51,7 +51,7 @@ public enum PipeEndState {
         }
     }
 
-    public static PipeEndState readPacket(PacketByteBuf buf){
+    public static PipeEndState readPacket(ByteBuf buf){
         switch (buf.readInt()){
             default -> {return NONE;}
             case 1 -> {return DISCONNECTED;}
@@ -60,7 +60,7 @@ public enum PipeEndState {
             case 4 -> {return PIPE;}
         }
     }
-    public void writeToPacket(PacketByteBuf buf){
+    public void writeToPacket(ByteBuf buf){
         if(this.isNone())
             buf.writeInt(0);
         if(this.isDisconnected())

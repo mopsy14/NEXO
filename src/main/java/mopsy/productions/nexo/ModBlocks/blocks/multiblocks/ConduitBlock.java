@@ -4,13 +4,16 @@ import mopsy.productions.nexo.interfaces.IMBBlock;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.multiblock.MBUtils;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +22,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ConduitBlock extends Block implements IModID, IMBBlock {
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
     @Override
     public String getID(){return "conduit";}
     public ConduitBlock() {

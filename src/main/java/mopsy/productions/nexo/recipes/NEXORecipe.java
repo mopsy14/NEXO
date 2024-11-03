@@ -32,7 +32,7 @@ import java.util.function.Function;
 import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class NEXORecipe implements Recipe<SimpleInventory> {
     public final Identifier id;
     public final List<Ingredient> inputs;

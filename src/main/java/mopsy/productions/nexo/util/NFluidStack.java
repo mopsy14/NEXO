@@ -8,7 +8,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class NFluidStack {
     public FluidVariant fluidVariant;
     public long fluidAmount;

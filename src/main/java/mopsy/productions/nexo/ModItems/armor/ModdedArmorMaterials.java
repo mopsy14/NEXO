@@ -1,7 +1,7 @@
 package mopsy.productions.nexo.ModItems.armor;
 
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -9,7 +9,7 @@ import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-public enum ModdedArmorMaterials implements ArmorMaterial {
+public enum ModdedArmorMaterials implements ArmorMaterials {
     MAKESHIFT_HAZMAT("makeshift_hazmat", 2, new int[]{1, 2, 2, 1}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, Ingredient::empty),
     HAZMAT("hazmat", 5, new int[]{1, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, Ingredient::empty),
     PROTECTIVE_HAZMAT("protective_hazmat", 20, new int[]{3, 6, 8, 3}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 0.1F, Ingredient::empty);

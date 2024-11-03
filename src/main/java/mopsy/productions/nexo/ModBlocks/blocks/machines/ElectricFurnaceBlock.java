@@ -14,9 +14,12 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -24,7 +27,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
-    public static final DirectionProperty FACING;
+    public static final EnumProperty<Direction> FACING;
     public static final BooleanProperty LIT;
     @Override
     public String getID(){return "electric_furnace";}
@@ -60,7 +63,7 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = (ElectricFurnaceEntity)world.getBlockEntity(pos);
             if(screenHandlerFactory != null){
@@ -83,13 +86,13 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ElectricFurnaceEntity electricFurnaceEntity) {
             ItemScatterer.spawn(world, pos, electricFurnaceEntity);
             world.updateComparators(pos, this);
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     static {

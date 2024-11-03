@@ -1,6 +1,7 @@
 package mopsy.productions.nexo.ModBlocks.entities.machines;
 
 import mopsy.productions.nexo.interfaces.IFluidStorage;
+import mopsy.productions.nexo.networking.payloads.FluidChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedFluids;
 import mopsy.productions.nexo.registry.ModdedItems;
@@ -8,7 +9,7 @@ import mopsy.productions.nexo.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.FluidUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
@@ -26,6 +27,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -36,11 +38,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory {
 
     public final Inventory inventory = new SimpleInventory(2);
@@ -59,11 +60,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeBlockPos(this.pos);
-        fluidStorage.variant.toPacket(buf);
-        buf.writeLong(fluidStorage.amount);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
+        ServerPlayNetworking.send((ServerPlayerEntity) player, new FluidChangePayload(pos,fluidStorage.variant,fluidStorage.amount));
         return new TankScreenHandler_MK1(syncId, inv, this.inventory, pos);
     }
 
@@ -73,36 +70,36 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt){
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         writeInv(inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
         nbt.put("fluid_variant", fluidStorage.variant.toNbt());
-        super.writeNbt(nbt);
+        super.writeNbt(nbt,registries);
     }
     @Override
-    public void readNbt(NbtCompound nbt){
-        super.readNbt(nbt);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
+        super.readNbt(nbt,registries);
         readInv(inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }
 
-    public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 tankEntity) {
+    public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 entity) {
         if (world.isClient) return;
 
         try(Transaction transaction = Transaction.openOuter()) {
-            if (tankEntity.canTransfer()) {
+            if (entity.canTransfer()) {
                 long moved = StorageUtil.move(
-                        FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
-                        tankEntity.fluidStorage,
+                        FluidUtils.getItemFluidStorage(entity.inventory, 0, 1),
+                        entity.fluidStorage,
                         predicate -> true,
                         Long.MAX_VALUE,
                         transaction
                 );
                 if(moved == 0){
                     moved = StorageUtil.move(
-                            tankEntity.fluidStorage,
-                            FluidUtils.getItemFluidStorage(tankEntity.inventory, 0, 1),
+                            entity.fluidStorage,
+                            FluidUtils.getItemFluidStorage(entity.inventory, 0, 1),
                             fv -> true,
                             Long.MAX_VALUE,
                             transaction
@@ -114,16 +111,11 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
                 }
             }
         }
-        if(tryExchangeFluid(tankEntity)){
+        if(tryExchangeFluid(entity)){
             markDirty(world,blockPos,blockState);
 
-            var buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockPos);
-            tankEntity.fluidStorage.variant.toPacket(buf);
-            buf.writeLong(tankEntity.fluidStorage.amount);
-            world.getPlayers().forEach(player-> {
-                ServerPlayNetworking.send((ServerPlayerEntity) player, FLUID_CHANGE_PACKET, buf);
-            });
+
+            PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, new FluidChangePayload(entity.pos,entity.fluidStorage.variant,entity.fluidStorage.amount)));
         }
     }
 
