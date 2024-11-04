@@ -9,6 +9,7 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +36,7 @@ public abstract class SuluricAcidFluid extends FlowableFluid implements IModID {
      * @return whether the fluid is infinite (which means can be infinitely created like water). In vanilla, it depends on the game rule.
      */
     @Override
-    protected boolean isInfinite() {
+    protected boolean isInfinite(ServerWorld world) {
         return false;
     }
 
@@ -60,12 +61,8 @@ public abstract class SuluricAcidFluid extends FlowableFluid implements IModID {
         return false;
     }
 
-    /**
-     * Possibly related to the distance checks for flowing into nearby holes?
-     * Water returns 4. Lava returns 2 in the Overworld and 4 in the Nether.
-     */
     @Override
-    protected int getFlowSpeed(WorldView worldView) {
+    protected int getMaxFlowDistance(WorldView world) {
         return 4;
     }
 

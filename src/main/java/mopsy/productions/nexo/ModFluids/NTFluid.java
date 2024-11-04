@@ -8,12 +8,12 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
@@ -28,7 +28,7 @@ public class NTFluid extends FlowableFluid implements IModID {
     }
 
     @Override
-    public void onScheduledTick(World world, BlockPos pos, FluidState state) {
+    public void onScheduledTick(ServerWorld world, BlockPos pos, BlockState blockState, FluidState fluidState) {
         world.setBlockState(pos, Blocks.AIR.getDefaultState());
     }
 
@@ -38,7 +38,7 @@ public class NTFluid extends FlowableFluid implements IModID {
     }
 
     @Override
-    protected boolean isInfinite() {
+    protected boolean isInfinite(ServerWorld world) {
         return false;
     }
 
@@ -48,13 +48,13 @@ public class NTFluid extends FlowableFluid implements IModID {
     }
 
     @Override
-    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
-        return false;
+    protected int getMaxFlowDistance(WorldView world) {
+        return 4;
     }
 
     @Override
-    protected int getFlowSpeed(WorldView worldView) {
-        return 4;
+    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
+        return false;
     }
 
     @Override
