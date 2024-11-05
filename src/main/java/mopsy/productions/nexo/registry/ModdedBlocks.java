@@ -18,11 +18,13 @@ import mopsy.productions.nexo.ModItems.blocks.BatteryMK1Item;
 import mopsy.productions.nexo.ModItems.blocks.Tank_MK1Item;
 import mopsy.productions.nexo.ModItems.blocks.UraniumBlockItem;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 
@@ -86,14 +88,18 @@ public class ModdedBlocks {
     private static void regBlock(Block block){
         if(block instanceof IModID) {
             String name = ((IModID)block).getID();
-            Block b = Registry.register(Registry.BLOCK, Identifier.of(modid, name), block);
+            Block b = Registry.register(Registries.BLOCK, Identifier.of(modid, name), block);
             Blocks.put(name, b);
             BlockItem bi = switch (name) {
-                default -> Registry.register(Registry.ITEM, Identifier.of(modid, name), new BlockItem(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB)));
-                case "uranium_block" -> Registry.register(Registry.ITEM, Identifier.of(modid, name), new UraniumBlockItem(block));
-                case "tank_mk1" -> Registry.register(Registry.ITEM, Identifier.of(modid, name), new Tank_MK1Item(block));
+                default -> {
+                    BlockItem blockItem = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BlockItem(block, new Item.Settings()))
+                    ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(blockItem));
+                    yield blockItem;
+                }
+                case "uranium_block" -> Registry.register(Registries.ITEM, Identifier.of(modid, name), new UraniumBlockItem(block));
+                case "tank_mk1" -> Registry.register(Registries.ITEM, Identifier.of(modid, name), new Tank_MK1Item(block));
                 case "battery_mk1" -> {
-                    BlockItem item = Registry.register(Registry.ITEM, Identifier.of(modid, name), new BatteryMK1Item(block));
+                    BlockItem item = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BatteryMK1Item(block));
                     //EnergyStorage.ITEM.reg(item);
                     yield item;
                 }

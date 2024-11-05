@@ -10,6 +10,8 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -28,6 +30,11 @@ public class Main implements ModInitializer {
 			Identifier.of(modid, "nexo_blocks"), () -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")));
 	public static final ItemGroup CREATIVE_FLUIDS_TAB = FabricItemGroupBuilder.build(
 			Identifier.of(modid, "nexo_fluids"), () -> new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1")));
+
+	public static final RegistryKey<ItemGroup> CREATIVE_TAB_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(modid,"nexo_items"));
+	public static final RegistryKey<ItemGroup> CREATIVE_TOOLS_TAB_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(modid,"nexo_tools"));
+	public static final RegistryKey<ItemGroup> CREATIVE_BLOCK_TAB_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(modid,"nexo_blocks"));
+	public static final RegistryKey<ItemGroup> CREATIVE_FLUIDS_TAB_KEY = RegistryKey.of(RegistryKeys.ITEM_GROUP, Identifier.of(modid,"nexo_fluids"));
 
 	public static MinecraftServer server = null;
 

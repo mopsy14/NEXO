@@ -4,7 +4,7 @@ import mopsy.productions.nexo.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nexo.interfaces.IItemFluidData;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.FluidDataUtils;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.block.Block;
@@ -24,14 +24,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.Main.CREATIVE_FLUIDS_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_FLUIDS_TAB_KEY;
 
 
 public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     public static List<FluidVariant> fluidGroupVariants = new ArrayList<>();
     @Override public String getID() {return "tank_mk1";}
     public Tank_MK1Item(Block block) {
-        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_FLUIDS_TAB));
+        super(block, new Settings().maxCount(1));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_FLUIDS_TAB_KEY).register(entries -> entries.add(this));
         fluidGroupVariants.add(0,FluidVariant.of(Fluids.WATER));
         fluidGroupVariants.add(1, FluidVariant.of(Fluids.LAVA));
     }

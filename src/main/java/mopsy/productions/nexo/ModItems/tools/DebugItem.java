@@ -2,7 +2,7 @@ package mopsy.productions.nexo.ModItems.tools;
 
 import mopsy.productions.nexo.interfaces.IItemRadiation;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +12,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB_KEY;
 
 public class DebugItem extends Item implements IModID, IItemRadiation {
     @Override
@@ -20,8 +20,8 @@ public class DebugItem extends Item implements IModID, IItemRadiation {
         return "debug_item";
     }
     public DebugItem() {
-        super(new FabricItemSettings().group(CREATIVE_TOOLS_TAB).rarity(Rarity.EPIC));
-        //ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> entries.add(DEBUG_ITEM));
+        super(new Settings().rarity(Rarity.EPIC));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
     }
 
     @Override

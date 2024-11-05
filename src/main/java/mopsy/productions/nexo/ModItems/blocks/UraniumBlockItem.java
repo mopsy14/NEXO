@@ -2,11 +2,11 @@ package mopsy.productions.nexo.ModItems.blocks;
 
 import mopsy.productions.nexo.interfaces.IItemRadiation;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 
-import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB_KEY;
 
 public class UraniumBlockItem extends BlockItem implements IModID, IItemRadiation {
 
@@ -25,6 +25,7 @@ public class UraniumBlockItem extends BlockItem implements IModID, IItemRadiatio
     @Override public String getID() {return "uranium_block";}
 
     public UraniumBlockItem(Block block) {
-        super(block, new FabricItemSettings().group(CREATIVE_BLOCK_TAB));
+        super(block, new Settings());
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(this));
     }
 }

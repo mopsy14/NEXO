@@ -3,8 +3,8 @@ package mopsy.productions.nexo.registry;
 import mopsy.productions.nexo.recipes.*;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.function.Function;
 

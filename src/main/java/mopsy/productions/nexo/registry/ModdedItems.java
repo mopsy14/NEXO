@@ -23,8 +23,9 @@ import mopsy.productions.nexo.ModItems.tools.titanium.TitaniumToolMaterial;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.ItemInfo;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 
@@ -191,7 +192,7 @@ public class ModdedItems {
     private static void regItem(Item item){
         if(item instanceof IModID){
             String name = ((IModID) item).getID();
-            Items.put(name, Registry.register(Registry.ITEM, Identifier.of(modid, name),item));
+            Items.put(name, Registry.register(Registries.ITEM, Identifier.of(modid, name),item));
         }else
             LOGGER.error("Item doesn't implement IModID!");
     }

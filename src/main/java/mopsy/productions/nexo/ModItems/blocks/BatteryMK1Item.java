@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModItems.blocks;
 import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.DisplayUtils;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -30,7 +29,7 @@ public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyIte
 
     @Override public String getID() {return "battery_mk1";}
     public BatteryMK1Item(Block block) {
-        super(block, new FabricItemSettings().maxCount(1).group(CREATIVE_BLOCK_TAB));
+        super(block, new Settings().maxCount(1).group(CREATIVE_BLOCK_TAB));
     }
 
     @Override

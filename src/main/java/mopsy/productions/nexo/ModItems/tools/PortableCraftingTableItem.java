@@ -2,7 +2,7 @@ package mopsy.productions.nexo.ModItems.tools;
 
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.screen.PortableCraftingTableHandler;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,11 +11,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB_KEY;
 
 public class PortableCraftingTableItem extends Item implements IModID  {
     public PortableCraftingTableItem() {
-        super(new FabricItemSettings().group(CREATIVE_TOOLS_TAB).maxCount(1));
+        super(new Settings().maxCount(1));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
     }
 
     @Override
