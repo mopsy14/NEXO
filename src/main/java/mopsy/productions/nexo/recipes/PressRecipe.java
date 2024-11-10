@@ -1,9 +1,10 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.util.NFluidStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -25,12 +26,12 @@ public class PressRecipe extends NEXORecipe{
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<NEXORecipe> getSerializer() {
         return Serializer.INSTANCE;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<PressRecipe> getType() {
         return Type.INSTANCE;
     }
     public static class Type implements RecipeType<PressRecipe>{
@@ -38,22 +39,17 @@ public class PressRecipe extends NEXORecipe{
         public static final PressRecipe.Type INSTANCE = new PressRecipe.Type();
         public static final String ID = "press";
     }
-    public static class Serializer implements RecipeSerializer<PressRecipe> {
+    public static class Serializer implements RecipeSerializer<NEXORecipe> {
         public static final PressRecipe.Serializer INSTANCE = new PressRecipe.Serializer();
 
         @Override
-        public PressRecipe read(Identifier id, JsonObject json) {
-            return new PressRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
+        public MapCodec<NEXORecipe> codec() {
+            return NEXORecipe.Serializer.CODEC;
         }
 
         @Override
-        public PressRecipe read(Identifier id, PacketByteBuf buf) {
-            return new PressRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, PressRecipe recipe) {
-            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
+        public PacketCodec<RegistryByteBuf, NEXORecipe> packetCodec() {
+            return NEXORecipe.Serializer.PACKET_CODEC;
         }
     }
 }

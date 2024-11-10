@@ -119,7 +119,7 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putInt("centrifuge.progress", progress);
         nbt.putLong("centrifuge.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
@@ -131,7 +131,7 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         progress = nbt.getInt("centrifuge.progress");
         energyStorage.amount = nbt.getLong("centrifuge.power");
         for (int i = 0; i < fluidStorages.size(); i++) {

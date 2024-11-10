@@ -21,6 +21,8 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -97,7 +99,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        InvUtils.writeInv(inventory,nbt);
+        InvUtils.writeInv(registries, inventory,nbt);
         nbt.putInt("crusher.progress", progress);
         nbt.putLong("crusher.power", energyStorage.amount);
     }
@@ -105,7 +107,7 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        InvUtils.readInv(inventory,nbt);
+        InvUtils.readInv(registries, inventory,nbt);
         progress = nbt.getInt("crusher.progress");
         energyStorage.amount = nbt.getLong("crusher.power");
     }
@@ -134,9 +136,11 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     }
 
     private static CrusherRecipe getRecipe(CrusherEntity entity){
-        for(CrusherRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(CrusherRecipe.Type.INSTANCE)){
-            if(recipe.hasRecipe(entity)) {
-                return recipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof CrusherRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
             }
         }
         return null;

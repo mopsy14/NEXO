@@ -101,14 +101,14 @@ public class BatteryMK1Entity extends BlockEntity implements ExtendedScreenHandl
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        InvUtils.writeInv(inventory,nbt);
+        InvUtils.writeInv(registries, inventory,nbt);
         nbt.putLong("power", energyStorage.amount);
     }
 
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        InvUtils.readInv(inventory,nbt);
+        InvUtils.readInv(registries, inventory,nbt);
         energyStorage.amount = nbt.getLong("power");
     }
 

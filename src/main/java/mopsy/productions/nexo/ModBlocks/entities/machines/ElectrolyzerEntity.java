@@ -89,7 +89,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putLong("electrolyzer.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
@@ -99,7 +99,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         energyStorage.amount = nbt.getLong("electrolyzer.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);

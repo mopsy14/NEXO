@@ -71,7 +71,7 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
         nbt.put("fluid_variant", fluidStorage.variant.toNbt());
     }
@@ -79,7 +79,7 @@ public class DeconShowerEntity extends BlockEntity implements ExtendedScreenHand
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
         fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
     }

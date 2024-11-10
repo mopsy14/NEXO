@@ -1,6 +1,6 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.machines.MixerEntity;
 import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
@@ -9,7 +9,8 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -32,7 +33,7 @@ public class MixerRecipe extends NEXORecipe{
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<NEXORecipe> getSerializer() {
         return MixerRecipe.Serializer.INSTANCE;
     }
     @Override
@@ -76,7 +77,7 @@ public class MixerRecipe extends NEXORecipe{
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<MixerRecipe> getType() {
         return Type.INSTANCE;
     }
     public static class Type implements RecipeType<MixerRecipe>{
@@ -84,27 +85,22 @@ public class MixerRecipe extends NEXORecipe{
         public static final MixerRecipe.Type INSTANCE = new MixerRecipe.Type();
         public static final String ID = "mixer";
     }
-    public static class Serializer implements RecipeSerializer<MixerRecipe> {
+    public static class Serializer implements RecipeSerializer<NEXORecipe> {
         public static final MixerRecipe.Serializer INSTANCE = new MixerRecipe.Serializer();
 
         @Override
-        public MixerRecipe read(Identifier id, JsonObject json) {
-            return new MixerRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
+        public MapCodec<NEXORecipe> codec() {
+            return NEXORecipe.Serializer.CODEC;
         }
 
         @Override
-        public MixerRecipe read(Identifier id, PacketByteBuf buf) {
-            return new MixerRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, MixerRecipe recipe) {
-            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
+        public PacketCodec<RegistryByteBuf, NEXORecipe> packetCodec() {
+            return NEXORecipe.Serializer.PACKET_CODEC;
         }
     }
     public int getMinHeat(){
-        if(super.additionalInfo.size()> 0)
-            return Integer.parseInt(super.additionalInfo.get(0));
+        if(!super.additionalInfo.isEmpty())
+            return Integer.parseInt(super.additionalInfo.getFirst());
         return 0;
     }
     public int getMaxHeat(){

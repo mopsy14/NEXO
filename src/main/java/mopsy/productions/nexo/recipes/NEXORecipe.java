@@ -1,8 +1,8 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import mopsy.productions.nexo.enums.SlotIO;
 import mopsy.productions.nexo.interfaces.IBlockEntityRecipeCompat;
 import mopsy.productions.nexo.interfaces.IFluidStorage;
@@ -15,25 +15,26 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.Registry;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.recipe.*;
+import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.input.RecipeInput;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
 import static mopsy.productions.nexo.Main.LOGGER;
-import static mopsy.productions.nexo.Main.modid;
 
 
-public class NEXORecipe implements Recipe<SimpleInventory> {
+public class NEXORecipe implements Recipe<RecipeInput> {
     public final Identifier id;
     public final List<Ingredient> inputs;
     public final List<ItemStack> outputs;
@@ -43,18 +44,28 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
     public static HashMap<Identifier, Function<NEXORecipe, ? extends NEXORecipe>> recipeConverters = new HashMap<>();
     public NEXORecipe(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo){
-        this.id= id;
+        this.id = id;
         this.inputs = inputs;
         this.outputs = outputs;
         this.inputFluids = inputFluids;
         this.outputFluids = outputFluids;
         this.additionalInfo = additionalInfo;
     }
+    private static NEXORecipe fromProperties(Identifier id, List<Ingredient> inputs, List<ItemStack> outputs, List<NFluidStack> inputFluids, List<NFluidStack> outputFluids, List<String> additionalInfo){
+        NEXORecipe nexoRecipe = new NEXORecipe(id, inputs, outputs, inputFluids, outputFluids, additionalInfo);
+        if (recipeConverters.containsKey(id))
+            return recipeConverters.get(id).apply(nexoRecipe);
+        else {
+            LOGGER.error("Cannot find recipe converter!");
+            LOGGER.error("Report this and the following text to a dev of NEXO!");
+            throw new RuntimeException();
+        }
+    }
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
-        if(!(inputs.size()>0||inputFluids.size()>0)) {
-            LOGGER.error("Empty fluid and item inputs found in recipe: " + id);
+        if(inputs.isEmpty() || inputFluids.isEmpty()) {
+            LOGGER.error("Empty fluid and item inputs found in recipe");
             return false;
         }
         if(!(blockEntity instanceof Inventory)){
@@ -248,7 +259,7 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
                 }
             }
             if(toExtract > 0)
-                LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for: "+id);
+                LOGGER.error("Couldn't extract all "+ stack.fluidVariant +" fluid for recipe");
         }
     }
     private void craftItems(Inventory blockInventory, SlotIO[] slotIOs){
@@ -287,17 +298,46 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
 
 
     @Override
-    public Identifier getId() {
-        return id;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends NEXORecipe> getSerializer() {
         return Serializer.INSTANCE;
     }
 
     public static class Serializer implements RecipeSerializer<NEXORecipe>{
         public static final Serializer INSTANCE = new Serializer();
+        public static final MapCodec<NEXORecipe> CODEC = RecordCodecBuilder.mapCodec(in -> in.group(
+                Identifier.CODEC.fieldOf("type").forGetter(r -> r.id),
+                Ingredient.CODEC.listOf().fieldOf("input_items").orElse(Collections.emptyList()).forGetter(r -> r.inputs),
+                ItemStack.CODEC.listOf().fieldOf("output_items").orElse(Collections.emptyList()).forGetter(r -> r.outputs),
+                NFluidStack.CODEC.listOf().fieldOf("input_fluids").orElse(Collections.emptyList()).forGetter(r -> r.inputFluids),
+                NFluidStack.CODEC.listOf().fieldOf("output_fluids").orElse(Collections.emptyList()).forGetter(r -> r.outputFluids),
+                Codec.STRING.listOf().fieldOf("additional_info").orElse(Collections.emptyList()).forGetter(r -> r.additionalInfo)
+        ).apply(in, NEXORecipe::fromProperties));
+        public static final PacketCodec<RegistryByteBuf, NEXORecipe> PACKET_CODEC = PacketCodec.tuple(
+                Identifier.PACKET_CODEC,
+                recipe->recipe.id,
+                PacketCodecs.codec(Ingredient.CODEC.listOf()),
+                recipe->recipe.inputs,
+                PacketCodecs.codec(ItemStack.CODEC.listOf()),
+                recipe->recipe.outputs,
+                PacketCodecs.codec(NFluidStack.CODEC.listOf()),
+                recipe->recipe.inputFluids,
+                PacketCodecs.codec(NFluidStack.CODEC.listOf()),
+                recipe->recipe.outputFluids,
+                PacketCodecs.codec(Codec.STRING.listOf()),
+                recipe->recipe.additionalInfo,
+                NEXORecipe::fromProperties
+        );
+
+        @Override
+        public MapCodec<NEXORecipe> codec() {
+            return CODEC;
+        }
+        @Override
+        public PacketCodec<RegistryByteBuf, NEXORecipe> packetCodec() {
+            return PACKET_CODEC;
+        }
+
+        /*
         @Override
         public NEXORecipe read(Identifier id, JsonObject json) {
             List<Ingredient> inputs = new ArrayList<>();
@@ -417,17 +457,17 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
                 buf.writeString(info);
             }
         }
+         */
     }
-
-
 
     /**
      * OVERWRITE THIS METHOD!
      */
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends NEXORecipe> getType() {
         return null;
     }
+
 
     /**
      * OVERWRITE THIS METHOD!
@@ -441,28 +481,31 @@ public class NEXORecipe implements Recipe<SimpleInventory> {
      * UNUSED METHOD OF RECIPE!!!
      */
     @Override
-    public boolean matches(SimpleInventory inventory, World world) {
+    public boolean matches(RecipeInput input, World world) {
         return false;
     }
+
     /**
      * UNUSED METHOD OF RECIPE!!!
      */
     @Override
-    public ItemStack craft(SimpleInventory inventory) {
+    public ItemStack craft(RecipeInput input, RegistryWrapper.WrapperLookup registries) {
         return null;
     }
+
     /**
      * UNUSED METHOD OF RECIPE!!!
      */
     @Override
-    public boolean fits(int width, int height) {
-        return false;
+    public IngredientPlacement getIngredientPlacement() {
+        return null;
     }
+
     /**
      * UNUSED METHOD OF RECIPE!!!
      */
     @Override
-    public ItemStack getOutput() {
+    public RecipeBookCategory getRecipeBookCategory() {
         return null;
     }
 }

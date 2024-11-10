@@ -97,7 +97,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        InvUtils.writeInv(inventory,nbt);
+        InvUtils.writeInv(registries, inventory,nbt);
         nbt.putInt("press.progress", progress);
         nbt.putLong("press.power", energyStorage.amount);
     }
@@ -105,7 +105,7 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        InvUtils.readInv(inventory,nbt);
+        InvUtils.readInv(registries, inventory,nbt);
         progress = nbt.getInt("press.progress");
         energyStorage.amount = nbt.getLong("press.power");
     }

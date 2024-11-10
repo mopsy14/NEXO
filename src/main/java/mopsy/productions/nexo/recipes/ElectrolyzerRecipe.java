@@ -1,9 +1,10 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.util.NFluidStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -25,11 +26,11 @@ public class ElectrolyzerRecipe extends NEXORecipe{
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<NEXORecipe> getSerializer() {
         return ElectrolyzerRecipe.Serializer.INSTANCE;
     }
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<ElectrolyzerRecipe> getType() {
         return Type.INSTANCE;
     }
     public static class Type implements RecipeType<ElectrolyzerRecipe>{
@@ -37,27 +38,22 @@ public class ElectrolyzerRecipe extends NEXORecipe{
         public static final ElectrolyzerRecipe.Type INSTANCE = new ElectrolyzerRecipe.Type();
         public static final String ID = "electrolyzer";
     }
-    public static class Serializer implements RecipeSerializer<ElectrolyzerRecipe> {
+    public static class Serializer implements RecipeSerializer<NEXORecipe> {
         public static final ElectrolyzerRecipe.Serializer INSTANCE = new ElectrolyzerRecipe.Serializer();
 
         @Override
-        public ElectrolyzerRecipe read(Identifier id, JsonObject json) {
-            return new ElectrolyzerRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
+        public MapCodec<NEXORecipe> codec() {
+            return NEXORecipe.Serializer.CODEC;
         }
 
         @Override
-        public ElectrolyzerRecipe read(Identifier id, PacketByteBuf buf) {
-            return new ElectrolyzerRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, ElectrolyzerRecipe recipe) {
-            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
+        public PacketCodec<RegistryByteBuf, NEXORecipe> packetCodec() {
+            return NEXORecipe.Serializer.PACKET_CODEC;
         }
     }
     public long getRequiredPower(){
-        if(super.additionalInfo.size()>0)
-            return Long.parseLong(super.additionalInfo.get(0));
+        if(!super.additionalInfo.isEmpty())
+            return Long.parseLong(super.additionalInfo.getFirst());
         return 0;
     }
 }

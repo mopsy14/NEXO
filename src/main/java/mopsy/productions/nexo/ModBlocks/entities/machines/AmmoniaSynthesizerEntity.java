@@ -92,7 +92,7 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putLong("as.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
@@ -102,7 +102,7 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         energyStorage.amount = nbt.getLong("as.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);

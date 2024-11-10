@@ -111,7 +111,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putInt(ID+".core_heat", coreHeat);
         nbt.putInt(ID+".water_heat", waterHeat);
         nbt.putInt(ID+".active", active);
@@ -124,7 +124,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         coreHeat = nbt.getInt(ID+".core_heat");
         waterHeat = nbt.getInt(ID+".water_heat");
         active = nbt.getInt(ID+".active");

@@ -120,7 +120,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(inventory, nbt);
+        writeInv(registries, inventory, nbt);
         nbt.putInt("mixer.progress", progress);
         nbt.putLong("mixer.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
@@ -132,7 +132,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(inventory, nbt);
+        readInv(registries, inventory, nbt);
         progress = nbt.getInt("mixer.progress");
         energyStorage.amount = nbt.getLong("mixer.power");
         for (int i = 0; i < fluidStorages.size(); i++) {

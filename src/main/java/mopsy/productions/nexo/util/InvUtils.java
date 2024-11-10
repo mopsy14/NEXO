@@ -5,6 +5,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 
 public class InvUtils {
@@ -15,7 +16,7 @@ public class InvUtils {
         }
         return inventory;
     }
-    public static void writeInv(Inventory inventory, NbtCompound nbt){
+    public static void writeInv(RegistryWrapper.WrapperLookup registries, Inventory inventory, NbtCompound nbt){
         NbtList nbtList = new NbtList();
 
         for(int i = 0; i < inventory.size(); ++i) {
@@ -23,7 +24,7 @@ public class InvUtils {
             if (!itemStack.isEmpty()) {
                 NbtCompound nbtCompound = new NbtCompound();
                 nbtCompound.putByte("Slot", (byte)i);
-                itemStack.writeNbt(nbtCompound);
+                itemStack.toNbt(registries,nbtCompound);
                 nbtList.add(nbtCompound);
             }
         }
@@ -32,14 +33,14 @@ public class InvUtils {
             nbt.put("Items", nbtList);
         }
     }
-    public static void readInv(Inventory inventory, NbtCompound nbt){
+    public static void readInv(RegistryWrapper.WrapperLookup registries, Inventory inventory, NbtCompound nbt){
         NbtList nbtList = nbt.getList("Items", 10);
 
         for(int i = 0; i < nbtList.size(); ++i) {
             NbtCompound nbtCompound = nbtList.getCompound(i);
             int j = nbtCompound.getByte("Slot") & 255;
             if (j >= 0 && j < inventory.size()) {
-                inventory.setStack(j, ItemStack.fromNbt(nbtCompound));
+                inventory.setStack(j, ItemStack.fromNbt(registries, nbtCompound).orElse(ItemStack.EMPTY));
             }
         }
     }

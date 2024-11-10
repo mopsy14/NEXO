@@ -109,7 +109,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        InvUtils.writeInv(inventory,nbt);
+        InvUtils.writeInv(registries, inventory,nbt);
         nbt.putInt("progress", progress);
         nbt.putLong("power", energyStorage.amount);
     }
@@ -117,7 +117,7 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        InvUtils.readInv(inventory,nbt);
+        InvUtils.readInv(registries, inventory,nbt);
         progress = nbt.getInt("progress");
         energyStorage.amount = nbt.getLong("power");
     }

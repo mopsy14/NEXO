@@ -1,6 +1,8 @@
 package mopsy.productions.nexo.util;
 
 import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.nbt.NbtCompound;
@@ -12,6 +14,14 @@ import net.minecraft.util.Identifier;
 public class NFluidStack {
     public FluidVariant fluidVariant;
     public long fluidAmount;
+
+    public static final Codec<NFluidStack> CODEC = Codec.lazyInitialized(
+            ()-> RecordCodecBuilder.create(
+                    in -> in.group(
+                            FluidVariant.CODEC.fieldOf("fluid_type").forGetter(fluidStack->fluidStack.fluidVariant),
+                            Codec.LONG.fieldOf("fluid_amount").forGetter(fluidStack->fluidStack.fluidAmount)
+                    ).apply(in,NFluidStack::new))
+    );
 
     public NFluidStack(FluidVariant variant, long amount){
         fluidVariant = variant;

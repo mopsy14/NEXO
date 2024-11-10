@@ -1,11 +1,9 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonObject;
 import mopsy.productions.nexo.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nexo.util.NFluidStack;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -28,38 +26,22 @@ public class AirSeparatorRecipe extends NEXORecipe{
 
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<NEXORecipe> getSerializer() {
         return AirSeparatorRecipe.Serializer.INSTANCE;
     }
     @Override
     public String getTypeID(){
         return AirSeparatorRecipe.Type.ID;
     }
+
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<AirSeparatorRecipe> getType() {
         return Type.INSTANCE;
     }
+
     public static class Type implements RecipeType<AirSeparatorRecipe>{
         private Type() {}
         public static final AirSeparatorRecipe.Type INSTANCE = new AirSeparatorRecipe.Type();
         public static final String ID = "air_separator";
-    }
-    public static class Serializer implements RecipeSerializer<AirSeparatorRecipe> {
-        public static final AirSeparatorRecipe.Serializer INSTANCE = new AirSeparatorRecipe.Serializer();
-
-        @Override
-        public AirSeparatorRecipe read(Identifier id, JsonObject json) {
-            return new AirSeparatorRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
-        }
-
-        @Override
-        public AirSeparatorRecipe read(Identifier id, PacketByteBuf buf) {
-            return new AirSeparatorRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, AirSeparatorRecipe recipe) {
-            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
-        }
     }
 }

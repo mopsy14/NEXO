@@ -1,12 +1,13 @@
 package mopsy.productions.nexo.recipes;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.registry.ModdedItems;
 import mopsy.productions.nexo.util.NFluidStack;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -35,11 +36,11 @@ public class CentrifugeRecipe extends NEXORecipe{
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<NEXORecipe> getSerializer() {
         return CentrifugeRecipe.Serializer.INSTANCE;
     }
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<CentrifugeRecipe> getType() {
         return CentrifugeRecipe.Type.INSTANCE;
     }
     public static class Type implements RecipeType<CentrifugeRecipe>{
@@ -47,27 +48,22 @@ public class CentrifugeRecipe extends NEXORecipe{
         public static final CentrifugeRecipe.Type INSTANCE = new CentrifugeRecipe.Type();
         public static final String ID = "centrifuge";
     }
-    public static class Serializer implements RecipeSerializer<CentrifugeRecipe> {
+    public static class Serializer implements RecipeSerializer<NEXORecipe> {
         public static final CentrifugeRecipe.Serializer INSTANCE = new CentrifugeRecipe.Serializer();
 
         @Override
-        public CentrifugeRecipe read(Identifier id, JsonObject json) {
-            return new CentrifugeRecipe(NEXORecipe.Serializer.INSTANCE.read(id,json));
+        public MapCodec<NEXORecipe> codec() {
+            return NEXORecipe.Serializer.CODEC;
         }
 
         @Override
-        public CentrifugeRecipe read(Identifier id, PacketByteBuf buf) {
-            return new CentrifugeRecipe(NEXORecipe.Serializer.INSTANCE.read(id,buf));
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, CentrifugeRecipe recipe) {
-            NEXORecipe.Serializer.INSTANCE.write(buf,recipe);
+        public PacketCodec<RegistryByteBuf, NEXORecipe> packetCodec() {
+            return NEXORecipe.Serializer.PACKET_CODEC;
         }
     }
     public boolean needsHeatResistant(){
-        if(super.additionalInfo.size()>0)
-            return super.additionalInfo.get(0).equals("true");
+        if(!super.additionalInfo.isEmpty())
+            return super.additionalInfo.getFirst().equals("true");
         return false;
     }
 }
