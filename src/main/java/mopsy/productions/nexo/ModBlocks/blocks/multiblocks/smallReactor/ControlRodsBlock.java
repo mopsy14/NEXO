@@ -2,7 +2,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor;
 
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,12 +24,12 @@ public class ControlRodsBlock extends Block implements IModID{
     public String getID(){return "control_rods";}
 
     public ControlRodsBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(10.0F, 10.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
+                .mapColor(MapColor.BLACK)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
     }
@@ -54,9 +53,9 @@ public class ControlRodsBlock extends Block implements IModID{
         if(!world.isClient){
             Block controller = world.getBlockState(pos.down(2)).getBlock();
             if(controller instanceof SmallReactorHatchesBlock reactor) {
-                return reactor.onUse(world.getBlockState(pos.down(2)), world, pos.down(2), player, hand, hit);
+                return reactor.onUse(world.getBlockState(pos.down(2)), world, pos.down(2), player, hit);
             }else{
-                player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"));
+                player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"),false);
             }
         }
         return ActionResult.SUCCESS;

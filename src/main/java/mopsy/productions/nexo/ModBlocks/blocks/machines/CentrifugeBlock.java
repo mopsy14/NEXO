@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.machines;
 import mopsy.productions.nexo.ModBlocks.entities.machines.CentrifugeEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -30,12 +29,12 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
     public String getID(){return "centrifuge";}
 
     public CentrifugeBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
+                .mapColor(MapColor.BLACK)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
@@ -83,13 +82,13 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CentrifugeEntity) {
             ItemScatterer.spawn(world, pos, (CentrifugeEntity) blockEntity);
             world.updateComparators(pos, this);
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     static {

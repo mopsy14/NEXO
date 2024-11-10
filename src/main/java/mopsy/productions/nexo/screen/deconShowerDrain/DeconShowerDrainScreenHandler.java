@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.screen.deconShowerDrain;
 
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import mopsy.productions.nexo.util.slots.ReturnSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,7 +8,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +16,8 @@ public class DeconShowerDrainScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final BlockPos blockPos;
 
-    public DeconShowerDrainScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(2), buf.readBlockPos());
+    public DeconShowerDrainScreenHandler(int syncId, PlayerInventory playerInventory, DefaultSHPayload buf){
+        this(syncId, playerInventory, new SimpleInventory(2), buf.blockPos());
     }
     public DeconShowerDrainScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, BlockPos blockPos) {
         super(ScreenHandlers.DECON_SHOWER_DRAIN, syncId);

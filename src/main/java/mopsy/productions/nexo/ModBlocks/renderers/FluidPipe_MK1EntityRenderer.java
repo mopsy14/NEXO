@@ -41,7 +41,7 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
 
         //Rendering the base part
         final VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(MAIN_TEXTURE));
-        BASE_MODEL.render(matrices,vertexConsumer,light,overlay,1f,1f,1f,1f);
+        BASE_MODEL.render(matrices,vertexConsumer,light,overlay,0xFFFFFFFF);
 
 
         //rendering all end textures
@@ -59,82 +59,38 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
         matrices.pop();
     }
     private void render(Model model, NEXORotation rotation, MatrixStack matrices, VertexConsumerProvider vertexProvider, Identifier identifier, int light, int overlay){
-        ((INEXOFluidPipeModel)model).getMainPart().setAngles(rotation.x, rotation.y+1.5708f, rotation.z);
+        model.getRootPart().setAngles(rotation.x, rotation.y+1.5708f, rotation.z);
         //fun code:
-        //PIPE_MODEL.mainPart.rotate(rotation.getVec3f());
-        model.render(matrices, vertexProvider.getBuffer(RenderLayer.getEntitySolid(identifier)), light, overlay, 1f, 1f, 1f, 1f);
+        //model.getRootPart().rotate(rotation.getVec3f());
+        model.render(matrices, vertexProvider.getBuffer(RenderLayer.getEntitySolid(identifier)), light, overlay,0xFFFFFFFF);
     }
 
-    private interface INEXOFluidPipeModel{
-        public ModelPart getMainPart();
-    }
-
-    private static class FluidPipe_MK1BaseModel extends Model implements INEXOFluidPipeModel{
-
-        private final ModelPart mainPart;
+    private static class FluidPipe_MK1BaseModel extends Model{
 
         public FluidPipe_MK1BaseModel(){
-            super(RenderLayer::getEntityCutoutNoCull);
-
-            mainPart = new ModelPart(List.of(new ModelPart.Cuboid(0,0,6f,6f,6f,4f,4f,4f, 0f,0f,0f, false, 16f,16f)), Collections.emptyMap());
-        }
-
-        @Override
-        public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-            mainPart.render(matrices, vertices, light, overlay);
-        }
-
-        @Override
-        public ModelPart getMainPart() {
-            return mainPart;
+            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,6f,6f,6f,4f,4f,4f, 0f,0f,0f, false, 16f,16f,Collections.emptySet())), Collections.emptyMap()),
+                    RenderLayer::getEntityCutoutNoCull);
         }
     }
-    private static class FluidPipe_MK1EndModel extends Model implements INEXOFluidPipeModel{
-
-        private final ModelPart mainPart;
+    private static class FluidPipe_MK1EndModel extends Model{
 
         public FluidPipe_MK1EndModel(){
-            super(RenderLayer::getEntityCutoutNoCull);
+            super(new ModelPart(List.of(
+                    new ModelPart.Cuboid(0,0,2f,-2f,-2f,4f,4f,4f, 0f,0f,0f, false, 32f,32f,Collections.emptySet()),
+                    new ModelPart.Cuboid(0,10,6f,-3f,-3f,1f,6f,6f, 0f,0f,0f, false, 32f,32f,Collections.emptySet()),
+                    new ModelPart.Cuboid(8,0,7f,-4f,-4f,1f,8f,8f, 0f,0f,0f, false, 32f,32f,Collections.emptySet())), Collections.emptyMap()),
+                    RenderLayer::getEntityCutoutNoCull);
 
-            mainPart = new ModelPart(List.of(
-                    new ModelPart.Cuboid(0,0,2f,-2f,-2f,4f,4f,4f, 0f,0f,0f, false, 32f,32f),
-                    new ModelPart.Cuboid(0,10,6f,-3f,-3f,1f,6f,6f, 0f,0f,0f, false, 32f,32f),
-                    new ModelPart.Cuboid(8,0,7f,-4f,-4f,1f,8f,8f, 0f,0f,0f, false, 32f,32f)
-            ), Collections.emptyMap());
-
-            mainPart.setPivot(8f,8f,8f);
-        }
-
-        @Override
-        public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-            mainPart.render(matrices, vertices, light, overlay);
-        }
-
-        @Override
-        public ModelPart getMainPart() {
-            return mainPart;
+            root.setPivot(8f,8f,8f);
         }
     }
-    private static class FluidPipe_MK1PipeModel extends Model implements INEXOFluidPipeModel{
-
-        private final ModelPart mainPart;
+    private static class FluidPipe_MK1PipeModel extends Model{
 
         public FluidPipe_MK1PipeModel(){
-            super(RenderLayer::getEntityCutoutNoCull);
+            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,2f,-2f,-2f,6f,4f,4f, 0f,0f,0f, false, 32f,32f,Collections.emptySet())), Collections.emptyMap()),
+                    RenderLayer::getEntityCutoutNoCull);
 
-            mainPart = new ModelPart(List.of(new ModelPart.Cuboid(0,0,2f,-2f,-2f,6f,4f,4f, 0f,0f,0f, false, 32f,32f)), Collections.emptyMap());
-
-            mainPart.setPivot(8f,8f,8f);
-        }
-
-        @Override
-        public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-            mainPart.render(matrices, vertices, light, overlay);
-        }
-
-        @Override
-        public ModelPart getMainPart() {
-            return mainPart;
+            root.setPivot(8f,8f,8f);
         }
     }
 }

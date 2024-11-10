@@ -8,6 +8,7 @@ import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
 import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.CentrifugeRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.centrifuge.CentrifugeScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
@@ -111,8 +112,8 @@ public class CentrifugeEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(this.pos);
+    public Object getScreenOpeningData(ServerPlayerEntity player) {
+        return new DefaultSHPayload(pos);
     }
 
     @Override

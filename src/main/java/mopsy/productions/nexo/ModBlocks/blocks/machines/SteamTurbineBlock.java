@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.machines;
 import mopsy.productions.nexo.ModBlocks.entities.machines.SteamTurbineEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -14,10 +13,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,19 +31,19 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     public String getID(){return "steam_turbine";}
 
     public SteamTurbineBlock() {
-        super(FabricBlockSettings
-                .of(Material.GLASS, MapColor.GRAY)
+        super(Settings.create()
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
                 .solidBlock((state,world,pos)->false)
                 .blockVision((state,world,pos)->false)
+                .mapColor(DyeColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE,false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(ACTIVE,false);
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(ACTIVE,false);
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -65,14 +61,12 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
-    @Override
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-        return true;
-    }
+
     @Override
     public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.empty();
     }
+
     @Override
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return 1.0F;
@@ -102,13 +96,13 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SteamTurbineEntity) {
             ItemScatterer.spawn(world, pos, ((SteamTurbineEntity) blockEntity).inventory);
             world.updateComparators(pos, this);
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     static {

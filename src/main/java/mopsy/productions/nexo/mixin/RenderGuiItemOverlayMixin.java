@@ -1,11 +1,9 @@
 package mopsy.productions.nexo.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mopsy.productions.nexo.ModItems.blocks.BatteryMK1Item;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,24 +13,22 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
-@Mixin(ItemRenderer.class)
+@Mixin(DrawContext.class)
 public abstract class RenderGuiItemOverlayMixin {
-    @Shadow protected abstract void renderGuiQuad(BufferBuilder buffer, int x, int y, int width, int height, int red, int green, int blue, int alpha);
+    //@Shadow public abstract void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int color);
 
-    @Inject(method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("RETURN"))
+    @Shadow public abstract void fill(RenderLayer layer, int x1, int y1, int x2, int y2, int z, int color);
+
+    @Inject(method = "drawStackOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", at = @At("RETURN"))
     protected void injectIntoRenderItemOverlay(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo ci){
         if (stack.getItem() instanceof BatteryMK1Item batteryItem) {
-            RenderSystem.disableDepthTest();
-            RenderSystem.disableTexture();
-            RenderSystem.disableBlend();
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
             int coloredBarPixels = getScaledPower(batteryItem, stack);
-            this.renderGuiQuad(bufferBuilder, x + 2, y + 13, 12, 2, 25, 25, 25, 255);
-            this.renderGuiQuad(bufferBuilder, x + 2, y + 13, coloredBarPixels, 1, 255, 240, 0, 255);
-            RenderSystem.enableBlend();
-            RenderSystem.enableTexture();
-            RenderSystem.enableDepthTest();
+            //fill(RenderLayer.getGui(),x + 2, y + 13, x + 14, y + 15, 0x191919FF);
+            //fill(RenderLayer.getGui(),x + 2, y + 13, x+2+coloredBarPixels, y+14, 0xFFF000FF);
+            int i = x + 2;
+            int j = y + 13;
+            this.fill(RenderLayer.getGui(), i, j, i + 13, j + 2, 200, 0x191919FF);
+            this.fill(RenderLayer.getGui(), i, j, i + coloredBarPixels, j + 1, 200, 0xFFF000FF);
         }
     }
     @Unique

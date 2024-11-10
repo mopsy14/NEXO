@@ -1,12 +1,12 @@
 package mopsy.productions.nexo.screen.battery;
 
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
@@ -16,8 +16,8 @@ public class BatteryMK1ScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final BlockPos blockPos;
 
-    public BatteryMK1ScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(2), buf.readBlockPos());
+    public BatteryMK1ScreenHandler(int syncId, PlayerInventory playerInventory, DefaultSHPayload buf){
+        this(syncId, playerInventory, new SimpleInventory(2), buf.blockPos());
     }
     public BatteryMK1ScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, BlockPos blockPos) {
         super(ScreenHandlers.BATTERY, syncId);

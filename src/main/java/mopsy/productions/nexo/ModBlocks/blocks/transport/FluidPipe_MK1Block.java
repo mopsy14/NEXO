@@ -6,7 +6,6 @@ import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedItems;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -25,11 +24,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -75,12 +77,12 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     public String getID(){return "fluid_pipe_mk1";}
 
     public FluidPipe_MK1Block() {
-        super(FabricBlockSettings
-                        .of(Material.METAL, MapColor.GRAY)
-                        .strength(5.0F, 5.0F)
-                        .sounds(BlockSoundGroup.COPPER)
-                        .requiresTool()
-                        .nonOpaque()
+        super(Settings.create()
+                .strength(5.0F, 5.0F)
+                .sounds(BlockSoundGroup.COPPER)
+                .requiresTool()
+                .nonOpaque()
+                .mapColor(MapColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED,false));
     }
@@ -149,10 +151,11 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
         return getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
     }
 
+
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState originalState, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (originalState.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    public BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        if (state.get(WATERLOGGED)) {
+            tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
         if(neighborState.isOf(this))
@@ -163,12 +166,12 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
         }else
             getBlockEntity(world,pos).endStates.put(NEXORotation.ofDirection(direction),PipeEndState.NONE);
 
-        return originalState;
+        return state;
     }
     private boolean isEnergyBlock(WorldAccess world, BlockPos pos, Direction direction){
         return EnergyStorage.SIDED.find((World)world, pos, direction) != null;
     }
-    private boolean isFluidBlock(WorldAccess world, BlockPos pos, Direction direction){
+    private boolean isFluidBlock(WorldView world, BlockPos pos, Direction direction){
         return FluidStorage.SIDED.find((World) world, pos.add(direction.getVector()), direction)!=null;
     }
     @Nullable
@@ -201,7 +204,8 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            if (player.getStackInHand(hand).getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
+            if (player.getMainHandStack().getItem().equals(ModdedItems.Items.get("pipe_wrench"))
+                    ||player.getOffHandStack().getItem().equals(ModdedItems.Items.get("pipe_wrench"))) {
                 NamedScreenHandlerFactory screenHandlerFactory = getBlockEntity(world, pos);
                 if(screenHandlerFactory != null){
                     player.openHandledScreen(screenHandlerFactory);

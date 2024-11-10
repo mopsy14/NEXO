@@ -32,6 +32,7 @@ import mopsy.productions.nexo.screen.steamTurbine.SteamTurbineScreen;
 import mopsy.productions.nexo.screen.steamTurbine.SteamTurbineScreenHandler;
 import mopsy.productions.nexo.screen.tank.TankScreenHandler_MK1;
 import mopsy.productions.nexo.screen.tank.TankScreen_MK1;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.registry.Registries;
@@ -42,22 +43,23 @@ import static mopsy.productions.nexo.Main.LOGGER;
 import static mopsy.productions.nexo.Main.modid;
 
 public class ScreenHandlers {
-    public static final ExtendedScreenHandlerType<CrusherScreenHandler> CRUSHER = new ExtendedScreenHandlerType<>(CrusherScreenHandler::new);
-    public static final ExtendedScreenHandlerType<PressScreenHandler> PRESS = new ExtendedScreenHandlerType<>(PressScreenHandler::new);
-    public static final ExtendedScreenHandlerType<TankScreenHandler_MK1> Tank_MK1 = new ExtendedScreenHandlerType<>(TankScreenHandler_MK1::new);
-    public static final ExtendedScreenHandlerType<AirSeparatorScreenHandler> AIR_SEPARATOR = new ExtendedScreenHandlerType<>(AirSeparatorScreenHandler::new);
-    public static final ExtendedScreenHandlerType<ElectrolyzerScreenHandler> ELECTROLYZER = new ExtendedScreenHandlerType<>(ElectrolyzerScreenHandler::new);
-    public static final ExtendedScreenHandlerType<CentrifugeScreenHandler> CENTRIFUGE = new ExtendedScreenHandlerType<>(CentrifugeScreenHandler::new);
-    public static final ExtendedScreenHandlerType<FurnaceGeneratorScreenHandler> FURNACE_GENERATOR = new ExtendedScreenHandlerType<>(FurnaceGeneratorScreenHandler::new);
-    public static final ExtendedScreenHandlerType<SteamTurbineScreenHandler> STEAM_TURBINE = new ExtendedScreenHandlerType<>(SteamTurbineScreenHandler::new);
-    public static final ExtendedScreenHandlerType<SmallReactorScreenHandler> SMALL_REACTOR = new ExtendedScreenHandlerType<>(SmallReactorScreenHandler::new);
-    public static final ExtendedScreenHandlerType<AmmoniaSynthesiserScreenHandler> AMMONIA_SYNTHESISER = new ExtendedScreenHandlerType<>(AmmoniaSynthesiserScreenHandler::new);
-    public static final ExtendedScreenHandlerType<MixerScreenHandler> MIXER = new ExtendedScreenHandlerType<>(MixerScreenHandler::new);
-    public static final ExtendedScreenHandlerType<FluidPipeScreenHandler> FLUID_PIPE = new ExtendedScreenHandlerType<>(FluidPipeScreenHandler::new);
-    public static final ExtendedScreenHandlerType<DeconShowerScreenHandler> DECON_SHOWER = new ExtendedScreenHandlerType<>(DeconShowerScreenHandler::new);
-    public static final ExtendedScreenHandlerType<DeconShowerDrainScreenHandler> DECON_SHOWER_DRAIN = new ExtendedScreenHandlerType<>(DeconShowerDrainScreenHandler::new);
-    public static final ExtendedScreenHandlerType<ElectricFurnaceScreenHandler> ELECTRIC_FURNACE = new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new);
-    public static final ExtendedScreenHandlerType<BatteryMK1ScreenHandler> BATTERY = new ExtendedScreenHandlerType<>(BatteryMK1ScreenHandler::new);
+    public static final Identifier SHPayloadID = Identifier.of(modid, "default_screen_handler");
+    public static final ExtendedScreenHandlerType<CrusherScreenHandler,DefaultSHPayload> CRUSHER = new ExtendedScreenHandlerType<>(CrusherScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<PressScreenHandler,DefaultSHPayload> PRESS = new ExtendedScreenHandlerType<>(PressScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<TankScreenHandler_MK1,DefaultSHPayload> Tank_MK1 = new ExtendedScreenHandlerType<>(TankScreenHandler_MK1::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<AirSeparatorScreenHandler,DefaultSHPayload> AIR_SEPARATOR = new ExtendedScreenHandlerType<>(AirSeparatorScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<ElectrolyzerScreenHandler,DefaultSHPayload> ELECTROLYZER = new ExtendedScreenHandlerType<>(ElectrolyzerScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<CentrifugeScreenHandler,DefaultSHPayload> CENTRIFUGE = new ExtendedScreenHandlerType<>(CentrifugeScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<FurnaceGeneratorScreenHandler,DefaultSHPayload> FURNACE_GENERATOR = new ExtendedScreenHandlerType<>(FurnaceGeneratorScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<SteamTurbineScreenHandler,DefaultSHPayload> STEAM_TURBINE = new ExtendedScreenHandlerType<>(SteamTurbineScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<SmallReactorScreenHandler,DefaultSHPayload> SMALL_REACTOR = new ExtendedScreenHandlerType<>(SmallReactorScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<AmmoniaSynthesiserScreenHandler,DefaultSHPayload> AMMONIA_SYNTHESISER = new ExtendedScreenHandlerType<>(AmmoniaSynthesiserScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<MixerScreenHandler,DefaultSHPayload> MIXER = new ExtendedScreenHandlerType<>(MixerScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<FluidPipeScreenHandler,DefaultSHPayload> FLUID_PIPE = new ExtendedScreenHandlerType<>(FluidPipeScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<DeconShowerScreenHandler,DefaultSHPayload> DECON_SHOWER = new ExtendedScreenHandlerType<>(DeconShowerScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<DeconShowerDrainScreenHandler,DefaultSHPayload> DECON_SHOWER_DRAIN = new ExtendedScreenHandlerType<>(DeconShowerDrainScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<ElectricFurnaceScreenHandler,DefaultSHPayload> ELECTRIC_FURNACE = new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new,DefaultSHPayload.CODEC);
+    public static final ExtendedScreenHandlerType<BatteryMK1ScreenHandler,DefaultSHPayload> BATTERY = new ExtendedScreenHandlerType<>(BatteryMK1ScreenHandler::new,DefaultSHPayload.CODEC);
 
     public static void regScreenHandlers(){
         LOGGER.info("Registering screen handlers");
@@ -79,6 +81,7 @@ public class ScreenHandlers {
         Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "battery"), BATTERY);
     }
     public static void regClientScreens(){
+        PayloadTypeRegistry.playS2C().register(DefaultSHPayload.ID,DefaultSHPayload.CODEC);
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
         HandledScreens.register(ScreenHandlers.PRESS, PressScreen::new);
         HandledScreens.register(ScreenHandlers.Tank_MK1, TankScreen_MK1::new);

@@ -1,11 +1,10 @@
 package mopsy.productions.nexo.HUD;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -20,7 +19,7 @@ public class Radiation implements HudRenderCallback {
     public static float radiationPerTick = 0;
 
     @Override
-    public void onHudRender(MatrixStack matrixStack, float tickDelta) {
+    public void onHudRender(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         MinecraftClient client = MinecraftClient.getInstance();
         if(client!=null){
             if(MinecraftClient.getInstance().player.getInventory().contains(new ItemStack(Items.get("geiger_counter")))) {
@@ -34,25 +33,19 @@ public class Radiation implements HudRenderCallback {
                 x = 0;
                 y = height - 12;
 
-
-                RenderSystem.setShader(GameRenderer::getPositionShader);
-                RenderSystem.setShaderColor(1, 1, 1, 1);
-                RenderSystem.setShaderTexture(0, RADIATION_BACKGROUND_TEXTURE);
-                DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, textureWidth, 12, textureWidth, 12);
+                drawContext.drawTexture(RenderLayer::getGuiTextured, RADIATION_BACKGROUND_TEXTURE, x, y, 0, 0, textureWidth, 12,77,12);
 
                 textureWidth = 100;
                 x = 0;
                 y = height - 20;
-                RenderSystem.setShaderTexture(0, RADIATION_BACKGROUND_TEXT_TEXTURE);
-                DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, textureWidth, 10, 100, 10);
+                drawContext.drawTexture(RenderLayer::getGuiTextured, RADIATION_BACKGROUND_TEXT_TEXTURE, x, y, 0, 0, textureWidth, 10, 100, 10);
 
                 textureWidth = 1;
-                RenderSystem.setShaderTexture(0, RADIATION_BAR_PIECE);
                 for(int I = 0; I < 75; I++){
                     if(I*2 < radiation){
                         x = I+1;
                         y = height - 11;
-                        DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, textureWidth, 10, textureWidth, 10);
+                        drawContext.drawTexture(RenderLayer::getGuiTextured, RADIATION_BAR_PIECE, x, y, 0, 0, textureWidth, 10, 1, 10);
                     }
                 }
             }

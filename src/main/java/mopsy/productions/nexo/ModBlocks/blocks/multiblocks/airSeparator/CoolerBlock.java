@@ -3,11 +3,9 @@ package mopsy.productions.nexo.ModBlocks.blocks.multiblocks.airSeparator;
 import mopsy.productions.nexo.interfaces.IMBBlock;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.multiblock.MBUtils;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.BlockSoundGroup;
@@ -19,11 +17,11 @@ public class CoolerBlock extends Block implements IModID, IMBBlock {
     @Override
     public String getID(){return "cooler";}
     public CoolerBlock() {
-        super(FabricBlockSettings
-                        .of(Material.STONE, MapColor.GRAY)
-                        .strength(8.0F, 8.0F)
-                        .sounds(BlockSoundGroup.STONE)
-                        .requiresTool()
+        super(Settings.create()
+                .strength(8.0F, 8.0F)
+                .sounds(BlockSoundGroup.STONE)
+                .requiresTool()
+                .mapColor(MapColor.GRAY)
         );
     }
     @Override

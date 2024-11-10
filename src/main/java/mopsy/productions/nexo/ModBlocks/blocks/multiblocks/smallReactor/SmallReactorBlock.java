@@ -2,7 +2,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.multiblocks.smallReactor;
 
 import mopsy.productions.nexo.ModBlocks.blocks.multiblocks.SmallReactorHatchesBlock;
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,17 +23,17 @@ public class SmallReactorBlock extends Block implements IModID {
     public String getID(){return "small_reactor";}
     public static final EnumProperty<Direction> FACING;
     public SmallReactorBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(10.0F, 10.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
+                .mapColor(MapColor.BLACK)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -56,9 +55,9 @@ public class SmallReactorBlock extends Block implements IModID {
         if(!world.isClient){
             Block controller = world.getBlockState(pos.down()).getBlock();
             if(controller instanceof SmallReactorHatchesBlock reactor) {
-                return reactor.onUse(world.getBlockState(pos.down()), world, pos.down(), player, hand, hit);
+                return reactor.onUse(world.getBlockState(pos.down()), world, pos.down(), player, hit);
             }else{
-                player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"));
+                player.sendMessage(Text.of(BossBar.Color.YELLOW.getTextFormat()+"Multiblock incomplete!"),false);
             }
         }
         return ActionResult.SUCCESS;

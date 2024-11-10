@@ -4,7 +4,6 @@ import mopsy.productions.nexo.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.multiblock.AirSeparatorMultiBlock;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -17,10 +16,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -33,16 +29,16 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
     public String getID(){return "air_separator";}
 
     public AirSeparatorBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .mapColor(DyeColor.BLACK)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));

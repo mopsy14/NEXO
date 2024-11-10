@@ -1,12 +1,12 @@
 package mopsy.productions.nexo.screen.furnaceGenerator;
 
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -18,8 +18,8 @@ public class FurnaceGeneratorScreenHandler extends ScreenHandler {
     private final PropertyDelegate delegate;
     private final BlockPos blockPos;
 
-    public FurnaceGeneratorScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(1), new ArrayPropertyDelegate(2), buf.readBlockPos());
+    public FurnaceGeneratorScreenHandler(int syncId, PlayerInventory playerInventory, DefaultSHPayload buf){
+        this(syncId, playerInventory, new SimpleInventory(1), new ArrayPropertyDelegate(2), buf.blockPos());
     }
     public FurnaceGeneratorScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.FURNACE_GENERATOR, syncId);

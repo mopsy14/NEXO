@@ -6,6 +6,7 @@ import mopsy.productions.nexo.interfaces.IEnergyStorage;
 import mopsy.productions.nexo.networking.payloads.EnergyChangePayload;
 import mopsy.productions.nexo.recipes.CrusherRecipe;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.crusher.CrusherScreenHandler;
 import mopsy.productions.nexo.util.InvUtils;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -20,7 +21,6 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -90,10 +90,9 @@ public class CrusherEntity extends BlockEntity implements ExtendedScreenHandlerF
     }
 
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(this.pos);
+    public Object getScreenOpeningData(ServerPlayerEntity player) {
+        return new DefaultSHPayload(pos);
     }
-
 
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){

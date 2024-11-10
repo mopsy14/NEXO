@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.multiblocks;
 import mopsy.productions.nexo.interfaces.IMBBlock;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.multiblock.MBUtils;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
@@ -26,16 +25,16 @@ public class ConduitBlock extends Block implements IModID, IMBBlock {
     @Override
     public String getID(){return "conduit";}
     public ConduitBlock() {
-        super(FabricBlockSettings
-                        .of(Material.STONE, MapColor.GRAY)
-                        .strength(8.0F, 8.0F)
-                        .sounds(BlockSoundGroup.STONE)
-                        .requiresTool()
+        super(Settings.create()
+                .strength(8.0F, 8.0F)
+                .sounds(BlockSoundGroup.STONE)
+                .requiresTool()
+                .mapColor(MapColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));

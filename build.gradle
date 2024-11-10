@@ -22,16 +22,28 @@ repositories {
 	// for more information about repositories.
 }
 
-loom {
-	splitEnvironmentSourceSets()
+loom{
+	runs{
+		datagen{
+			inherit server
+			name "Data Generation"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+			vmArg "-Dfabric-api.datagen.modid=nexo"
 
-	mods {
-		"nexo" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
+			runDir "build/datagen"
 		}
 	}
+}
 
+sourceSets {
+	main{
+		resources{
+			srcDirs+= [
+			        'src/main/generated'
+			]
+		}
+	}
 }
 
 dependencies {
@@ -40,11 +52,11 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:9.1.619"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:17.0.790"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	include modApi('teamreborn:energy:2.3.0') {
+	include modApi('teamreborn:energy:4.1.0') {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 

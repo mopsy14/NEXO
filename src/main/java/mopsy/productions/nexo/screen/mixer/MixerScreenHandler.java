@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.screen.mixer;
 
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import mopsy.productions.nexo.util.slots.MixerSlot;
 import mopsy.productions.nexo.util.slots.ReturnSlot;
@@ -8,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -20,8 +20,8 @@ public class MixerScreenHandler extends ScreenHandler {
     private final BlockPos blockPos;
     public final PropertyDelegate delegate;
 
-    public MixerScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(10), new ArrayPropertyDelegate(3), buf.readBlockPos());
+    public MixerScreenHandler(int syncId, PlayerInventory playerInventory, DefaultSHPayload buf){
+        this(syncId, playerInventory, new SimpleInventory(10), new ArrayPropertyDelegate(3), buf.blockPos());
     }
     public MixerScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.MIXER, syncId);

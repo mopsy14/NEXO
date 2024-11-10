@@ -92,7 +92,7 @@ public class ModdedBlocks {
             Blocks.put(name, b);
             BlockItem bi = switch (name) {
                 default -> {
-                    BlockItem blockItem = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BlockItem(block, new Item.Settings()))
+                    BlockItem blockItem = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BlockItem(block, new Item.Settings()));
                     ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(blockItem));
                     yield blockItem;
                 }

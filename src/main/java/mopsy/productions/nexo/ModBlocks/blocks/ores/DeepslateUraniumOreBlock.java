@@ -1,23 +1,22 @@
 package mopsy.productions.nexo.ModBlocks.blocks.ores;
 
 import mopsy.productions.nexo.interfaces.IModID;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
+import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
-public class DeepslateUraniumOreBlock extends Block implements IModID {
+public class DeepslateUraniumOreBlock extends ExperienceDroppingBlock implements IModID {
     @Override
     public String getID(){return "deepslate_uranium_ore";}
     public DeepslateUraniumOreBlock() {
-        super(FabricBlockSettings
-                        .of(Material.STONE, MapColor.BLACK)
+        super(UniformIntProvider.create(0,10),
+                Settings.create()
                         .strength(8.0F, 8.0F)
                         .sounds(BlockSoundGroup.DEEPSLATE)
-                        .requiresTool(),
-                UniformIntProvider.create(0,10)
+                        .requiresTool()
+                        .mapColor(MapColor.BLACK)
+
         );
     }
 }

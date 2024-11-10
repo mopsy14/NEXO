@@ -1,6 +1,7 @@
 package mopsy.productions.nexo.screen.smallReactor;
 
 import mopsy.productions.nexo.ModItems.NTFuelRodItem;
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ScreenHandlers;
 import mopsy.productions.nexo.util.slots.ReturnSlot;
 import mopsy.productions.nexo.util.slots.RodSlot;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -21,8 +21,8 @@ public class SmallReactorScreenHandler extends ScreenHandler {
     private final BlockPos blockPos;
     public final PropertyDelegate delegate;
 
-    public SmallReactorScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf){
-        this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(3), buf.readBlockPos());
+    public SmallReactorScreenHandler(int syncId, PlayerInventory playerInventory, DefaultSHPayload buf){
+        this(syncId, playerInventory, new SimpleInventory(8), new ArrayPropertyDelegate(3), buf.blockPos());
     }
     public SmallReactorScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate, BlockPos blockPos) {
         super(ScreenHandlers.SMALL_REACTOR, syncId);

@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks;
 import mopsy.productions.nexo.ModBlocks.entities.InsulatedCopperCableEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -15,11 +14,13 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -38,12 +39,12 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
     public String getID(){return "insulated_copper_cable";}
 
     public InsulatedCopperCableBlock() {
-        super(FabricBlockSettings
-                        .of(Material.METAL, MapColor.GRAY)
-                        .strength(5.0F, 5.0F)
-                        .sounds(BlockSoundGroup.COPPER)
-                        .requiresTool()
-                        .nonOpaque()
+        super(Settings.create()
+                .strength(5.0F, 5.0F)
+                .sounds(BlockSoundGroup.COPPER)
+                .requiresTool()
+                .nonOpaque()
+                .mapColor(MapColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(UP, false).with(DOWN, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(WATERLOGGED,false));
     }
@@ -102,25 +103,25 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState originalState, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (originalState.get(WATERLOGGED)) {
-            world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        if (state.get(WATERLOGGED)) {
+            tickView.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
         switch (direction){
-            case UP -> {return originalState.with(UP, isEnergyBlock(world, neighborPos, Direction.UP));}
-            case DOWN -> {return originalState.with(DOWN, isEnergyBlock(world, neighborPos, Direction.DOWN));}
-            case NORTH -> {return originalState.with(NORTH, isEnergyBlock(world, neighborPos, Direction.NORTH));}
-            case EAST -> {return originalState.with(EAST, isEnergyBlock(world, neighborPos, Direction.EAST));}
-            case SOUTH -> {return originalState.with(SOUTH, isEnergyBlock(world, neighborPos, Direction.SOUTH));}
-            case WEST -> {return originalState.with(WEST, isEnergyBlock(world, neighborPos, Direction.WEST));}
+            case UP -> {return state.with(UP, isEnergyBlock(world, neighborPos, Direction.UP));}
+            case DOWN -> {return state.with(DOWN, isEnergyBlock(world, neighborPos, Direction.DOWN));}
+            case NORTH -> {return state.with(NORTH, isEnergyBlock(world, neighborPos, Direction.NORTH));}
+            case EAST -> {return state.with(EAST, isEnergyBlock(world, neighborPos, Direction.EAST));}
+            case SOUTH -> {return state.with(SOUTH, isEnergyBlock(world, neighborPos, Direction.SOUTH));}
+            case WEST -> {return state.with(WEST, isEnergyBlock(world, neighborPos, Direction.WEST));}
         }
-        return originalState;
+        return state;
     }
 
     private boolean isEnergyBlock(World world, BlockPos pos, Direction direction){
         return EnergyStorage.SIDED.find(world, pos, direction) != null;
     }
-    private boolean isEnergyBlock(WorldAccess world, BlockPos pos, Direction direction){
+    private boolean isEnergyBlock(WorldView world, BlockPos pos, Direction direction){
         return EnergyStorage.SIDED.find((World)world, pos, direction) != null;
     }
 

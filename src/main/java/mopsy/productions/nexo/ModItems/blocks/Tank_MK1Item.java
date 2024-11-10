@@ -13,13 +13,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +79,7 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if(stack.hasNbt()){
             long amount = FluidDataUtils.getFluidAmount(stack.getNbt());
             FluidVariant variant = FluidDataUtils.getFluidType(stack.getNbt());
@@ -90,7 +89,7 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
                 tooltip.add(Text.of(Formatting.AQUA + getFluidName(variant).getString() + " " + amount / 81 + "mB/" + Tank_MK1Item.MAX_CAPACITY / 81 + "mB"));
             }
         }
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
     private static Text getFluidName(FluidVariant variant){
         return Text.translatable(variant.getFluid().getDefaultState().getBlockState().getBlock().getTranslationKey());

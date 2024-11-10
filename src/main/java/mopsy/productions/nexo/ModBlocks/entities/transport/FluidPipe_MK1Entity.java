@@ -1,14 +1,16 @@
 package mopsy.productions.nexo.ModBlocks.entities.transport;
 
+import mopsy.productions.nexo.networking.payloads.FluidPipeStateChangePayload;
+import mopsy.productions.nexo.networking.payloads.FluidPipeStateRequestPayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedBlocks;
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.fluidPipe.FluidPipeScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NEXORotation;
 import mopsy.productions.nexo.util.PipeEndState;
 import mopsy.productions.nexo.util.TriType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -22,7 +24,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -33,9 +35,6 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_PIPE_STATE_REQUEST_PACKET;
 
 
 public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHandlerFactory {
@@ -90,17 +89,16 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
                 entity.endStates.put(rotation,getStateForRotation(world,entity.pos,rotation,entity.endStates.get(rotation)));
             }
             if(world.isClient)
-                ClientPlayNetworking.send(FLUID_PIPE_STATE_REQUEST_PACKET, PacketByteBufs.create().writeBlockPos(blockPos));
-            else
-                for(ServerPlayerEntity player : PlayerLookup.tracking(entity)){
-                    PacketByteBuf buf = PacketByteBufs.create();
-                    buf.writeBlockPos(blockPos);
-                    for(NEXORotation rotation : NEXORotation.values()){
-                        rotation.writeToPacket(buf);
-                        entity.endStates.get(rotation).writeToPacket(buf);
-                    }
-                    ServerPlayNetworking.send(player,FLUID_PIPE_STATE_CHANGE_PACKET, buf);
-                }
+                ClientPlayNetworking.send(new FluidPipeStateRequestPayload(blockPos));
+            else {
+                NEXORotation[] rotations = NEXORotation.values();
+                PipeEndState[] endStates = new PipeEndState[6];
+                for (int i = 0; i<endStates.length; i++)
+                    endStates[i]=entity.endStates.get(rotations[i]);
+
+                for (ServerPlayerEntity player : PlayerLookup.tracking(entity))
+                    ServerPlayNetworking.send(player, new FluidPipeStateChangePayload(blockPos, rotations, endStates));
+            }
             entity.initializedStates = true;
         }
 
@@ -258,19 +256,17 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         if(player instanceof  ServerPlayerEntity serverPlayerEntity){
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeBlockPos(pos);
-            for(NEXORotation rotation : NEXORotation.values()){
-                rotation.writeToPacket(buf);
-                endStates.get(rotation).writeToPacket(buf);
-            }
-            ServerPlayNetworking.send(serverPlayerEntity, FLUID_PIPE_STATE_CHANGE_PACKET, buf);
+            NEXORotation[] rotations = NEXORotation.values();
+            PipeEndState[] endStates = new PipeEndState[6];
+            for (int i = 0; i<endStates.length; i++)
+                endStates[i]=this.endStates.get(rotations[i]);
+
+            ServerPlayNetworking.send(serverPlayerEntity, new FluidPipeStateChangePayload(pos, rotations, endStates));
         }
         return new FluidPipeScreenHandler(syncId, inv, pos);
     }
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(this.pos);
+    public Object getScreenOpeningData(ServerPlayerEntity player) {
+        return new DefaultSHPayload(pos);
     }
-
 }

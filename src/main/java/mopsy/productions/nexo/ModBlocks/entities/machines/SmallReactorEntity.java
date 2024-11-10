@@ -8,6 +8,7 @@ import mopsy.productions.nexo.interfaces.IItemRadiation;
 import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedFluids;
+import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.smallReactor.SmallReactorScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
@@ -28,7 +29,6 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -104,8 +104,8 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(this.pos);
+    public Object getScreenOpeningData(ServerPlayerEntity player) {
+        return new DefaultSHPayload(pos);
     }
 
     @Override

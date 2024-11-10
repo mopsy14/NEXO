@@ -5,7 +5,6 @@ import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
 import mopsy.productions.nexo.registry.ModdedBlocks;
 import mopsy.productions.nexo.util.FluidDataUtils;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -37,12 +36,12 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     public String getID(){return "tank_mk1";}
 
     public Tank_MK1() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.GRAY)
+        super(Settings.create()
                 .strength(5.0F, 5.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
+                .mapColor(MapColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }

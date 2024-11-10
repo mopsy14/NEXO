@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.machines;
 import mopsy.productions.nexo.ModBlocks.entities.machines.MixerEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -30,17 +29,17 @@ public class MixerBlock extends BlockWithEntity implements IModID, BlockEntityPr
     public String getID(){return "mixer";}
 
     public MixerBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .nonOpaque()
+                .mapColor(MapColor.WHITE)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -83,7 +82,7 @@ public class MixerBlock extends BlockWithEntity implements IModID, BlockEntityPr
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof MixerEntity mixer) {
             if (mixer.progress == 0) {
@@ -91,7 +90,7 @@ public class MixerBlock extends BlockWithEntity implements IModID, BlockEntityPr
                 world.updateComparators(pos, this);
             }
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
     static {

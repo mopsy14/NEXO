@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.machines;
 import mopsy.productions.nexo.ModBlocks.entities.machines.ElectricFurnaceEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -33,17 +32,17 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     public String getID(){return "electric_furnace";}
 
     public ElectricFurnaceBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.BLACK)
+        super(Settings.create()
                 .strength(4.0F, 8.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .luminance((state) -> (Boolean)state.get(Properties.LIT) ? 13 : 0)
+                .mapColor(MapColor.IRON_GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));

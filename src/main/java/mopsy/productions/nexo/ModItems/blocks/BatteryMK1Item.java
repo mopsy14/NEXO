@@ -3,6 +3,7 @@ package mopsy.productions.nexo.ModItems.blocks;
 import mopsy.productions.nexo.ModBlocks.entities.energyStorage.BatteryMK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.util.DisplayUtils;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
@@ -11,15 +12,14 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
 import java.util.List;
 
-import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB;
+import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB_KEY;
 
 
 public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyItem{
@@ -29,7 +29,8 @@ public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyIte
 
     @Override public String getID() {return "battery_mk1";}
     public BatteryMK1Item(Block block) {
-        super(block, new Settings().maxCount(1).group(CREATIVE_BLOCK_TAB));
+        super(block, new Settings().maxCount(1));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(this));
     }
 
     @Override
@@ -44,17 +45,17 @@ public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyIte
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         BatteryMK1Item item = (BatteryMK1Item)stack.getItem();
         boolean isShiftDown = InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 344);
         tooltip.add(Text.of(DisplayUtils.getEnergyBarText(
-                        item.getStoredEnergy(stack),
-                        item.getEnergyCapacity(stack),
-                        isShiftDown
-                )));
+                item.getStoredEnergy(stack),
+                item.getEnergyCapacity(stack),
+                isShiftDown
+        )));
         if(!isShiftDown)
             tooltip.add(Text.of("Hold shift for advanced view"));
-        super.appendTooltip(stack, world, tooltip, context);
+        super.appendTooltip(stack, context, tooltip, type);
     }
 
     @Override

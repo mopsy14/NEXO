@@ -3,7 +3,6 @@ package mopsy.productions.nexo.ModBlocks.blocks.multiblocks.deconShower;
 import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerDrainEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -31,16 +30,16 @@ public class DeconShowerDrainBlock extends BlockWithEntity implements IModID, Bl
     public String getID(){return "decon_shower_drain";}
 
     public DeconShowerDrainBlock() {
-        super(FabricBlockSettings
-                .of(Material.METAL, MapColor.GRAY)
+        super(Settings.create()
                 .strength(5.0F, 5.0F)
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
+                .mapColor(MapColor.GRAY)
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -83,13 +82,13 @@ public class DeconShowerDrainBlock extends BlockWithEntity implements IModID, Bl
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof DeconShowerDrainEntity) {
             ItemScatterer.spawn(world, pos, (DeconShowerDrainEntity) blockEntity);
             world.updateComparators(pos, this);
         }
-        super.onBreak(world, pos, state, player);
+        return super.onBreak(world, pos, state, player);
     }
 
 
