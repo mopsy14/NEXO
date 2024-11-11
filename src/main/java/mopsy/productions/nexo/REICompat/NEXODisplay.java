@@ -1,20 +1,26 @@
 package mopsy.productions.nexo.REICompat;
 
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import mopsy.productions.nexo.recipes.NEXORecipe;
 import mopsy.productions.nexo.util.NFluidStack;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
-public class NEXODisplay implements Display {
+public abstract class NEXODisplay implements Display {
     public NEXORecipe recipe;
     public NEXODisplay(NEXORecipe recipe){
         this.recipe=  recipe;
@@ -28,8 +34,8 @@ public class NEXODisplay implements Display {
     public List<EntryIngredient> getInputEntries() {
         List<EntryIngredient> res = new ArrayList<>();
         for(Ingredient ingredient : recipe.inputs){
-            for(ItemStack stack : ingredient.getMatchingStacks()){
-                res.add(EntryIngredients.of(stack));
+            for(RegistryEntry<Item> item : ingredient.getMatchingItems()){
+                res.add(EntryIngredients.of(item.value()));
             }
         }
         for(NFluidStack stack : recipe.inputFluids){
@@ -54,5 +60,16 @@ public class NEXODisplay implements Display {
     @Override
     public Optional<Identifier> getDisplayLocation() {
         return Optional.of(recipe.id);
+    }
+
+    protected static <D extends NEXODisplay> DisplaySerializer<D> buildSerializer(Function<D,NEXORecipe> recipeGetter, Function<NEXORecipe,D> displayConstructor){
+        return DisplaySerializer.of(RecordCodecBuilder.mapCodec(in -> in.group(
+                        NEXORecipe.Serializer.CODEC.forGetter(recipeGetter)
+                ).apply(in, displayConstructor)),
+                PacketCodec.tuple(NEXORecipe.Serializer.PACKET_CODEC,
+                        recipeGetter,
+                        displayConstructor)
+        );
+
     }
 }

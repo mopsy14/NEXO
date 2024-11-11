@@ -2,7 +2,7 @@ package mopsy.productions.nexo.REICompat;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
-import me.shedaniel.rei.api.common.plugins.REIServerPlugin;
+import me.shedaniel.rei.api.common.plugins.REICommonPlugin;
 import me.shedaniel.rei.api.common.transfer.info.MenuInfoRegistry;
 import me.shedaniel.rei.api.common.transfer.info.simple.SimpleMenuInfoProvider;
 import mopsy.productions.nexo.REICompat.categories.air_separator.AirSeparatorDisplay;
@@ -10,7 +10,6 @@ import mopsy.productions.nexo.REICompat.categories.air_separator.AirSeparatorMen
 import mopsy.productions.nexo.REICompat.categories.centrifuge.CentrifugeDisplay;
 import mopsy.productions.nexo.REICompat.categories.centrifuge.CentrifugeMenuInfo;
 import mopsy.productions.nexo.REICompat.categories.crusher.CrusherMenuInfo;
-import mopsy.productions.nexo.REICompat.categories.crusher.CrushingDisplay;
 import mopsy.productions.nexo.REICompat.categories.electrolyzer.ElectrolyzerDisplay;
 import mopsy.productions.nexo.REICompat.categories.electrolyzer.ElectrolyzerMenuInfo;
 import mopsy.productions.nexo.REICompat.categories.filling.FillingDisplay;
@@ -29,7 +28,7 @@ import mopsy.productions.nexo.screen.tank.TankScreenHandler_MK1;
 
 import static mopsy.productions.nexo.Main.modid;
 
-public class REIServerCompat implements REIServerPlugin {
+public class REIServerCompat implements REICommonPlugin {
     @Override
     public void registerMenuInfo(MenuInfoRegistry registry) {
         registry.register(CategoryIdentifier.of(modid,"crusher"), CrusherScreenHandler.class,
@@ -57,7 +56,7 @@ public class REIServerCompat implements REIServerPlugin {
 
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
-        registry.register(CategoryIdentifier.of(modid,"crusher"), new DefaultDisplaySerializer(CrushingDisplay::new));
+        registry.register(CategoryIdentifier.of(modid,"crusher"), );
         registry.register(CategoryIdentifier.of(modid,"press"), new DefaultDisplaySerializer(PressDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"mixer"), new DefaultDisplaySerializer(MixerDisplay::new));
         registry.register(CategoryIdentifier.of(modid,"centrifuge"), new DefaultDisplaySerializer(CentrifugeDisplay::new));
