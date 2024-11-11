@@ -26,6 +26,7 @@ public class CrushingDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe, CrushingDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<CrushingDisplay> SERIALIZER = buildSerializer(d->d.recipe,CrushingDisplay::new);
 }

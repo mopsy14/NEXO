@@ -26,6 +26,7 @@ public class FillingDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe, FillingDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<FillingDisplay> SERIALIZER = buildSerializer(d->d.recipe,FillingDisplay::new);
 }

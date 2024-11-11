@@ -26,6 +26,7 @@ public class AmmoniaSynthesizerDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe, AmmoniaSynthesizerDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<AmmoniaSynthesizerDisplay> SERIALIZER = buildSerializer(d->d.recipe,AmmoniaSynthesizerDisplay::new);
 }

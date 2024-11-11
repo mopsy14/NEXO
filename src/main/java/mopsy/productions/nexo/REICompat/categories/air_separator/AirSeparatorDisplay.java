@@ -25,6 +25,7 @@ public class AirSeparatorDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe,AirSeparatorDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<AirSeparatorDisplay> SERIALIZER = buildSerializer(d->d.recipe,AirSeparatorDisplay::new);
 }

@@ -26,6 +26,7 @@ public class CentrifugeDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe, CentrifugeDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<CentrifugeDisplay> SERIALIZER = buildSerializer(d->d.recipe,CentrifugeDisplay::new);
 }

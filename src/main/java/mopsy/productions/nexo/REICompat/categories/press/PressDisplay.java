@@ -26,6 +26,7 @@ public class PressDisplay extends NEXODisplay {
 
     @Override
     public @Nullable DisplaySerializer<? extends Display> getSerializer() {
-        return buildSerializer(d->d.recipe, PressDisplay::new);
+        return SERIALIZER;
     }
+    public static final DisplaySerializer<PressDisplay> SERIALIZER = buildSerializer(d->d.recipe,PressDisplay::new);
 }
