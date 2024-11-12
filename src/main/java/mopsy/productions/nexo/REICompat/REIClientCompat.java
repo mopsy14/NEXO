@@ -24,6 +24,8 @@ import mopsy.productions.nexo.REICompat.categories.press.PressDisplay;
 import mopsy.productions.nexo.recipes.*;
 import mopsy.productions.nexo.registry.ModdedBlocks;
 
+import java.util.function.Function;
+
 import static mopsy.productions.nexo.Main.modid;
 
 public class REIClientCompat implements REIClientPlugin {
@@ -49,13 +51,16 @@ public class REIClientCompat implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        registry.registerRecipeFiller(CrusherRecipe.class, CrusherRecipe.Type.INSTANCE, CrushingDisplay::new);
-        registry.registerRecipeFiller(PressRecipe.class, PressRecipe.Type.INSTANCE, PressDisplay::new);
-        registry.registerRecipeFiller(MixerRecipe.class, MixerRecipe.Type.INSTANCE, MixerDisplay::new);
-        registry.registerRecipeFiller(CentrifugeRecipe.class, CentrifugeRecipe.Type.INSTANCE, CentrifugeDisplay::new);
-        registry.registerRecipeFiller(ElectrolyzerRecipe.class, ElectrolyzerRecipe.Type.INSTANCE, ElectrolyzerDisplay::new);
-        registry.registerRecipeFiller(AirSeparatorRecipe.class, AirSeparatorRecipe.Type.INSTANCE, AirSeparatorDisplay::new);
-        registry.registerRecipeFiller(AmmoniaSynthesizerRecipe.class, AmmoniaSynthesizerRecipe.Type.INSTANCE, AmmoniaSynthesizerDisplay::new);
-        registry.registerRecipeFiller(FillingRecipe.class, FillingRecipe.Type.INSTANCE, FillingDisplay::new);
+        regDisplayFiller(registry,CrushingDisplay::new,CrusherRecipe.class);
+        regDisplayFiller(registry,PressDisplay::new,PressRecipe.class);
+        regDisplayFiller(registry,MixerDisplay::new,MixerRecipe.class);
+        regDisplayFiller(registry,CentrifugeDisplay::new,CentrifugeRecipe.class);
+        regDisplayFiller(registry,ElectrolyzerDisplay::new,ElectrolyzerRecipe.class);
+        regDisplayFiller(registry,AirSeparatorDisplay::new,AirSeparatorRecipe.class);
+        regDisplayFiller(registry,AmmoniaSynthesizerDisplay::new,AmmoniaSynthesizerRecipe.class);
+        regDisplayFiller(registry,FillingDisplay::new,FillingRecipe.class);
+    }
+    private <R extends NEXORecipe, D extends NEXODisplay> void regDisplayFiller(DisplayRegistry registry, Function<R,D> constructor, Class<R> recipeClass){
+        registry.registerFillerWithReason((((o, displayAdditionReasons) -> recipeClass.isInstance(o))),((o, displayAdditionReasons) -> constructor.apply((R) o)));
     }
 }

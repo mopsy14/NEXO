@@ -14,32 +14,6 @@ import net.minecraft.util.Identifier;
 import static mopsy.productions.nexo.Main.modid;
 
 public class REIServerCompat implements REICommonPlugin {
-    /*@Override
-    public void registerMenuInfo(MenuInfoRegistry registry) {
-        registry.register(CategoryIdentifier.of(modid,"crusher"), CrusherScreenHandler.class,
-                SimpleMenuInfoProvider.of(CrusherMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"press"), PressScreenHandler.class,
-                SimpleMenuInfoProvider.of(PressMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"mixer"), MixerScreenHandler.class,
-                SimpleMenuInfoProvider.of(MixerMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"centrifuge"), CentrifugeScreenHandler.class,
-                SimpleMenuInfoProvider.of(CentrifugeMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"electrolyzer"), ElectrolyzerScreenHandler.class,
-                SimpleMenuInfoProvider.of(ElectrolyzerMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"air_separator"), AirSeparatorScreenHandler.class,
-                SimpleMenuInfoProvider.of(AirSeparatorMenuInfo::new)
-        );
-        registry.register(CategoryIdentifier.of(modid,"filling"), TankScreenHandler_MK1.class,
-                SimpleMenuInfoProvider.of(FillingMenuInfo::new)
-        );
-    }
-     */
-
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
         registry.register(Identifier.of(modid,"crusher"), CrushingDisplay.SERIALIZER);
