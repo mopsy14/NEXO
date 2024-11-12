@@ -4,8 +4,8 @@ import mopsy.productions.nexo.ModItems.armor.ModdedArmorMaterials;
 import mopsy.productions.nexo.interfaces.IArmorRadiationProtection;
 import mopsy.productions.nexo.interfaces.IModID;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.equipment.EquipmentType;
 
 import static mopsy.productions.nexo.Main.CREATIVE_TAB_KEY;
 
@@ -13,7 +13,7 @@ public class MakeshiftHazmatLeggings extends ArmorItem implements IModID, IArmor
     @Override public String getID() {return "makeshift_hazmat_leggings";}
 
     public MakeshiftHazmatLeggings() {
-        super(ModdedArmorMaterials.MAKESHIFT_HAZMAT, EquipmentSlot.LEGS, new Settings());
+        super(ModdedArmorMaterials.MAKESHIFT_HAZMAT, EquipmentType.LEGGINGS, new Settings());
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB_KEY).register(entries -> entries.add(this));
     }
 

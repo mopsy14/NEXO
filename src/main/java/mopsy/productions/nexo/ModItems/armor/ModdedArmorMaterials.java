@@ -1,70 +1,35 @@
 package mopsy.productions.nexo.ModItems.armor;
 
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.equipment.ArmorMaterials;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.sound.SoundEvent;
+import mopsy.productions.nexo.registry.ModdedTags;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.EquipmentModels;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Lazy;
+import net.minecraft.util.Util;
 
-import java.util.function.Supplier;
+import java.util.EnumMap;
 
-public enum ModdedArmorMaterials implements ArmorMaterials {
-    MAKESHIFT_HAZMAT("makeshift_hazmat", 2, new int[]{1, 2, 2, 1}, 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, Ingredient::empty),
-    HAZMAT("hazmat", 5, new int[]{1, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, Ingredient::empty),
-    PROTECTIVE_HAZMAT("protective_hazmat", 20, new int[]{3, 6, 8, 3}, 20, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 0.1F, Ingredient::empty);
-
-    private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
-    private final String name;
-    private final int durabilityMultiplier;
-    private final int[] protectionAmounts;
-    private final int enchantability;
-    private final SoundEvent equipSound;
-    private final float toughness;
-    private final float knockbackResistance;
-    private final Lazy<Ingredient> repairIngredientSupplier;
-
-    ModdedArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier repairIngredientSupplier) {
-        this.name = name;
-        this.durabilityMultiplier = durabilityMultiplier;
-        this.protectionAmounts = protectionAmounts;
-        this.enchantability = enchantability;
-        this.equipSound = equipSound;
-        this.toughness = toughness;
-        this.knockbackResistance = knockbackResistance;
-        this.repairIngredientSupplier = new Lazy(repairIngredientSupplier);
-    }
-
-    public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier;
-    }
-
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return this.protectionAmounts[slot.getEntitySlotId()];
-    }
-
-    public int getEnchantability() {
-        return this.enchantability;
-    }
-
-    public SoundEvent getEquipSound() {
-        return this.equipSound;
-    }
-
-    public Ingredient getRepairIngredient() {
-        return (Ingredient)this.repairIngredientSupplier.get();
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public float getToughness() {
-        return this.toughness;
-    }
-
-    public float getKnockbackResistance() {
-        return this.knockbackResistance;
-    }
+public class ModdedArmorMaterials{
+    public static final ArmorMaterial MAKESHIFT_HAZMAT = new ArmorMaterial(2,Util.make(new EnumMap(EquipmentType.class), map -> {
+        map.put(EquipmentType.BOOTS, 1);
+        map.put(EquipmentType.LEGGINGS, 2);
+        map.put(EquipmentType.CHESTPLATE, 2);
+        map.put(EquipmentType.HELMET, 1);
+        map.put(EquipmentType.BODY, 3);
+    }), 5, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, ModdedTags.MAKESHIFT_HAZMAT_MATERIALS, EquipmentModels.LEATHER);
+    public static final ArmorMaterial HAZMAT = new ArmorMaterial(5, Util.make(new EnumMap(EquipmentType.class), map -> {
+        map.put(EquipmentType.BOOTS, 1);
+        map.put(EquipmentType.LEGGINGS, 3);
+        map.put(EquipmentType.CHESTPLATE, 4);
+        map.put(EquipmentType.HELMET, 2);
+        map.put(EquipmentType.BODY, 4);
+    }), 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, ModdedTags.HAZMAT_MATERIALS, EquipmentModels.LEATHER);
+    public static final ArmorMaterial PROTECTIVE_HAZMAT = new ArmorMaterial(2, Util.make(new EnumMap(EquipmentType.class), map -> {
+        map.put(EquipmentType.BOOTS, 3);
+        map.put(EquipmentType.LEGGINGS, 6);
+        map.put(EquipmentType.CHESTPLATE, 8);
+        map.put(EquipmentType.HELMET, 3);
+        map.put(EquipmentType.BODY, 11);
+    }), 20, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, ModdedTags.PROTECTIVE_HAZMAT_MATERIALS, EquipmentModels.LEATHER);
 }
 

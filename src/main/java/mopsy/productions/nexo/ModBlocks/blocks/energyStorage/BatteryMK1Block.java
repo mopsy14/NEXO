@@ -82,7 +82,7 @@ public class BatteryMK1Block extends BlockWithEntity implements IModID, BlockEnt
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.BATTERY_MK1, BatteryMK1Entity::tick);
+        return validateTicker(type, ModdedBlockEntities.BATTERY_MK1, BatteryMK1Entity::tick);
     }
 
     @Override

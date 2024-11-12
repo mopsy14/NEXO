@@ -27,6 +27,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -73,7 +74,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         writeInv(registries, inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
-        nbt.put("fluid_variant", fluidStorage.variant.toNbt());
+        nbt.put("fluid_variant", FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorage.variant).getOrThrow());
         super.writeNbt(nbt,registries);
     }
     @Override
@@ -81,7 +82,7 @@ public class TankEntity_MK1 extends BlockEntity implements ExtendedScreenHandler
         super.readNbt(nbt,registries);
         readInv(registries, inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
-        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
+        fluidStorage.variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant")).result().orElse(FluidVariant.blank());
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, TankEntity_MK1 entity) {

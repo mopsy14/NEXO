@@ -77,7 +77,7 @@ public class ElectrolyzerBlock extends BlockWithEntity implements IModID, BlockE
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.ELECTROLYZER, ElectrolyzerEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.ELECTROLYZER, ElectrolyzerEntity::tick);
     }
 
     @Override

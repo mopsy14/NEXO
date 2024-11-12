@@ -77,7 +77,7 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.AIR_SEPARATOR, AirSeparatorEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.AIR_SEPARATOR, AirSeparatorEntity::tick);
     }
 
     @Override

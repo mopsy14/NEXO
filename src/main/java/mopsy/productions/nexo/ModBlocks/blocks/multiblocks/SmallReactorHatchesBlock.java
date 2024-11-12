@@ -83,7 +83,7 @@ public class SmallReactorHatchesBlock extends BlockWithEntity implements IModID,
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.SMALL_REACTOR, SmallReactorEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.SMALL_REACTOR, SmallReactorEntity::tick);
     }
 
     @Override

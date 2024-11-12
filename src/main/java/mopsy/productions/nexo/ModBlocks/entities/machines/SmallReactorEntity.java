@@ -29,6 +29,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -37,7 +38,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -117,7 +117,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         nbt.putInt(ID+".active", active);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
-            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+            nbt.put("fluid_variant_"+i, FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorages.get(i).variant).getOrThrow());
         }
     }
 
@@ -130,7 +130,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         active = nbt.getInt(ID+".active");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
-            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+            fluidStorages.get(i).variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant_"+i)).result().orElse(FluidVariant.blank());
         }
     }
 
@@ -177,9 +177,9 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
             entity.coreHeat = Math.max(entity.coreHeat - 5, 0);
 
         if(entity.coreHeat>1000){
-            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, false, Explosion.DestructionType.DESTROY);
-            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 30f, false, Explosion.DestructionType.DESTROY);
-            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, false, Explosion.DestructionType.DESTROY);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, World.ExplosionSourceType.BLOCK);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 30f, World.ExplosionSourceType.BLOCK);
+            entity.world.createExplosion(null, entity.pos.getX(), entity.pos.getY()+1, entity.pos.getZ(), 20f, World.ExplosionSourceType.BLOCK);
             for(ServerPlayerEntity player : PlayerLookup.all(server)){
                 if(player.currentScreenHandler instanceof SmallReactorScreenHandler SRSH){
                     if (SRSH.getBlockPos().equals(blockPos)){
@@ -208,7 +208,7 @@ public class SmallReactorEntity extends BlockEntity implements ExtendedScreenHan
         float total = 0;
         for (int i = 4; i < 8; i++) {
             if(inv.getStack(i).getItem() instanceof IItemRadiation item &&
-                    inv.getStack(i).getDamage()<inv.getStack(i).getItem().getMaxDamage()){
+                    inv.getStack(i).getDamage()<inv.getStack(i).getMaxDamage()){
                 if(item.hasHeat())
                     total += item.getHeat();
             }

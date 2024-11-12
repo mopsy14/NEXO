@@ -24,6 +24,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -72,7 +73,7 @@ public class DeconShowerDrainEntity extends BlockEntity implements ExtendedScree
         super.writeNbt(nbt,registries);
         writeInv(registries, inventory, nbt);
         nbt.putLong("fluid_amount", fluidStorage.amount);
-        nbt.put("fluid_variant", fluidStorage.variant.toNbt());
+        nbt.put("fluid_variant", FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorage.variant).getOrThrow());
     }
 
     @Override
@@ -80,7 +81,7 @@ public class DeconShowerDrainEntity extends BlockEntity implements ExtendedScree
         super.readNbt(nbt,registries);
         readInv(registries, inventory, nbt);
         fluidStorage.amount = nbt.getLong("fluid_amount");
-        fluidStorage.variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
+        fluidStorage.variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant")).result().orElse(FluidVariant.blank());
     }
 
     public static void tick(World world, BlockPos blockPos, BlockState blockState, DeconShowerDrainEntity entity) {

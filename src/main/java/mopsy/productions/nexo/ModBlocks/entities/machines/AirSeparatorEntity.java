@@ -29,7 +29,9 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -43,6 +45,9 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mopsy.productions.nexo.util.InvUtils.readInv;
+import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
 
 public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHandlerFactory, IFluidStorage, SidedInventory, IEnergyStorage, IMultiBlockController, IBlockEntityRecipeCompat {
@@ -118,58 +123,30 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
         return new DefaultSHPayload(pos);
     }
 
-    private void writeInv(NbtCompound nbt){
-        NbtList nbtList = new NbtList();
-
-        for(int i = 0; i < inventory.size(); ++i) {
-            ItemStack itemStack = inventory.getStack(i);
-            if (!itemStack.isEmpty()) {
-                NbtCompound nbtCompound = new NbtCompound();
-                nbtCompound.putByte("Slot", (byte)i);
-                itemStack.writeNbt(nbtCompound);
-                nbtList.add(nbtCompound);
-            }
-        }
-
-        if (!nbtList.isEmpty()) {
-            nbt.put("Items", nbtList);
-        }
-    }
-    private void readInv(NbtCompound nbt){
-        NbtList nbtList = nbt.getList("Items", 10);
-
-        for(int i = 0; i < nbtList.size(); ++i) {
-            NbtCompound nbtCompound = nbtList.getCompound(i);
-            int j = nbtCompound.getByte("Slot") & 255;
-            if (j >= 0 && j < inventory.size()) {
-                inventory.setStack(j, ItemStack.fromNbt(nbtCompound));
-            }
-        }
-    }
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        writeInv(nbt);
+        writeInv(registries,inventory,nbt);
         nbt.putInt("air_separator.progress", progress);
         nbt.putLong("air_separator.power", energyStorage.amount);
         nbt.putInt("air_separator.air_pumps", pumpAmount);
         nbt.putInt("air_separator.coolers", coolerAmount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
-            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+            nbt.put("fluid_variant_"+i, FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorages.get(i).variant).getOrThrow());
         }
     }
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        readInv(nbt);
+        readInv(registries,inventory,nbt);
         progress = nbt.getInt("air_separator.progress");
         energyStorage.amount = nbt.getLong("air_separator.power");
         pumpAmount = nbt.getInt("air_separator.air_pumps");
         coolerAmount = nbt.getInt("air_separator.coolers");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
-            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+            fluidStorages.get(i).variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant_"+i)).result().orElse(FluidVariant.blank());
         }
     }
 
@@ -207,8 +184,12 @@ public class AirSeparatorEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     private static AirSeparatorRecipe getRecipe(AirSeparatorEntity entity){
-        for(AirSeparatorRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(AirSeparatorRecipe.Type.INSTANCE)){
-            return recipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof AirSeparatorRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
+            }
         }
         return null;
     }

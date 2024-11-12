@@ -77,7 +77,7 @@ public class CrusherBlock extends BlockWithEntity implements IModID, BlockEntity
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.CRUSHER, CrusherEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.CRUSHER, CrusherEntity::tick);
     }
 
     @Override

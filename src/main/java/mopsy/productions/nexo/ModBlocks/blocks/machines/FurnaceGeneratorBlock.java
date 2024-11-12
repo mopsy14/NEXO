@@ -75,7 +75,7 @@ public class FurnaceGeneratorBlock extends BlockWithEntity implements IModID, Bl
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.FURNACE_GENERATOR, FurnaceGeneratorEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.FURNACE_GENERATOR, FurnaceGeneratorEntity::tick);
     }
 
     @Override

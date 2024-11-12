@@ -21,7 +21,9 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.recipe.SmeltingRecipe;
+import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -35,7 +37,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-import java.util.Optional;
 
 
 public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreenHandlerFactory, SidedInventory, IEnergyStorage, IBlockEntityRecipeCompat {
@@ -131,11 +132,10 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
 
         boolean shouldUpdate = false;
 
-        Optional<SmeltingRecipe> foundRecipe = world.getRecipeManager().getFirstMatch(RecipeType.SMELTING, entity.inventory, world);
-        if(foundRecipe.isPresent()){
-            SmeltingRecipe recipe = foundRecipe.get();
+        SmeltingRecipe recipe = getFirstRecipeMatch(entity.inventory, world);
+        if(recipe != null){
 
-            if(canAcceptRecipeOutput(recipe, entity.inventory, entity.getMaxCountPerStack()) && entity.hasPower()){
+            if(canAcceptRecipeOutput(recipe, entity.inventory, entity.getMaxCountPerStack(),world.getRegistryManager()) && entity.hasPower()){
                 entity.isHeating=1;
                 entity.energyStorage.amount -= entity.powerUsagePerTick;
                 if(recipe==entity.lastRecipe){
@@ -143,10 +143,10 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
                 }else{
                     entity.progress=0;
                     entity.lastRecipe=recipe;
-                    entity.maxProgress= recipe.getCookTime()*2;//compensate for the normalized version.
+                    entity.maxProgress= recipe.getCookingTime()*2;//compensate for the normalized version.
                 }
                 if(entity.progress>entity.maxProgress){
-                    craftRecipe(recipe, entity.inventory, entity.getMaxCountPerStack());
+                    craftRecipe(recipe, entity.inventory, entity.getMaxCountPerStack(),world.getRegistryManager());
                     entity.progress=0;
                 }
                 shouldUpdate=true;//Mark dirty when the machine has done something with progress and the recipe.
@@ -177,16 +177,20 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
         }
     }
 
-    private static boolean canAcceptRecipeOutput(SmeltingRecipe recipe, Inventory inventory, int count) {
+    private static SmeltingRecipe getFirstRecipeMatch(Inventory inventory, World world){
+        return ((ServerRecipeManager)world.getRecipeManager()).getFirstMatch(RecipeType.SMELTING, new SingleStackRecipeInput(inventory.getStack(0)),world).orElse(null).value();
+    }
+
+    private static boolean canAcceptRecipeOutput(SmeltingRecipe recipe, Inventory inventory, int count, RegistryWrapper.WrapperLookup wrapper) {
         if (!inventory.getStack(0).isEmpty()) {
-            ItemStack recipeOutputStack = recipe.getOutput();
+            ItemStack recipeOutputStack = recipe.craft(new SingleStackRecipeInput(inventory.getStack(0)),wrapper);
             if (recipeOutputStack.isEmpty()) {
                 return false;
             } else {
                 ItemStack outputSlotStack = inventory.getStack(1);
                 if (outputSlotStack.isEmpty()) {
                     return true;
-                } else if (!outputSlotStack.isItemEqualIgnoreDamage(recipeOutputStack)) {
+                } else if (!ItemStack.areItemsAndComponentsEqual(recipeOutputStack,outputSlotStack)) {
                     return false;
                 } else if (outputSlotStack.getCount() < count && outputSlotStack.getCount() < outputSlotStack.getMaxCount()) {
                     return true;
@@ -199,12 +203,12 @@ public class ElectricFurnaceEntity extends BlockEntity implements ExtendedScreen
         }
     }
 
-    private static boolean craftRecipe(SmeltingRecipe recipe, Inventory inventory, int count) {
-        if (recipe == null || !canAcceptRecipeOutput(recipe, inventory, count)) {
+    private static boolean craftRecipe(SmeltingRecipe recipe, Inventory inventory, int count, RegistryWrapper.WrapperLookup wrapper) {
+        if (recipe == null || !canAcceptRecipeOutput(recipe, inventory, count,wrapper)) {
             return false;
         }
         ItemStack inputStack = inventory.getStack(0);
-        ItemStack recipeOutputStack = recipe.getOutput();
+        ItemStack recipeOutputStack = recipe.craft(new SingleStackRecipeInput(inputStack),wrapper);
         ItemStack outputStack = inventory.getStack(1);
         if (outputStack.isEmpty()) {
             inventory.setStack(1, recipeOutputStack.copy());

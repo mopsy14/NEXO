@@ -81,7 +81,7 @@ public class ElectricFurnaceBlock extends BlockWithEntity implements IModID, Blo
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.ELECTRIC_FURNACE, ElectricFurnaceEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.ELECTRIC_FURNACE, ElectricFurnaceEntity::tick);
     }
 
     @Override

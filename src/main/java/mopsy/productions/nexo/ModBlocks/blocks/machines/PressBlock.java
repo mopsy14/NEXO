@@ -77,7 +77,7 @@ public class PressBlock extends BlockWithEntity implements IModID, BlockEntityPr
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.PRESS, PressEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.PRESS, PressEntity::tick);
     }
 
     @Override

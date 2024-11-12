@@ -78,7 +78,7 @@ public class DeconShowerDrainBlock extends BlockWithEntity implements IModID, Bl
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.DECON_SHOWER_DRAIN, DeconShowerDrainEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.DECON_SHOWER_DRAIN, DeconShowerDrainEntity::tick);
     }
 
     @Override

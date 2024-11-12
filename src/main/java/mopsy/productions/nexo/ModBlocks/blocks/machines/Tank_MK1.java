@@ -91,7 +91,7 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.TANK_MK1, TankEntity_MK1::tick);
+        return validateTicker(type, ModdedBlockEntities.TANK_MK1, TankEntity_MK1::tick);
     }
 
     @Override

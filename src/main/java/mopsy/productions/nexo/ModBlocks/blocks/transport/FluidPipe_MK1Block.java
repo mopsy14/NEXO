@@ -133,7 +133,7 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.FLUID_PIPE_MK1, FluidPipe_MK1Entity::tick);
+        return validateTicker(type, ModdedBlockEntities.FLUID_PIPE_MK1, FluidPipe_MK1Entity::tick);
     }
 
     @Override

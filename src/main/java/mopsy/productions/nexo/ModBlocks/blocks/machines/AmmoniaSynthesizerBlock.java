@@ -77,7 +77,7 @@ public class AmmoniaSynthesizerBlock extends BlockWithEntity implements IModID, 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.AMMONIA_SYNTHESIZER, AmmoniaSynthesizerEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.AMMONIA_SYNTHESIZER, AmmoniaSynthesizerEntity::tick);
     }
 
     @Override

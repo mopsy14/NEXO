@@ -1,6 +1,7 @@
 package mopsy.productions.nexo.ModItems.tools;
 
 import mopsy.productions.nexo.interfaces.IModID;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ToolMaterial;
 
@@ -17,6 +18,7 @@ public class NAxeItem extends AxeItem implements IModID {
         this.id = id;
     }
     public NAxeItem(String id, ToolMaterial material, float attackDamage, float attackSpeed){
-        this(id,material,attackDamage,attackSpeed,new Settings());ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
+        this(id,material,attackDamage,attackSpeed,new Settings());
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
     }
 }

@@ -27,6 +27,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -93,7 +96,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         nbt.putLong("electrolyzer.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
-            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+            nbt.put("fluid_variant_"+i, FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorages.get(i).variant).getOrThrow());
         }
     }
     @Override
@@ -103,7 +106,7 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
         energyStorage.amount = nbt.getLong("electrolyzer.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
-            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+            fluidStorages.get(i).variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant_"+i)).result().orElse(FluidVariant.blank());
         }
     }
 
@@ -149,9 +152,11 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     private static ElectrolyzerRecipe getFirstRecipeMatch(ElectrolyzerEntity entity){
-        for(ElectrolyzerRecipe electrolyzerRecipe : entity.getWorld().getRecipeManager().listAllOfType(ElectrolyzerRecipe.Type.INSTANCE)){
-            if(electrolyzerRecipe.hasRecipe(entity)) {
-                return electrolyzerRecipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof ElectrolyzerRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
             }
         }
         return null;

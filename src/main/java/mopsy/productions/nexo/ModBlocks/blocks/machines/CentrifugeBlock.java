@@ -39,7 +39,7 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
@@ -78,7 +78,7 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.CENTRIFUGE, CentrifugeEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.CENTRIFUGE, CentrifugeEntity::tick);
     }
 
     @Override

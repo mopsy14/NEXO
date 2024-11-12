@@ -85,7 +85,7 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.writeNbt(nbt,registries);
-        InvUtils.writeInv(inventory, nbt);
+        InvUtils.writeInv(registries,inventory, nbt);
         nbt.putInt("furnace_generator.burn_time_left", burnTimeLeft);
         nbt.putInt("furnace_generator.burn_time", burnTime);
         nbt.putLong("furnace_generator.power", energyStorage.amount);
@@ -94,7 +94,7 @@ public class FurnaceGeneratorEntity extends AbstractGeneratorEntity implements E
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries){
         super.readNbt(nbt,registries);
-        InvUtils.readInv(inventory, nbt);
+        InvUtils.readInv(registries, inventory, nbt);
         burnTimeLeft = nbt.getInt("furnace_generator.burn_time_left");
         burnTime = nbt.getInt("furnace_generator.burn_time");
         energyStorage.amount = nbt.getLong("furnace_generator.power");

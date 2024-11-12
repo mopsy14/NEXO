@@ -27,6 +27,9 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -125,7 +128,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         nbt.putLong("mixer.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
-            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+            nbt.put("fluid_variant_"+i, FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorages.get(i).variant).getOrThrow());
         }
     }
 
@@ -137,7 +140,7 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
         energyStorage.amount = nbt.getLong("mixer.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
-            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+            fluidStorages.get(i).variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant_"+i)).result().orElse(FluidVariant.blank());
         }
     }
 
@@ -218,9 +221,11 @@ public class MixerEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     private static MixerRecipe getFirstRecipeMatch(MixerEntity entity){
-        for(MixerRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(MixerRecipe.Type.INSTANCE)){
-            if(recipe.hasRecipe(entity)) {
-                return recipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof MixerRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
             }
         }
         return null;

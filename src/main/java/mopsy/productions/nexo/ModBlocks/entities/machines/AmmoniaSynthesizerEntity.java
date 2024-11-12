@@ -13,7 +13,6 @@ import mopsy.productions.nexo.screen.DefaultSHPayload;
 import mopsy.productions.nexo.screen.ammoniaSynth.AmmoniaSynthesiserScreenHandler;
 import mopsy.productions.nexo.util.FluidTransactionUtils;
 import mopsy.productions.nexo.util.NTFluidStorage;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -29,6 +28,9 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -42,7 +44,6 @@ import team.reborn.energy.api.base.SimpleEnergyStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
 import static mopsy.productions.nexo.util.InvUtils.readInv;
 import static mopsy.productions.nexo.util.InvUtils.writeInv;
 
@@ -96,7 +97,7 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
         nbt.putLong("as.power", energyStorage.amount);
         for (int i = 0; i < fluidStorages.size(); i++) {
             nbt.putLong("fluid_amount_"+i, fluidStorages.get(i).amount);
-            nbt.put("fluid_variant_"+i, fluidStorages.get(i).variant.toNbt());
+            nbt.put("fluid_variant_"+i, FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, fluidStorages.get(i).variant).getOrThrow());
         }
     }
     @Override
@@ -106,7 +107,7 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
         energyStorage.amount = nbt.getLong("as.power");
         for (int i = 0; i < fluidStorages.size(); i++) {
             fluidStorages.get(i).amount = nbt.getLong("fluid_amount_"+i);
-            fluidStorages.get(i).variant = FluidVariant.fromNbt(nbt.getCompound("fluid_variant_"+i));
+            fluidStorages.get(i).variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE,nbt.get("fluid_variant_"+i)).result().orElse(FluidVariant.blank());
         }
     }
 
@@ -121,12 +122,10 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
 
             markDirty(world,blockPos,blockState);
             for (int i = 0; i < entity.fluidStorages.size(); i++){
-                var buf = PacketByteBufs.create();
-                buf.writeBlockPos(blockPos);
-                buf.writeInt(i);
-                entity.fluidStorages.get(i).variant.toPacket(buf);
-                buf.writeLong(entity.fluidStorages.get(i).amount);
-                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+                SingleVariantStorage<FluidVariant> fluidStorage = entity.fluidStorages.get(i);
+                int finalI = i;
+                PlayerLookup.tracking(entity).forEach(player -> ServerPlayNetworking.send(player,
+                        new AdvancedFluidChangePayload(entity.pos,finalI,fluidStorage.variant,fluidStorage.amount)));
             }
         }
 
@@ -182,9 +181,11 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
     }
 
     private static AmmoniaSynthesizerRecipe getFirstRecipeMatch(AmmoniaSynthesizerEntity entity){
-        for(AmmoniaSynthesizerRecipe ammoniaSynthesizerRecipe : entity.getWorld().getRecipeManager().listAllOfType(AmmoniaSynthesizerRecipe.Type.INSTANCE)){
-            if(ammoniaSynthesizerRecipe.hasRecipe(entity)) {
-                return ammoniaSynthesizerRecipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof AmmoniaSynthesizerRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
             }
         }
         return null;

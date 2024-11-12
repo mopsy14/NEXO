@@ -21,6 +21,8 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -135,9 +137,11 @@ public class PressEntity extends BlockEntity implements ExtendedScreenHandlerFac
     }
 
     private static PressRecipe getRecipe(PressEntity entity) {
-        for(PressRecipe recipe : entity.getWorld().getRecipeManager().listAllOfType(PressRecipe.Type.INSTANCE)){
-            if(recipe.hasRecipe(entity)) {
-                return recipe;
+        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+            if(recipeEntry.value() instanceof PressRecipe recipe) {
+                if (recipe.hasRecipe(entity)) {
+                    return recipe;
+                }
             }
         }
         return null;

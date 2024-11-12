@@ -71,7 +71,7 @@ public class InsulatedCopperCableBlock extends BlockWithEntity implements IModID
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, ModdedBlockEntities.INSULATED_COPPER_CABLE, InsulatedCopperCableEntity::tick);
+        return validateTicker(type, ModdedBlockEntities.INSULATED_COPPER_CABLE, InsulatedCopperCableEntity::tick);
     }
 
     @Override
