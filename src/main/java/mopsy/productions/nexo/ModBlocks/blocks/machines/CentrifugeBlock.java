@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.machines.CentrifugeEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
@@ -9,19 +10,20 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
     public static final EnumProperty<Direction> FACING;
@@ -35,7 +37,12 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.BLACK)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"centrifuge")))
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+    public CentrifugeBlock(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -53,6 +60,10 @@ public class CentrifugeBlock extends BlockWithEntity implements IModID, BlockEnt
         builder.add(FACING);
     }
 
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(CentrifugeBlock::new);
+    }
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;

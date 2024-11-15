@@ -11,7 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class FluidUtils{
     public static boolean isTank(Item item){
         String[] tankNames = {"tank_mk1","tank_mk2","tank_mk3","tank_mk4"};
         for(String name: tankNames){
-            if(Registry.ITEM.getId(item).equals(Identifier.of(modid,name)))
+            if(Registries.ITEM.getId(item).equals(Identifier.of(modid,name)))
                 return true;
         }
         return false;

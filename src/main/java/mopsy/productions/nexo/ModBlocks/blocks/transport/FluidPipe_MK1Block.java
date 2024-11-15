@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.transport;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.transport.FluidPipe_MK1Entity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
@@ -17,10 +18,13 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,6 +39,7 @@ import net.minecraft.world.tick.ScheduledTickView;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
+import static mopsy.productions.nexo.Main.modid;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 @SuppressWarnings("deprecation")
@@ -83,8 +88,18 @@ public class FluidPipe_MK1Block extends BlockWithEntity implements IModID, Block
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"fluid_pipe_mk1")))
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED,false));
+    }
+    public FluidPipe_MK1Block(Settings settings) {
+        super(settings);
+        this.setDefaultState(this.stateManager.getDefaultState().with(WATERLOGGED,false));
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(FluidPipe_MK1Block::new);
     }
 
     private FluidPipe_MK1Entity getBlockEntity(World world, BlockPos pos){

@@ -10,15 +10,20 @@ import net.minecraft.block.MapColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class ConduitBlock extends Block implements IModID, IMBBlock {
     public static final EnumProperty<Direction> FACING;
@@ -30,6 +35,7 @@ public class ConduitBlock extends Block implements IModID, IMBBlock {
                 .sounds(BlockSoundGroup.STONE)
                 .requiresTool()
                 .mapColor(MapColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"conduit")))
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }

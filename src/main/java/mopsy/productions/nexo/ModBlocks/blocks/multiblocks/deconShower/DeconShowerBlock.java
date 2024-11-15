@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.multiblocks.deconShower;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.deconShower.DeconShowerEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
@@ -9,14 +10,13 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -25,6 +25,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 
 public class DeconShowerBlock extends BlockWithEntity implements IModID, BlockEntityProvider{
@@ -40,7 +42,12 @@ public class DeconShowerBlock extends BlockWithEntity implements IModID, BlockEn
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"decon_shower")))
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+    public DeconShowerBlock(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
@@ -59,6 +66,11 @@ public class DeconShowerBlock extends BlockWithEntity implements IModID, BlockEn
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(DeconShowerBlock::new);
     }
 
     @Override

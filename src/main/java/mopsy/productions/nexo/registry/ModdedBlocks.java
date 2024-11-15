@@ -24,6 +24,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -92,7 +94,7 @@ public class ModdedBlocks {
             Blocks.put(name, b);
             BlockItem bi = switch (name) {
                 default -> {
-                    BlockItem blockItem = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BlockItem(block, new Item.Settings()));
+                    BlockItem blockItem = Registry.register(Registries.ITEM, Identifier.of(modid, name), new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,name)))));
                     ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(blockItem));
                     yield blockItem;
                 }

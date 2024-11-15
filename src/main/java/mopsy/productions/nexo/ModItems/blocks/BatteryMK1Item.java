@@ -9,17 +9,19 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.Identifier;
 import team.reborn.energy.api.base.SimpleEnergyItem;
 
 import java.util.List;
 
 import static mopsy.productions.nexo.Main.CREATIVE_BLOCK_TAB_KEY;
+import static mopsy.productions.nexo.Main.modid;
 
 
 public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyItem{
@@ -29,19 +31,9 @@ public class BatteryMK1Item extends BlockItem implements IModID, SimpleEnergyIte
 
     @Override public String getID() {return "battery_mk1";}
     public BatteryMK1Item(Block block) {
-        super(block, new Settings().maxCount(1));
+        super(block, new Settings().maxCount(1)
+                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"battery_mk1"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_BLOCK_TAB_KEY).register(entries -> entries.add(this));
-    }
-
-    @Override
-    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        if(isIn(group)) {
-            stacks.add(new ItemStack(this));
-            ItemStack chargedStack = new ItemStack(this);
-            ((SimpleEnergyItem)chargedStack.getItem()).setStoredEnergy(chargedStack, ((SimpleEnergyItem)chargedStack.getItem()).getEnergyCapacity(chargedStack));
-            stacks.add(chargedStack);
-
-        }
     }
 
     @Override

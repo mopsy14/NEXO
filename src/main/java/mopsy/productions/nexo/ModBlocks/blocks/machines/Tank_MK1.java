@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.machines.TankEntity_MK1;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
@@ -12,14 +13,13 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -27,6 +27,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 
 public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProvider{
@@ -42,7 +44,12 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"tank_mk1")))
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+    public Tank_MK1(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
 
@@ -64,6 +71,11 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(Tank_MK1::new);
     }
 
     @Override
@@ -106,9 +118,8 @@ public class Tank_MK1 extends BlockWithEntity implements IModID, BlockEntityProv
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof TankEntity_MK1) {
                 ItemStack tankItem = new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1"));
-                FluidDataUtils.creNbtIfNeeded(tankItem.getOrCreateNbt());
-                FluidDataUtils.setFluidType(tankItem.getNbt(), ((TankEntity_MK1) blockEntity).fluidStorage.variant);
-                FluidDataUtils.setFluidAmount(tankItem.getNbt(), ((TankEntity_MK1) blockEntity).fluidStorage.amount);
+                FluidDataUtils.setFluidType(tankItem, ((TankEntity_MK1) blockEntity).fluidStorage.variant);
+                FluidDataUtils.setFluidAmount(tankItem, ((TankEntity_MK1) blockEntity).fluidStorage.amount);
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), tankItem);
                 ItemScatterer.spawn(world, pos, ((TankEntity_MK1) blockEntity).inventory);
                 world.updateComparators(pos, this);

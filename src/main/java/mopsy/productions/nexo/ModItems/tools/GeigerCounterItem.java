@@ -6,17 +6,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB_KEY;
+import static mopsy.productions.nexo.Main.modid;
 import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRadiationPerSecondUpdatePackage;
 import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRadiationUpdatePackage;
 
 public class GeigerCounterItem extends Item implements IModID  {
     public GeigerCounterItem() {
-        super(new Settings().maxCount(1));
+        super(new Settings().maxCount(1)
+                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"debug_item"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
         INSTANCE = this;
     }

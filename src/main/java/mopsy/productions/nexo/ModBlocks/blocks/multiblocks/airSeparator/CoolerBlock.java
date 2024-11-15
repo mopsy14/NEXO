@@ -8,10 +8,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class CoolerBlock extends Block implements IModID, IMBBlock {
     @Override
@@ -22,6 +27,7 @@ public class CoolerBlock extends Block implements IModID, IMBBlock {
                 .sounds(BlockSoundGroup.STONE)
                 .requiresTool()
                 .mapColor(MapColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"cooler")))
         );
     }
     @Override

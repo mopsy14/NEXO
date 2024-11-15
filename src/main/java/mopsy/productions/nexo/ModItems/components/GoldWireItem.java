@@ -5,8 +5,12 @@ import mopsy.productions.nexo.registry.ModdedItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.Identifier;
 
 import static mopsy.productions.nexo.Main.CREATIVE_TAB_KEY;
+import static mopsy.productions.nexo.Main.modid;
 
 public class GoldWireItem extends Item implements IModID {
     @Override
@@ -14,7 +18,8 @@ public class GoldWireItem extends Item implements IModID {
         return "gold_wire";
     }
     public GoldWireItem() {
-        super(new Settings().maxDamage(5));
+        super(new Settings().maxDamage(5)
+                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"gold_wire"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB_KEY).register(entries -> entries.add(this));
     }
 

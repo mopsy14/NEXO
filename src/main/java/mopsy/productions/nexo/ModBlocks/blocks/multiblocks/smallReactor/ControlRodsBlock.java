@@ -5,16 +5,21 @@ import mopsy.productions.nexo.interfaces.IModID;
 import net.minecraft.block.*;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class ControlRodsBlock extends Block implements IModID{
     public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
@@ -30,6 +35,7 @@ public class ControlRodsBlock extends Block implements IModID{
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.BLACK)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"control_rods")))
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(ACTIVE, false));
     }

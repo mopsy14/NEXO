@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.machines.AirSeparatorEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.multiblock.AirSeparatorMultiBlock;
@@ -12,6 +13,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -22,6 +25,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockEntityProvider{
     public static final EnumProperty<Direction> FACING;
@@ -34,7 +39,12 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
                 .sounds(BlockSoundGroup.METAL)
                 .requiresTool()
                 .mapColor(DyeColor.BLACK)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"air_separator")))
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
+    }
+    public AirSeparatorBlock(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -50,6 +60,11 @@ public class AirSeparatorBlock extends BlockWithEntity implements IModID, BlockE
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(AirSeparatorBlock::new);
     }
 
     @Override

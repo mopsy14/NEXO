@@ -63,6 +63,7 @@ public class ScreenHandlers {
 
     public static void regScreenHandlers(){
         LOGGER.info("Registering screen handlers");
+        PayloadTypeRegistry.playS2C().register(DefaultSHPayload.ID,DefaultSHPayload.CODEC);
         Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "crusher"), CRUSHER);
         Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "press"), PRESS);
         Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "tank_mk1"), Tank_MK1);
@@ -81,7 +82,7 @@ public class ScreenHandlers {
         Registry.register(Registries.SCREEN_HANDLER, Identifier.of(modid, "battery"), BATTERY);
     }
     public static void regClientScreens(){
-        PayloadTypeRegistry.playS2C().register(DefaultSHPayload.ID,DefaultSHPayload.CODEC);
+        //PayloadTypeRegistry.playS2C().register(DefaultSHPayload.ID,DefaultSHPayload.CODEC);
         HandledScreens.register(ScreenHandlers.CRUSHER, CrusherScreen::new);
         HandledScreens.register(ScreenHandlers.PRESS, PressScreen::new);
         HandledScreens.register(ScreenHandlers.Tank_MK1, TankScreen_MK1::new);

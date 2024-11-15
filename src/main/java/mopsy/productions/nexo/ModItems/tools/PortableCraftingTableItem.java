@@ -5,16 +5,21 @@ import mopsy.productions.nexo.screen.PortableCraftingTableHandler;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB_KEY;
+import static mopsy.productions.nexo.Main.modid;
 
 public class PortableCraftingTableItem extends Item implements IModID  {
     public PortableCraftingTableItem() {
-        super(new Settings().maxCount(1));
+        super(new Settings().maxCount(1)
+                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"portable_crafting_table"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
     }
 

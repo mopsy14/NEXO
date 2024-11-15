@@ -6,6 +6,8 @@ import net.minecraft.block.*;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -13,10 +15,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import static mopsy.productions.nexo.Main.modid;
 
 public class SmallReactorBlock extends Block implements IModID {
     @Override
@@ -29,6 +34,7 @@ public class SmallReactorBlock extends Block implements IModID {
                 .requiresTool()
                 .nonOpaque()
                 .mapColor(MapColor.BLACK)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"small_reactor")))
         );
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH));
     }

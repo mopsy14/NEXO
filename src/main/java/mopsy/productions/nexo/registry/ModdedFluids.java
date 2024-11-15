@@ -15,6 +15,8 @@ import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -34,7 +36,8 @@ public class ModdedFluids {
     public static void registerGas(String ID){
         flowingFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
         stillFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid, ID), new NTFluid.Still(ID)));
-        fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision())));
+        fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision()
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,ID))))));
         if(isClient)
             FluidRenderers.regFluidRenderer(stillFluids.get(ID), 0xA1FFFFFF);
         Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
@@ -42,7 +45,8 @@ public class ModdedFluids {
     public static void registerGas(String ID, int color){
         flowingFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid,ID+"_flowing"), new NTFluid.Flowing(ID)));
         stillFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid, ID), new NTFluid.Still(ID)));
-        fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision())));
+        fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision()
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,ID))))));
         if(isClient)
             FluidRenderers.regFluidRenderer(stillFluids.get(ID), color);
         Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
@@ -76,11 +80,13 @@ public class ModdedFluids {
             String ID = iModID.getID();
             flowingFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid, ID + "_flowing"), flowingFluid));
             stillFluids.put(ID, Registry.register(Registries.FLUID, Identifier.of(modid, ID), stillFluid));
-            fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision())));
+            fluidBlocks.put(ID, Registry.register(Registries.BLOCK, Identifier.of(modid, ID), new FluidBlock(stillFluids.get(ID), Block.Settings.copy(Blocks.WATER).noCollision()
+                    .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,ID))))));
             Tank_MK1Item.fluidGroupVariants.add(FluidVariant.of(stillFluids.get(ID)));
 
             if(hasBucket){
-                buckets.put(ID,Registry.register(Registries.ITEM, Identifier.of(modid,ID+"_bucket"), new BucketItem(stillFluid, new Item.Settings())));
+                buckets.put(ID,Registry.register(Registries.ITEM, Identifier.of(modid,ID+"_bucket"), new BucketItem(stillFluid, new Item.Settings()
+                        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,ID+"_bucket"))))));
             }
 
             if(isClient){

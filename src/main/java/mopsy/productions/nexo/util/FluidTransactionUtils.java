@@ -15,18 +15,18 @@ public class FluidTransactionUtils {
     public static boolean tryImportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
-        if (fluidStorage.amount < fluidStorage.getCapacity() && inputStack.hasNbt() && FluidDataUtils.getFluidAmount(inputStack.getNbt()) > 0 && inputStack.getItem() instanceof IItemFluidData) {
+        if (fluidStorage.amount < fluidStorage.getCapacity() && FluidDataUtils.getFluidAmount(inputStack) > 0 && inputStack.getItem() instanceof IItemFluidData) {
             if (fluidStorage.variant.isBlank()) {
-                fluidStorage.variant = FluidDataUtils.getFluidType(inputStack.getNbt());
-                long insertAmount = Math.min(fluidStorage.getCapacity(), FluidDataUtils.getFluidAmount(inputStack.getNbt()));
-                FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt()) - insertAmount);
+                fluidStorage.variant = FluidDataUtils.getFluidType(inputStack);
+                long insertAmount = Math.min(fluidStorage.getCapacity(), FluidDataUtils.getFluidAmount(inputStack));
+                FluidDataUtils.setFluidAmount(inputStack, FluidDataUtils.getFluidAmount(inputStack) - insertAmount);
                 fluidStorage.amount += insertAmount;
                 moveIToO(inventory, inputIndex, outputIndex);
                 return true;
             }
-            if (fluidStorage.variant.equals(FluidDataUtils.getFluidType(inputStack.getNbt()))) {
-                long insertAmount = Math.min(fluidStorage.getCapacity() - fluidStorage.amount, FluidDataUtils.getFluidAmount(inputStack.getNbt()));
-                FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt()) - insertAmount);
+            if (fluidStorage.variant.equals(FluidDataUtils.getFluidType(inputStack))) {
+                long insertAmount = Math.min(fluidStorage.getCapacity() - fluidStorage.amount, FluidDataUtils.getFluidAmount(inputStack));
+                FluidDataUtils.setFluidAmount(inputStack, FluidDataUtils.getFluidAmount(inputStack) - insertAmount);
                 fluidStorage.amount += insertAmount;
                 moveIToO(inventory, inputIndex, outputIndex);
                 return true;
@@ -37,23 +37,23 @@ public class FluidTransactionUtils {
     public static boolean tryExportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
-        if (fluidStorage.amount > 0 && inputStack.hasNbt() && inputStack.getItem() instanceof IItemFluidData) {
-            if (FluidDataUtils.getFluidType(inputStack.getNbt()).isBlank()) {
-                FluidDataUtils.setFluidType(inputStack.getNbt(), fluidStorage.variant);
+        if (fluidStorage.amount > 0 && inputStack.getItem() instanceof IItemFluidData) {
+            if (FluidDataUtils.getFluidType(inputStack).isBlank()) {
+                FluidDataUtils.setFluidType(inputStack, fluidStorage.variant);
                 long insertAmount = Math.min((((IItemFluidData) inputStack.getItem()).getMaxCapacity()), fluidStorage.amount);
                 fluidStorage.amount -= insertAmount;
                 if (fluidStorage.amount == 0)
                     fluidStorage.variant = FluidVariant.blank();
-                FluidDataUtils.setFluidAmount(inputStack.getNbt(), insertAmount);
+                FluidDataUtils.setFluidAmount(inputStack, insertAmount);
                 moveIToO(inventory, inputIndex, outputIndex);
                 return true;
             }
-            if (FluidDataUtils.getFluidType(inputStack.getNbt()).equals(fluidStorage.variant)) {
-                long insertAmount = Math.min((((IItemFluidData) inputStack.getItem()).getMaxCapacity() - FluidDataUtils.getFluidAmount(inputStack.getNbt())), fluidStorage.amount);
+            if (FluidDataUtils.getFluidType(inputStack).equals(fluidStorage.variant)) {
+                long insertAmount = Math.min((((IItemFluidData) inputStack.getItem()).getMaxCapacity() - FluidDataUtils.getFluidAmount(inputStack)), fluidStorage.amount);
                 fluidStorage.amount -= insertAmount;
                 if (fluidStorage.amount == 0)
                     fluidStorage.variant = FluidVariant.blank();
-                FluidDataUtils.setFluidAmount(inputStack.getNbt(), FluidDataUtils.getFluidAmount(inputStack.getNbt()) + insertAmount);
+                FluidDataUtils.setFluidAmount(inputStack, FluidDataUtils.getFluidAmount(inputStack) + insertAmount);
                 moveIToO(inventory, inputIndex, outputIndex);
                 return true;
             }
@@ -114,7 +114,7 @@ public class FluidTransactionUtils {
 
             // check how much can be extracted
             try (Transaction extractionTestTransaction = methodTrans.openNested()) {
-                maxExtracted = from.extract(resource, to.simulateInsert(resource,maxAmount,extractionTestTransaction), extractionTestTransaction);
+                maxExtracted = from.extract(resource, StorageUtil.simulateInsert(to,resource,maxAmount,extractionTestTransaction), extractionTestTransaction);
                 extractionTestTransaction.abort();
             }
 

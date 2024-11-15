@@ -1,14 +1,12 @@
 package mopsy.productions.nexo.util;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import mopsy.productions.nexo.networking.payloads.AdvancedFluidChangePayload;
+import mopsy.productions.nexo.networking.payloads.FluidChangePayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.block.entity.BlockEntity;
-
-import static mopsy.productions.nexo.networking.PacketManager.ADVANCED_FLUID_CHANGE_PACKET;
-import static mopsy.productions.nexo.networking.PacketManager.FLUID_CHANGE_PACKET;
 
 
 public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
@@ -79,22 +77,17 @@ public class NTFluidStorage extends SingleVariantStorage<FluidVariant> {
 
     private void simpleFinalCommit(){
         if (!blockEntity.getWorld().isClient) {
-            var buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockEntity.getPos());
-            this.variant.toPacket(buf);
-            buf.writeLong(this.amount);
-            PlayerLookup.tracking(blockEntity).forEach(player-> ServerPlayNetworking.send(player, FLUID_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(blockEntity).forEach(player-> ServerPlayNetworking.send(
+                    player, new FluidChangePayload(blockEntity.getPos(),variant,amount)
+            ));
         }
     }
 
     private void advancedFinalCommit(){
         if (!blockEntity.getWorld().isClient) {
-            var buf = PacketByteBufs.create();
-            buf.writeBlockPos(blockEntity.getPos());
-            buf.writeInt(index);
-            this.variant.toPacket(buf);
-            buf.writeLong(this.amount);
-            PlayerLookup.tracking(blockEntity).forEach(player-> ServerPlayNetworking.send(player, ADVANCED_FLUID_CHANGE_PACKET, buf));
+            PlayerLookup.tracking(blockEntity).forEach(player-> ServerPlayNetworking.send(
+                    player, new AdvancedFluidChangePayload(blockEntity.getPos(),index,variant,amount)
+            ));
         }
     }
 }

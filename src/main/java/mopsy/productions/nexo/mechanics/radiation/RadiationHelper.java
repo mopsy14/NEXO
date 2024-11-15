@@ -3,19 +3,24 @@ package mopsy.productions.nexo.mechanics.radiation;
 import mopsy.productions.nexo.interfaces.IArmorRadiationProtection;
 import mopsy.productions.nexo.interfaces.IData;
 import mopsy.productions.nexo.interfaces.IItemRadiation;
-import mopsy.productions.nexo.networking.PacketManager;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import mopsy.productions.nexo.networking.payloads.RadiationChangePayload;
+import mopsy.productions.nexo.networking.payloads.RadiationPerSecondChangePayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registerable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 
+import static mopsy.productions.nexo.Main.modid;
 import static mopsy.productions.nexo.mechanics.radiation.Radiation.getRadiation;
 import static mopsy.productions.nexo.mechanics.radiation.Radiation.setRadiation;
 import static mopsy.productions.nexo.registry.ModdedItems.Items;
@@ -54,9 +59,7 @@ public class RadiationHelper {
         }
     }
     public static void sendRadiationUpdatePackage(ServerPlayerEntity player){
-        PacketByteBuf buffer = PacketByteBufs.create();
-        buffer.writeFloat(getRadiation((IData) player));
-        ServerPlayNetworking.send(player, PacketManager.RADIATION_CHANGE_PACKET, buffer);
+        ServerPlayNetworking.send(player, new RadiationChangePayload(getRadiation((IData) player)));
     }
     public static void changePlayerRadiationPerSecond(ServerPlayerEntity player, float radiation){
         if(radiation !=getRadiationPerSecond((IData) player)) {
@@ -67,9 +70,7 @@ public class RadiationHelper {
         }
     }
     public static void sendRadiationPerSecondUpdatePackage(ServerPlayerEntity player) {
-        PacketByteBuf buffer = PacketByteBufs.create();
-        buffer.writeFloat(getRadiationPerSecond((IData) player));
-        ServerPlayNetworking.send(player, PacketManager.RADIATION_PER_SECOND_CHANGE_PACKET, buffer);
+        ServerPlayNetworking.send(player, new RadiationPerSecondChangePayload(getRadiationPerSecond((IData) player)));
     }
 
     private static float getRadiationPerSecond(IData player){
@@ -127,7 +128,7 @@ public class RadiationHelper {
         if(!player.isCreative()){
             float rads = getRadiation((IData) player);
             if(rads>149) {
-                player.damage(new DamageSource("radiation").setBypassesArmor().setUnblockable(), 100);
+                player.damage(player.getServerWorld(), new DamageSources(player.getWorld().getRegistryManager()).create(RADIATION_DAMAGE_TYPE), 100);
             }else if(rads>125) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 3, true, false, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 300, 1, true, false, false));
@@ -144,8 +145,12 @@ public class RadiationHelper {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 1, true, false, false));
             } else if(rads>30){
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 300, 1, true, false, false));
             }
         }
+    }
+    private static final RegistryKey<DamageType> RADIATION_DAMAGE_TYPE = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, Identifier.of(modid,"radiation_type"));
+    public static void bootstrap(Registerable<DamageType> damageTypeRegisterable) {
+        damageTypeRegisterable.register(RADIATION_DAMAGE_TYPE,new DamageType("radiation",0.0f));
     }
 }

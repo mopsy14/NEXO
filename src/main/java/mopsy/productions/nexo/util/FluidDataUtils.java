@@ -1,29 +1,28 @@
 package mopsy.productions.nexo.util;
 
+import mopsy.productions.nexo.registry.ModdedDataComponentTypes;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.ItemStack;
 
 public class FluidDataUtils {
-    public static long getFluidAmount(NbtCompound nbt){
-        return nbt.getLong("fluid_amount");
+    public static long getFluidAmount(ItemStack stack){
+        return stack.getOrDefault(ModdedDataComponentTypes.FLUID_AMOUNT_COMPONENT_TYPE,0L);
     }
 
-    public static FluidVariant getFluidType(NbtCompound nbt){
-        return FluidVariant.fromNbt(nbt.getCompound("fluid_variant"));
+    public static FluidVariant getFluidType(ItemStack stack){
+        return stack.getOrDefault(ModdedDataComponentTypes.FLUID_VARIANT_COMPONENT_TYPE,FluidVariant.blank());
     }
-    public static void setFluidAmount(NbtCompound nbt, long amount){
-        nbt.putLong("fluid_amount", amount);
+
+    public static ItemStack setFluidAmount(ItemStack stack, long amount){
+        stack.set(ModdedDataComponentTypes.FLUID_AMOUNT_COMPONENT_TYPE,amount);
         if(amount == 0)
-            nbt.put("fluid_variant", FluidVariant.blank().toNbt());
+            stack.set(ModdedDataComponentTypes.FLUID_VARIANT_COMPONENT_TYPE, FluidVariant.blank());
+        return stack;
     }
-    public static void setFluidType(NbtCompound nbt, FluidVariant type){
-        nbt.put("fluid_variant", type.toNbt());
+    public static ItemStack setFluidType(ItemStack stack, FluidVariant type){
+        stack.set(ModdedDataComponentTypes.FLUID_VARIANT_COMPONENT_TYPE, type);
         if(type.isBlank())
-            nbt.putLong("fluid_amount", 0);
-    }
-    public static void creNbtIfNeeded(NbtCompound nbt){
-        if(!(nbt.contains("fluid_variant")&&nbt.contains("fluid_amount"))){
-            setFluidAmount(nbt, 0);
-        }
+            stack.set(ModdedDataComponentTypes.FLUID_AMOUNT_COMPONENT_TYPE,0L);
+        return stack;
     }
 }

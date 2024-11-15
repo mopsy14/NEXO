@@ -1,5 +1,6 @@
 package mopsy.productions.nexo.ModBlocks.blocks.machines;
 
+import com.mojang.serialization.MapCodec;
 import mopsy.productions.nexo.ModBlocks.entities.machines.SteamTurbineEntity;
 import mopsy.productions.nexo.interfaces.IModID;
 import mopsy.productions.nexo.registry.ModdedBlockEntities;
@@ -9,6 +10,8 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -23,6 +26,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import static mopsy.productions.nexo.Main.modid;
 import static mopsy.productions.nexo.util.NEXOBlockStates.ACTIVE;
 
 public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockEntityProvider {
@@ -39,7 +43,12 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
                 .solidBlock((state,world,pos)->false)
                 .blockVision((state,world,pos)->false)
                 .mapColor(DyeColor.GRAY)
+                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(modid,"steam_turbine")))
         );
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE,false));
+    }
+    public SteamTurbineBlock(Settings settings) {
+        super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE,false));
     }
     public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -55,6 +64,11 @@ public class SteamTurbineBlock extends BlockWithEntity implements IModID, BlockE
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING).add(ACTIVE);
+    }
+
+    @Override
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return createCodec(SteamTurbineBlock::new);
     }
 
     @Override
