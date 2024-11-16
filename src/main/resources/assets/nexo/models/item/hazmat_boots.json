@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:items/armor/hazmat_boots"
+    "layer0": "nexo:item/armor/hazmat_boots"
   }
 }

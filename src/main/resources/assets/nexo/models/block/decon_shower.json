@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/decon_shower",
-		"particle": "nexo:blocks/decon_shower"
+		"0": "nexo:block/decon_shower",
+		"particle": "nexo:block/decon_shower"
 	},
 	"display": {
 		"firstperson_righthand": {

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/heat_resistant_test_tube"
+    "layer0": "nexo:item/heat_resistant_test_tube"
   }
 }

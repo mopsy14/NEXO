@@ -2,7 +2,7 @@
 	"parent": "block/cube",
 	"texture_size": [32, 32],
 	"textures": {
-		"particle": "nexo:blocks/fluid_pipe_mk1"
+		"particle": "nexo:block/fluid_pipe_mk1"
 	},
 	"display": {
 		"firstperson_righthand": {

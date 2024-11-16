@@ -7,7 +7,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
-import static mopsy.productions.nexo.Main.*;
+import static mopsy.productions.nexo.Main.CREATIVE_TAB_KEY;
+import static mopsy.productions.nexo.Main.modid;
 
 public class NTItem extends Item implements IModID {
 
@@ -16,7 +17,7 @@ public class NTItem extends Item implements IModID {
     public NTItem(Settings settings, String ID) {
         super(settings
                 .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,ID))));
-        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB_KEY).register(entries -> entries.add(this));
         this.ID = ID;
     }
     public NTItem(String ID){

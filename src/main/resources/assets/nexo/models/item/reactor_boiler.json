@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/reactor_boiler"
+    "layer0": "nexo:item/reactor_boiler"
   }
 }

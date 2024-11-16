@@ -17,6 +17,8 @@ public class ModdedDataComponentTypes {
             register("fluid_amount", builder -> builder.codec(Codec.LONG).packetCodec(PacketCodecs.LONG));
 
 
+    public static void init(){}
+
     private static <T> ComponentType<T> register(String id, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return Registry.register(Registries.DATA_COMPONENT_TYPE, id, (builderOperator.apply(ComponentType.builder())).build());
     }

@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [128, 128],
 	"textures": {
-		"0": "nexo:blocks/centrifuge",
-		"particle": "nexo:blocks/centrifuge"
+		"0": "nexo:block/centrifuge",
+		"particle": "nexo:block/centrifuge"
 	},
 	"display": {
 		"firstperson_righthand": {

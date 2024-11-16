@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/titanium_ore",
-		"particle": "nexo:blocks/titanium_ore"
+		"all": "nexo:block/titanium_ore",
+		"particle": "nexo:block/titanium_ore"
 	}
 }

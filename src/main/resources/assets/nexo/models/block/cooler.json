@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/cooler",
-		"particle": "nexo:blocks/cooler"
+		"all": "nexo:block/cooler",
+		"particle": "nexo:block/cooler"
 	}
 }

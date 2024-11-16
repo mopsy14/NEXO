@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/nickel_ore",
-		"particle": "nexo:blocks/nickel_ore"
+		"all": "nexo:block/nickel_ore",
+		"particle": "nexo:block/nickel_ore"
 	}
 }

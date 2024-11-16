@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "nexo:protective_hazmat"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "nexo:protective_hazmat"
+      }
+    ]
+  }
+}

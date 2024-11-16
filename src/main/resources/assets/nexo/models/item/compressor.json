@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/compressor"
+    "layer0": "nexo:item/compressor"
   }
 }

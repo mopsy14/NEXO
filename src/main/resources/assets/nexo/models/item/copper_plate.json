@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/copper_plate"
+    "layer0": "nexo:item/copper_plate"
   }
 }

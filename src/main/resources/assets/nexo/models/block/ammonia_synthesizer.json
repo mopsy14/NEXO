@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/ammonia_synthesizer",
-		"particle": "nexo:blocks/ammonia_synthesizer"
+		"0": "nexo:block/ammonia_synthesizer",
+		"particle": "nexo:block/ammonia_synthesizer"
 	},
 	"display": {
 		"firstperson_righthand": {

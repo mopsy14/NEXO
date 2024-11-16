@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/filled_geiger_tube"
+    "layer0": "nexo:item/filled_geiger_tube"
   }
 }

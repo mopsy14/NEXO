@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/gas_valve"
+    "layer0": "nexo:item/gas_valve"
   }
 }

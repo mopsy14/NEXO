@@ -15,6 +15,8 @@ public class FluidTransactionUtils {
     public static boolean tryImportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
 
+        if(!inventory.getStack(outputIndex).isEmpty())return false;
+
         if (fluidStorage.amount < fluidStorage.getCapacity() && FluidDataUtils.getFluidAmount(inputStack) > 0 && inputStack.getItem() instanceof IItemFluidData) {
             if (fluidStorage.variant.isBlank()) {
                 fluidStorage.variant = FluidDataUtils.getFluidType(inputStack);
@@ -36,6 +38,8 @@ public class FluidTransactionUtils {
     }
     public static boolean tryExportFluid(Inventory inventory, int inputIndex, int outputIndex, SingleVariantStorage<FluidVariant> fluidStorage) {
         ItemStack inputStack = inventory.getStack(inputIndex);
+
+        if(!inventory.getStack(outputIndex).isEmpty())return false;
 
         if (fluidStorage.amount > 0 && inputStack.getItem() instanceof IItemFluidData) {
             if (FluidDataUtils.getFluidType(inputStack).isBlank()) {

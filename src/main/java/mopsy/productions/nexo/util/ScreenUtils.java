@@ -26,10 +26,8 @@ public class ScreenUtils {
             Sprite fluidSprite = FluidVariantRendering.getSprite(fluid);
 
             int fluidColor = FluidVariantRendering.getColor(fluid);
-            RenderSystem.setShaderColor((fluidColor >> 16 & 255) / 255.0F, (float) (fluidColor >> 8 & 255) / 255.0F, (float) (fluidColor & 255) / 255.0F, 1F);
 
-            context.drawSpriteStretched(RenderLayer::getGuiTextured, fluidSprite, x, y+scaledAmount, 16, 47-scaledAmount);
-            RenderSystem.setShaderColor(1F,1F,1F,1F);
+            context.drawSpriteStretched(RenderLayer::getGuiTextured, fluidSprite, x, y+scaledAmount, 16, 47-scaledAmount, fluidColor);
         }
 
         drawSmallFluidLines(screen, context, x, y);
@@ -48,9 +46,8 @@ public class ScreenUtils {
             Sprite fluidSprite = FluidVariantRendering.getSprite(fluid);
 
             int fluidColor = FluidVariantRendering.getColor(fluid);
-            RenderSystem.setShaderColor((fluidColor >> 16 & 255) / 255.0F, (float) (fluidColor >> 8 & 255) / 255.0F, (float) (fluidColor & 255) / 255.0F, 1F);
 
-            context.drawSpriteStretched(RenderLayer::getGuiTextured, fluidSprite, x, y+scaledAmount, 0, 51, 63-scaledAmount);
+            context.drawSpriteStretched(RenderLayer::getGuiTextured, fluidSprite, x, y+scaledAmount, 51, 63-scaledAmount, fluidColor);
         }
 
         drawBigFluidLines(screen, context, x, y);
@@ -75,7 +72,6 @@ public class ScreenUtils {
 
     public static Predicate<IntCords2D> renderButton(HandledScreen handledScreen, DrawContext context, int x, int y, boolean isActive){
         if(isActive){
-            RenderSystem.setShaderTexture(0, TEXTURE);
             context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y, 33, 0, 18, 18,256,256);
         }
         return ic2d -> (
@@ -85,7 +81,6 @@ public class ScreenUtils {
     }
     public static Predicate<IntCords2D> renderSmallButton(HandledScreen handledScreen, DrawContext context, int x, int y, boolean isActive){
         if(isActive){
-            RenderSystem.setShaderTexture(0, TEXTURE);
             context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y, 32, 32, 11, 11,256,256);
         }
         return ic2d -> (
@@ -105,13 +100,11 @@ public class ScreenUtils {
 
     public static Predicate<IntCords2D> renderCoreHeatBar(Screen screen, DrawContext context, int x, int y, int coreHeat, Identifier texture){
         if(coreHeat>100){
-            RenderSystem.setShaderTexture(0, texture);
             int scaledPower = getScaledAmount(coreHeat-100, 900, 20);
-            context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower,256,256);
+            context.drawTexture(RenderLayer::getGuiTextured,texture, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower,256,256);
         } else if (coreHeat>0) {
-            RenderSystem.setShaderTexture(0, texture);
             int scaledPower = getScaledAmount(coreHeat, 200, 40);
-            context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower,256,256);
+            context.drawTexture(RenderLayer::getGuiTextured,texture, x, y+scaledPower, 208, scaledPower, 16, 40-scaledPower,256,256);
         }
         return ic2d -> (
                 ic2d.x>x && ic2d.x<x+16 &&
@@ -120,9 +113,8 @@ public class ScreenUtils {
     }
     public static Predicate<IntCords2D> renderFurnaceHeatBar(Screen screen, DrawContext context, int x, int y, int timeLeft, int totalTime, Identifier texture){
         if(timeLeft>0){
-            RenderSystem.setShaderTexture(0, texture);
             int scaledPower = getScaledAmountType2(totalTime-timeLeft, totalTime, 62);
-            context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, x, y+scaledPower, 176, scaledPower, 14, 62-scaledPower,256,256);
+            context.drawTexture(RenderLayer::getGuiTextured,texture, x, y+scaledPower, 176, scaledPower, 14, 62-scaledPower,256,256);
         }
         return ic2d -> (
                 ic2d.x>x && ic2d.x<x+14 &&

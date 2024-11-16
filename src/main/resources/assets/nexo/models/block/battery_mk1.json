@@ -1,7 +1,7 @@
 {
 	"textures": {
-		"0": "nexo:blocks/battery_mk1",
-		"particle": "nexo:blocks/battery_mk1"
+		"0": "nexo:block/battery_mk1",
+		"particle": "nexo:block/battery_mk1"
 	},
 	"elements": [
 		{

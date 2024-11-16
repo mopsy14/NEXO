@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/cooling_pipe"
+    "layer0": "nexo:item/cooling_pipe"
   }
 }

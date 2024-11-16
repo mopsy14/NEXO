@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/triuranium_octoxide"
+    "layer0": "nexo:item/triuranium_octoxide"
   }
 }

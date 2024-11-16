@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/sulfuric_acid_bucket"
+    "layer0": "nexo:item/sulfuric_acid_bucket"
   }
 }

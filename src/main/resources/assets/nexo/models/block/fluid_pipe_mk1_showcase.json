@@ -1,8 +1,8 @@
 {
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "nexo:blocks/fluid_pipe_mk1_pipe",
-		"particle": "nexo:blocks/fluid_pipe_mk1_pipe"
+		"0": "nexo:block/fluid_pipe_mk1_pipe",
+		"particle": "nexo:block/fluid_pipe_mk1_pipe"
 	},
 	"elements": [
 		{

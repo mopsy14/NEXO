@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/salt_ore",
-		"particle": "nexo:blocks/salt_ore"
+		"all": "nexo:block/salt_ore",
+		"particle": "nexo:block/salt_ore"
 	}
 }

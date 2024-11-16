@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/crusher",
-		"particle": "nexo:blocks/crusher"
+		"0": "nexo:block/crusher",
+		"particle": "nexo:block/crusher"
 	},
 	"display": {
 		"firstperson_righthand": {

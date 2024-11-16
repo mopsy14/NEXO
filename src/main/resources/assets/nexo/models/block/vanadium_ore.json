@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/vanadium_ore",
-		"particle": "nexo:blocks/vanadium_ore"
+		"all": "nexo:block/vanadium_ore",
+		"particle": "nexo:block/vanadium_ore"
 	}
 }

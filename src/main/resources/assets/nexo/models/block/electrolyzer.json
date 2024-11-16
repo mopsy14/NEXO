@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/electrolyzer",
-		"particle": "nexo:blocks/electrolyzer"
+		"0": "nexo:block/electrolyzer",
+		"particle": "nexo:block/electrolyzer"
 	},
 	"display": {
 		"firstperson_righthand": {

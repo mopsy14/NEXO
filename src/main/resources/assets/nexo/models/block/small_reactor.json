@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/small_reactor",
-		"particle": "nexo:blocks/small_reactor"
+		"0": "nexo:block/small_reactor",
+		"particle": "nexo:block/small_reactor"
 	},
 	"display": {
 		"firstperson_righthand": {

@@ -9,7 +9,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
-import static mopsy.productions.nexo.Main.CREATIVE_TOOLS_TAB_KEY;
+import static mopsy.productions.nexo.Main.CREATIVE_TAB_KEY;
 import static mopsy.productions.nexo.Main.modid;
 
 public class CopperWireItem extends Item implements IModID {
@@ -20,7 +20,7 @@ public class CopperWireItem extends Item implements IModID {
     public CopperWireItem() {
         super(new Settings().maxDamage(5)
                 .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"copper_wire"))));
-        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
+        ItemGroupEvents.modifyEntriesEvent(CREATIVE_TAB_KEY).register(entries -> entries.add(this));
     }
 
     @Override

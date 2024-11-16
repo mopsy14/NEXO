@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/piezoelectric_element"
+    "layer0": "nexo:item/piezoelectric_element"
   }
 }

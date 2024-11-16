@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:items/armor/protective_hazmat_chestplate"
+    "layer0": "nexo:item/armor/protective_hazmat_chestplate"
   }
 }

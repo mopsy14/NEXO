@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/control_rod"
+    "layer0": "nexo:item/control_rod"
   }
 }

@@ -2,8 +2,8 @@
 	"parent": "block/cube",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "nexo:blocks/electric_furnace_on",
-		"particle": "nexo:blocks/electric_furnace_on"
+		"0": "nexo:block/electric_furnace_on",
+		"particle": "nexo:block/electric_furnace_on"
 	},
 	"display": {
 		"firstperson_righthand": {

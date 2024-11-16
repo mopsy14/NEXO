@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/deepslate_lead_ore",
-		"particle": "nexo:blocks/deepslate_lead_ore"
+		"all": "nexo:block/deepslate_lead_ore",
+		"particle": "nexo:block/deepslate_lead_ore"
 	}
 }

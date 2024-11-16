@@ -1,9 +1,9 @@
 {
 	"texture_size": [32, 32],
 	"textures": {
-		"1": "nexo:blocks/steam_turbine_blades_on",
-		"2": "nexo:blocks/steam_turbine_base",
-		"particle": "nexo:blocks/steam_turbine_base"
+		"1": "nexo:block/steam_turbine_blades_on",
+		"2": "nexo:block/steam_turbine_base",
+		"particle": "nexo:block/steam_turbine_base"
 	},
 	"elements": [
 		{

@@ -39,13 +39,13 @@ public class Main implements ModInitializer {
 	public static final ItemGroup CREATIVE_BLOCK_TAB = Registry.register(Registries.ITEM_GROUP, Identifier.of(modid,"nexo_blocks"),
 			FabricItemGroup.builder()
 					.displayName(Text.translatable("itemGroup.nexo.nexo_blocks"))
-					.icon(() -> new ItemStack(ModdedItems.Items.get("uranium_block")))
+					.icon(() -> new ItemStack(ModdedBlocks.BlockItems.get("uranium_block")))
 					.build()
 	);
 	public static final ItemGroup CREATIVE_FLUIDS_TAB = Registry.register(Registries.ITEM_GROUP, Identifier.of(modid,"nexo_fluids"),
 			FabricItemGroup.builder()
 					.displayName(Text.translatable("itemGroup.nexo.nexo_fluids"))
-					.icon(() -> new ItemStack(ModdedItems.Items.get("tank_mk1")))
+					.icon(() -> new ItemStack(ModdedBlocks.BlockItems.get("tank_mk1")))
 					.build()
 	);
 
@@ -62,6 +62,8 @@ public class Main implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTING.register(Identifier.of(modid,"set_server") ,server -> {
 			Main.server = server;
 		});
+
+		ModdedDataComponentTypes.init();
 
 		ModdedItems.regItems();
 		ModdedBlocks.regBlocks();

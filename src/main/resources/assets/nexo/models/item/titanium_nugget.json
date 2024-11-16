@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nexo:items/titanium_nugget"
+    "layer0": "nexo:item/titanium_nugget"
   }
 }

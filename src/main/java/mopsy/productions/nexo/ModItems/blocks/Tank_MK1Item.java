@@ -35,9 +35,9 @@ public class Tank_MK1Item extends BlockItem implements IModID, IItemFluidData {
                 .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"tank_mk1"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_FLUIDS_TAB_KEY).register(entries -> {
             entries.add(this);
-            for (int i = 0; i < 8; i++) {
-                entries.add(ItemStack.EMPTY);
-            }
+            //for (int i = 0; i < 8; i++) {
+                //entries.add(ItemStack.EMPTY);
+            //}
             entries.add(FluidDataUtils.setFluidAmount(FluidDataUtils.setFluidType(getDefaultStack(),FluidVariant.of(Fluids.WATER)),8*81000));
             entries.add(FluidDataUtils.setFluidAmount(FluidDataUtils.setFluidType(getDefaultStack(),FluidVariant.of(Fluids.LAVA)),8*81000));
             for(FluidVariant variant:fluidGroupVariants){

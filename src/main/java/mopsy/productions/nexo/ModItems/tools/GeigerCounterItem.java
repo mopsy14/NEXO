@@ -21,7 +21,7 @@ import static mopsy.productions.nexo.mechanics.radiation.RadiationHelper.sendRad
 public class GeigerCounterItem extends Item implements IModID  {
     public GeigerCounterItem() {
         super(new Settings().maxCount(1)
-                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"debug_item"))));
+                .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(modid,"geiger_counter"))));
         ItemGroupEvents.modifyEntriesEvent(CREATIVE_TOOLS_TAB_KEY).register(entries -> entries.add(this));
         INSTANCE = this;
     }

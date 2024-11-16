@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "nexo:items/steel_sword"
+    "layer0": "nexo:item/steel_sword"
   }
 }

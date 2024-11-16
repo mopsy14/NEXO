@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "nexo:blocks/carobbiite_ore",
-		"particle": "nexo:blocks/carobbiite_ore"
+		"all": "nexo:block/carobbiite_ore",
+		"particle": "nexo:block/carobbiite_ore"
 	}
 }

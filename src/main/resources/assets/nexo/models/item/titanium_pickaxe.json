@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "nexo:items/titanium_pickaxe"
+    "layer0": "nexo:item/titanium_pickaxe"
   }
 }
