@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    " G ",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "id": "nexo:graphite_rod"
+    }
+  },
+  "result": {
+    "id": "nexo:control_rod"
+  }
+}

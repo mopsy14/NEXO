@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T T",
+    "G G",
+    "TGT"
+  ],
+  "key": {
+    "G": {
+      "id": "nexo:graphite_rod"
+    },
+    "T": {
+      "id": "nexo:titanium_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:rod_holder"
+  }
+}

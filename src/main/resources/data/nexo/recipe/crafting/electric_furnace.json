@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "S S",
+    "CHC"
+  ],
+  "key": {
+    "H": {
+      "id": "nexo:heating_coil"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "S": {
+      "id": "nexo:steel_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:electric_furnace"
+  }
+}

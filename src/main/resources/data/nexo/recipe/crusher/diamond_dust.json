@@ -1,0 +1,9 @@
+{
+  "type": "nexo:crusher",
+  "item_inputs": [
+    {"id": "minecraft:diamond"}
+  ],
+  "item_outputs": [
+    {"id": "nexo:diamond_dust","count": 1}
+  ]
+}

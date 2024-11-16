@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PCP",
+    "TCT",
+    "PCP"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:tank_mk1"
+    },
+    "P": {
+      "id": "nexo:cooling_pipe"
+    },
+    "C": {
+      "id": "nexo:compressor"
+    }
+  },
+  "result": {
+    "id": "nexo:heat_pump"
+  }
+}

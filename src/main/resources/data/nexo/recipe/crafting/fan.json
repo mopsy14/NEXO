@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "PIP",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "id": "nexo:iron_plate"
+    },
+    "I": {
+      "id": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:fan"
+  }
+}

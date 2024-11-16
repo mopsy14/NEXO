@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TCT",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:titanium_plate"
+    },
+    "C": {
+      "id": "minecraft:cauldron"
+    }
+  },
+  "result": {
+    "id": "nexo:reactor_boiler"
+  }
+}

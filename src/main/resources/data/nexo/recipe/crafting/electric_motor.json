@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " CC",
+    "IPP",
+    " CC"
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "P": {
+      "id": "nexo:iron_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:electric_motor"
+  }
+}

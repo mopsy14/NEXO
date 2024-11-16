@@ -1,0 +1,9 @@
+{
+  "type": "nexo:press",
+  "item_inputs": [
+    {"id": "nexo:steel_ingot"}
+  ],
+  "item_outputs": [
+    {"id": "nexo:steel_plate","count": 1}
+  ]
+}

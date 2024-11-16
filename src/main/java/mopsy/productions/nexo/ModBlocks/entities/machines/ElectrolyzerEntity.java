@@ -41,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static mopsy.productions.nexo.util.InvUtils.readInv;
@@ -152,7 +153,8 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     }
 
     private static ElectrolyzerRecipe getFirstRecipeMatch(ElectrolyzerEntity entity){
-        for(RecipeEntry<?> recipeEntry : ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values()){
+        Collection<RecipeEntry<?>> recipes = ((ServerRecipeManager)entity.getWorld().getRecipeManager()).values();
+        for(RecipeEntry<?> recipeEntry : recipes){
             if(recipeEntry.value() instanceof ElectrolyzerRecipe recipe) {
                 if (recipe.hasRecipe(entity)) {
                     return recipe;
@@ -190,9 +192,11 @@ public class ElectrolyzerEntity extends BlockEntity implements ExtendedScreenHan
     public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
         if(direction==Direction.DOWN)
             return fluidStorages.get(0);
-        if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.getOpposite().rotateYClockwise())
+        else if(direction==Direction.UP)
+            return null;
+        else if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.getOpposite().rotateYClockwise())
             return fluidStorages.get(1);
-        if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.rotateYClockwise())
+        else if(this.getCachedState().get(ElectrolyzerBlock.FACING)==direction.rotateYClockwise())
             return fluidStorages.get(2);
         return null;
     }

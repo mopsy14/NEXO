@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SBS",
+    "SSS"
+  ],
+  "key": {
+    "B": {
+      "id": "minecraft:bucket"
+    },
+    "S": {
+      "id": "nexo:steel_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:tank_mk1"
+  }
+}

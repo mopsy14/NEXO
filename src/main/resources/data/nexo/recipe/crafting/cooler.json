@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "FEC",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:titanium_ingot"
+    },
+    "F": {
+      "id": "nexo:fan"
+    },
+    "E": {
+      "id": "nexo:electric_motor"
+    },
+    "C": {
+      "id": "nexo:cooling_pipe"
+    }
+  },
+  "result": {
+    "id": "nexo:cooler"
+  }
+}

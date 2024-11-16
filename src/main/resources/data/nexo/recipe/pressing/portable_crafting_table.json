@@ -1,0 +1,9 @@
+{
+  "type": "nexo:press",
+  "item_inputs": [
+    {"id": "minecraft:crafting_table"}
+  ],
+  "item_outputs": [
+    {"id": "nexo:portable_crafting_table","count": 1}
+  ]
+}

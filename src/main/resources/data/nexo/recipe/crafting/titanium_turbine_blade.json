@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ITT",
+    "ITT",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "T": {
+      "id": "nexo:titanium_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:titanium_turbine_blade"
+  }
+}

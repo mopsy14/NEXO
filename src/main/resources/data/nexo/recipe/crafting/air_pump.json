@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "FTF",
+    "FFF"
+  ],
+  "key": {
+    "T": "nexo:tank_mk1",
+    "F": "nexo:fan"
+  },
+  "result": {
+    "id": "nexo:air_pump"
+  }
+}

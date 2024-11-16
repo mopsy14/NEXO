@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SI ",
+    " I ",
+    " I "
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "S": {
+      "id": "nexo:steel_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:pipe_wrench"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    " G ",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "id": "minecraft:glass"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "nexo:test_tube"
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "type": "nexo:press",
-  "item_inputs": [
-    {"item": "minecraft:iron_ingot"}
-  ],
-  "item_outputs": [
-    {"item": "nexo:iron_plate","count": 1}
-  ]
-}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    " G ",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "id": "nexo:heat_resistant_glass"
+    },
+    "W": {
+      "id": "nexo:steel_nugget"
+    }
+  },
+  "result": {
+    "id": "nexo:heat_resistant_test_tube"
+  }
+}

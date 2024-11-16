@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "nexo:titanium_ore"
-  },
-  "result": "nexo:titanium_ingot",
-  "experience": 3
-}

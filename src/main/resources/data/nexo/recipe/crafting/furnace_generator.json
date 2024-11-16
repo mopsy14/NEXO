@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "IFI",
+    "ILI"
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "F": {
+      "id": "minecraft:furnace"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "L": {
+      "id": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "nexo:furnace_generator"
+  }
+}

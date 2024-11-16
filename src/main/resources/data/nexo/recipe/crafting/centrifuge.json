@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "SES",
+    "ICI"
+  ],
+  "key": {
+    "S": {
+      "id": "nexo:steel_plate"
+    },
+    "E": {
+      "id": "nexo:electric_motor"
+    },
+    "I": {
+      "id": "minecraft:iron_block"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    }
+  },
+  "result": {
+    "id": "nexo:centrifuge"
+  }
+}

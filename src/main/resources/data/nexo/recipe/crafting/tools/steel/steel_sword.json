@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    " I ",
+    " S "
+  ],
+  "key": {
+    "I": {
+      "tag": "c:steel_ingots"
+    },
+    "S": {
+      "id": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "nexo:steel_sword"
+  }
+}

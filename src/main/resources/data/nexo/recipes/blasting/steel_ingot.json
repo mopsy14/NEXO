@@ -1,7 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "nexo:steel_dust"
-  },
-  "result": "nexo:steel_ingot"
-}

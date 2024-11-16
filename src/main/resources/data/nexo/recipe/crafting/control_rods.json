@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ERE",
+    "ERE",
+    "ERE"
+  ],
+  "key": {
+    "R": {
+      "id": "nexo:control_rod"
+    },
+    "E": {
+      "id": "nexo:electric_motor"
+    }
+  },
+  "result": {
+    "id": "nexo:control_rods"
+  }
+}

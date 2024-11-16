@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CRC",
+    "CCC"
+  ],
+  "key": {
+    "R": {
+      "id": "nexo:rod_holder"
+    },
+    "C": {
+      "id": "nexo:cooling_pipe"
+    }
+  },
+  "result": {
+    "id": "nexo:nuclear_reaction_chamber"
+  }
+}

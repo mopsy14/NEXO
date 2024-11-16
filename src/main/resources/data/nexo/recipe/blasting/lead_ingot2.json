@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "id": "nexo:lead_ore"
+  },
+  "result": "nexo:lead_ingot",
+  "experience": 3
+}

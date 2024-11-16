@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CAC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "id": "minecraft:gold_ingot"
+    },
+    "A": {
+      "id": "nexo:wire_casing"
+    }
+  },
+  "result": {
+    "id": "nexo:gold_wire",
+
+    "count": 1
+  }
+}

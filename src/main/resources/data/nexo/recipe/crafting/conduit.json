@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "CTC",
+    "BCB"
+  ],
+  "key": {
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "T": {
+      "id": "nexo:tank_mk1"
+    },
+    "B": {
+      "id": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "id": "nexo:conduit"
+  }
+}

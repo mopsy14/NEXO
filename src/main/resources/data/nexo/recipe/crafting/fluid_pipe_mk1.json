@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SES",
+    "I I",
+    "SES"
+  ],
+  "key": {
+    "I": {
+      "id": "nexo:gas_valve"
+    },
+    "S": {
+      "id": "nexo:iron_plate"
+    },
+    "E": {
+      "id": "nexo:electric_motor"
+    }
+  },
+  "result": {
+    "id": "nexo:fluid_pipe_mk1",
+    "count": 8
+  }
+}

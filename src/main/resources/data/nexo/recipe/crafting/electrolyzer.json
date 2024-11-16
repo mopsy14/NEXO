@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "W W",
+    "WBW"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:test_tube"
+    },
+    "W": {
+      "id": "nexo:copper_wire"
+    },
+    "B": {
+      "id": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "id": "nexo:electrolyzer"
+  }
+}

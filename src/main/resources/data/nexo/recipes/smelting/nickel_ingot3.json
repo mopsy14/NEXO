@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "nexo:raw_nickel"
-  },
-  "result": "nexo:nickel_ingot",
-  "experience": 3
-}

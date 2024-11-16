@@ -1,0 +1,20 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MII",
+    "   ",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "id": "nexo:iron_plate"
+    },
+    "M": {
+      "id": "nexo:electric_motor"
+    }
+  },
+  "result": {
+    "id": "nexo:gas_valve"
+  }
+}

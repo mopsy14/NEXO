@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LHL",
+    "FTF",
+    "LFL"
+  ],
+  "key": {
+    "L": {
+      "id": "nexo:lead_plate"
+    },
+    "H": {
+      "id": "minecraft:hopper"
+    },
+    "F": {
+      "id": "nexo:fluid_pipe_mk1"
+    },
+    "T": {
+      "id": "nexo:tank_mk1"
+    }
+  },
+  "result": {
+    "id": "nexo:decon_shower_drain"
+  }
+}

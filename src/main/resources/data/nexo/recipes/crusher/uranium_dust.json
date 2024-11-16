@@ -1,9 +1,0 @@
-{
-  "type": "nexo:crusher",
-  "item_inputs": [
-    {"item": "nexo:uranium_ingot"}
-  ],
-  "item_outputs": [
-    {"item": "nexo:uranium_dust","count": 1}
-  ]
-}

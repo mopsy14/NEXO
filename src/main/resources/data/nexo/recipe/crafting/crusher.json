@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IWI",
+    "ICI",
+    "IWI"
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "W": {
+      "id": "nexo:crushing_wheel"
+    }
+  },
+  "result": {
+    "id": "nexo:crusher"
+  }
+}

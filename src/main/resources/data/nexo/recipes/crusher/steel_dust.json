@@ -1,9 +1,0 @@
-{
-  "type": "nexo:crusher",
-  "item_inputs": [
-    {"item": "nexo:steel_ingot"}
-  ],
-  "item_outputs": [
-    {"item": "nexo:steel_dust","count": 1}
-  ]
-}

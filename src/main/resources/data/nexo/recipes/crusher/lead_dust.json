@@ -1,9 +1,0 @@
-{
-  "type": "nexo:crusher",
-  "item_inputs": [
-    {"item": "nexo:lead_ingot"}
-  ],
-  "item_outputs": [
-    {"item": "nexo:lead_dust","count": 1}
-  ]
-}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "TIT",
+    " T "
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_block"
+    },
+    "T": {
+      "id": "nexo:titanium_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:crushing_wheel"
+  }
+}

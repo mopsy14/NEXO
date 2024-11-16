@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "id": "nexo:empty_fuel_rod"
+    },
+    {
+      "id": "nexo:empty_fuel_rod"
+    },
+    {
+      "id": "nexo:empty_fuel_rod"
+    },
+    {
+      "id": "nexo:empty_fuel_rod"
+    }
+  ],
+  "result": {
+    "id": "nexo:empty_quad_fuel_rod"
+  }
+}

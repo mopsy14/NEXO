@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "id": "nexo:iron_dust"
+    },
+    {
+      "id": "nexo:coal_dust"
+    }
+  ],
+  "result": {
+    "id": "nexo:steel_dust"
+  }
+}

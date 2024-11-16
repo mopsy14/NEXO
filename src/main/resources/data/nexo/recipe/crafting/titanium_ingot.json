@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "id": "nexo:titanium_nugget"
+    }
+  },
+  "result": {
+    "id": "nexo:titanium_ingot",
+    "count": 1
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "type": "nexo:press",
-  "item_inputs": [
-    {"item": "minecraft:diamond"}
-  ],
-  "item_outputs": [
-    {"item": "nexo:diamond_plate","count": 1}
-  ]
-}

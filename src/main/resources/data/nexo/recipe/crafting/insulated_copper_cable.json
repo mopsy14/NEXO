@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "III",
+    "SSS"
+  ],
+  "key": {
+    "I": {
+      "id": "nexo:copper_wire"
+    },
+    "S": {
+      "id": "minecraft:black_carpet"
+    }
+  },
+  "result": {
+    "id": "nexo:insulated_copper_cable",
+    "count": 8
+  }
+}

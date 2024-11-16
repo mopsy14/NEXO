@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    " T ",
+    "SSS"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:tank_mk1"
+    },
+    "S": {
+      "id": "nexo:steel_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:small_reactor_hatches"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "BRB",
+    "T T"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:titanium_ingot"
+    },
+    "G": {
+      "id": "nexo:graphite_rod"
+    },
+    "R": {
+      "id": "nexo:nuclear_reaction_chamber"
+    },
+    "B": {
+      "id": "nexo:reactor_boiler"
+    }
+  },
+  "result": {
+    "id": "nexo:small_reactor"
+  }
+}

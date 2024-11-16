@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "I": {
+      "tag": "c:titanium_ingots"
+    },
+    "S": {
+      "id": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "nexo:titanium_pickaxe"
+  }
+}

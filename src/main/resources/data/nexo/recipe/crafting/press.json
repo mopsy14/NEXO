@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IPI",
+    "ITI",
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "id": "minecraft:iron_ingot"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    },
+    "P": {
+      "id": "minecraft:piston"
+    },
+    "T": {
+      "id": "nexo:titanium_ingot"
+    }
+  },
+  "result": {
+    "id": "nexo:press"
+  }
+}
+

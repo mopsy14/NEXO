@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "id": "nexo:raw_titanium"
+  },
+  "result": "nexo:titanium_ingot",
+  "experience": 3
+}

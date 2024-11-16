@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L L",
+    "L L",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "id": "nexo:lead_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:empty_fuel_rod"
+  }
+}

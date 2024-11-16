@@ -1,0 +1,19 @@
+{
+  "type": "nexo:mixer",
+  "fluid_inputs": [
+    {"fluid_type": "nexo:sulfuric_acid","fluid_amount": 81000}
+  ],
+  "fluid_outputs": [
+    {"fluid_type": "nexo:hydrogen","fluid_amount": 81000}
+  ],
+  "item_inputs": [
+    {"id": "nexo:lead_dust"}
+  ],
+  "item_outputs": [
+    {"id":"nexo:lead_sulfate","count":1}
+  ],
+  "additional_info":[
+    "20",
+    "100"
+  ]
+}

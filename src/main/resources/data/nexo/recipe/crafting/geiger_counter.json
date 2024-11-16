@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "TCP",
+    "III"
+  ],
+  "key": {
+    "P": {
+      "id": "nexo:piezoelectric_element"
+    },
+    "I": {
+      "id": "nexo:iron_plate"
+    },
+    "T": {
+      "id": "nexo:filled_geiger_tube"
+    },
+    "C": {
+      "id": "nexo:copper_wire"
+    }
+  },
+  "result": {
+    "id": "nexo:geiger_counter"
+  }
+}

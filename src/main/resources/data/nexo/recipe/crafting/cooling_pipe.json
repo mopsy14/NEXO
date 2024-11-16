@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "   ",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "id": "nexo:titanium_plate"
+    }
+  },
+  "result": {
+    "id": "nexo:cooling_pipe"
+  }
+}

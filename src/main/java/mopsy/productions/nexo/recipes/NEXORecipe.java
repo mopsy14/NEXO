@@ -64,7 +64,7 @@ public class NEXORecipe implements Recipe<RecipeInput> {
 
     //hasRecipe Code:
     public boolean hasRecipe(BlockEntity blockEntity){
-        if(inputs.isEmpty() || inputFluids.isEmpty()) {
+        if(inputs.isEmpty() && inputFluids.isEmpty()) {
             LOGGER.error("Empty fluid and item inputs found in recipe");
             return false;
         }
@@ -306,10 +306,10 @@ public class NEXORecipe implements Recipe<RecipeInput> {
         public static final Serializer INSTANCE = new Serializer();
         public static final MapCodec<NEXORecipe> CODEC = RecordCodecBuilder.mapCodec(in -> in.group(
                 Identifier.CODEC.fieldOf("type").forGetter(r -> r.id),
-                Ingredient.CODEC.listOf().fieldOf("input_items").orElse(Collections.emptyList()).forGetter(r -> r.inputs),
-                ItemStack.CODEC.listOf().fieldOf("output_items").orElse(Collections.emptyList()).forGetter(r -> r.outputs),
-                NFluidStack.CODEC.listOf().fieldOf("input_fluids").orElse(Collections.emptyList()).forGetter(r -> r.inputFluids),
-                NFluidStack.CODEC.listOf().fieldOf("output_fluids").orElse(Collections.emptyList()).forGetter(r -> r.outputFluids),
+                Ingredient.CODEC.listOf().fieldOf("item_inputs").orElse(Collections.emptyList()).forGetter(r -> r.inputs),
+                ItemStack.CODEC.listOf().fieldOf("item_outputs").orElse(Collections.emptyList()).forGetter(r -> r.outputs),
+                NFluidStack.CODEC.listOf().fieldOf("fluid_inputs").orElse(Collections.emptyList()).forGetter(r -> r.inputFluids),
+                NFluidStack.CODEC.listOf().fieldOf("fluid_outputs").orElse(Collections.emptyList()).forGetter(r -> r.outputFluids),
                 Codec.STRING.listOf().fieldOf("additional_info").orElse(Collections.emptyList()).forGetter(r -> r.additionalInfo)
         ).apply(in, NEXORecipe::fromProperties));
         public static final PacketCodec<RegistryByteBuf, NEXORecipe> PACKET_CODEC = PacketCodec.tuple(
@@ -507,5 +507,10 @@ public class NEXORecipe implements Recipe<RecipeInput> {
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
         return null;
+    }
+
+    @Override
+    public boolean isIgnoredInRecipeBook() {
+        return true;
     }
 }

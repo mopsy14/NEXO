@@ -1,0 +1,16 @@
+{
+  "type": "nexo:mixer",
+  "fluid_inputs": [
+  ],
+  "item_inputs": [
+    {"id": "nexo:vanadium_ore_dust"},
+    {"id": "nexo:salt"}
+  ],
+  "item_outputs": [
+    {"id":"nexo:sodium_metavanadate","count":1}
+  ],
+  "additional_info":[
+    "800",
+    "1000"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "id": "minecraft:coal"
+  },
+  "result": "nexo:graphite_rod",
+  "experience": 3
+}
