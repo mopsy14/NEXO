@@ -13,20 +13,22 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static mopsy.productions.nexo.Main.modid;
 
 @Environment(EnvType.CLIENT)
 public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPipe_MK1Entity> {
 
-    private static final Identifier MAIN_TEXTURE = Identifier.of(modid,"textures/blocks/fluid_pipe_mk1.png");
-    private static final Identifier INPUT_TEXTURE = Identifier.of(modid,"textures/blocks/fluid_pipe_mk1_input.png");
-    private static final Identifier OUTPUT_TEXTURE = Identifier.of(modid,"textures/blocks/fluid_pipe_mk1_output.png");
-    //private static final Identifier IO_TEXTURE = Identifier.of(modid,"textures/blocks/fluid_pipe_mk1_io.png");
-    private static final Identifier PIPE_TEXTURE = Identifier.of(modid,"textures/blocks/fluid_pipe_mk1_pipe.png");
+    private static final Identifier MAIN_TEXTURE = Identifier.of(modid,"textures/block/fluid_pipe_mk1.png");
+    private static final Identifier INPUT_TEXTURE = Identifier.of(modid,"textures/block/fluid_pipe_mk1_input.png");
+    private static final Identifier OUTPUT_TEXTURE = Identifier.of(modid,"textures/block/fluid_pipe_mk1_output.png");
+    //private static final Identifier IO_TEXTURE = Identifier.of(modid,"textures/block/fluid_pipe_mk1_io.png");
+    private static final Identifier PIPE_TEXTURE = Identifier.of(modid,"textures/block/fluid_pipe_mk1_pipe.png");
 
     private static final FluidPipe_MK1BaseModel BASE_MODEL = new FluidPipe_MK1BaseModel();
     private static final FluidPipe_MK1EndModel END_MODEL = new FluidPipe_MK1EndModel();
@@ -68,7 +70,7 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
     private static class FluidPipe_MK1BaseModel extends Model{
 
         public FluidPipe_MK1BaseModel(){
-            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,6f,6f,6f,4f,4f,4f, 0f,0f,0f, false, 16f,16f,Collections.emptySet())), Collections.emptyMap()),
+            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,6f,6f,6f,4f,4f,4f, 0f,0f,0f, false, 16f,16f, Set.copyOf(List.of(Direction.values())))), Collections.emptyMap()),
                     RenderLayer::getEntityCutoutNoCull);
         }
     }
@@ -76,9 +78,9 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
 
         public FluidPipe_MK1EndModel(){
             super(new ModelPart(List.of(
-                    new ModelPart.Cuboid(0,0,2f,-2f,-2f,4f,4f,4f, 0f,0f,0f, false, 32f,32f,Collections.emptySet()),
-                    new ModelPart.Cuboid(0,10,6f,-3f,-3f,1f,6f,6f, 0f,0f,0f, false, 32f,32f,Collections.emptySet()),
-                    new ModelPart.Cuboid(8,0,7f,-4f,-4f,1f,8f,8f, 0f,0f,0f, false, 32f,32f,Collections.emptySet())), Collections.emptyMap()),
+                    new ModelPart.Cuboid(0,0,2f,-2f,-2f,4f,4f,4f, 0f,0f,0f, false, 32f,32f,Set.copyOf(List.of(Direction.values()))),
+                    new ModelPart.Cuboid(0,10,6f,-3f,-3f,1f,6f,6f, 0f,0f,0f, false, 32f,32f,Set.copyOf(List.of(Direction.values()))),
+                    new ModelPart.Cuboid(8,0,7f,-4f,-4f,1f,8f,8f, 0f,0f,0f, false, 32f,32f,Set.copyOf(List.of(Direction.values())))), Collections.emptyMap()),
                     RenderLayer::getEntityCutoutNoCull);
 
             root.setPivot(8f,8f,8f);
@@ -87,7 +89,7 @@ public class FluidPipe_MK1EntityRenderer implements BlockEntityRenderer<FluidPip
     private static class FluidPipe_MK1PipeModel extends Model{
 
         public FluidPipe_MK1PipeModel(){
-            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,2f,-2f,-2f,6f,4f,4f, 0f,0f,0f, false, 32f,32f,Collections.emptySet())), Collections.emptyMap()),
+            super(new ModelPart(List.of(new ModelPart.Cuboid(0,0,2f,-2f,-2f,6f,4f,4f, 0f,0f,0f, false, 32f,32f,Set.copyOf(List.of(Direction.values())))), Collections.emptyMap()),
                     RenderLayer::getEntityCutoutNoCull);
 
             root.setPivot(8f,8f,8f);
