@@ -194,9 +194,11 @@ public class AmmoniaSynthesizerEntity extends BlockEntity implements ExtendedScr
     public SingleVariantStorage getFluidStorageFromDirection(Direction direction){
         if(direction==Direction.UP)
             return fluidStorages.get(2);
-        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite().rotateYClockwise())
+        else if(direction==Direction.DOWN)
+            return null;
+        else if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.getOpposite().rotateYClockwise())
             return fluidStorages.get(0);
-        if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.rotateYClockwise())
+        else if(this.getCachedState().get(SmallReactorHatchesBlock.FACING)==direction.rotateYClockwise())
             return fluidStorages.get(1);
         return null;
     }

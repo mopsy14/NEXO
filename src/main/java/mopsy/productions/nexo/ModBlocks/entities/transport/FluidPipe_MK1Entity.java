@@ -189,7 +189,7 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
         while(!toCheck.isEmpty()){
             int index = toCheck.size()-1;
             res.add(toCheck.get(index));
-            toCheck.addAll(getSurroundingPipePosses(toCheck.get(toCheck.size()-1).pos, shouldIgnore));
+            toCheck.addAll(getSurroundingPipePosses(toCheck.getLast().pos, shouldIgnore));
             toCheck.remove(index);
         }
 
@@ -233,9 +233,9 @@ public class FluidPipe_MK1Entity extends BlockEntity implements ExtendedScreenHa
     private Set<TriType<NEXORotation,Storage<FluidVariant>,Boolean>> getSurroundingStorages(World world, BlockPos pos){
         Set<TriType<NEXORotation,Storage<FluidVariant>,Boolean>> res = new HashSet<>();
         for(NEXORotation rotation : NEXORotation.values()){
-            BlockPos calculatedPos = pos.add(rotation.transformToVec3i());
+            BlockPos calculatedPos = pos.mutableCopy().add(rotation.transformToVec3i());
             if(!(world.getBlockEntity(calculatedPos) instanceof FluidPipe_MK1Entity)) {
-                Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction.getOpposite());
+                Storage<FluidVariant> storage = FluidStorage.SIDED.find(world, calculatedPos, rotation.direction);
                 if (storage != null) {
                     if(storage.supportsExtraction())
                         res.add(new TriType<>(rotation, storage, false));
