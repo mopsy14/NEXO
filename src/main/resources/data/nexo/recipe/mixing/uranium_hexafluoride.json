@@ -1,13 +1,13 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:fluorine","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:fluorine"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:uranium_hexafluoride","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:uranium_hexafluoride"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:uranium_tetrafluoride"}
+    "nexo:uranium_tetrafluoride"
   ],
   "additional_info":[
     "350",

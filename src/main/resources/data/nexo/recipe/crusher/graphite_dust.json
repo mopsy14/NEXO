@@ -1,7 +1,7 @@
 {
   "type": "nexo:crusher",
   "item_inputs": [
-    {"id": "nexo:graphite_rod"}
+    "nexo:graphite_rod"
   ],
   "item_outputs": [
     {"id": "nexo:graphite_dust","count": 1}

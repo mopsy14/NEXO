@@ -1,14 +1,14 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:ammonia","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:ammonia"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:ammonia","fluid_amount": 81000},
-    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:ammonia"},"fluid_amount": 81000},
+    {"fluid_type": {"fluid": "nexo:oxygen"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:triuranium_octoxide"}
+    "nexo:triuranium_octoxide"
   ],
   "item_outputs": [
     {"id":"nexo:uranium_fuel_pellet","count":1}

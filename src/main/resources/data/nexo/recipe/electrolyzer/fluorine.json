@@ -1,11 +1,11 @@
 {
   "type": "nexo:electrolyzer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:hf_kf","fluid_amount": 4050}
+    {"fluid_type": {"fluid": "nexo:hf_kf"},"fluid_amount": 4050}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:fluorine","fluid_amount": 2025},
-    {"fluid_type": "nexo:hydrogen","fluid_amount": 2025}
+    {"fluid_type": {"fluid": "nexo:fluorine"},"fluid_amount": 2025},
+    {"fluid_type": {"fluid": "nexo:hydrogen"},"fluid_amount": 2025}
   ],
   "item_inputs": [
   ],

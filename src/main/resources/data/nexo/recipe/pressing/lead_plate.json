@@ -1,7 +1,7 @@
 {
   "type": "nexo:press",
   "item_inputs": [
-    {"id": "nexo:lead_ingot"}
+    "nexo:lead_ingot"
   ],
   "item_outputs": [
     {"id": "nexo:lead_plate","count": 1}

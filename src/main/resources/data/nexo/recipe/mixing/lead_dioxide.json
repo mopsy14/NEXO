@@ -1,10 +1,10 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:oxygen"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:lead_dust"}
+    "nexo:lead_dust"
   ],
   "item_outputs": [
     {"id": "nexo:lead_dioxide","count":1}

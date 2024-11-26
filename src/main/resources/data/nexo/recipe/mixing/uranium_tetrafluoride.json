@@ -1,14 +1,14 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:hydrogen_fluoride"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "minecraft:water","fluid_amount": 81000},
-    {"fluid_type": "nexo:oxygen","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "minecraft:water"},"fluid_amount": 81000},
+    {"fluid_type": {"fluid": "nexo:oxygen"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:yellowcake"}
+    "nexo:yellowcake"
   ],
   "item_outputs": [
     {"id":"nexo:uranium_tetrafluoride","count":1}

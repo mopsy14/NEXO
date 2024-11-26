@@ -3,8 +3,8 @@
   "fluid_inputs": [
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:oxygen","fluid_amount": 17010},
-    {"fluid_type": "nexo:nitrogen","fluid_amount": 63180}
+    {"fluid_type": {"fluid": "nexo:oxygen"},"fluid_amount": 17010},
+    {"fluid_type": {"fluid": "nexo:nitrogen"},"fluid_amount": 63180}
   ],
   "item_inputs": [
   ],

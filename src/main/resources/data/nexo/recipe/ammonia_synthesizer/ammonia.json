@@ -1,11 +1,11 @@
 {
   "type": "nexo:ammonia_synthesizer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:hydrogen","fluid_amount": 405},
-    {"fluid_type": "nexo:nitrogen","fluid_amount": 405}
+    {"fluid_type": {"fluid": "nexo:hydrogen"},"fluid_amount": 405},
+    {"fluid_type": {"fluid": "nexo:nitrogen"},"fluid_amount": 405}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:ammonia","fluid_amount": 810}
+    {"fluid_type": {"fluid": "nexo:ammonia"},"fluid_amount": 810}
   ],
   "item_inputs": [
   ],

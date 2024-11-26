@@ -1,13 +1,13 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "nexo:sulfuric_acid","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:sulfuric_acid"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:hydrogen_fluoride"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:fluorite"}
+    "nexo:fluorite"
   ],
   "item_outputs": [
     {"id": "nexo:gypsum","count": 1}

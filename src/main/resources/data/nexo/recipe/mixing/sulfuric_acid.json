@@ -1,11 +1,11 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "minecraft:water","fluid_amount": 81000},
-    {"fluid_type": "nexo:sulfur_trioxide","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "minecraft:water"},"fluid_amount": 81000},
+    {"fluid_type": {"fluid": "nexo:sulfur_trioxide"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:sulfuric_acid","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:sulfuric_acid"},"fluid_amount": 81000}
   ],
   "additional_info":[
     "300",

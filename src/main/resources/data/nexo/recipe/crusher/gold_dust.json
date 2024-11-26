@@ -1,7 +1,7 @@
 {
   "type": "nexo:crusher",
   "item_inputs": [
-    {"id": "minecraft:gold_ingot"}
+    "minecraft:gold_ingot"
   ],
   "item_outputs": [
     {"id": "nexo:gold_dust","count": 1}

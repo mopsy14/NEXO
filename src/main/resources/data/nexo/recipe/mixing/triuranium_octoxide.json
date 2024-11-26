@@ -1,14 +1,14 @@
 {
   "type": "nexo:mixer",
   "fluid_inputs": [
-    {"fluid_type": "minecraft:water","fluid_amount": 81000},
-    {"fluid_type": "nexo:hydrogen","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "minecraft:water"},"fluid_amount": 81000},
+    {"fluid_type": {"fluid": "nexo:hydrogen"},"fluid_amount": 81000}
   ],
   "fluid_outputs": [
-    {"fluid_type": "nexo:hydrogen_fluoride","fluid_amount": 81000}
+    {"fluid_type": {"fluid": "nexo:hydrogen_fluoride"},"fluid_amount": 81000}
   ],
   "item_inputs": [
-    {"id": "nexo:uranyl_fluoride"}
+    "nexo:uranyl_fluoride"
   ],
   "item_outputs": [
     {"id":"nexo:triuranium_octoxide","count":1}

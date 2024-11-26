@@ -1,7 +1,7 @@
 {
   "type": "nexo:press",
   "item_inputs": [
-    {"id": "nexo:titanium_ingot"}
+    "nexo:titanium_ingot"
   ],
   "item_outputs": [
     {"id": "nexo:titanium_plate","count": 1}

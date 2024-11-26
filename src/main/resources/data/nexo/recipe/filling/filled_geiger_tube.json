@@ -1,10 +1,10 @@
 {
   "type": "nexo:filling",
   "fluid_inputs": [
-    {"fluid_type": "nexo:nitrogen","fluid_amount": 8100}
+    {"fluid_type": {"fluid": "nexo:nitrogen"},"fluid_amount": 8100}
   ],
   "item_inputs": [
-    {"id": "nexo:empty_geiger_tube"}
+    "nexo:empty_geiger_tube"
   ],
   "item_outputs": [
     {"id":"nexo:filled_geiger_tube","count":1}

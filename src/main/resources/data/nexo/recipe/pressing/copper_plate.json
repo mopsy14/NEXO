@@ -1,7 +1,7 @@
 {
   "type": "nexo:press",
   "item_inputs": [
-    {"id": "minecraft:copper_ingot"}
+    "minecraft:copper_ingot"
   ],
   "item_outputs": [
     {"id": "nexo:copper_plate","count": 1}

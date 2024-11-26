@@ -1,7 +1,7 @@
 {
   "type": "nexo:crusher",
   "item_inputs": [
-    {"id": "nexo:vanadium_ore"}
+    "nexo:vanadium_ore"
   ],
   "item_outputs": [
     {"id": "nexo:vanadium_ore_dust","count": 1}
