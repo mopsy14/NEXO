@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "id": "nexo:nickel_ore"
-  },
-  "result": "nexo:nickel_ingot",
-  "experience": 3
+  "ingredient": "nexo:nickel_ore",
+  "result": {
+    "id": "nexo:nickel_ingot",
+    "experience": 3
+  }
 }

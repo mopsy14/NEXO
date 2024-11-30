@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "id": "nexo:titanium_nugget"
-    }
+    "#":"nexo:titanium_nugget"
   },
   "result": {
     "id": "nexo:titanium_ingot",

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "id": "nexo:glass_dust"
-  },
-  "result": "nexo:heat_resistant_glass",
-  "experience": 3
+  "ingredient": "nexo:glass_dust",
+  "result": {
+    "id": "nexo:heat_resistant_glass",
+    "experience": 3
+  }
 }

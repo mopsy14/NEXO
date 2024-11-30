@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "I": {
-      "id": "nexo:copper_wire"
-    },
-    "S": {
-      "id": "minecraft:black_carpet"
-    }
+    "I":"nexo:copper_wire",
+    "S":"minecraft:black_carpet"
   },
   "result": {
     "id": "nexo:insulated_copper_cable",

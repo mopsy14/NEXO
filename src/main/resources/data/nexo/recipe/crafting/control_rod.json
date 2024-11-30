@@ -6,9 +6,7 @@
     " G "
   ],
   "key": {
-    "G": {
-      "id": "nexo:graphite_rod"
-    }
+    "G":"nexo:graphite_rod"
   },
   "result": {
     "id": "nexo:control_rod"

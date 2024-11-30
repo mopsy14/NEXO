@@ -6,15 +6,9 @@
     "III"
   ],
   "key": {
-    "I": {
-      "id": "nexo:iron_plate"
-    },
-    "P": {
-      "id": "minecraft:piston"
-    },
-    "V": {
-      "id": "nexo:gas_valve"
-    }
+    "I":"nexo:iron_plate",
+    "P":"minecraft:piston",
+    "V":"nexo:gas_valve"
   },
   "result": {
     "id": "nexo:compressor"

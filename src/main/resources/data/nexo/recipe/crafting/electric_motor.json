@@ -6,15 +6,9 @@
     " CC"
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_ingot"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    },
-    "P": {
-      "id": "nexo:iron_plate"
-    }
+    "I":"minecraft:iron_ingot",
+    "C":"nexo:copper_wire",
+    "P":"nexo:iron_plate"
   },
   "result": {
     "id": "nexo:electric_motor"

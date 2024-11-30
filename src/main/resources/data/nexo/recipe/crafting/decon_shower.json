@@ -6,18 +6,10 @@
     "SDS"
   ],
   "key": {
-    "S": {
-      "id": "nexo:steel_plate"
-    },
-    "F": {
-      "id": "nexo:fluid_pipe_mk1"
-    },
-    "T": {
-      "id": "nexo:tank_mk1"
-    },
-    "D": {
-      "id": "minecraft:dropper"
-    }
+    "S":"nexo:steel_plate",
+    "F":"nexo:fluid_pipe_mk1",
+    "T":"nexo:tank_mk1",
+    "D":"minecraft:dropper"
   },
   "result": {
     "id": "nexo:decon_shower"

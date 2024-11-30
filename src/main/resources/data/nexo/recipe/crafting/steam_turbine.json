@@ -6,15 +6,9 @@
     "CCC"
   ],
   "key": {
-    "T": {
-      "id": "nexo:titanium_turbine"
-    },
-    "E": {
-      "id": "nexo:electric_motor"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    }
+    "T":"nexo:titanium_turbine",
+    "E":"nexo:electric_motor",
+    "C":"nexo:copper_wire"
   },
   "result": {
     "id": "nexo:steam_turbine"

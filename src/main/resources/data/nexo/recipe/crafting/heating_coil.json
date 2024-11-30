@@ -6,9 +6,7 @@
     "C C"
   ],
   "key": {
-    "C": {
-      "id": "nexo:copper_wire"
-    }
+    "C":"nexo:copper_wire"
   },
   "result": {
     "id": "nexo:heating_coil",

@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "I": {
-      "tag": "c:titanium_ingots"
-    },
-    "S": {
-      "id": "minecraft:stick"
-    }
+    "I":"#c:titanium_ingots",
+    "S":"minecraft:stick"
   },
   "result": {
     "id": "nexo:titanium_hoe"

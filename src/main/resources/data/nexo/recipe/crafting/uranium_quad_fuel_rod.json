@@ -1,33 +1,15 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:uranium_fuel_pellet"
-    },
-    {
-      "id": "nexo:empty_quad_fuel_rod"
-    }
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:uranium_fuel_pellet",
+    "nexo:empty_quad_fuel_rod"
   ],
   "result": {
     "id": "nexo:uranium_quad_fuel_rod"

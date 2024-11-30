@@ -6,12 +6,8 @@
     "CCC"
   ],
   "key": {
-    "R": {
-      "id": "nexo:rod_holder"
-    },
-    "C": {
-      "id": "nexo:cooling_pipe"
-    }
+    "R":"nexo:rod_holder",
+    "C":"nexo:cooling_pipe"
   },
   "result": {
     "id": "nexo:nuclear_reaction_chamber"

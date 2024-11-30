@@ -1,8 +1,8 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "id": "nexo:sodium_metavanadate"
-  },
-  "result": "nexo:vanadium",
-  "experience": 2
+  "ingredient": "nexo:sodium_metavanadate",
+  "result": {
+    "id": "nexo:vanadium",
+    "experience": 2
+  }
 }

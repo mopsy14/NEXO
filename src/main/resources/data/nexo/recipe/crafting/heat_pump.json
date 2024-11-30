@@ -6,15 +6,9 @@
     "PCP"
   ],
   "key": {
-    "T": {
-      "id": "nexo:tank_mk1"
-    },
-    "P": {
-      "id": "nexo:cooling_pipe"
-    },
-    "C": {
-      "id": "nexo:compressor"
-    }
+    "T":"nexo:tank_mk1",
+    "P":"nexo:cooling_pipe",
+    "C":"nexo:compressor"
   },
   "result": {
     "id": "nexo:heat_pump"

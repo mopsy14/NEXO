@@ -6,15 +6,9 @@
     "BCB"
   ],
   "key": {
-    "C": {
-      "id": "nexo:copper_wire"
-    },
-    "T": {
-      "id": "nexo:tank_mk1"
-    },
-    "B": {
-      "id": "minecraft:iron_block"
-    }
+    "C":"nexo:copper_wire",
+    "T":"nexo:tank_mk1",
+    "B":"minecraft:iron_block"
   },
   "result": {
     "id": "nexo:conduit"

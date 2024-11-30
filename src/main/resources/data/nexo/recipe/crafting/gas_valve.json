@@ -7,12 +7,8 @@
     "III"
   ],
   "key": {
-    "I": {
-      "id": "nexo:iron_plate"
-    },
-    "M": {
-      "id": "nexo:electric_motor"
-    }
+    "I":"nexo:iron_plate",
+    "M":"nexo:electric_motor"
   },
   "result": {
     "id": "nexo:gas_valve"

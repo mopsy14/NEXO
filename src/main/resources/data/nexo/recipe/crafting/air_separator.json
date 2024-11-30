@@ -6,18 +6,10 @@
     "WCT"
   ],
   "key": {
-    "H": {
-      "id": "nexo:heat_pump"
-    },
-    "T": {
-      "id": "nexo:tank_mk1"
-    },
-    "C": {
-      "id": "nexo:cooling_pipe"
-    },
-    "W": {
-      "id": "nexo:copper_wire"
-    }
+    "H": "nexo:heat_pump",
+    "T":"nexo:tank_mk1",
+    "C":"nexo:cooling_pipe",
+    "W": "nexo:copper_wire"
   },
   "result": {
     "id": "nexo:air_separator"

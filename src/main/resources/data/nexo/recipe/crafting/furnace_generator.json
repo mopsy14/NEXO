@@ -6,18 +6,10 @@
     "ILI"
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_ingot"
-    },
-    "F": {
-      "id": "minecraft:furnace"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    },
-    "L": {
-      "id": "minecraft:bucket"
-    }
+    "I":"minecraft:iron_ingot",
+    "F":"minecraft:furnace",
+    "C":"nexo:copper_wire",
+    "L":"minecraft:bucket"
   },
   "result": {
     "id": "nexo:furnace_generator"

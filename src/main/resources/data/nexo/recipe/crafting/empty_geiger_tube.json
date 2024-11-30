@@ -6,15 +6,9 @@
     "GGG"
   ],
   "key": {
-    "G": {
-      "id": "minecraft:glass_pane"
-    },
-    "C": {
-      "id": "nexo:gold_wire"
-    },
-    "S": {
-      "id": "nexo:nickel_ingot"
-    }
+    "G":"minecraft:glass_pane",
+    "C":"nexo:gold_wire",
+    "S":"nexo:nickel_ingot"
   },
   "result": {
     "id": "nexo:empty_geiger_tube"

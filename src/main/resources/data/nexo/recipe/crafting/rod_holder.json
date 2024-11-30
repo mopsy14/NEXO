@@ -6,12 +6,8 @@
     "TGT"
   ],
   "key": {
-    "G": {
-      "id": "nexo:graphite_rod"
-    },
-    "T": {
-      "id": "nexo:titanium_ingot"
-    }
+    "G":"nexo:graphite_rod",
+    "T":"nexo:titanium_ingot"
   },
   "result": {
     "id": "nexo:rod_holder"

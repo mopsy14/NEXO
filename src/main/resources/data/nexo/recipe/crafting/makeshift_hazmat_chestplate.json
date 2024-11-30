@@ -6,12 +6,8 @@
     "LDL"
   ],
   "key": {
-    "L": {
-      "id": "minecraft:leather"
-    },
-    "D": {
-      "id": "nexo:lead_dust"
-    }
+    "L":"minecraft:leather",
+    "D":"nexo:lead_dust"
   },
   "result": {
     "id": "nexo:makeshift_hazmat_chestplate"

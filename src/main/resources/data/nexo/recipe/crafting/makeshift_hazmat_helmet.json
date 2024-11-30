@@ -5,15 +5,9 @@
     "LGL"
   ],
   "key": {
-    "L": {
-      "id": "minecraft:leather"
-    },
-    "D": {
-      "id": "nexo:lead_dust"
-    },
-    "G": {
-      "id": "minecraft:glass_pane"
-    }
+    "L":"minecraft:leather",
+    "D":"nexo:lead_dust",
+    "G":"minecraft:glass_pane"
   },
   "result": {
     "id": "nexo:makeshift_hazmat_helmet"

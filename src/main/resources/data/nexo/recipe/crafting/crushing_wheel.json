@@ -6,12 +6,8 @@
     " T "
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_block"
-    },
-    "T": {
-      "id": "nexo:titanium_ingot"
-    }
+    "I":"minecraft:iron_block",
+    "T":"nexo:titanium_ingot"
   },
   "result": {
     "id": "nexo:crushing_wheel"

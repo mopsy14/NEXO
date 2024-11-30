@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "id": "nexo:uranium_nugget"
-    }
+    "#":"nexo:uranium_nugget"
   },
   "result": {
     "id": "nexo:uranium_ingot",

@@ -6,12 +6,8 @@
     "GGG"
   ],
   "key": {
-    "G": {
-      "id": "nexo:gold_plate"
-    },
-    "Q": {
-      "id": "nexo:quartz_dust"
-    }
+    "G":"nexo:gold_plate",
+    "Q":"nexo:quartz_dust"
   },
   "result": {
     "id": "nexo:piezoelectric_element",

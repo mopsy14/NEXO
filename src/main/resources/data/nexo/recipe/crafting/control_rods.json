@@ -6,12 +6,8 @@
     "ERE"
   ],
   "key": {
-    "R": {
-      "id": "nexo:control_rod"
-    },
-    "E": {
-      "id": "nexo:electric_motor"
-    }
+    "R":"nexo:control_rod",
+    "E":"nexo:electric_motor"
   },
   "result": {
     "id": "nexo:control_rods"

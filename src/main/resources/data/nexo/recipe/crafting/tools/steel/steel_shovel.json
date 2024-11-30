@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "I": {
-      "tag": "c:steel_ingots"
-    },
-    "S": {
-      "id": "minecraft:stick"
-    }
+    "I":"#c:steel_ingots",
+    "S":"minecraft:stick"
   },
   "result": {
     "id": "nexo:steel_shovel"

@@ -6,9 +6,7 @@
     "TTT"
   ],
   "key": {
-    "T": {
-      "id": "nexo:titanium_plate"
-    }
+    "T":"nexo:titanium_plate"
   },
   "result": {
     "id": "nexo:cooling_pipe"

@@ -6,21 +6,11 @@
     "HHH"
   ],
   "key": {
-    "C": {
-      "id": "nexo:compressor"
-    },
-    "H": {
-      "id": "nexo:heating_coil"
-    },
-    "P": {
-      "id": "nexo:heat_pump"
-    },
-    "R": {
-      "id": "nexo:reaction_chamber"
-    },
-    "I": {
-      "id": "nexo:iron_plate"
-    }
+    "C": "nexo:compressor",
+    "H": "nexo:heating_coil",
+    "P": "nexo:heat_pump",
+    "R": "nexo:reaction_chamber",
+    "I": "nexo:iron_plate"
   },
   "result": {
     "id": "nexo:ammonia_synthesizer"

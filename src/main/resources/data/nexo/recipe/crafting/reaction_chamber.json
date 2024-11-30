@@ -6,9 +6,7 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "id": "nexo:steel_plate"
-    }
+    "S":"nexo:steel_plate"
   },
   "result": {
     "id": "nexo:reaction_chamber"

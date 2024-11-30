@@ -6,12 +6,8 @@
     "III"
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_ingot"
-    },
-    "T": {
-      "id": "nexo:titanium_plate"
-    }
+    "I":"minecraft:iron_ingot",
+    "T":"nexo:titanium_plate"
   },
   "result": {
     "id": "nexo:titanium_turbine_blade"

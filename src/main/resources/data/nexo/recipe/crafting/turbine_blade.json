@@ -6,12 +6,8 @@
     "TTT"
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_block"
-    },
-    "T": {
-      "id": "nexo:titanium_turbine_blade"
-    }
+    "I":"minecraft:iron_block",
+    "T":"nexo:titanium_turbine_blade"
   },
   "result": {
     "id": "nexo:titanium_turbine"

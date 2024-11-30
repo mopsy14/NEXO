@@ -6,12 +6,8 @@
     " I "
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_ingot"
-    },
-    "S": {
-      "id": "nexo:steel_ingot"
-    }
+    "I":"minecraft:iron_ingot",
+    "S":"nexo:steel_ingot"
   },
   "result": {
     "id": "nexo:pipe_wrench"

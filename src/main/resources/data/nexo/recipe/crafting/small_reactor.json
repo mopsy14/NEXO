@@ -6,18 +6,10 @@
     "T T"
   ],
   "key": {
-    "T": {
-      "id": "nexo:titanium_ingot"
-    },
-    "G": {
-      "id": "nexo:graphite_rod"
-    },
-    "R": {
-      "id": "nexo:nuclear_reaction_chamber"
-    },
-    "B": {
-      "id": "nexo:reactor_boiler"
-    }
+    "T":"nexo:titanium_ingot",
+    "G":"nexo:graphite_rod",
+    "R":"nexo:nuclear_reaction_chamber",
+    "B":"nexo:reactor_boiler"
   },
   "result": {
     "id": "nexo:small_reactor"

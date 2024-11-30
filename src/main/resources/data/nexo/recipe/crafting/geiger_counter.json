@@ -6,18 +6,10 @@
     "III"
   ],
   "key": {
-    "P": {
-      "id": "nexo:piezoelectric_element"
-    },
-    "I": {
-      "id": "nexo:iron_plate"
-    },
-    "T": {
-      "id": "nexo:filled_geiger_tube"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    }
+    "P":"nexo:piezoelectric_element",
+    "I":"nexo:iron_plate",
+    "T":"nexo:filled_geiger_tube",
+    "C":"nexo:copper_wire"
   },
   "result": {
     "id": "nexo:geiger_counter"

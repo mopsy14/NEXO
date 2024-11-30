@@ -1,18 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "P": {
-      "tag": "minecraft:wooden_fences"
-    },
-    "S": {
-      "tag": "minecraft:wooden_slabs"
-    }
-  },
   "pattern": [
     "SSS",
     " P ",
     "SSS"
   ],
+  "key": {
+    "P":"#minecraft:wooden_fences",
+    "S":"#minecraft:wooden_slabs"
+  },
   "result": {
     "id": "nexo:wire_casing"
   }

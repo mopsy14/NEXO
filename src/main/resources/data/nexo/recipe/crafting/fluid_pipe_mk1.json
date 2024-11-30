@@ -6,15 +6,9 @@
     "SES"
   ],
   "key": {
-    "I": {
-      "id": "nexo:gas_valve"
-    },
-    "S": {
-      "id": "nexo:iron_plate"
-    },
-    "E": {
-      "id": "nexo:electric_motor"
-    }
+    "I":"nexo:gas_valve",
+    "S":"nexo:iron_plate",
+    "E":"nexo:electric_motor"
   },
   "result": {
     "id": "nexo:fluid_pipe_mk1",

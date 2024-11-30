@@ -6,12 +6,8 @@
     " G "
   ],
   "key": {
-    "G": {
-      "id": "minecraft:glass"
-    },
-    "W": {
-      "tag": "minecraft:planks"
-    }
+    "G":"minecraft:glass",
+    "W":"#minecraft:planks"
   },
   "result": {
     "id": "nexo:test_tube"

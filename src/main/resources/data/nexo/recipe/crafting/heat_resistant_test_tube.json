@@ -6,12 +6,8 @@
     " G "
   ],
   "key": {
-    "G": {
-      "id": "nexo:heat_resistant_glass"
-    },
-    "W": {
-      "id": "nexo:steel_nugget"
-    }
+    "G":"nexo:heat_resistant_glass",
+    "W":"nexo:steel_nugget"
   },
   "result": {
     "id": "nexo:heat_resistant_test_tube"

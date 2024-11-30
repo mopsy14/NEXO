@@ -6,15 +6,9 @@
     "IWI"
   ],
   "key": {
-    "I": {
-      "id": "minecraft:iron_ingot"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    },
-    "W": {
-      "id": "nexo:crushing_wheel"
-    }
+    "I":"minecraft:iron_ingot",
+    "C":"nexo:copper_wire",
+    "W":"nexo:crushing_wheel"
   },
   "result": {
     "id": "nexo:crusher"

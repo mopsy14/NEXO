@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "B": {
-      "id": "minecraft:bucket"
-    },
-    "S": {
-      "id": "nexo:steel_ingot"
-    }
+    "B":"minecraft:bucket",
+    "S":"nexo:steel_ingot"
   },
   "result": {
     "id": "nexo:tank_mk1"

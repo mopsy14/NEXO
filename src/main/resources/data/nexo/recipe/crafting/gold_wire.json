@@ -6,12 +6,8 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "id": "minecraft:gold_ingot"
-    },
-    "A": {
-      "id": "nexo:wire_casing"
-    }
+    "C":"minecraft:gold_ingot",
+    "A":"nexo:wire_casing"
   },
   "result": {
     "id": "nexo:gold_wire",

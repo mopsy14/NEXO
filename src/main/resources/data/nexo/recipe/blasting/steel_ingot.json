@@ -1,7 +1,8 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "id": "nexo:steel_dust"
-  },
-  "result": "nexo:steel_ingot"
+  "ingredient": "nexo:steel_dust",
+  "result": {
+    "id": "nexo:steel_ingot",
+    "experience": 3
+  }
 }

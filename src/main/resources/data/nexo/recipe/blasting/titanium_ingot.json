@@ -1,8 +1,8 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "id": "nexo:raw_titanium"
-  },
-  "result": "nexo:titanium_ingot",
-  "experience": 3
+  "ingredient": "nexo:raw_titanium",
+  "result": {
+    "id": "nexo:titanium_ingot",
+    "experience": 3
+  }
 }

@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "id": "nexo:lead_nugget"
-    }
+    "#":"nexo:lead_nugget"
   },
   "result": {
     "id": "nexo:lead_ingot",

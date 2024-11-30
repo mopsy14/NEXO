@@ -6,18 +6,10 @@
     "LFL"
   ],
   "key": {
-    "L": {
-      "id": "nexo:lead_plate"
-    },
-    "H": {
-      "id": "minecraft:hopper"
-    },
-    "F": {
-      "id": "nexo:fluid_pipe_mk1"
-    },
-    "T": {
-      "id": "nexo:tank_mk1"
-    }
+    "L":"nexo:lead_plate",
+    "H":"minecraft:hopper",
+    "F":"nexo:fluid_pipe_mk1",
+    "T":"nexo:tank_mk1"
   },
   "result": {
     "id": "nexo:decon_shower_drain"

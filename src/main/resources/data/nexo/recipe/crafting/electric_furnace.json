@@ -6,15 +6,9 @@
     "CHC"
   ],
   "key": {
-    "H": {
-      "id": "nexo:heating_coil"
-    },
-    "C": {
-      "id": "nexo:copper_wire"
-    },
-    "S": {
-      "id": "nexo:steel_plate"
-    }
+    "H":"nexo:heating_coil",
+    "C":"nexo:copper_wire",
+    "S":"nexo:steel_plate"
   },
   "result": {
     "id": "nexo:electric_furnace"

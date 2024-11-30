@@ -6,15 +6,9 @@
     "WBW"
   ],
   "key": {
-    "T": {
-      "id": "nexo:test_tube"
-    },
-    "W": {
-      "id": "nexo:copper_wire"
-    },
-    "B": {
-      "id": "minecraft:iron_block"
-    }
+    "T":"nexo:test_tube",
+    "W":"nexo:copper_wire",
+    "B":"minecraft:iron_block"
   },
   "result": {
     "id": "nexo:electrolyzer"

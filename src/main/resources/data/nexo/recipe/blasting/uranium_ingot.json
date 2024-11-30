@@ -1,8 +1,8 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "id": "nexo:uranium_ore"
-  },
-  "result": "nexo:uranium_ingot",
-  "experience": 3
+  "ingredient": "nexo:uranium_ore",
+  "result": {
+    "id": "nexo:uranium_ingot",
+    "experience": 3
+  }
 }

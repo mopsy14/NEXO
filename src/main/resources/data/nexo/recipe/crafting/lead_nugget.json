@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "id": "nexo:lead_ingot"
-    }
+    "nexo:lead_ingot"
   ],
   "result": {
     "id": "nexo:lead_nugget",

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:smelting",
-  "ingredient": {
-    "id": "nexo:raw_uranium"
-  },
-  "result": "nexo:uranium_ingot",
-  "experience": 3
+  "ingredient": "nexo:raw_uranium",
+  "result": {
+    "id": "nexo:uranium_ingot",
+    "experience": 3
+  }
 }
